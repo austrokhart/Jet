@@ -1,0 +1,22 @@
+class "";
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    var regexp: AutoObject;
+
+    regexp = AutoObject.create("VBScript.RegExp");
+    regexp.pattern = "<[^>]*>";
+
+    trace(regexp.execute("Тестовая <hr> строка <br> с HTML тегами"));
+  end;
+
+--}
+
+end

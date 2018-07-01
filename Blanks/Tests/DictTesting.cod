@@ -1,0 +1,18 @@
+class "";
+import classes Packages.SmartConsole;
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    SmartConsole.clear.log_multi(UnitTesting.Runner.run([Tests.DictSuite]).to_text);
+  end;
+
+--}
+
+end

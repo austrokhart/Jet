@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project Version="1">
+  <Options Caption="Jet" Comment="библиотека для гибкой работы с данными" Version="1.00" Author="Copyright © 2018 likhanov.ds" Code="0" SubCode="0" WebCode="0" WebSubCode="0" Frontal="True"/>
+  <Usage/>
+  <Groups>
+    <Group Name="ServerClasses" Type="Classes" Disabled="False"/>
+    <Group Name="TestClasses" Type="Classes" Disabled="False"/>
+    <Group Name="Blanks" Type="Blanks" Disabled="False"/>
+  </Groups>
+</Project>

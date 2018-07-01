@@ -1,0 +1,18 @@
+class "";
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    trace(SessionInfo);
+    trace(tostr(SessionInfo));
+  end;
+
+--}
+
+end

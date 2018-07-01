@@ -1,0 +1,379 @@
+class "Класс для работы с массивами";
+import classes Functions.Indexing, Functions.Math, Functions.Variable;
+
+inclass
+
+
+  type array_pad_direction = (
+    ARRAY_PAD_LEFT,
+    ARRAY_PAD_RIGHT,
+    ARRAY_PAD_BOTH
+  );
+
+
+  type array_trim_direction = (
+    ARRAY_TRIM_LEFT,
+    ARRAY_TRIM_RIGHT,
+    ARRAY_TRIM_BOTH
+  );
+
+
+  type array_pos_result = (
+    ARRAY_POS_OFFSET,
+    ARRAY_POS_LENGTH
+  );
+
+
+  type array_method_each   = Methods.Functions.Array.Each;
+  type array_method_filter = Methods.Functions.Array.Filter;
+  type array_method_map    = Methods.Functions.Array.Map;
+  type array_method_reduce = Methods.Functions.Array.Reduce;
+
+
+  func array_from(const value: variant): variant[];
+
+    if var_is_array(value) then
+      result = value;
+
+    elsif var_instance_of(value, ArrayObject) then
+      result = value.array_from;
+
+    elsif var_is_nil(value) then
+      result = [];
+
+    else
+      result = [value];
+    end;
+  end;
+
+
+  func array_from_iterable(const value: object): variant[];
+
+    with Iterator.new(1, value.count) do
+      while __next do self.array_append(result, value.items[__index]); end;
+    end;
+
+    return result;
+  end;
+
+
+  func array_length(const array: variant[]): integer;
+    
+    return System.lengthOfArray(array);
+  end;
+
+
+  func array_has_content(const array: variant[]): boolean;
+
+    -- сравнение с [] невозможно, возникают ошибки
+    return self.array_length(array) <> 0;
+  end;
+
+
+  func array_get(const array: variant[]; index: integer; path: integer[] = nil; default_value: variant = nil): variant;
+
+    -- функция должна возвращать значение элемента с индексом index и последующими индексами path в массиве array, если элемент установлен, иначе значение по-умолчанию
+
+    -- для начала проверим, что элемент с индексом index установлен (это быстро, потому что проверка проходит на единственной плоскости)
+    -- если установлен, то: если измерение path не задано, вернём значение элемента, иначе вызовем функцию рекурсивно с сокращением path;
+    -- иначе вернём значение по-умолчанию
+
+    index = handle_offset(index, self.array_length(array));
+
+    if self.array_is_set(array, index) then
+      if not self.array_has_content(path) then
+        return array[index];
+
+      elsif var_is_array(array[index]) then
+        return self.array_get(array[index], path[1], self.array_slice(path, 2), default_value);
+      end;
+    end;
+
+    return default_value;
+  end;
+
+
+  proc array_set(var array: variant[]; index: integer; value: variant; path: integer[] = nil);
+
+    -- функция должна устанавливать элемент с индексом index, последующими индексами path и значением value в массиве array
+
+    -- если измерение path не задано, установим значение (это быстро, потому что перед нами единственная плоскость, где всегда можно установить элемент)
+    -- иначе если элемент установлен и является массивом, вызовем функцию рекурсивно с сокращением path
+
+    -- передача неустановленного значения по ссылке задаёт его со значением nil!
+    -- поэтому до рекурсивного вызова используется проверка на установленность элемента
+
+    index = handle_offset(index, self.array_length(array));
+
+    if not self.array_has_content(path) then
+      array[index] = value;
+
+    elsif self.array_is_set(array, index) and var_is_array(array[index]) then
+      self.array_set(array[index], path[1], value, self.array_slice(path, 2));
+    end;
+  end;
+
+
+  proc array_unset(var array: variant[]; index: integer; path: integer[] = nil);
+
+    -- алгоритм аналогчен использующемуся в процедуре self.array_set
+
+    index = handle_offset(index, self.array_length(array));
+
+    --if self.array_is_set(array, index) then
+
+      if not self.array_has_content(path) then
+        System.deleteFromArray(array, index);
+
+      elsif self.array_is_set(array, index) and var_is_array(array[index]) then
+        self.array_unset(array[index], path[1], self.array_slice(path, 2));
+      end;
+    --end;
+  end;
+
+
+  func array_is_set(const array: variant[]; index: integer; path: integer[] = nil): boolean;
+
+    -- функция возвращает истину, если в массиве array установлен элемент с индексом index и последующими индексами path
+
+    -- индекс установлен, если он больше нуля и вызов функции nextArrItem для предыущего индекса возвращает исходный индекс
+    -- если индекс установлен, то: если измерение path задано, вызовем функцию рекурсивно с сокращением path, иначе вернём истину;
+    -- иначе вернём ложь
+
+    if index > 0 and System.nextArrItem(array, index -1) = index then
+
+      if not self.array_has_content(path) then
+        return true;
+
+      elsif var_is_array(array[index]) then
+        return self.array_is_set(array[index], path[1], self.array_slice(path, 2));
+      end;
+    end;
+
+    return false;
+  end;
+
+
+  proc array_clear(var array: variant[]; path: integer[] = nil);
+
+    -- во время разустановки происходит смещение индексов, что не даёт обработать элементы по порядку
+    -- поэтому обработаем в обратном порядке
+
+    with Iterator.new(self.array_length(array), 1, -1) do
+      while __next do self.array_unset(array, __index, path); end;
+    end;
+  end;
+
+
+  proc array_append(var array: variant[]; value: variant);
+
+    System.insertInArray(array, self.array_length(array) +1, value);
+  end;
+
+
+  proc array_prepend(var array: variant[]; value: variant);
+
+    System.insertInArray(array, 1, value);
+  end;
+
+
+  proc array_extend(var array: variant[]; value: variant[]);
+    
+    with Iterator.new(1, self.array_length(value)) do
+      while __next do self.array_append(array, value[__index]); end;
+    end;
+  end;
+
+
+  func array_pos(const array: variant[]; value: variant[]; path: integer[] = nil; offset: integer = 1): integer[];
+
+    -- функция возвращает индекс и длину вхождения последовательности value в массив array в плоскости path с началом в offset
+    -- использует алгоритм:
+
+    -- переберём массив array и поищем совпадение его элементов с первым элементом последовательности value:
+    -- если совпадение найдено, запишем его смещение и длину, затем проверим совпадение последующих элементов последовательности:
+    -- если все элементы совпадают, завершим поиск;
+    -- если один из элементов не совпадает, вернёмся к записанному смещению,
+    -- сбросим данные совпадения и продолжим поиск со следующего элемента
+
+    offset = handle_offset(offset, self.array_length(array));
+    result = [-1, 0];
+
+    with Iterator.new(offset, self.array_length(array)) do
+      while __next do
+
+        if result = [-1, 0] and self.array_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then
+          result = [__index, 1];
+
+        elsif result <> [-1, 0] and self.array_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then
+          result[self.ARRAY_POS_LENGTH] = result[self.ARRAY_POS_LENGTH] +1;
+
+        elsif result <> [-1, 0] then
+          __index = result[self.ARRAY_POS_OFFSET]; result = [-1, 0];
+        end;
+
+        if result[self.ARRAY_POS_LENGTH] = self.array_length(value) then break; end;
+      end;
+    end;
+
+    return result;
+  end;
+
+
+  func array_contains(const array: variant[]; value: variant[]; path: integer[] = nil; offset: integer = 1): boolean;
+    
+    return self.array_pos(array, value, path, offset) <> [-1, 0];
+  end;
+
+
+  func array_slice(const array: variant[]; offset: integer = 1; length: variant = nil; path: integer[] = nil): variant[];
+
+    offset = handle_offset(offset, self.array_length(array));
+
+    with Iterator.new(offset, offset +handle_length(offset, length, self.array_length(array)) -1) do
+      while __next do self.array_append(result, self.array_get(array, __index, path)); end;
+    end;
+
+    return result;
+  end;
+
+
+  func array_splice(var array: variant[]; value: variant[]; offset: integer; length: variant = nil): variant[];
+
+    -- функция извлекает подмассив с началом в offset и длиной length и заменяет его на элементы массива value
+
+    result = self.array_slice(array, offset, length);
+    offset = handle_offset(offset, self.array_length(array));
+
+    with Iterator.new(offset +handle_length(offset, length, self.array_length(array)) -1, offset) do
+      while __next do self.array_unset(array, __index); end;
+    end;
+
+    with Iterator.new(1, self.array_length(value)) do
+      while __next do System.insertInArray(array, offset +__index -1, value[__index]); end;
+    end;
+
+    return result;
+  end;
+
+
+  func array_concat(const values: variant[]): variant[];
+
+    with Iterator.new(1, self.array_length(values)) do
+      while __next do self.array_extend(result, values[__index]); end;
+    end;
+
+    return result;
+  end;
+
+
+  func array_repeat(const value: variant[]; count: integer): variant[];
+    
+    with Iterator.new(1, count) do
+      self.array_extend(result, value);
+    end;
+
+    return result;
+  end;
+
+
+  proc array_swap(var array: variant[]; index, other_index: integer; path: integer[] = nil);
+    
+    var temp: variant;
+
+    index       = handle_offset(index, self.array_length(array));
+    other_index = handle_offset(other_index, self.array_length(array));
+
+    --if self.array_is_set(array, path, index) and self.array_is_set(array, path, other_index) then
+
+      temp = self.array_get(array, index, path);
+
+      self.array_set(array, index, self.array_get(array, other_index, path), path);
+      self.array_set(array, other_index, temp, path);
+    --end;
+  end;
+
+
+  proc array_reverse(var array: variant[]);
+
+    with Iterator.new(1, int(self.array_length(array) /2)) do
+      while __next do self.array_swap(array, __index, self.array_length(array) -__index +1); end;
+    end;
+  end;
+
+
+  proc array_pad(var array: variant[]; direction: array_pad_direction; value: variant[]; length: integer);
+
+    var count: integer;
+
+    if direction = self.array_pad_left then
+      count = length -self.array_length(array);
+
+    elsif direction = self.array_pad_both then
+      count = int((length -self.array_length(array)) /2);
+
+    elsif direction = self.array_pad_right then
+      count = 0;
+    end;
+
+    with Iterator.new(1, count) do
+      while __next do self.array_prepend(array, self.array_get(value,  -(mod(__index -1, self.array_length(value)) +1)  )); end;
+    end;
+
+    with Iterator.new(1, length -self.array_length(array)) do
+      while __next do self.array_append(array, self.array_get(value,  mod(__index -1, self.array_length(value)) +1  )); end;
+    end;
+
+    if count < 0 then
+
+      with Iterator.new(1, -count) do
+        while __next do self.array_unset(array,  mod(__index -1, self.array_length(value)) +1  ); end;
+      end;
+
+      with Iterator.new(1, -(length -self.array_length(array))) do
+        while __next do self.array_unset(array,  mod(__index -1, self.array_length(value)) +1  ); end;
+      end;
+    end;
+  end;
+
+
+  proc array_sort(var array: variant[]; path: integer[]);
+
+    System.sortArray(array, path);
+  end;
+
+
+  func array_each(const array: variant[]; path: integer[] = nil): array_method_each;
+    
+    return Methods.Functions.Array.Each.new(array, path);
+  end;
+
+
+  func array_filter(const array: variant[]; path: integer[] = nil): array_method_filter;
+    
+    return Methods.Functions.Array.Filter.new(array, path);
+  end;
+
+
+  func array_map(const array: variant[]; path: integer[] = nil): array_method_map;
+    
+    return Methods.Functions.Array.Map.new(array, path);
+  end;
+
+
+  func array_reduce(const array: variant[]; initial_value: variant; path: integer[] = nil): array_method_reduce;
+    
+    return Methods.Functions.Array.Reduce.new(array, initial_value, path);
+  end;
+
+
+  func array_implode(const array: variant[]; separator: string = " "; path: integer[] = nil): string;
+
+    with self.array_reduce(array, "", path) do
+      while __next do __apply(__result +str(__item) +if (__at_end, "", separator)); end;
+      __assign(result);
+    end;
+
+    return result;
+  end;
+end

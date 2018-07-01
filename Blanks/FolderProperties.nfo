@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Properties Version="1"/>
+<Items>
+  <Item Name="Tests"/>
+  <Item Name="VarAddrTest"/>
+  <Item Name="VarPassing"/>
+  <Item Name="ArrayIssetTest"/>
+  <Item Name="AssignTest"/>
+  <Item Name="ComparationTest"/>
+  <Item Name="DateTest"/>
+  <Item Name="DoubleQuotesTest"/>
+  <Item Name="ExternalLibTest"/>
+  <Item Name="IndexOfTest"/>
+  <Item Name="PadTest"/>
+  <Item Name="RoundTest"/>
+  <Item Name="SessionInfoTest"/>
+  <Item Name="StringComparisonTest"/>
+  <Item Name="StringTest"/>
+</Items>

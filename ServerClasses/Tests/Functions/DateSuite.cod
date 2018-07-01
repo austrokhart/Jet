@@ -1,0 +1,18 @@
+class inherited UnitTesting.Suite "Набор тестов для функций для работы с датами";
+import classes Functions.Date, Functions.DateISO;
+
+inclass
+
+
+  proc test_date_from_ISO(case: UnitTesting.Case);
+
+    with case do
+
+      description("");
+
+      assert_equal(date_from_ISO("2018-06-26", "+03:00"), 2018.06.26);
+      assert_equal(date_from_ISO("2018-06-26T12:30:30Z", "+03:00"), 2018.06.26 15:30:30);
+      assert_equal(date_from_ISO("2018-06-26T12:30:30+03:00", "+03:00"), 2018.06.26 12:30:30);
+    end;
+  end;
+end

@@ -1,0 +1,15 @@
+class "Класс для удобного обращения с запросом";
+
+inclass
+
+
+  func new(records: class[] Record = nil): SmartQuery;
+    
+    result = self.create;
+    result.instance = Query.create(records);
+  end;
+
+inobject
+
+  var instance: Query;
+end

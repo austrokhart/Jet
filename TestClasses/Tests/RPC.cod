@@ -1,0 +1,39 @@
+class "Класс для проведения тестов библиотеки RPC";
+--import classes Functions.String;
+
+inclass
+
+
+  proc do_nothing; end;
+
+
+  proc take_nothing; end;
+  proc take_null(value: variant); end;
+
+  proc take_boolean(value: boolean); end;
+  proc take_booleans(value, other_value: boolean); end;
+
+  proc take_integer(value: integer); end;
+  proc take_integers(value, other_value: integer); end;
+
+  proc take_real(value: real); end;
+  proc take_reals(value, other_value: real); end;
+
+  proc take_string(value: string); end;
+  proc take_strings(value, other_value: string); end;
+
+  proc take_array(value: variant[]); end;
+  proc take_arrays(value, other_value: variant[]); end;
+
+  proc take_variant(value: variant); end;
+  proc take_variants(value, other_value: variant); end;
+
+  proc take_argument_with_default(value: integer = 10); end;
+  proc take_argument_with_default_other(value: integer; other_value: integer = 10); end;
+
+
+  func reflect_str(str: string): string;
+    
+    return str;
+  end;
+end

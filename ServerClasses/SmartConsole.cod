@@ -1,0 +1,37 @@
+class "Класс-обёртка для работы с выводом в консоль";
+import classes Functions.Array;
+
+inclass
+
+
+  -- выводит строку в окно сообщений
+  -- аргумент message приводится к массиву, затем складывается в строку
+  func log(message: variant): class SmartConsole;
+
+    if System.debugMode then Console.trace(array_implode(array_from(message), " ")); end;
+    return self;
+  end;
+
+
+  -- выводит массив строк в окно сообщений
+  -- аргумент messages приводится к массиву
+  func log_multi(messages: variant): class SmartConsole;
+
+    if System.debugMode then
+      
+      with array_each(array_from(messages)) do
+        while __next do self.log(__item); end;
+      end;
+    end;
+
+    return self;
+  end;
+
+
+  -- очищает окно сообщений
+  func clear: class SmartConsole;
+
+    if System.debugMode then Console.clearTrace; end;
+    return self;
+  end;
+end

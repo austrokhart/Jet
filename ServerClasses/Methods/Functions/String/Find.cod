@@ -1,0 +1,63 @@
+class "Обёртка для поиска в строке подстрок и работы с ними";
+import classes Functions.String, Functions.Array;
+
+inclass
+
+
+  func new(str: string; values: variant): Methods.Functions.String.Find;
+    
+    result = self.create;
+
+    result.__values = array_from(values);
+    result.__right  = str;
+  end;
+
+inobject
+
+
+  var __values: variant[];
+  var __left:   string;
+  var __match:  string;
+  var __right:  string;
+  var __result: string;
+
+
+  func __next: boolean;
+
+    var pos: integer[];
+
+    -- запишем __result после предыдущей пользовательской обработки
+    self.__result = self.__left +self.__match +self.__right;
+
+    -- поищем ближайшее вхождение
+    pos = str_pos(self.__right, self.__values);
+
+    -- если найдено, разобъём по нему правую часть и вернём истину,
+    -- иначе вернём ложь
+    if pos <> [-1, 0] then
+
+      self.__left  = self.__left +self.__match +str_substr(self.__right, 1, pos[STR_POS_OFFSET] -1);
+      self.__match = str_substr(self.__right, pos[STR_POS_OFFSET], pos[STR_POS_LENGTH]);
+      self.__right = str_substr(self.__right, pos[STR_POS_OFFSET] +pos[STR_POS_LENGTH]);
+
+      return true;
+    else
+
+      return false;
+    end;
+  end;
+
+
+  proc __assign(var variable: variant);
+    
+    variable = self.__result;
+  end;
+
+
+--  proc __apply(left, match, right: string);
+--
+--    self.__left  = left;
+--    self.__match = match;
+--    self.__right = right;
+--  end;
+end

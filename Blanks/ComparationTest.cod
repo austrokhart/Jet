@@ -1,0 +1,24 @@
+class "";
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    trace(1 = 1);
+    trace(1 = 1.0);
+    trace([0, 1] = [nil, 1]);
+    trace(0 = nil);
+    --trace(1 = "1");
+    --trace(15.05.1997 = 1);
+    --trace(ArrayObject = ArrayObject.new);
+    --trace(1 = false);
+  end;
+
+--}
+
+end

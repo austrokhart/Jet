@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Properties Version="1">
+  <Property Name="Enabled" Value="True"/>
+</Properties>
+<Items>
+  <Item Name="Assert"/>
+  <Item Name="Case"/>
+  <Item Name="Suite"/>
+  <Item Name="Runner"/>
+  <Item Name="AssertResult"/>
+  <Item Name="CaseResult"/>
+  <Item Name="SuiteResult"/>
+  <Item Name="RunnerResult"/>
+  <Item Name="AssertStatistics"/>
+  <Item Name="CaseStatistics"/>
+  <Item Name="SuiteStatistics"/>
+  <Item Name="RunnerStatistics"/>
+</Items>

@@ -1,0 +1,75 @@
+class "Класс для работы с датами в формате ISO 8601";
+import classes Functions.Array, Functions.String, Functions.Date;
+
+inclass
+
+
+  -- возвращает дату, преобразованную в строку в формате ISO 8601
+  -- вида: YYYY-MM-DD[THH:MM:SS(Z|+\-HH:MM)]
+  func date_to_ISO(datetime: date; UTC_offset: string = Settings.UTC_OFFSET): string;
+
+    result = array_implode([
+      str_pad(  str_from(date_year(datetime)),  STR_PAD_LEFT, "0", 4),
+      str_pad(  str_from(date_month(datetime)), STR_PAD_LEFT, "0", 2),
+      str_pad(  str_from(date_day(datetime)),   STR_PAD_LEFT, "0", 2)
+    ], "-");
+
+    if date_has_time(datetime) then
+
+      result = result +"T" +array_implode([
+        str_pad(  str_from(date_hour(datetime)),   STR_PAD_LEFT, "0", 2),
+        str_pad(  str_from(date_minute(datetime)), STR_PAD_LEFT, "0", 2),
+        str_pad(  str_from(date_second(datetime)), STR_PAD_LEFT, "0", 2)
+      ], ":") +UTC_offset;
+    end;
+
+    return result;
+  end;
+
+
+  func date_from_ISO(datetime: string; UTC_offset: string = Settings.UTC_OFFSET): date;
+
+    var date_and_time, date_parts, time_parts: variant[];
+    var date_str, time_str, offset: string;
+
+    date_and_time = str_explode(datetime, "T");
+    array_pad(date_and_time, ARRAY_PAD_RIGHT, [""], 2);
+
+    date_str = date_and_time[1];
+    time_str = date_and_time[2];
+
+    if str_has_content(time_str) then offset = str_splice(time_str, "", -if (str_ends_with(time_str, "Z"), 1, 6)); end;
+
+    date_parts = str_explode(date_str, "-");
+    array_pad(date_parts, ARRAY_PAD_RIGHT, [0], 3);
+
+    time_parts = if (str_has_content(time_str), str_explode(time_str, ":"), []); -- array_trim?
+    array_pad(time_parts, ARRAY_PAD_RIGHT, [0], 3);
+
+    array_extend(date_parts, time_parts);
+
+    with array_map(date_parts) do
+      while __next do __apply(int(__item)); end; __assign(date_parts);
+    end;
+
+    result = date_create(date_parts[1], date_parts[2], date_parts[3], date_parts[4], date_parts[5], date_parts[6]);
+    if str_has_content(offset) then result = date_add_seconds(result, self.date_parse_ISO_offset(UTC_offset) -self.date_parse_ISO_offset(offset)); end;
+
+    return result;
+  end;
+
+
+  -- возвращает время смещения относительно UTC в секундах
+  func date_parse_ISO_offset(offset: string): integer;
+
+    var sign, hours, minutes: integer;
+
+    if offset = "Z" then return 0; end;
+
+    sign    = if (str_substr(offset, 1, 1) = "+", +1, -1);
+    hours   = int(str_substr(offset, 2, 2));
+    minutes = int(str_substr(offset, 5, 2));
+
+    return sign *(hours *60 *60 +minutes *60);
+  end;
+end

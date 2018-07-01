@@ -1,0 +1,26 @@
+class inherited Methods.ArrayObject.IterableBase "Интерфейс для работы с массивом-объектом методом map";
+
+inclass
+
+
+  func new(array: ArrayObject): Methods.ArrayObject.Map;
+    
+    result = self.create;
+
+    result.__array  = array;
+    result.__index  = 0;
+    result.__result = ArrayObject.new;
+  end;
+
+inobject
+
+
+  var __result: ArrayObject;
+
+
+  func __apply(value: variant): variant;
+    
+--    self.__result.set(self.__index, value);
+--    result = value;
+  end;
+end

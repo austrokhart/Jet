@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Properties Version="1">
+  <Property Name="ProcSrv" Value="True"/>
+</Properties>
+<Items>
+  <Item Name="Packages"/>
+  <Item Name="Functions"/>
+  <Item Name="UnitTesting"/>
+  <Item Name="Methods"/>
+  <Item Name="Tests"/>
+  <Item Name="Iterator"/>
+  <Item Name="ArrayObject"/>
+  <Item Name="StringObject"/>
+  <Item Name="DateObject"/>
+  <Item Name="Subarray"/>
+  <Item Name="Dict"/>
+  <Item Name="SmartConsole"/>
+  <Item Name="SmartQuery"/>
+  <Item Name="Timer"/>
+  <Item Name="Settings"/>
+  <Item Name="TestClass"/>
+</Items>

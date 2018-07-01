@@ -1,0 +1,13 @@
+class inherited Methods.ArrayObject.IterableBase "Интерфейс для работы с массивом-объектом методом each";
+
+inclass
+
+
+  func new(array: ArrayObject): Methods.ArrayObject.Each;
+    
+    result = self.create;
+
+    result.__array = array;
+    result.__index = 0;
+  end;
+end

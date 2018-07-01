@@ -1,0 +1,162 @@
+class "Класс для работы с массивами в виде объектов";
+import classes Functions.Array;
+
+inclass
+
+
+  func new(value: variant = nil): ArrayObject;
+
+    result = self.create;
+    result.content = Functions.Array.array_from(value);
+  end;
+
+
+  func copy(array: ArrayObject): ArrayObject;
+    
+    result = self.create;
+    result.content = array.content;
+  end;
+
+
+  func from_iterable(value: variant): ArrayObject;
+
+    result = self.create;
+    result.content = array_from_iterable(value);
+  end;
+
+
+--  func from_range(range_from, range_to: integer; range_step: integer = 1): ArrayObject;
+--
+--    result = self.create;
+--    result.content = array_from_range(range_from, range_to, range_step);
+--  end;
+
+inobject private
+
+
+  var content: variant[];
+
+inobject public
+
+
+--  func length: integer;
+--
+--    result = array_length(self.content);
+--  end;
+--
+--
+--  func has_content: boolean;
+--
+--    result = array_has_content(self.content);
+--  end;
+--
+--
+----  func index_of(value: variant; path: integer[] = nil): integer;
+----
+----    result = array_pos(self.content, value, path);
+----  end;
+--
+--
+--  func swap(index, other_index: integer): ArrayObject;
+--
+--    array_swap(self.content, index, other_index);
+--    result = self;
+--  end;
+--
+--
+--  func get(index: integer): variant;
+--
+--    result = array_get(self.content, index);
+--  end;
+--
+--
+--  func set(index: integer; value: variant): ArrayObject;
+--
+--    array_set(self.content, index, value);
+--    result = self;
+--  end;
+--
+--
+--  func unset(index: integer): ArrayObject;
+--
+--    array_unset(self.content, index);
+--    result = self;
+--  end;
+--
+--
+--  func is_set(index: integer): boolean;
+--
+--    result = array_is_set(self.content, index);
+--  end;
+--
+--
+--  func clear: ArrayObject;
+--
+--    array_clear(self.content);
+--    result = self;
+--  end;
+--
+--
+--  func append(value: variant): ArrayObject;
+--
+--    array_append(self.content, value);
+--    result = self;
+--  end;
+--
+--
+--  func prepend(value: variant): ArrayObject;
+--
+--    array_prepend(self.content, value);
+--    result = self;
+--  end;
+--
+--
+--  func extend(value: variant): ArrayObject;
+--
+--    array_extend(self.content, value);
+--    result = self;
+--  end;
+--
+--
+--  func slice(offset: integer = nil; length: variant = nil): ArrayObject;
+--
+--    result = self.new(array_slice(self.content, offset, length));
+--  end;
+--
+--
+--  func reverse: ArrayObject;
+--
+--    array_reverse(self.content);
+--    result = self;
+--  end;
+--
+--
+--  func each: Methods.ArrayObject.Each;
+--
+--    return Methods.ArrayObject.Each.new(self);
+--  end;
+--
+--
+--  func map: Methods.ArrayObject.Map;
+--
+--    return Methods.ArrayObject.Map.new(self);
+--  end;
+--
+--
+--  func filter: Methods.ArrayObject.Filter;
+--
+--    return Methods.ArrayObject.Filter.new(self);
+--  end;
+--
+--
+--  func reduce(initial_value: variant): Methods.ArrayObject.Reduce;
+--
+--    return Methods.ArrayObject.Reduce.new(self, initial_value);
+--  end;
+--
+--
+--  func implode(separator: string): string;
+--
+--    result = array_implode(self.content, separator);
+--  end;
+end

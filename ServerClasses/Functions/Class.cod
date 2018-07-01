@@ -1,0 +1,156 @@
+class " ласс дл€ работы с классами";
+import classes Functions.Variable, Functions.Array;
+
+inclass
+
+
+  -- возвращает метод класса
+  func class_member(cls: class; name: string): MemberInfo;
+    
+    result = cls.classInfo.memberByName(name);
+  end;
+
+  func class_prop(cls: class; name: string): MemberInfo;
+
+    result = self.class_member(cls, name);
+    if not self.member_is_prop(result) then return nil; end;
+  end;
+
+  func class_method(cls: class; name: string): MemberInfo;
+
+    result = self.class_member(cls, name);
+    if not self.member_is_method(result) then return nil; end;
+  end;
+
+  func class_proc(cls: class; name: string): MemberInfo;
+
+    result = self.class_member(cls, name);
+    if not self.member_is_proc(result) then return nil; end;
+  end;
+
+  func class_func(cls: class; name: string): MemberInfo;
+
+    result = self.class_member(cls, name);
+    if not self.member_is_func(result) then return nil; end;
+  end;
+
+
+
+  func member_is_internal(member: MemberInfo): boolean;
+    
+    result = member.internal;
+  end;
+
+  -- возвращает истину, если передан объект MethodInfo и он соответствует свойству класса
+  func member_is_prop(member: MemberInfo): boolean;
+    
+    result = (member is MethodInfo and (member as MethodInfo).kind = (member as MethodInfo).mkProp);
+  end;
+
+  func member_is_method(member: MethodInfo): boolean;
+    
+    result = self.member_is_proc(member) or self.member_is_func(member);
+  end;
+
+  func member_is_proc(member: MemberInfo): boolean;
+    
+    result = (member is MethodInfo and (member as MethodInfo).kind = (member as MethodInfo).mkProc);
+  end;
+
+  func member_is_func(member: MemberInfo): boolean;
+    
+    result = (member is MethodInfo and (member as MethodInfo).kind = (member as MethodInfo).mkFunc);
+  end;
+
+
+  -- возвращает истину, если в классе объ€влен метод под именем
+  func class_has_member(cls: class; name: string): boolean;
+    
+    result = (self.class_member(cls, name) <> nil);
+  end;
+
+  func class_has_prop(cls: class; name: string): boolean;
+    
+    result = (self.class_prop(cls, name) <> nil);
+  end;
+
+  func class_has_method(cls: class; name: string): boolean;
+    
+    result = (self.class_method(cls, name) <> nil);
+  end;
+
+  func class_has_proc(cls: class; name: string): boolean;
+    
+    result = (self.class_proc(cls, name) <> nil);
+  end;
+
+  func class_has_func(cls: class; name: string): boolean;
+    
+    result = (self.class_func(cls, name) <> nil);
+  end;
+
+
+  -- возвращает члены класса
+  -- в членах класса помимо свойств и процедур/функций встречаютс€ другие вещи, например типы
+  func class_members(cls: class): MemberInfo[];
+    
+    with Iterator.new(1, cls.classInfo.membersCount) do
+      while __next do array_append(result, cls.classInfo.member[__index]); end;
+    end;
+  end;
+
+  func class_props(cls: class): MethodInfo[];
+
+    with array_filter(self.class_members(cls)) do
+      while __next do __apply(self.member_is_prop(__item)); end;
+      result = __result;
+    end;
+  end;
+
+  func class_methods(cls: class): MethodInfo[];
+    
+    with array_filter(self.class_members(cls)) do
+      while __next do __apply(self.member_is_method(__item)); end;
+      result = __result;
+    end;
+  end;
+
+  func class_procs(cls: class): MethodInfo[];
+    
+    with array_filter(self.class_members(cls)) do
+      while __next do __apply(self.member_is_proc(__item)); end;
+      result = __result;
+    end;
+  end;
+
+  func class_funcs(cls: class): MethodInfo[];
+    
+    with array_filter(self.class_members(cls)) do
+      while __next do __apply(self.member_is_func(__item)); end;
+      result = __result;
+    end;
+  end;
+
+
+  -- возвращает результат вызова метода
+  func call_method(method: MethodInfo; context: Object; arguments: variant[]): variant;
+    
+    if self.member_is_proc(method) then
+      result = self.call_proc(method, context, arguments);
+    elsif self.member_is_func(method) then
+      result = self.call_func(method, context, arguments);
+    end;
+  end;
+
+  func call_proc(method: MethodInfo; context: Object; arguments: variant[]): variant;
+    
+    if self.member_is_proc(method) then method.callProcEx(context, arguments); end;
+    return;
+  end;
+
+  func call_func(method: MethodInfo; context: Object; arguments: variant[]): variant;
+    
+    if self.member_is_func(method) then return method.callFuncEx(context, arguments); end;
+    return;
+  end;
+end

@@ -1,0 +1,101 @@
+class " ласс дл€ хранени€ результатов выполнени€ тестового набора";
+import classes Functions.String, Functions.Array;
+
+inclass
+
+
+  -- возвращает новый экземпл€р класса
+  func new(name: string; description: string = nil; cases: UnitTesting.CaseResult[] = nil): UnitTesting.SuiteResult;
+    
+    result = self.create;
+
+    result.name    = name;
+    result.description = description;
+    result.cases   = cases;
+    result.success = true;
+
+    return result;
+  end;
+
+inobject
+
+
+  var name:        string;
+  var description: string;
+  var cases:       UnitTesting.CaseResult[];
+  var success:     boolean;
+
+
+  -- добавл€ет результат тестового случа€ в результаты
+  func add(case: UnitTesting.CaseResult): UnitTesting.SuiteResult;
+    
+    array_append(self.cases, case);
+    self.success = self.success and case.is_successful;
+
+    return self;
+  end;
+
+
+  -- возвращает истину, если результаты успешны
+  func is_successful: boolean;
+    
+    return self.success;
+  end;
+
+
+  -- возвращает количество тестовых случаев в результатах
+  func case_count: integer;
+
+    return array_length(self.cases);
+  end;
+
+
+  func assert_count: integer;
+    
+    with array_reduce(self.cases, 0) do
+      while __next do __apply(__result +__item.assert_count); end; __assign(result);
+    end;
+
+    return result;
+  end;
+
+
+  -- возвращает успешные тестовые случаи из результатов
+  func successful_cases: UnitTesting.CaseResult[];
+    
+    with array_filter(self.cases) do
+      while __next do __apply(__item.is_successful); end; __assign(result);
+    end;
+
+    return result;
+  end;
+
+
+  -- возвращает неудачные тестовые случаи из результатов
+  func unsuccessful_cases: UnitTesting.CaseResult[];
+    
+    with array_filter(self.cases) do
+      while __next do __apply(not __item.is_successful); end; __assign(result);
+    end;
+
+    return result;
+  end;
+
+
+  -- возвращает текстовое представление набора
+  func to_text: string[];
+
+    array_append(result, str_format("набор {} ({}):", [self.name, self.description]));
+
+    with array_each(self.cases) do
+      while __next do
+
+        with array_each(__item.to_text) do
+          while __next do array_append(result, str_format("..{}", __item)); end;
+        end;
+      end;
+    end;
+
+    return result;
+  end;
+end

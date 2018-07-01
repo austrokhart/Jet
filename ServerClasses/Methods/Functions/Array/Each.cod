@@ -1,0 +1,15 @@
+class inherited Methods.Functions.Array.Iterable "Интерфейс для работы с массивом методом each";
+import classes Functions.Array;
+
+inclass
+
+
+  func new(array: variant[]; path: integer[] = nil): Methods.Functions.Array.Each;
+    
+    result = self.create;
+
+    result.__array = array;
+    result.__path  = path;
+    result.__to_start;
+  end;
+end

@@ -1,0 +1,44 @@
+class "";
+import classes Functions.Array;
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    var test_array: variant[];
+        --test_array = [1, 2, ["x", "y", ["chon", "wai"] as variant[]], 4];
+        --test_array = [1, 2, ["x", "y", ["chon" , "wai"], "z"], 4];
+        test_array = [1, 2, [3, 4]] as variant[];
+
+    trace([array_get(test_array, 1), 1]);
+    trace([array_get(test_array, 2), 2]);
+
+    trace([array_get(test_array, 3, [2]), "y"]);
+    trace([array_get(test_array, 3, [3, 2]), "wai"]);
+
+    trace("setting:");
+    trace(test_array);
+
+    test_array[2] = 20;
+    --test_array[3, 2] = "yy";
+
+    trace(test_array);
+
+    array_set(test_array, 1, 10);
+    trace(test_array);
+
+    array_set(test_array, 3, "yy", [2]);
+    trace(test_array);
+
+    array_set(test_array, 3, "waiwai", [3, 2]);
+    trace(test_array);
+  end;
+
+--}
+
+end

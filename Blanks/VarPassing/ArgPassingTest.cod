@@ -1,0 +1,142 @@
+class "";
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+
+
+
+
+  proc run(Sender :Button);
+
+--    var test_str: string;
+--    var test_obj: TestClass;
+--    var var_addr: integer;
+--
+--
+--    test_str = "abcde";
+--    var_addr = System.varAddr(test_str);
+--
+--    trace("string is:");
+--    trace(test_str);
+--
+--    trace("its address is:");
+--    trace(var_addr);
+--
+--    trace("its value is (from memory by address):");
+--    trace(System.readMemory(var_addr, varString));
+--
+--
+--    test_obj = TestClass.new(test_str);
+--
+--    trace("object is:");
+--    trace(test_obj);
+--
+--    trace("address of returned value is:");
+--    trace(System.varAddr(test_obj.return_var));
+--
+--    trace("address of value inside method is:");
+--    trace(test_obj.return_addr);
+--
+--    trace("editing value...");
+--    test_obj.edit_value;
+--
+--    trace("now var address is:");
+--    trace(var_addr);
+--
+--    trace("now var value is (from memory by address):");
+--    trace(System.readMemory(var_addr, varString));
+--
+--    trace("now address of returned value is:");
+--    trace(System.varAddr(test_obj.return_var));
+--
+--    trace("now address inside method is:");
+--    trace(test_obj.return_addr);
+--
+--    trace("now obj value is (from memory by address):");
+--    trace(System.readMemory(test_obj.return_addr, varString));
+--  end;
+
+--string is:
+--abcde
+--its address is:
+--101088636
+--its value is (from memory by address):
+--abcde
+--address while creating object:
+--101088636
+--object is:
+--{Jet.TestClass:value="abcde"}
+--address of returned value is:
+--101088636
+--address of value inside method is:
+--101088636
+--editing value...
+--now var address is:
+--101088636
+--now var value is (from memory by address):
+--abcde
+--now address of returned value is:
+--59455608
+--now address inside method is:
+--59455608
+--now obj value is (from memory by address):
+--abcdex
+
+    var test_str: string;
+    var test_obj: TestClass;
+    var var_addr: integer;
+
+
+    test_str = "abcde";
+    var_addr = System.varAddr(test_str);
+
+    trace("string is:");
+    trace(test_str);
+
+    trace("its address is:");
+    trace(var_addr);
+
+    trace("its value is (from memory by address):");
+    trace(System.readMemory(var_addr, varString));
+
+
+    test_obj = TestClass.new(test_str);
+
+    trace("object is:");
+    trace(test_obj);
+
+    trace("address of returned value is:");
+    trace(System.varAddr(test_obj.return_var));
+
+    trace("address of value inside method is:");
+    trace(test_obj.return_addr);
+
+    trace("editing var...");
+    test_str = test_str +"x";
+
+    var_addr = System.varAddr(test_str);
+
+    trace("now var address is:");
+    trace(var_addr);
+
+    trace("now var value is (from memory by address):");
+    trace(System.readMemory(var_addr, varString));
+
+    trace("now address of returned value is:");
+    trace(System.varAddr(test_obj.return_var));
+
+    trace("now address inside method is:");
+    trace(test_obj.return_addr);
+
+    trace("now obj value is (from memory by address):");
+    trace(System.readMemory(test_obj.return_addr, varString));
+  end;
+
+--}
+
+end

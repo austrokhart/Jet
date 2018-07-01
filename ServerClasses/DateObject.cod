@@ -1,0 +1,25 @@
+class "Класс для работы с датами в виде объектов";
+
+inclass
+
+
+
+
+
+  func new(value: date): DateObject;
+    
+    result = self.create;
+    result.content = value;
+
+    return result;
+  end;
+
+inobject
+
+
+  var content: date;
+--  func ;
+--
+--    Result = ;
+--  end;
+end

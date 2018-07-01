@@ -1,0 +1,22 @@
+class "Класс для работы с проверками";
+import classes Functions.Variable;
+
+inclass
+
+
+  -- типы сравнения
+  type comparison_type = (
+    comparison_is_equal,
+    comparison_is_true,
+    comparison_is_false
+  );
+
+
+  -- сравнивает значения в зависимости от типа сравнения
+  func compare(value, expected: variant; comparison: comparison_type): boolean;
+    
+    if comparison in [self.comparison_is_equal, self.comparison_is_true, self.comparison_is_false] then
+      return var_equal(value, expected);
+    end;
+  end;
+end

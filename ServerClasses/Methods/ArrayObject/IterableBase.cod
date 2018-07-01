@@ -1,0 +1,26 @@
+class "Класс, реализующий базовые методы итерации массива-объекта";
+
+inobject
+
+
+  var __index: integer;
+  var __item:  variant;
+  var __array: ArrayObject;
+
+
+  -- индексы массивов начинаются с 1
+  -- если начать с 0 и делать прединкремент, можно охватить все значения
+  func __next: boolean;
+
+--    if self.__index < __array.length then
+--
+--      self.__index = self.__index +1;
+--      self.__item  = self.__array.get(self.__index);
+--
+--      result = true;
+--    else
+--
+--      result = false;
+--    end;
+  end;
+end

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Properties Version="1"/>
+<Items>
+  <Item Name="Functions"/>
+  <Item Name="UnitTestingSuite"/>
+  <Item Name="FunctionsStringSuite"/>
+  <Item Name="FunctionsEscapingSuite"/>
+  <Item Name="FunctionsArraySuite"/>
+  <Item Name="FunctionsMathSuite"/>
+  <Item Name="DictSuite"/>
+</Items>

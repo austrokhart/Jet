@@ -1,0 +1,26 @@
+class inherited Methods.ArrayObject.IterableBase "Интерфейс для работы с массивом-объектом методом reduce";
+
+inclass
+
+
+  func new(array: ArrayObject; initial_value: variant): Methods.ArrayObject.Reduce;
+    
+    result = self.create;
+
+    result.__array  = array;
+    result.__index  = 0;
+    result.__result = initial_value;
+  end;
+
+inobject
+
+
+  var __result: variant;
+
+
+  func __apply(value: variant): variant;
+    
+    self.__result = value;
+    result = value;
+  end;
+end

@@ -1,0 +1,91 @@
+class " ласс дл€ хранени€ результатов выполнени€ тестовой ситуации";
+import classes Functions.String, Functions.Array;
+
+inclass
+
+
+  -- создаЄт новый экземпл€р класса
+  func new(name: string = nil; description: string = nil; asserts: UnitTesting.AssertResult[] = nil): UnitTesting.CaseResult;
+    
+    result = self.create;
+
+    result.name        = name;
+    result.description = description;
+    result.asserts     = asserts;
+    result.success     = true;
+
+    return result;
+  end;
+
+inobject
+
+
+  var name:        string;
+  var description: string;
+  var asserts:     UnitTesting.AssertResult[];
+  var success:     boolean;
+
+
+  -- добавл€ет результат проверки в результаты
+  func add(assert: UnitTesting.AssertResult): UnitTesting.CaseResult;
+
+    array_append(self.asserts, assert);
+    self.success = self.success and assert.is_successful;
+
+    return self;
+  end;
+
+
+  -- возвращает истину, если результаты успешены
+  func is_successful: boolean;
+    
+    return self.success;
+  end;
+
+
+  -- возвращает количество проверок в результатах
+  func assert_count: integer;
+
+    return array_length(self.asserts);
+  end;
+
+
+  -- возвращает успешные проверки из результатов
+  func successful_asserts: UnitTesting.AssertResult[];
+
+    with array_filter(self.asserts) do
+      while __next do __apply(__item.is_successful); end; __assign(result);
+    end;
+
+    return result;
+  end;
+
+
+  -- возвращает неудачные проверки из результатов
+  func unsuccessful_asserts: UnitTesting.AssertResult[];
+    
+    with array_filter(self.asserts) do
+      while __next do __apply(not __item.is_successful); end; __assign(result);
+    end;
+
+    return result;
+  end;
+
+
+  -- возвращает текстовое представление случа€
+  func to_text: string[];
+
+    if self.is_successful then
+      array_append(result, str_format("случай {} ({})... {}", [self.name, self.description, "успех"]));
+
+    else
+      array_append(result, str_format("случай {} ({})... {}", [self.name, self.description, "неудача"]));
+
+      with array_each(self.asserts) do
+        while __next do array_append(result, str_format("..{}. {}", [__index, __item.to_text])); end;
+      end;
+    end;
+
+    return result;
+  end;
+end

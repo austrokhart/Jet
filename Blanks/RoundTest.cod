@@ -1,0 +1,28 @@
+class "";
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    trace(round(14.0));
+    trace(round(14.1));
+    trace(round(14.4));
+    trace("======");
+    trace(round(14.0, -1));
+    trace(round(14.1, -1));
+    trace(round(14.2, -1));
+    trace("======");
+    trace(round(14.5));
+    trace(round(14.6));
+    trace(round(14.9));
+    trace(round(15.0));
+  end;
+
+--}
+
+end

@@ -1,0 +1,26 @@
+class inherited Methods.ArrayObject.IterableBase "Интерфейс для работы с массивом-объектом методом filter";
+
+inclass
+
+
+  func new(array: ArrayObject): Methods.ArrayObject.Filter;
+    
+    result = self.create;
+
+    result.__array  = array;
+    result.__index  = 0;
+    result.__result = ArrayObject.new;
+  end;
+
+inobject
+
+
+  var __result: ArrayObject;
+
+
+--  func __apply(value: boolean): boolean;
+--
+--    if value then self.__result.append(self.__item); end;
+--    result = value;
+--  end;
+end

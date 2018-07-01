@@ -1,0 +1,37 @@
+class "Класс для итерации";
+
+inclass
+
+
+  func new(range_from, range_to: integer; range_step: integer = 1): Iterator;
+    
+    result = self.create;
+
+    result.__from  = range_from;
+    result.__to    = range_to;
+    result.__step  = range_step;
+    result.__index = range_from -range_step;
+  end;
+
+inobject
+
+
+  var __from:  integer;
+  var __to:    integer;
+  var __step:  integer;
+  var __index: integer;
+
+
+  func __next: boolean;
+
+    self.__index = self.__index +self.__step;
+
+    if (self.__step > 0 and self.__index <= self.__to)
+       or (self.__step < 0 and self.__index >= self.__to) then
+
+      result = true;
+    else
+      result = false;
+    end;
+  end;
+end

@@ -1,0 +1,33 @@
+class inherited Methods.Functions.Array.Iterable "Интерфейс для работы с массивом методом reduce";
+import classes Functions.Array;
+
+inclass
+
+
+  func new(array: variant[]; initial_value: variant; path: integer[] = nil): Methods.Functions.Array.Reduce;
+    
+    result = self.create;
+
+    result.__array  = array;
+    result.__result = initial_value;
+    result.__path   = path;
+    result.__to_start;
+  end;
+
+inobject
+
+
+  var __result: variant;
+
+
+  proc __apply(value: variant);
+    
+    self.__result = value;
+  end;
+
+
+  proc __assign(var variable: variant);
+    
+    variable = self.__result;
+  end;
+end

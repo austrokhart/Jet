@@ -1,0 +1,123 @@
+class "Класс для работы с экранированием строк";
+import classes Functions.String, Functions.Array;
+
+inclass
+
+
+  var ESCAPE_CHAR: string := '\';
+  var ESCAPE_SEQUENCES: string[] := ['"', '/', '\b', '\f', '\n', '\r', '\t', self.ESCAPE_CHAR];
+
+
+  func seq_is_escaping(const str: string; index: integer; escape_sequences: string[] = ESCAPE_SEQUENCES): boolean;
+
+    -- функция возвращает истину, если последовательность с началом в index в строке str является экранирующей
+    -- последовательность считается экранирующей, если она равна ESCAPE_CHAR и если она не является специальной последовательностью из ESCAPE_SEQUENCES (например "\[t]")
+
+    if str_char_at(str, index) <> self.ESCAPE_CHAR then return false; end;
+
+    with array_each(escape_sequences) do
+      while __next do
+        -- если встречается сама последовательность ESCAPE_CHAR, она игнорируется (строка точно начинается с неё: "\[\]", "\[t]")
+        if __item <> self.ESCAPE_CHAR and str_starts_with(str_substr(str, index), __item) then return false; end;
+      end;
+    end;
+
+    return true;
+  end;
+
+
+  func seq_is_escaped(const str: string; index: integer; escape_sequences: string[] = ESCAPE_SEQUENCES): boolean;
+
+    -- функция возвращает истину, если последовательность с началом в index в строке str является экранированной
+    -- последовательность считается экранированной, если она не является специальной последовательностью из ESCAPE_SEQUENCES (например "[\]t"),
+    -- и если слева от неё расположено **нечётное** количество символов экранирования ESCAPE_CHAR
+
+    var i: integer;
+
+    with array_each(escape_sequences) do
+      while __next do
+        -- если встречается сама последовательность ESCAPE_CHAR, она игнорируется (строка может заканчиваться на неё: "[\]\", "[\\]\")
+        if __item <> self.ESCAPE_CHAR and str_ends_with(str_substr(str, 1, index), __item)
+           and str_char_at(str, index) <> __item
+        then
+          return false;
+        end;
+      end;
+    end;
+
+    i = 0;
+    while str_char_at(str, index -i -1) = self.ESCAPE_CHAR do i = i +1; end;
+
+    return mod(i, 2) = 1;
+  end;
+
+
+  --
+  func str_escape(const str: string; escape_sequences: string[] = ESCAPE_SEQUENCES): string;
+
+    -- функция возвращает строку с экранированием символа экранирования и последовательностей, указанных в аргументе escape_sequences
+
+    -- использует алгоритм:
+    -- добавим к списку последовательностей escape_sequences экранирующую последовательность ESCAPE_CHAR
+    -- произведём поиск по списку последовательностей и для каждого совпадения, если совпадающая последовательность не экранирующая и не экранирована,
+    -- экранируем её (в других случаях экранировать её не нужно)
+
+    array_append(escape_sequences, self.ESCAPE_CHAR);
+
+    with str_find(str, escape_sequences) do
+
+      while __next do
+        if not seq_is_escaping(__result, str_length(__left) +1) and
+           not seq_is_escaped(__result, str_length(__left) +1)
+        then
+          __match = self.ESCAPE_CHAR +__match;
+        end;
+      end;
+
+      result = __result;
+    end;
+
+    return result;
+  end;
+
+
+  func str_unescape(const str: string; unescape_sequences: string[] = ESCAPE_SEQUENCES): string;
+
+    -- функция возвращает строку с разэкранированием символа экранирования и последовательностей, указанных в аргументе unescape_sequence
+
+    -- использует алгоритм:
+    -- добавим к списку последовательностей unescape_sequences экранирующую последовательность ESCAPE_CHAR
+    -- добавим к элементам списка экранирующую последовательность ESCAPE_CHAR
+
+    var m: variant[];
+
+    -- добавим символ экранирования к списку последовательностей
+    array_append(unescape_sequences, self.ESCAPE_CHAR);
+
+    -- добавим экранирующий символ к последовательностям из списка
+    with array_map(unescape_sequences) do
+      while __next do __apply(self.ESCAPE_CHAR +__item); end;
+      unescape_sequences = __result;
+    end;
+
+    -- поищем последовательности из списка
+    -- если совпадающая последовательность экранирована и не является экранированием экранирования (\\),
+    -- или является, но не является частью другой последовательности (\\[t]), разэкранируем её (в других случаях разэкранировать её не нужно)
+    with str_find(str, unescape_sequences) do
+
+      while __next  do
+        m = [__match, seq_is_escaping(__result, str_length(__left) +1), __match <> self.ESCAPE_CHAR +self.ESCAPE_CHAR, seq_is_escaping(__result, str_length(__left) +2)];
+
+        if seq_is_escaping(__result, str_length(__left) +1) and
+           (__match <> self.ESCAPE_CHAR +self.ESCAPE_CHAR or seq_is_escaping(__result, str_length(__left) +2))
+        then
+          __match = str_substr(__match, 2);
+        end;
+      end;
+
+      result = __result;
+    end;
+
+    return result;
+  end;
+end

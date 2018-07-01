@@ -1,0 +1,28 @@
+class "";
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    var n: integer;
+
+    func floatify(number: real): real;
+      
+      return number;
+    end;
+
+    n = 34;
+
+    trace(n);
+    trace(floatify(n));
+    trace(floatify(0.34));
+  end;
+
+--}
+
+end

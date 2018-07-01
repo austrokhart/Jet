@@ -1,0 +1,63 @@
+class inherited UnitTesting.Suite "Ќабор дл€ тестировани€ класса дл€ работы с числами";
+import classes Functions.Math;
+
+inclass
+
+
+  proc test_floor(case: UnitTesting.Case);
+
+    with case do
+      assert_equal(math_floor(10),    10);
+      assert_equal(math_floor(10.1),  10);
+      assert_equal(math_floor(10.5),  10);
+      assert_equal(math_floor(10.99), 10);
+      assert_equal(math_floor(11),    11);
+    end;
+  end;
+
+
+  proc test_ceil(case: UnitTesting.Case);
+
+    with case do
+      assert_equal(math_ceil(10),    10);
+      assert_equal(math_ceil(10.01), 11);
+      assert_equal(math_ceil(10.5),  11);
+      assert_equal(math_ceil(10.9),  11);
+      assert_equal(math_ceil(11),    11);
+    end;
+  end;
+
+
+  proc test_round(case: UnitTesting.Case);
+
+    with case do
+      assert_equal(math_round(10),   10);
+      assert_equal(math_round(10.1), 10);
+      assert_equal(math_round(10.4), 10);
+      assert_equal(math_round(10.5), 11);
+      assert_equal(math_round(10.6), 11);
+      assert_equal(math_round(10.9), 11);
+      assert_equal(math_round(11),   11);
+    end;
+  end;
+
+
+  proc test_min(case: UnitTesting.Case);
+
+    with case do
+      assert_equal(math_min([1, 2, 3]), 1);
+      assert_equal(math_min([1, 2, 3.14]), 1);
+      assert_equal(math_min([2.07, 3.14, 4]), 2.07);
+    end;
+  end;
+
+
+  proc test_max(case: UnitTesting.Case);
+
+    with case do
+      assert_equal(math_max([1, 2, 3]), 3);
+      assert_equal(math_max([1, 2, 3.14]), 3.14);
+      assert_equal(math_max([2.07, 3.14, 4]), 4);
+    end;
+  end;
+end

@@ -1,0 +1,42 @@
+class inherited UnitTesting.Suite "Набор для тестирования классов модульного тестирования <!>";
+
+inclass
+
+
+  proc test_a(case: UnitTesting.Case);
+
+    with case do
+
+      description("пояснение к тестовой ситуации, записано внутри тестовой ситуации");
+      assert_equal(1, 1, "пояснение к проверке, которое не отобразится");
+      assert_equal(0, 0);
+      assert_equal(-1, -1);
+    end;
+  end;
+
+
+  proc test_b(case: UnitTesting.Case);
+
+    with case do
+
+      description("другое пояснение");
+      assert_equal(10, 10);
+      invert.assert_equal(10, 0);
+      invert.assert_equal(10, 10, "пояснение к проверке, отображается в случае неудачи");
+    end;
+  end;
+
+
+  proc test_c(case: UnitTesting.Case);
+
+    with case do
+
+      description("очередное пояснение");
+      description(description +" (плюс дополнение)");
+      assert_equal(0, nil);
+      assert_equal("", nil);
+      assert_equal(nil, nil);
+      assert_equal(0, "0", "хочу передать привет своей маме");
+    end;
+  end;
+end

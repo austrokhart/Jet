@@ -1,0 +1,187 @@
+class "Набор для тестирования класса Dict";
+
+inclass
+
+
+--  proc test_(case: UnitTesting.Case);
+--
+--    var test_dict: Dict;
+--        test_dict = Dict.combine(["a", "b", "c"], [1, 2, 3]);
+--
+--    with case do
+--
+--      assert_equal();
+--    end;
+--  end;
+
+
+  proc test_new(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+        test_dict = Dict.new;
+
+    case.assert_equal(test_dict.content, []);
+  end;
+
+
+  proc test_combine(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+
+    with case do
+
+      -- с пустыми массивами ключей и значений
+      test_dict = Dict.combine([], []);
+      assert_equal(test_dict.content, []);
+
+      -- с совпадающими ключами и значениями
+      test_dict = Dict.combine(["a", "b", "c"], [1, 2, 3]);
+      assert_equal(test_dict.content, [["a", 1], ["b", 2], ["c", 3]]);
+
+      -- с большим количеством ключей
+      test_dict = Dict.combine(["a", "b", "c"], []);
+      assert_equal(test_dict.content, [["a", nil], ["b", nil], ["c", nil]]);
+
+      test_dict = Dict.combine(["a", "b", "c"], [1] as variant[]); -- x если не указать тип, записывались пустые строки
+      assert_equal(test_dict.content, [["a", 1], ["b", nil], ["c", nil]]);
+
+      -- с большим количеством значений
+      test_dict = Dict.combine([], [1, 2, 3]);
+      assert_equal(test_dict.content, []);
+
+      test_dict = Dict.combine(["a"], [1, 2, 3]);
+      assert_equal(test_dict.content, [["a", 1]]);
+    end;
+  end;
+
+
+  proc test_copy(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+
+    with case do
+
+      description("");
+
+      test_dict = Dict.new.set("a", 1);
+
+      assert_equal(test_dict.copy.set("b", 2).content, [["a", 1], ["b", 2]]);
+      assert_equal(test_dict.content, [["a", 1]]);
+    end;
+  end;
+
+
+  proc test_pair_index(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+        test_dict = Dict.new.set("a", 1);
+
+    with case do
+
+      assert_equal(test_dict.pair_index("a"), 1);
+      assert_equal(test_dict.pair_index("A"), 1);
+      assert_equal(test_dict.pair_index("b"), -1);
+    end;
+  end;
+
+
+  proc test_get(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+        test_dict = Dict.combine(["aa", "bb", "cc"], [1, 2, 3]);
+
+    with case do
+
+      assert_equal(test_dict.get("aa"), 1);
+      assert_equal(test_dict.get("cc"), 3);
+      assert_equal(test_dict.get("dd"), nil);
+    end;
+  end;
+
+
+  proc test_set(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+        test_dict = Dict.new;
+
+    with case do
+
+      test_dict.set("a", 1);
+      assert_equal(test_dict.content, [["a", 1]]);
+
+      test_dict.set("b", 2);
+      assert_equal(test_dict.content, [["a", 1], ["b", 2]]);
+
+      test_dict.set("b", 20);
+      assert_equal(test_dict.content, [["a", 1], ["b", 20]]);
+
+      test_dict.set("c", 30);
+      assert_equal(test_dict.content, [["a", 1], ["b", 20], ["c", 30]]);
+    end;
+  end;
+
+
+  proc test_unset(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+        test_dict = Dict.combine(["a", "b", "c"], [1, 2, 3]);
+
+    with case do
+
+      test_dict.unset("b");
+      assert_equal(test_dict.content, [["a", 1], ["c", 3]]);
+
+      test_dict.unset("c");
+      assert_equal(test_dict.content, [["a", 1]]);
+
+      test_dict.unset("a");
+      assert_equal(test_dict.content, []);
+    end;
+  end;
+
+
+  proc test_is_set(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+        test_dict = Dict.combine(["a", "b"], [1, 2]);
+
+    with case do
+
+      assert_true(test_dict.is_set("a"));
+      assert_true(test_dict.is_set("b"));
+      assert_true(test_dict.is_set("B")); -- сроки сравниваются без учёта регистра
+      assert_false(test_dict.is_set("c"));
+    end;
+  end;
+
+
+  proc test_clear(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+        test_dict = Dict.combine(["a", "b", "c"], [1, 2, 3]);
+
+    with case do
+
+      assert_equal(test_dict.content, [["a", 1], ["b", 2], ["c", 3]]);
+
+      test_dict.clear;
+      assert_equal(test_dict.content, []);
+    end;
+  end;
+
+
+  proc test_extend(case: UnitTesting.Case);
+
+    var test_dict: Dict;
+        test_dict = Dict.combine(["a", "b"], [1, 2]);
+
+    with case do
+
+      assert_equal(test_dict.copy.extend(Dict.new).content, [["a", 1], ["b", 2]]);
+      assert_equal(test_dict.copy.extend(Dict.new.set("a", 10)).content, [["a", 10], ["b", 2]]);
+      assert_equal(test_dict.copy.extend(Dict.combine(["c", "d"], [3, 4])).content, [["a", 1], ["b", 2], ["c", 3], ["d", 4]]);
+
+      assert_equal(Dict.new.extend(test_dict).content, [["a", 1], ["b", 2]]);
+    end;
+  end;
+end

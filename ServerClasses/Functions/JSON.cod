@@ -1,0 +1,223 @@
+class "Класс для работы с данными в формате JSON";
+import classes Functions.Variable, Functions.Array, Functions.String, Functions.Escaping, Functions.Date, Functions.DateISO;
+
+inclass
+
+
+  func JSON_encode(value: variant): string;
+
+    if var_is_nil(value) then
+      return self.JSON_encode_null;
+
+    elsif var_is_boolean(value) then
+      return self.JSON_encode_boolean(value);
+
+    elsif var_is_numeric(value) then
+      return self.JSON_encode_numeric(value);
+
+    elsif var_is_string(value) then
+      return self.JSON_encode_string(value);
+
+    elsif var_is_date(value) then
+      return self.JSON_encode_date(value);
+
+    elsif var_is_array(value) then
+      return self.JSON_encode_array(value);
+
+    elsif var_instance_of(value, Dict) then
+      return self.JSON_encode_object(value);
+
+    else
+      return "";
+    end;
+  end;
+
+  func JSON_encode_null: string;
+      
+    return "null";
+  end;
+
+  func JSON_encode_boolean(value: boolean): string;
+      
+    return str_from(value);
+  end;
+
+  func JSON_encode_numeric(value: real): string;
+      
+    return str_from(value);
+  end;
+
+  func JSON_encode_string(value: string): string;
+      
+    return '"' +str_escape(value) +'"';
+  end;
+
+  func JSON_encode_date(value: date; UTC_offset: string = Settings.UTC_OFFSET): string;
+      
+    return '"' +date_to_ISO(value, UTC_offset) +'"';
+  end;
+
+  func JSON_encode_array(value: variant[]): string;
+      
+    with array_map(value) do
+      while __next do __apply(self.JSON_encode(__item)); end;
+      result = '[' +array_implode(__result, ', ') +']';
+    end;
+
+    return result;
+  end;
+
+  func JSON_encode_object(value: Dict): string;
+
+    with array_map(value.pairs) do
+      while __next do __apply(  self.JSON_encode(array_get(__item, Dict.PAIR_KEY)) +': ' +self.JSON_encode(array_get(__item, Dict.PAIR_VALUE))  ); end;
+      result = '{' +array_implode(__result, ', ') +'}';
+    end;
+
+    return result;
+  end;
+
+
+  func JSON_decode(const value: string; var offset: integer = 1): variant;
+    
+    if str_starts_with(str_substr(value, offset), 'null') then
+      return self.JSON_decode_null(value, offset);
+
+    elsif str_starts_with(str_substr(value, offset), ['true', 'false']) then
+      return self.JSON_decode_boolean(value, offset);
+
+    elsif str_contains('-0123456789', str_char_at(value, offset)) then
+      return self.JSON_decode_numeric(value, offset);
+
+    elsif str_char_at(value, offset) = '"' then
+      return self.JSON_decode_string(value, offset);
+
+    elsif str_char_at(value, offset) = '[' then
+      return self.JSON_decode_array(value, offset);
+
+    elsif str_char_at(value, offset) = '{' then
+      return self.JSON_decode_object(value, offset);
+    end;
+  end;
+
+  func JSON_decode_null(const value: string; var offset: integer = 1): variant;
+
+    if str_starts_with(str_substr(value, offset), 'null') then
+      result = nil;
+      offset = offset +4;
+
+    else
+      offset = offset +1;
+    end;
+
+    return result;
+  end;
+
+  func JSON_decode_boolean(const value: string; var offset: integer = 1): boolean;
+    
+    if str_starts_with(str_substr(value, offset), 'true') then
+      result = true;
+      offset = offset +4;
+
+    elsif str_starts_with(str_substr(value, offset), 'false') then
+      result = false;
+      offset = offset +5;
+
+    else
+      offset = offset +1;
+    end;
+
+    return result;
+  end;
+
+  func JSON_decode_numeric(const value: string; var offset: integer = 1): variant;
+
+    var match: string;
+
+    if str_contains('-0123456789', str_char_at(value, offset)) then
+
+      while str_contains('-.0123456789', str_char_at(value, offset)) do
+        match = match +str_char_at(value, offset);
+        offset = offset +1;
+      end;
+
+      result = if (str_contains(match, '.'), num(match), int(match));
+    else
+
+      offset = offset +1;
+    end;
+
+    return result;
+  end;
+
+  func JSON_decode_string(const value: string; var offset: integer = 1): string;
+
+    var match: string;
+
+    if str_char_at(value, offset) = '"' then
+
+      offset = offset +1;
+
+      while str_char_at(value, offset) <> nil and (str_char_at(value, offset) <> '"' or seq_is_escaped(value, offset)) do
+        match = match +str_char_at(value, offset);
+        offset = offset +1;
+      end;
+
+      result = str_unescape(match, ESCAPE_SEQUENCES);
+    end;
+
+    offset = offset +1;
+
+    return result;
+  end;
+
+  func JSON_decode_array(const value: string; var offset: integer = 1): variant[];
+
+    var item: variant;
+
+    if str_char_at(value, offset) = '[' then
+
+      offset = offset +1;
+
+      while str_char_at(value, offset) <> nil and str_char_at(value, offset) <> ']' do
+
+        while str_contains(', ', str_char_at(value, offset)) do offset = offset +1; end;
+        item = self.JSON_decode(value, offset);
+
+        array_append(result, item);
+      end;
+    end;
+
+    offset = offset +1;
+
+    return result;
+  end;
+
+  func JSON_decode_object(const value: string; var offset: integer = 1): Dict;
+
+    var pair: variant[];
+
+    if str_char_at(value, offset) = '{' then
+
+      result = Dict.new;
+      offset = offset +1;
+
+      while str_char_at(value, offset) <> nil and str_char_at(value, offset) <> '}' do
+
+        pair = [];
+
+        while str_contains(', ', str_char_at(value, offset)) do offset = offset +1; end;
+        array_append(pair, self.JSON_decode(value, offset));
+
+        while str_contains(': ', str_char_at(value, offset)) do offset = offset +1; end;
+        array_append(pair, self.JSON_decode(value, offset));
+
+        result.set(pair[Dict.PAIR_KEY], pair[Dict.PAIR_VALUE]);
+      end;
+    end;
+
+    offset = offset +1;
+
+    return result;
+  end;
+end

@@ -1,0 +1,34 @@
+class inherited Methods.Functions.Array.Iterable "Интерфейс для работы с массивом методом filter";
+import classes Functions.Array;
+
+inclass
+
+
+  func new(array: variant[]; path: integer[] = nil): Methods.Functions.Array.Filter;
+    
+    result = self.create;
+
+    result.__array = array;
+    result.__path  = path;
+    result.__to_start;
+  end;
+
+inobject
+
+
+  var __result: variant[];
+
+
+  proc __apply(value: boolean);
+    
+    if value then
+      array_append(self.__result, self.__item);
+    end;
+  end;
+
+
+  proc __assign(var variable: variant);
+    
+    variable = self.__result;
+  end;
+end

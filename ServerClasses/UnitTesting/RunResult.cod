@@ -1,0 +1,102 @@
+class " ласс дл€ хранени€ результатов выполнени€ обработчика";
+import classes Functions.String, Functions.Array;
+
+inclass
+
+
+  -- возвращает новый экземпл€р объекта
+  func new(suites: UnitTesting.SuiteResult[] = nil): UnitTesting.RunResult;
+    
+    result = self.create;
+
+    result.suites  = suites;
+    result.success = true;
+  end;
+
+inobject
+
+
+  var suites:  UnitTesting.SuiteResult[];
+  var success: boolean;
+
+
+  -- добавл€ет результат тестового набора в результаты
+  func add(suite: UnitTesting.SuiteResult): UnitTesting.RunResult;
+    
+    array_append(self.suites, suite);
+    self.success = self.success and suite.is_successful;
+
+    return self;
+  end;
+
+
+  -- возвращает истину, если результаты успешны
+  func is_successful: boolean;
+    
+    return self.success;
+  end;
+
+
+  -- возвращает количество тестовых наборов в результатах
+  func suite_count: integer;
+
+    return array_length(self.suites);
+  end;
+
+
+  func case_count: integer;
+    
+    with array_reduce(self.suites, 0) do
+      while __next do __apply(__result +__item.case_count); end; __assign(result);
+    end;
+
+    return result;
+  end;
+
+
+  func assert_count: integer;
+    
+    with array_reduce(self.suites, 0) do
+      while __next do __apply(__result +__item.assert_count); end; __assign(result);
+    end;
+
+    return result;
+  end;
+
+
+  -- возвращает успешные тестовые наборы
+  func successful_suites: UnitTesting.SuiteResult[];
+    
+    with array_filter(self.suites) do
+      while __next do __apply(__item.is_successful); end;
+      result = __result;
+    end;
+  end;
+
+
+  -- возвращает неудачные тестовые наборы
+  func unsuccessful_suites: UnitTesting.SuiteResult[];
+    
+    with array_filter(self.suites) do
+      while __next do __apply(not __item.is_successful); end; __assign(result);
+    end;
+
+    return result;
+  end;
+
+
+  -- возвращает текстовое представление результатов
+  func to_text: string[];
+    
+    array_append(result, "выполнение тестов:");
+
+    with array_each(self.suites) do
+      while __next do array_extend(result, __item.to_text); end;
+    end;
+
+    array_append(result, str_format("выполнено наборов: {}, случаев: {}, проверок: {}", [self.suite_count, self.case_count, self.assert_count]));
+    array_append(result, str_format("результат выполнени€: {}", if (self.is_successful, "успех", "неудача")));
+
+    return result;
+  end;
+end

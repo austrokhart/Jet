@@ -1,0 +1,7 @@
+class "Класс для экспорта Dict";
+
+inclass
+
+
+  type Dict = Dict;
+end

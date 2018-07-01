@@ -1,0 +1,29 @@
+class "Класс для измерения времени";
+
+inclass
+
+
+  var stamp: date;
+
+
+  func new: Timer;
+    
+    result = self.create;
+    result.update;
+  end;
+
+inobject
+
+
+  func update: Timer;
+
+    self.stamp = now;
+    result = self;
+  end;
+
+
+  func passed: real;
+    
+    result = periodSec(now, self.stamp);
+  end;
+end

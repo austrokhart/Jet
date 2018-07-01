@@ -1,0 +1,59 @@
+class " ласс дл€ хранени€ результатов проверки";
+import classes Functions.String, Functions.Array;
+
+inclass
+
+
+  -- создаЄт новый экземпл€р класса
+  func new(value, expected: variant; comparison: UnitTesting.Assert.comparison_type; inverted: boolean = false; description: string = nil): UnitTesting.AssertResult;
+
+    result = self.create;
+
+    result.value       = value;
+    result.expected    = expected;
+    result.comparison  = comparison;
+    result.inverted    = inverted;
+    result.description = description;
+    result.success     = UnitTesting.Assert.compare(value, expected, comparison);
+
+    return result;
+  end;
+
+inobject
+
+
+  var value:       variant;
+  var expected:    variant;
+  var comparison:  integer;
+  var inverted:    boolean;
+  var description: string;
+  var success:     boolean;
+
+
+  -- возвращает истину, если проверка €вл€етс€ отрицательной
+  func is_inverted: boolean;
+    
+    return self.inverted;
+  end;
+
+  -- возвращает истину, если результат успешен
+  func is_successful: boolean;
+    
+    return self.success;
+  end;
+
+
+  -- возвращает текстовое представление проверки
+  func to_text: string;
+
+    -- если результат отрицаетс€ и отрицательный или если результат не отрицаетс€ и положительный
+    if (self.is_inverted xor self.is_successful) then
+      result = str_format("успех ({})", [self.description]);
+
+    else
+      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [tostr(self.value), if (self.is_inverted, " не", ""), tostr(self.expected), self.description]);
+    end;
+
+    return result;
+  end;
+end

@@ -1,0 +1,19 @@
+class "";
+import classes Packages.SmartConsole;
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    SmartConsole.clear.log_multi(UnitTesting.Runner.run([Tests.FunctionsStringSuite]).to_text);
+--    Functions.Console.log(UnitTesting.Runner.run([Tests.FunctionsStringSuite]).suites[1].cases[3].asserts);
+  end;
+
+--}
+
+end

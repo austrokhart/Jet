@@ -1,0 +1,17 @@
+class "";
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    SmartConsole.clear.log_multi(UnitTesting.Runner.run([Tests.FunctionsEscapingSuite]).to_text);
+  end;
+
+--}
+
+end

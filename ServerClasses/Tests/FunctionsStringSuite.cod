@@ -1,0 +1,436 @@
+class inherited UnitTesting.Suite "Набор для тестирования класса для работы со строками";
+import classes Functions.String;
+
+inclass
+
+
+  proc test_str_from(case: UnitTesting.Case);
+
+    with case do
+
+      assert_equal(  str_from(nil),     "nil");
+
+      assert_equal(  str_from(false),   "false");
+      assert_equal(  str_from(true),    "true");
+
+      assert_equal(  str_from(1),       "1");
+      assert_equal(  str_from(123),     "123");
+
+      assert_equal(  str_from(1.23),    "1.23");
+      assert_equal(  str_from(123.45),  "123.45");
+
+      assert_equal(  str_from(""),      "");
+      assert_equal(  str_from("abc"),   "abc");
+    end;
+  end;
+
+
+  proc test_str_length(case: UnitTesting.Case);
+
+    with case do
+
+      assert_equal(  str_length(""),     0);
+      assert_equal(  str_length("a"),    1);
+      assert_equal(  str_length("abc"),  3);
+    end;
+  end;
+
+
+  proc test_str_has_content(case: UnitTesting.Case);
+
+    with case do
+
+      assert_false(  str_has_content(""));
+      assert_true(   str_has_content("a"));
+      assert_true(   str_has_content("abc"));
+    end;
+  end;
+
+
+  proc test_str_char_at(case: UnitTesting.Case);
+
+    var test_str: string;
+        test_str = "abcde";
+
+    with case do
+
+      assert_equal(  str_char_at(test_str, 0),   "", "проверка c нулевым индексом");
+
+      assert_equal(  str_char_at(test_str, 1),   "a", "проверки с положительными индексами");
+      assert_equal(  str_char_at(test_str, 5),   "e");
+
+      assert_equal(  str_char_at(test_str, -1),  "", "проверки с отрицательными индексами");
+      assert_equal(  str_char_at(test_str, -5),  "");
+
+      assert_equal(  str_char_at(test_str, 6),   "", "проверки с индексами, выходящими за пределы");
+      assert_equal(  str_char_at(test_str, -6),  "");
+    end;
+  end;
+
+
+  proc test_str_substr(case: UnitTesting.Case);
+
+    var test_str: string;
+        test_str = "abcde";
+
+    with case do
+
+      assert_equal(  str_substr(test_str),          "abcde",  "проверка без указания смещения и длины");
+
+      assert_equal(  str_substr(test_str, 1),       "abcde",  "проверки без указания длины");
+      assert_equal(  str_substr(test_str, 2),       "bcde");
+      assert_equal(  str_substr(test_str, 5),       "e");
+
+      assert_equal(  str_substr(test_str, , 0),     "",       "проверки без указания смещения");
+      assert_equal(  str_substr(test_str, , 1),     "a");
+      assert_equal(  str_substr(test_str, , 5),     "abcde");
+
+      assert_equal(  str_substr(test_str, 1, 1),    "a",      "проверки с указанием смещения и длины");
+      assert_equal(  str_substr(test_str, 5, 1),    "e");
+      assert_equal(  str_substr(test_str, 1, 5),    "abcde");
+
+      assert_equal(  str_substr(test_str, -1),      "e",      "проверки с отрицательным смещением");
+      assert_equal(  str_substr(test_str, -5),      "abcde");
+      assert_equal(  str_substr(test_str, -1, 1),   "e");
+      assert_equal(  str_substr(test_str, -5, 1),   "a");
+      assert_equal(  str_substr(test_str, -5, 5),   "abcde");
+
+      assert_equal(  str_substr(test_str, 1, -1),   "abcd",   "проверки с отрицательным смещением");
+      assert_equal(  str_substr(test_str, 1, -2),   "abc");
+      assert_equal(  str_substr(test_str, 1, -5),   "");
+
+      assert_equal(  str_substr(test_str, -4, -1),  "bcd",    "проверки с отрицательным смещением и длиной");
+      assert_equal(  str_substr(test_str, -3, -2),  "c");
+
+      assert_equal(  str_substr(test_str, 6),       "",       "проверки с выходом смещения за пределы строки");
+      assert_equal(  str_substr(test_str, 7),       "");
+      assert_equal(  str_substr(test_str, -6),      "abcde");
+      assert_equal(  str_substr(test_str, -7),      "abcde");
+
+      assert_equal(  str_substr(test_str, 1, 6),    "abcde",  "проверки с выходом длины за пределы строки");
+      assert_equal(  str_substr(test_str, 1, 7),    "abcde");
+      assert_equal(  str_substr(test_str, 1, -6),   "");
+      assert_equal(  str_substr(test_str, 1, -7),   "");
+
+      assert_equal(  str_substr(test_str, -3, -3),  "",       "проверка с исключающим пересечением смещения и длины");
+    end;
+  end;
+
+
+  proc test_str_pos(case: UnitTesting.Case);
+
+    var test_str: string;
+
+
+    with case do
+
+      test_str = "zyxyx";
+
+      assert_equal(  str_pos(test_str, "w"),             [-1, 0],  "проверка с подстрокой без вхождения");
+      assert_equal(  str_pos(test_str, "w", 3),          [-1, 0],  "проверка с подстрокой без вхождения и смещением");
+      assert_equal(  str_pos(test_str, "z", 3),          [-1, 0],  "проверка с подстрокой без вхождения после смещения");
+
+      assert_equal(  str_pos(test_str, "z"),             [1, 1],   "проверки разные");
+      assert_equal(  str_pos(test_str, "y"),             [2, 1]);
+      assert_equal(  str_pos(test_str, "x"),             [3, 1]);
+
+      assert_equal(  str_pos(test_str, "zy"),            [1, 2],   "проверки с подстроками многосимвольными");
+      assert_equal(  str_pos(test_str, "yx"),            [2, 2]);
+
+      assert_equal(  str_pos(test_str, "y", 3),          [4, 1],   "проверки со смещением");
+      assert_equal(  str_pos(test_str, "yx", 3),         [4, 2]);
+
+      assert_equal(  str_pos(test_str, ["zy", "zyx"]),   [1, 2],   "проверки с разным порядком следования входных данных");
+      assert_equal(  str_pos(test_str, ["zyx", "zy"]),   [1, 3]);
+
+      test_str = "a|b||c";
+
+      assert_equal(  str_pos(test_str, ["|", "||"]),     [2, 1],   "проверки с несколькими подстроками, смещением, пересечением подстрок");
+      assert_equal(  str_pos(test_str, ["|", "||"], 3),  [4, 1]);
+      assert_equal(  str_pos(test_str, ["|", "||"], 5),  [5, 1]);
+    end;
+  end;
+
+
+  proc test_str_contains(case: UnitTesting.Case);
+
+    var test_str: string;
+        test_str = "zyxyx";
+
+    with case do
+
+      assert_false(  str_contains(test_str, "w"));
+      assert_true(   str_contains(test_str, "z"));
+      assert_true(   str_contains(test_str, "y"));
+    end;
+  end;
+
+
+  proc test_str_starts_with(case: UnitTesting.Case);
+
+    var test_str: string;
+        test_str = "abcde";
+
+    with case do
+
+      assert_true(   str_starts_with(test_str, "a"),          "с одним значением");
+      assert_true(   str_starts_with(test_str, "ab"));
+
+      assert_false(  str_starts_with(test_str, "x"), "");
+      assert_false(  str_starts_with(test_str, "xy"));
+
+      assert_true(   str_starts_with(test_str, ["a", "ab"]),  "с несколькими значениями");
+      assert_true(   str_starts_with(test_str, ["b", "ab"]));
+
+      assert_false(  str_starts_with(test_str, ["x", "xy"]));
+    end;
+  end;
+
+
+  proc test_str_ends_with(case: UnitTesting.Case);
+
+    var test_str: string;
+        test_str = "abcde";
+
+    with case do
+
+      assert_true(   str_ends_with(test_str, "e"),          "с одним значением");
+      assert_true(   str_ends_with(test_str, "de"));
+
+      assert_false(  str_ends_with(test_str, "x"));
+      assert_false(  str_ends_with(test_str, "xy"));
+
+      assert_true(   str_ends_with(test_str, ["e", "de"]),  "с несколькими значениями");
+      assert_true(   str_ends_with(test_str, ["d", "de"]));
+
+      assert_false(  str_ends_with(test_str, ["x", "xy"]));
+    end;
+  end;
+
+
+  proc test_str_find(case: UnitTesting.Case);
+
+    var test_str: string;
+    var find: str_method_find;
+
+    with case do
+
+      test_str = "axbxcxx";
+
+      with str_find(test_str, "x") do
+
+        assert_equal(__right, "axbxcxx", "проверка для строки и одного значения");
+        assert_equal(__values, ["x"]);
+
+        assert_true(__next);
+        assert_equal([__left, __match, __right], ["a", "x", "bxcxx"]);
+
+        assert_true(__next);
+        assert_equal([__left, __match, __right], ["axb", "x", "cxx"]);
+
+        assert_true(__next);
+        assert_equal([__left, __match, __right], ["axbxc", "x", "x"]);
+
+        assert_true(__next);
+        assert_equal([__left, __match, __right], ["axbxcx", "x", ""]);
+
+        assert_false(__next);
+      end;
+
+      with str_find(test_str, ["xx", "x"]) do
+
+        assert_equal(__right, "axbxcxx", "проверка для строки и нескольких значений");
+        assert_equal(__values, ["xx", "x"]);
+
+        assert_true(__next);
+        assert_equal([__left, __match, __right], ["a", "x", "bxcxx"]);
+
+        assert_true(__next);
+        assert_equal([__left, __match, __right], ["axb", "x", "cxx"]);
+
+        assert_true(__next);
+        assert_equal([__left, __match, __right], ["axbxc", "xx", ""]);
+
+        assert_false(__next);
+      end;
+    end;
+  end;
+
+
+  proc test_str_repeat(case: UnitTesting.Case);
+
+    with case do
+
+      assert_equal(  str_repeat("aa", -1),  "");
+      assert_equal(  str_repeat("aa", 0),   "");
+      assert_equal(  str_repeat("aa", 1),   "aa");
+      assert_equal(  str_repeat("aa", 3),   "aaaaaa");
+    end;
+  end;
+
+
+  proc test_pad(case: UnitTesting.Case);
+
+    var test_str: string;
+        test_str  = "abcd";
+
+    with case do
+
+      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "_", -1),    nil,         "проверки с передачей аргументом direction STR_PAD_LEFT");
+      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "_", 0),     nil);
+      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "_", 2),     "cd");
+      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "#", 8),     "####abcd");
+      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "#@", 8),    "#@#@abcd");
+      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "#@!", 8),   "!#@!abcd");
+
+      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "_", -1),   nil,         "проверки с передачей аргументом direction STR_PAD_RIGHT");
+      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "_", 0),    nil);
+      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "_", 3),    "abc");
+      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "#", 8),    "abcd####");
+      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "#@", 8),   "abcd#@#@");
+      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "#@!", 8),  "abcd#@!#");
+
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", -1),    nil,         "проверки с передачей аргументом direction STR_PAD_BOTH");
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 0),     nil);
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 1),     "c");
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 2),     "bc");
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 3),     "bcd");
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 4),     "abcd");
+
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#", 8),     "##abcd##",  "проверки на правильное центрирование строки");
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#", 9),     "##abcd###");
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#@", 8),    "#@abcd#@");
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#@", 9),    "#@abcd#@#");
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#@!", 8),   "@!abcd#@");
+      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#@!", 9),   "@!abcd#@!");
+    end;
+  end;
+
+
+  proc test_trim(case: UnitTesting.Case);
+
+    var test_str: string;
+        test_str = "  __test_ ";
+
+    with case do
+
+      assert_equal(  str_trim(test_str, STR_TRIM_LEFT, ["_"]),         "  __test_ ",  "проверки с передачей аргументом direction STR_TRIM_LEFT");
+      assert_equal(  str_trim(test_str, STR_TRIM_LEFT),                "__test_ ");
+      assert_equal(  str_trim(test_str, STR_TRIM_LEFT, [" ", "_"]),    "test_ ");
+      assert_equal(  str_trim(test_str, STR_TRIM_LEFT, [" ", "__"]),   "test_ ");
+
+      assert_equal(  str_trim(test_str, STR_TRIM_RIGHT, ["_"]),        "  __test_ ",  "проверки с передачей аргументом direction STR_TRIM_RIGHT");
+      assert_equal(  str_trim(test_str, STR_TRIM_RIGHT),               "  __test_");
+      assert_equal(  str_trim(test_str, STR_TRIM_RIGHT, [" ", "_"]),   "  __test");
+      assert_equal(  str_trim(test_str, STR_TRIM_RIGHT, [" ", "__"]),  "  __test_");
+
+      assert_equal(  str_trim(test_str, STR_TRIM_BOTH, ["_"]),         "  __test_ ",  "проверки с передачей аргументом direction STR_TRIM_BOTH");
+      assert_equal(  str_trim(test_str, STR_TRIM_BOTH),                "__test_");
+      assert_equal(  str_trim(test_str, STR_TRIM_BOTH, [" ", "_"]),    "test");
+      assert_equal(  str_trim(test_str, STR_TRIM_BOTH, [" ", "__"]),   "test_");
+    end;
+  end;
+
+
+  proc test_str_insert(case: UnitTesting.Case);
+
+    var test_str: string;
+        test_str = "abcde";
+
+    with case do
+
+
+      assert_equal(  str_insert(test_str, "", 1, 0),       "abcde",     "проверки с пустой заменой и нулевой длиной");
+      assert_equal(  str_insert(test_str, "", 1, nil),     "");
+
+      assert_equal(  str_insert(test_str, "", 3, 0),       "abcde",     "проверки с пустой заменой, смещением и нулевой длиной");
+      assert_equal(  str_insert(test_str, "", 3, nil),     "ab");
+
+      assert_equal(  str_insert(test_str, "", 1, 3),       "de",        "проверки с пустой заменой и ненулевой длиной");
+
+
+      assert_equal(  str_insert(test_str, "123", 1, 0),    "123abcde",  "проверки с непустой заменой и нулевой длиной");
+      assert_equal(  str_insert(test_str, "123", 1, nil),  "123");
+
+      assert_equal(  str_insert(test_str, "123", 3, 0),    "ab123cde",  "проверки с непустой заменой и смещением");
+      assert_equal(  str_insert(test_str, "123", 3, 3),    "ab123");
+
+
+      assert_equal(  str_insert(test_str, "123", -5, 0),   "123abcde",  "проверки с отрицательным смещением");
+      assert_equal(  str_insert(test_str, "123", -3, 0),   "ab123cde");
+      assert_equal(  str_insert(test_str, "123", -1, 0),   "abcd123e");
+
+      assert_equal(  str_insert(test_str, "123", 1, -1),   "123e",      "проверки с отрицательной длиной");
+      assert_equal(  str_insert(test_str, "123", 3, -1),   "ab123e");
+
+      assert_equal(  str_insert(test_str, "123", -3, -2),  "ab123de",   "проверка с отрицательными смещением и длиной");
+    end;
+  end;
+
+
+  proc test_str_splice(case: UnitTesting.Case);
+
+    var test_str: string;
+
+    with case do
+
+      test_str = "abcxxf";
+      assert_equal(  str_splice(test_str, "de", 4, 2),   "xx");
+      assert_equal(  test_str,                           "abcdef");
+
+      test_str = "adef";
+      assert_equal(  str_splice(test_str, "bc", 2, 0),   "");
+      assert_equal(  test_str,                           "abcdef");
+
+      test_str = "abc";
+      assert_equal(  str_splice(test_str, "def", 4, 0),  "");
+      assert_equal(  test_str,                           "abcdef");
+    end;
+  end;
+
+
+  proc test_str_replace(case: UnitTesting.Case);
+
+    with case do
+
+      assert_equal(  str_replace("my [] is []", "[]", "xx"),              "my xx is xx");
+      assert_equal(  str_replace("my [] is {}", ["[]", "{}"], "yy"),      "my yy is yy");
+      assert_equal(  str_replace("my [[]] is {{}}", ["[]", "{}"], "zz"),  "my [zz] is {zz}");
+    end;
+  end;
+
+
+  proc test_str_format(case: UnitTesting.Case);
+
+    with case do
+
+      assert_equal(  str_format("my {{}} is {{}}, but i still {{}}", nil),                           "my {} is {}, but i still {}");
+      assert_equal(  str_format("my {{}} is {{}}, but i still {{}}", "_"),                           "my {} is {}, but i still {}");
+      assert_equal(  str_format("my {{}} is {{}}, but i still {{}}", ["_", "_", "_"]),               "my {} is {}, but i still {}");
+
+      assert_equal(  str_format("my {} is {}, but i still {}", "xx"),                                "my xx is , but i still ");
+      assert_equal(  str_format("my {} is {}, but i still {}", ["xx", "yy"]),                        "my xx is yy, but i still ");
+      assert_equal(  str_format("my {} is {}, but i still {}", ["xx", "yy", "zz"]),                  "my xx is yy, but i still zz");
+
+      assert_equal(  str_format("my {{{}}} is {{{{{}}}}}, but i still {{{}}}", ["xx", "yy", "zz"]),  "my {xx} is {{yy}}, but i still {zz}");
+      assert_equal(  str_format("my {{} is {}}, but i still {{{}}", ["xx", "yy", "zz"]),             "my {xx is yy}, but i still {{}");
+    end;
+  end;
+
+
+  proc test_str_explode(case: UnitTesting.Case);
+
+    with case do
+
+      assert_equal(  str_explode("a|b|c", "|"), ["a", "b", "c"]);
+
+      assert_equal(  str_explode("a|b||c", ["|", "||"]), ["a", "b", "", "c"]);
+      assert_equal(  str_explode("a|b||c", ["||", "|"]), ["a", "b", "c"]);
+
+      assert_equal(  str_explode("a, b, c", ", "), ["a", "b", "c"]);
+      assert_equal(  str_explode("a, b, c. d", [", ", ". "]), ["a", "b", "c", "d"]);
+
+      assert_equal(  str_explode("//a//b//c//", "//"), ["", "a", "b", "c", ""]);
+    end;
+  end;
+end

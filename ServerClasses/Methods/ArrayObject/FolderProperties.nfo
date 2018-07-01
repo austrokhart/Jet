@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Properties Version="1">
+  <Property Name="Enabled" Value="True"/>
+</Properties>
+<Items>
+  <Item Name="IterableBase"/>
+  <Item Name="Each"/>
+  <Item Name="Filter"/>
+  <Item Name="Map"/>
+  <Item Name="Reduce"/>
+</Items>

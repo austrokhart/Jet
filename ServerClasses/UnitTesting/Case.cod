@@ -1,0 +1,70 @@
+class " ласс дл€ работы с тестовыми ситуаци€ми";
+import classes Functions.Array;
+
+inclass
+
+
+  -- создаЄт новый экземпл€р класса
+  func new(container: UnitTesting.CaseResult; inverted: boolean = false): UnitTesting.Case;
+    
+    result = self.create;
+
+    result.container = container;
+    result.inverted  = inverted;
+
+    return result;
+  end;
+
+inobject
+
+
+  var container: UnitTesting.CaseResult;
+  var inverted: boolean;
+
+
+  -- возвращает или записывает в результат им€
+  func name(value: string = nil): string;
+
+    if value <> nil then self.container.name = value; end;
+    return self.container.name;
+  end;
+
+
+  -- возвращает или записывает в результат сообщение
+  func description(value: string = nil): string;
+
+    if value <> nil then self.container.description = value; end;
+    return self.container.description;
+  end;
+
+
+  -- возвращает объект аналогичный текущему, в котором проверки будут записыватьс€ с отрицанием
+  func invert: UnitTesting.Case;
+    
+    return self.new(self.container, true);
+  end;
+
+
+  -- записывает в результат проверку
+  func assert_equal(value, expected: variant; description: string = nil): UnitTesting.Case;
+
+    self.container.add(UnitTesting.AssertResult.new(value, expected, UnitTesting.Assert.comparison_is_equal, self.inverted, description));
+    return self;
+  end;
+
+
+  -- записывает в результат проверку
+  func assert_true(value: variant; description: string = nil): UnitTesting.Case;
+
+    self.container.add(UnitTesting.AssertResult.new(value, true, UnitTesting.Assert.comparison_is_true, self.inverted, description));
+    return self;
+  end;
+
+
+  -- записывает в результат проверку
+  func assert_false(value: variant; description: string = nil): UnitTesting.Case;
+
+    self.container.add(UnitTesting.AssertResult.new(value, false, UnitTesting.Assert.comparison_is_false, self.inverted, description));
+    return self;
+  end;
+end

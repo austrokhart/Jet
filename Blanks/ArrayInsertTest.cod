@@ -1,0 +1,28 @@
+class "";
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    var test_array: integer[];
+        test_array = [1, 2, 3, 4, 5];
+
+    trace(test_array);
+
+    System.insertInArray(test_array, 3, 30);
+    trace(test_array);
+
+    System.insertInArray(test_array, lengthOfArray(test_array) +1, 100);
+    trace(test_array);
+
+    System.insertInArray(test_array, -1, 200);
+  end;
+
+--}
+
+end

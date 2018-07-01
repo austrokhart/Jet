@@ -1,0 +1,217 @@
+class "";
+import classes Functions.JSON;
+
+inclass
+
+
+  proc test_JSON_encode_null(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_encode_null, 'null');
+    end;
+  end;
+
+
+  proc test_JSON_encode_boolean(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_encode_boolean(true),  'true');
+      assert_equal(  JSON_encode_boolean(false), 'false');
+    end;
+  end;
+
+
+  proc test_JSON_encode_numeric(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_encode_numeric(0),      '0');
+      assert_equal(  JSON_encode_numeric(2000),   '2000');
+      assert_equal(  JSON_encode_numeric(-2000),  '-2000');
+      assert_equal(  JSON_encode_numeric(20.05),  '20.05');
+      assert_equal(  JSON_encode_numeric(-20.05), '-20.05');
+    end;
+  end;
+
+
+  proc test_JSON_encode_date(case: UnitTesting.Case);
+
+    with case do
+
+      assert_equal(  JSON_encode_date(2018.06.01),                     '"2018-06-01"');
+      assert_equal(  JSON_encode_date(2018.06.01 12:00, "+03:00"),     '"2018-06-01T12:00:00+03:00"');
+      assert_equal(  JSON_encode_date(2018.06.01 12:00:15, "+03:00"),  '"2018-06-01T12:00:15+03:00"');
+      assert_equal(  JSON_encode_date(2018.06.01 12:00:15, "Z"),       '"2018-06-01T12:00:15Z"');
+    end;
+  end;
+
+
+  proc test_JSON_encode_string(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_encode_string('abc'),           '"abc"');
+      assert_equal(  JSON_encode_string('foobar500'),     '"foobar500"');
+      assert_equal(  JSON_encode_string('"foobar"'),      '"\"foobar\""');
+      assert_equal(  JSON_encode_string('\"foobar\"?'),   '"\"foobar\"?"');
+      assert_equal(  JSON_encode_string('\\"foobar\\"!'), '"\\\"foobar\\\"!"');
+    end;
+  end;
+
+
+  proc test_JSON_encode_array(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_encode_array([]), '[]', 'с пустым массивом');
+
+      assert_equal(  JSON_encode_array([nil]),       '[null]', 'с nil');
+      assert_equal(  JSON_encode_array([nil, nil]),  '[null, null]');
+
+      assert_equal(  JSON_encode_array([true]),         '[true]', 'с булевыми типами');
+      assert_equal(  JSON_encode_array([true, false]),  '[true, false]');
+
+      assert_equal(  JSON_encode_array([10]),             '[10]', 'с числами');
+      assert_equal(  JSON_encode_array([10, 20]),         '[10, 20]');
+      assert_equal(  JSON_encode_array([-10]),            '[-10]');
+      assert_equal(  JSON_encode_array([-10, -20]),       '[-10, -20]');
+      assert_equal(  JSON_encode_array([0.05]),           '[0.05]');
+      assert_equal(  JSON_encode_array([0.05, 0.07]),     '[0.05, 0.07]');
+      assert_equal(  JSON_encode_array([-0.05]),          '[-0.05]');
+      assert_equal(  JSON_encode_array([-0.05, -0.07]),   '[-0.05, -0.07]');
+
+      assert_equal(  JSON_encode_array(['a']),                  '["a"]', 'со строками');
+      assert_equal(  JSON_encode_array(['a', 'b']),             '["a", "b"]');
+      assert_equal(  JSON_encode_array(['"foo \"bar \\"baz']),  '["\"foo \"bar \\\"baz"]');
+
+      assert_equal(  JSON_encode_array([10, 20, -0.05, 0.07]),                   '[10, 20, -0.05, 0.07]', 'с комбинированными данными');
+      assert_equal(  JSON_encode_array(['\"foo', 500]),                          '["\"foo", 500]');
+      assert_equal(  JSON_encode_array([0.05, '1', '\\\"foo \"bar "baz', 500]),  '[0.05, "1", "\\\"foo \"bar \"baz", 500]');
+
+      assert_equal(  JSON_encode_array([[10]]),                                  '[[10]]', 'с вложенными массивами');
+      assert_equal(  JSON_encode_array([[10, 20], [30, 40]]),                    '[[10, 20], [30, 40]]');
+      assert_equal(  JSON_encode_array([10, [20, [30, 40] as variant[]]]),       '[10, [20, [30, 40]]]');
+
+      assert_equal(  JSON_encode_array([Dict.new]),                                                 '[{}]', 'с объектами');
+      assert_equal(  JSON_encode_array([Dict.new.set('A', 1)]),                                     '[{"A": 1}]');
+      assert_equal(  JSON_encode_array([Dict.new.set('A', [Dict.new.set('B', [] as variant[])])]),  '[{"A": [{"B": []}]}]');  -- без привдения записывал nil
+    end;
+  end;
+
+
+  proc test_JSON_encode_object(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_encode_object(  Dict.new  ),                                            '{}');
+      assert_equal(  JSON_encode_object(  Dict.new.set('A', 1)  ),                                '{"A": 1}');
+      assert_equal(  JSON_encode_object(  Dict.combine(['A', 'B'], [1, 2])  ),                    '{"A": 1, "B": 2}');
+      assert_equal(  JSON_encode_object(  Dict.combine(['A', 'B', 'C'], [1, 'foo', '""bar'])  ),  '{"A": 1, "B": "foo", "C": "\"\"bar"}');
+      assert_equal(  JSON_encode_object(  Dict.new.set('A', [Dict.new.set('B', [Dict.new])])  ),  '{"A": [{"B": [{}]}]}');
+    end;
+  end;
+
+
+  proc test_JSON_decode_null(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_decode_null('null'),  nil);
+      assert_equal(  JSON_decode('null'),       nil);
+    end;
+  end;
+
+
+  proc test_JSON_decode_boolean(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_decode_boolean('true'),   true);
+      assert_equal(  JSON_decode_boolean('false'),  false);
+    end;
+  end;
+
+
+  proc test_JSON_decode_numeric(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_decode_numeric('0'),      0);
+      assert_equal(  JSON_decode_numeric('1'),      1);
+      assert_equal(  JSON_decode_numeric('100'),    100);
+      assert_equal(  JSON_decode_numeric('-100'),   -100);
+      assert_equal(  JSON_decode_numeric('10.05'),  10.05);
+      assert_equal(  JSON_decode_numeric('-10.05'), -10.05);
+    end;
+  end;
+
+
+  proc test_JSON_decode_str(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_decode_string('""'),           '');
+      assert_equal(  JSON_decode_string('" "'),          ' ');
+      assert_equal(  JSON_decode_string('"a"'),          'a');
+      assert_equal(  JSON_decode_string('"abc"'),        'abc');
+      assert_equal(  JSON_decode_string('"foo\"bar\""'), 'foo"bar"');
+    end;
+  end;
+
+
+  proc test_JSON_decode_array(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_decode_array('[]'),          []);
+      assert_equal(  JSON_decode_array('[""]'),        ['']);
+      assert_equal(  JSON_decode_array('["a"]'),       ['a']);
+      assert_equal(  JSON_decode_array('["a", "b"]'),  ['a', 'b']);
+
+      assert_equal(  JSON_decode_array('[[]]'),              [[]]);
+      assert_equal(  JSON_decode_array('[[1]]'),             [[1]]);
+      assert_equal(  JSON_decode_array('[[1, 2], [3, 4]]'),  [[1, 2], [3, 4]]);
+    end;
+  end;
+
+
+  proc test_JSON_decode_object(case: UnitTesting.Case);
+
+    with case do
+
+      description('');
+
+      assert_equal(  JSON_decode_object('{}').pairs,                  Dict.new.pairs);
+      assert_equal(  JSON_decode_object('{"A": 10}').pairs,           Dict.new.set('A', 10).pairs);
+      assert_equal(  JSON_decode_object('{"A": 10, "B": 20}').pairs,  Dict.combine(['A', 'B'], [10, 20]).pairs);
+
+      assert_equal(  JSON_decode_object('{"A": [10, 20, 30]}').pairs,   Dict.new.set('A', [10, 20, 30]).pairs);
+      assert_equal(  JSON_decode_object('{"A": "\\foo \"bar"}').pairs,  Dict.new.set('A', '\foo "bar').pairs);
+      assert_equal(  JSON_decode_object('{"A": {"B": [50]}}').pairs,    Dict.new.set('A', Dict.new.set('B', [50])).pairs);
+    end;
+  end;
+end
