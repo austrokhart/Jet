@@ -9,7 +9,7 @@ inobject
 
   proc run(Sender :Button);
 
-    SmartConsole.clear.log_multi(UnitTesting.Runner.run([Tests.Functions.JSONSuite]).to_text);
+    SmartConsole.new(true).clear.log_multi(UnitTesting.Runner.run([Tests.Functions.JSONSuite]).to_text);
   end;
 
 --}

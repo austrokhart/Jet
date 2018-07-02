@@ -3,24 +3,49 @@ import classes Functions.Class, Functions.Array;
 
 inclass
 
+  func new(debug_only: boolean = false): SmartConsole;
+    
+    result = self.create;
+    result.debug_only = debug_only;
+
+    return result;
+  end;
+
+inobject
+
+
+  var debug_only: boolean;
+
+
+  func check_conditions: boolean;
+    
+    return (not self.debug_only or System.debugMode);
+  end;
+
 
   -- выводит строку в окно сообщений
   -- аргумент message приводится к массиву, затем складывается в строку
-  func log(message: variant): class SmartConsole;
+  func log(message: variant): SmartConsole;
 
-    if System.debugMode then class_find("Console").trace(array_implode(array_from(message), " ")); end;
+    var console: class;
+        console = class_find("Console");
+
+    if console <> nil and self.check_conditions then console.trace(array_implode(array_from(message))); end;
     return self;
   end;
 
 
   -- выводит массив строк в окно сообщений
   -- аргумент messages приводится к массиву
-  func log_multi(messages: variant): class SmartConsole;
+  func log_multi(messages: variant): SmartConsole;
 
-    if System.debugMode then
+    var console: class;
+        console = class_find("Console");
+
+    if console <> nil and self.check_conditions then
       
       with array_each(array_from(messages)) do
-        while __next do self.log(__item); end;
+        while __next do console.trace(__item); end;
       end;
     end;
 
@@ -29,9 +54,12 @@ inclass
 
 
   -- очищает окно сообщений
-  func clear: class SmartConsole;
+  func clear: SmartConsole;
 
-    if System.debugMode then class_find("Console").clearTrace; end;
+    var console: class;
+        console = class_find("Console");
+
+    if console <> nil and self.check_conditions then console.clearTrace; end;
     return self;
   end;
 end

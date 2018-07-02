@@ -12,11 +12,9 @@
   <Item Name="ArrayObject"/>
   <Item Name="StringObject"/>
   <Item Name="DateObject"/>
-  <Item Name="Subarray"/>
   <Item Name="Dict"/>
-  <Item Name="SmartConsole"/>
+  <Item Name="DevConsole"/>
   <Item Name="SmartQuery"/>
   <Item Name="Timer"/>
   <Item Name="Settings"/>
-  <Item Name="TestClass"/>
 </Items>
