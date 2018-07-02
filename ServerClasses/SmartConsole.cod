@@ -1,5 +1,5 @@
 ﻿class "Класс-обёртка для работы с выводом в консоль";
-import classes Functions.Array;
+import classes Functions.Class, Functions.Array;
 
 inclass
 
@@ -8,7 +8,7 @@ inclass
   -- аргумент message приводится к массиву, затем складывается в строку
   func log(message: variant): class SmartConsole;
 
-    if System.debugMode then Console.trace(array_implode(array_from(message), " ")); end;
+    if System.debugMode then class_find("Console").trace(array_implode(array_from(message), " ")); end;
     return self;
   end;
 
@@ -31,7 +31,7 @@ inclass
   -- очищает окно сообщений
   func clear: class SmartConsole;
 
-    if System.debugMode then Console.clearTrace; end;
+    if System.debugMode then class_find("Console").clearTrace; end;
     return self;
   end;
 end

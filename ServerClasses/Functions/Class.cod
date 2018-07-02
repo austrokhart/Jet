@@ -4,6 +4,12 @@ import classes Functions.Variable, Functions.Array;
 inclass
 
 
+  func class_find(name: string): class;
+    
+    return System.findClass(name);
+  end;
+
+
   -- возвращает метод класса
   func class_member(cls: class; name: string): MemberInfo;
     
