@@ -1,4 +1,4 @@
-class inherited UnitTesting.Suite "Набор для тестирования класса для работы с массивами";
+п»їclass inherited UnitTesting.Suite "РќР°Р±РѕСЂ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ РєР»Р°СЃСЃР° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РјР°СЃСЃРёРІР°РјРё";
 import classes Functions.Array;
 
 inclass
@@ -8,15 +8,15 @@ inclass
 
     with case do
 
-      assert_equal(  array_from(nil),              [],    "проверка с пустыми значениями");
-      assert_equal(  array_from([]),               nil,   "пример того, что значения можно также сравнивать с nil");
+      assert_equal(  array_from(nil),              [],    "РїСЂРѕРІРµСЂРєР° СЃ РїСѓСЃС‚С‹РјРё Р·РЅР°С‡РµРЅРёСЏРјРё");
+      assert_equal(  array_from([]),               nil,   "РїСЂРёРјРµСЂ С‚РѕРіРѕ, С‡С‚Рѕ Р·РЅР°С‡РµРЅРёСЏ РјРѕР¶РЅРѕ С‚Р°РєР¶Рµ СЃСЂР°РІРЅРёРІР°С‚СЊ СЃ nil");
 
-      assert_equal(  array_from(0),                [0],   "проверка cо значениями - не массивами");
+      assert_equal(  array_from(0),                [0],   "РїСЂРѕРІРµСЂРєР° cРѕ Р·РЅР°С‡РµРЅРёСЏРјРё - РЅРµ РјР°СЃСЃРёРІР°РјРё");
       assert_equal(  array_from("0"),              ["0"]);
       assert_equal(  array_from(false),            [false]);
       assert_equal(  array_from("false"),          ["false"]);
 
-      assert_equal(  array_from([nil]),            [nil], "проверка со значениями - массивами");
+      assert_equal(  array_from([nil]),            [nil], "РїСЂРѕРІРµСЂРєР° СЃРѕ Р·РЅР°С‡РµРЅРёСЏРјРё - РјР°СЃСЃРёРІР°РјРё");
       assert_equal(  array_from([1, 2, 3]),        [1, 2, 3]);
       assert_equal(  array_from([-2, -1, false]),  [-2, -1, false]);
     end;
@@ -55,16 +55,16 @@ inclass
     with case do
 
       test_array = [];
-      assert_equal(array_length(test_array), 0, "проверка с пустым массивом");
+      assert_equal(array_length(test_array), 0, "РїСЂРѕРІРµСЂРєР° СЃ РїСѓСЃС‚С‹Рј РјР°СЃСЃРёРІРѕРј");
 
       test_array = [10];
-      assert_equal(array_length(test_array), 1, "проверки с разными массивами");
+      assert_equal(array_length(test_array), 1, "РїСЂРѕРІРµСЂРєРё СЃ СЂР°Р·РЅС‹РјРё РјР°СЃСЃРёРІР°РјРё");
 
       test_array = [10, 20];
       assert_equal(array_length(test_array), 2);
 
       test_array[3] = 30;
-      assert_equal(array_length(test_array), 3, "проверка с добавлением значения");
+      assert_equal(array_length(test_array), 3, "РїСЂРѕРІРµСЂРєР° СЃ РґРѕР±Р°РІР»РµРЅРёРµРј Р·РЅР°С‡РµРЅРёСЏ");
 
       test_array = [
         [0, 1],
@@ -72,7 +72,7 @@ inclass
         [4, 5]
       ];
 
-      assert_equal(array_length(test_array), 3, "проверка с многомерным массивом");
+      assert_equal(array_length(test_array), 3, "РїСЂРѕРІРµСЂРєР° СЃ РјРЅРѕРіРѕРјРµСЂРЅС‹Рј РјР°СЃСЃРёРІРѕРј");
     end;
   end;
 
@@ -96,22 +96,22 @@ inclass
 
     with case do
 
-      description("проверки для одномерных массивов");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РѕРґРЅРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ");
 
       test_array = [10, 20, 30, 40, 50];
 
-      assert_equal(  array_get(test_array, 0),                10,     "проверка с нулевым индексом");
+      assert_equal(  array_get(test_array, 0),                10,     "РїСЂРѕРІРµСЂРєР° СЃ РЅСѓР»РµРІС‹Рј РёРЅРґРµРєСЃРѕРј");
 
-      assert_equal(  array_get(test_array, 1),                10,     "проверки с положительным индексом");
+      assert_equal(  array_get(test_array, 1),                10,     "РїСЂРѕРІРµСЂРєРё СЃ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј РёРЅРґРµРєСЃРѕРј");
       assert_equal(  array_get(test_array, 5),                50);
 
-      assert_equal(  array_get(test_array, -1),               50,     "проверки с отрицательными индексом");
+      assert_equal(  array_get(test_array, -1),               50,     "РїСЂРѕРІРµСЂРєРё СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃРѕРј");
       assert_equal(  array_get(test_array, -5),               10);
 
-      assert_equal(  array_get(test_array, 6),                nil,    "проверки c выходящим индексом");
-      assert_equal(  array_get(test_array, -6),               10,     "стоит обратить внимание, что выйти в обратную сторону невозможно");
+      assert_equal(  array_get(test_array, 6),                nil,    "РїСЂРѕРІРµСЂРєРё c РІС‹С…РѕРґСЏС‰РёРј РёРЅРґРµРєСЃРѕРј");
+      assert_equal(  array_get(test_array, -6),               10,     "СЃС‚РѕРёС‚ РѕР±СЂР°С‚РёС‚СЊ РІРЅРёРјР°РЅРёРµ, С‡С‚Рѕ РІС‹Р№С‚Рё РІ РѕР±СЂР°С‚РЅСѓСЋ СЃС‚РѕСЂРѕРЅСѓ РЅРµРІРѕР·РјРѕР¶РЅРѕ");
 
-      assert_equal(  array_get(test_array, 6, nil, "oops"),   "oops", "проверки со значением по-умолчанию");
+      assert_equal(  array_get(test_array, 6, nil, "oops"),   "oops", "РїСЂРѕРІРµСЂРєРё СЃРѕ Р·РЅР°С‡РµРЅРёРµРј РїРѕ-СѓРјРѕР»С‡Р°РЅРёСЋ");
       assert_equal(  array_get(test_array, -6, nil, "oops"),  10);
     end;
   end;
@@ -123,7 +123,7 @@ inclass
 
     with case do
 
-      description("проверки для многомерных массивов с использованием плоскостей");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РјРЅРѕРіРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РїР»РѕСЃРєРѕСЃС‚РµР№");
 
       test_array = [
         [05, 10],
@@ -133,22 +133,22 @@ inclass
         [80, 90]
       ];
 
-      assert_equal(  array_get(test_array, 0, [1]),      05, "проверка с нулевым индексом");
+      assert_equal(  array_get(test_array, 0, [1]),      05, "РїСЂРѕРІРµСЂРєР° СЃ РЅСѓР»РµРІС‹Рј РёРЅРґРµРєСЃРѕРј");
 
-      assert_equal(  array_get(test_array, 1, [1]),      05, "проверки с положительным индексом");
+      assert_equal(  array_get(test_array, 1, [1]),      05, "РїСЂРѕРІРµСЂРєРё СЃ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј РёРЅРґРµРєСЃРѕРј");
       assert_equal(  array_get(test_array, 2, [1]),      20);
       assert_equal(  array_get(test_array, 1, [2]),      10);
       assert_equal(  array_get(test_array, 2, [2]),      30);
 
-      assert_equal(  array_get(test_array, -1, [1]),     80, "проверки с отрицательым индексом");
+      assert_equal(  array_get(test_array, -1, [1]),     80, "РїСЂРѕРІРµСЂРєРё СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊС‹Рј РёРЅРґРµРєСЃРѕРј");
       assert_equal(  array_get(test_array, -2, [1]),     60);
       assert_equal(  array_get(test_array, -1, [2]),     90);
       assert_equal(  array_get(test_array, -2, [2]),     70);
 
-      assert_equal(  array_get(test_array, 6, [1]),      nil, "проверки с выходящим индексом");
+      assert_equal(  array_get(test_array, 6, [1]),      nil, "РїСЂРѕРІРµСЂРєРё СЃ РІС‹С…РѕРґСЏС‰РёРј РёРЅРґРµРєСЃРѕРј");
       assert_equal(  array_get(test_array, -6, [1]),     05);
 
-      assert_equal(  array_get(test_array, 6, [1], "oops"),   "oops", "проверки со значением по-умолчанию");
+      assert_equal(  array_get(test_array, 6, [1], "oops"),   "oops", "РїСЂРѕРІРµСЂРєРё СЃРѕ Р·РЅР°С‡РµРЅРёРµРј РїРѕ-СѓРјРѕР»С‡Р°РЅРёСЋ");
       assert_equal(  array_get(test_array, -6, [1], "oops"),  05);
     end;
   end;
@@ -160,27 +160,27 @@ inclass
 
     with case do
 
-      description("проверки для одномерных массивов");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РѕРґРЅРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ");
 
       test_array = [1, 2, 3, 4, 5];
 
       array_set(test_array, 0, 10);
-      assert_equal(  test_array, [10, 2, 3, 4, 5],      "с нулевым индексом");
+      assert_equal(  test_array, [10, 2, 3, 4, 5],      "СЃ РЅСѓР»РµРІС‹Рј РёРЅРґРµРєСЃРѕРј");
 
       array_set(test_array, 1, 100);
-      assert_equal(  test_array, [100, 2, 3, 4, 5],     "с положительными индексами");
+      assert_equal(  test_array, [100, 2, 3, 4, 5],     "СЃ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
 
       array_set(test_array, 5, 500);
       assert_equal(  test_array, [100, 2, 3, 4, 500]);
 
       array_set(test_array, -1, 5000);
-      assert_equal(  test_array, [100, 2, 3, 4, 5000],  "с отрицательными индексами");
+      assert_equal(  test_array, [100, 2, 3, 4, 5000],  "СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
 
       array_set(test_array, -5, 1000);
       assert_equal(  test_array, [1000, 2, 3, 4, 5000]);
 
       array_set(test_array, -6, 6000);
-      assert_equal(  test_array, [6000, 2, 3, 4, 5000], "с индексами, выходящими за пределы");
+      assert_equal(  test_array, [6000, 2, 3, 4, 5000], "СЃ РёРЅРґРµРєСЃР°РјРё, РІС‹С…РѕРґСЏС‰РёРјРё Р·Р° РїСЂРµРґРµР»С‹");
 
       array_set(test_array, 6, 6000);
       assert_equal(  test_array, [6000, 2, 3, 4, 5000, 6000]);
@@ -194,7 +194,7 @@ inclass
 
     with case do
 
-      description("проверки для многомерных массивов с использованием плоскостей");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РјРЅРѕРіРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РїР»РѕСЃРєРѕСЃС‚РµР№");
 
       test_array = [
         [05, 10],
@@ -205,28 +205,28 @@ inclass
       ];
 
       array_set(test_array, 0, 50, [1]);
-      assert_equal(  test_array, [[50, 10], [20, 30], [40, 50], [60, 70], [80, 90]],      "с нулевым индексом");
+      assert_equal(  test_array, [[50, 10], [20, 30], [40, 50], [60, 70], [80, 90]],      "СЃ РЅСѓР»РµРІС‹Рј РёРЅРґРµРєСЃРѕРј");
 
       array_set(test_array, 1, 500, [1]);
-      assert_equal(  test_array, [[500, 10], [20, 30], [40, 50], [60, 70], [80, 90]],     "с положительными индексами");
+      assert_equal(  test_array, [[500, 10], [20, 30], [40, 50], [60, 70], [80, 90]],     "СЃ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
 
       array_set(test_array, 1, 100, [2]);
       assert_equal(  test_array, [[500, 100], [20, 30], [40, 50], [60, 70], [80, 90]]);
 
       array_set(test_array, -1, 800, [1]);
-      assert_equal(  test_array, [[500, 100], [20, 30], [40, 50], [60, 70], [800, 90]], "с отрицательными индексами");
+      assert_equal(  test_array, [[500, 100], [20, 30], [40, 50], [60, 70], [800, 90]], "СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
 
       array_set(test_array, -1, 900, [2]);
       assert_equal(  test_array, [[500, 100], [20, 30], [40, 50], [60, 70], [800, 900]]);
 
       array_set(test_array, -2, 600, [-2]);
-      assert_equal(  test_array, [[500, 100], [20, 30], [40, 50], [600, 70], [800, 900]], "с отрицательными индексами в path");
+      assert_equal(  test_array, [[500, 100], [20, 30], [40, 50], [600, 70], [800, 900]], "СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё РІ path");
 
       array_set(test_array, -2, 700, [-1]);
       assert_equal(  test_array, [[500, 100], [20, 30], [40, 50], [600, 700], [800, 900]]);
 
       array_set(test_array, -6, 555, [1]);
-      assert_equal(  test_array, [[555, 100], [20, 30], [40, 50], [600, 700], [800, 900]], "с выходящими индексами");
+      assert_equal(  test_array, [[555, 100], [20, 30], [40, 50], [600, 700], [800, 900]], "СЃ РІС‹С…РѕРґСЏС‰РёРјРё РёРЅРґРµРєСЃР°РјРё");
     end;
   end;
 
@@ -237,24 +237,24 @@ inclass
 
     with case do
 
-      description("проверки для одномерных массивов");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РѕРґРЅРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ");
 
       test_array = [10, 20, 30, 40, 50];
 
       array_unset(test_array, 1);
-      assert_equal(  test_array, [20, 30, 40, 50],  "с положительными индексами");
+      assert_equal(  test_array, [20, 30, 40, 50],  "СЃ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
 
       array_unset(test_array, 4);
       assert_equal(  test_array, [20, 30, 40]);
 
       array_unset(test_array, -1);
-      assert_equal(  test_array, [20, 30],          "с отрицательными индексами");
+      assert_equal(  test_array, [20, 30],          "СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
 
       array_unset(test_array, -2);
       assert_equal(  test_array, [30]);
 
       array_unset(test_array, 2);
-      assert_equal(  test_array, [30],              "с выходящим индексом");
+      assert_equal(  test_array, [30],              "СЃ РІС‹С…РѕРґСЏС‰РёРј РёРЅРґРµРєСЃРѕРј");
     end;
   end;
 
@@ -265,7 +265,7 @@ inclass
 
     with case do
 
-      description("проверки для многомерных массивов с использованием плоскостей");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РјРЅРѕРіРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РїР»РѕСЃРєРѕСЃС‚РµР№");
 
       test_array = [
         [00, 10],
@@ -276,22 +276,22 @@ inclass
       ];
 
       array_unset(test_array, 1);
-      assert_equal(  test_array, [[20, 30], [40, 50], [60, 70], [80, 90]],  "без задания плоскости");
+      assert_equal(  test_array, [[20, 30], [40, 50], [60, 70], [80, 90]],  "Р±РµР· Р·Р°РґР°РЅРёСЏ РїР»РѕСЃРєРѕСЃС‚Рё");
 
       array_unset(test_array, 1, [2]);
-      assert_equal(  test_array, [[20], [40, 50], [60, 70], [80, 90]],      "с положительными индексами");
+      assert_equal(  test_array, [[20], [40, 50], [60, 70], [80, 90]],      "СЃ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
 
       array_unset(test_array, 1, [1]);
       assert_equal(  test_array, [[], [40, 50], [60, 70], [80, 90]]);
 
       array_unset(test_array, -1, [2]);
-      assert_equal(  test_array, [[], [40, 50], [60, 70], [80]],            "с отрицательными индексами");
+      assert_equal(  test_array, [[], [40, 50], [60, 70], [80]],            "СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
 
       array_unset(test_array, -1, [1]);
       assert_equal(  test_array, [[], [40, 50], [60, 70], []]);
 
       array_unset(test_array, 6, [1]);
-      assert_equal(  test_array, [[], [40, 50], [60, 70], []],              "с выходящими индексами");
+      assert_equal(  test_array, [[], [40, 50], [60, 70], []],              "СЃ РІС‹С…РѕРґСЏС‰РёРјРё РёРЅРґРµРєСЃР°РјРё");
 
       array_unset(test_array, -6, [1]);
       assert_equal(  test_array, [[], [40, 50], [60, 70], []]);
@@ -305,18 +305,18 @@ inclass
 
     with case do
 
-      description("проверки для одномерных массивов");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РѕРґРЅРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ");
 
       test_array[1] = 1;
       test_array[4] = 4;
       test_array[5] = 5;
 
-      assert_false(  array_is_set(test_array, 0),   "c нулевым индексом");
+      assert_false(  array_is_set(test_array, 0),   "c РЅСѓР»РµРІС‹Рј РёРЅРґРµРєСЃРѕРј");
 
-      assert_true(   array_is_set(test_array, 1),   "с положительными индексами");
+      assert_true(   array_is_set(test_array, 1),   "СЃ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
       assert_true(   array_is_set(test_array, 5));
 
-      assert_false(  array_is_set(test_array, -1),  "с отсутствующими индексами");
+      assert_false(  array_is_set(test_array, -1),  "СЃ РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РёРјРё РёРЅРґРµРєСЃР°РјРё");
       assert_false(  array_is_set(test_array, 2));
       assert_false(  array_is_set(test_array, 3));
       assert_false(  array_is_set(test_array, 6));
@@ -331,7 +331,7 @@ inclass
 
     with case do
 
-      description("проверки для многомерных массивов с указанием плоскости");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РјРЅРѕРіРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ СЃ СѓРєР°Р·Р°РЅРёРµРј РїР»РѕСЃРєРѕСЃС‚Рё");
 
       test_array = [
         [00, 10, 20],
@@ -341,16 +341,16 @@ inclass
 
       array_set(test_array, 3, 90, [3]);
 
-      assert_false(  array_is_set(test_array, 0),   "c нулевыми индексами");
+      assert_false(  array_is_set(test_array, 0),   "c РЅСѓР»РµРІС‹РјРё РёРЅРґРµРєСЃР°РјРё");
       assert_false(  array_is_set(test_array, 0, [0]));
       assert_false(  array_is_set(test_array, 1, [0]));
 
-      assert_true(   array_is_set(test_array, 1),   "с положительными индексами");
+      assert_true(   array_is_set(test_array, 1),   "СЃ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹РјРё РёРЅРґРµРєСЃР°РјРё");
       assert_true(   array_is_set(test_array, 1, [1]));
       assert_true(   array_is_set(test_array, 2, [2]));
       assert_true(   array_is_set(test_array, 3, [3]));
 
-      assert_false(  array_is_set(test_array, -1),  "с отсутствующими индексами");
+      assert_false(  array_is_set(test_array, -1),  "СЃ РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РёРјРё РёРЅРґРµРєСЃР°РјРё");
       assert_false(  array_is_set(test_array, 4));
       assert_false(  array_is_set(test_array, -1, [1]));
       assert_false(  array_is_set(test_array, 1, [-1]));
@@ -366,7 +366,7 @@ inclass
 
     with case do
 
-      description("проверки для одномерных массивов");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РѕРґРЅРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ");
 
       test_array = [1, 2, 3, 4, 5];
 
@@ -382,7 +382,7 @@ inclass
 
     with case do
 
-      description("проверки для многомерных массивов с указанием плоскости");
+      description("РїСЂРѕРІРµСЂРєРё РґР»СЏ РјРЅРѕРіРѕРјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ СЃ СѓРєР°Р·Р°РЅРёРµРј РїР»РѕСЃРєРѕСЃС‚Рё");
 
       test_array = [
         [0, 1],
@@ -485,7 +485,7 @@ inclass
         [80, 90]
       ];
 
-      assert_equal(array_pos(test_array, [70], [2]), [4, 1], "пример поиска по многомерному массиву в заданной плоскости");
+      assert_equal(array_pos(test_array, [70], [2]), [4, 1], "РїСЂРёРјРµСЂ РїРѕРёСЃРєР° РїРѕ РјРЅРѕРіРѕРјРµСЂРЅРѕРјСѓ РјР°СЃСЃРёРІСѓ РІ Р·Р°РґР°РЅРЅРѕР№ РїР»РѕСЃРєРѕСЃС‚Рё");
     end;
   end;
 
@@ -502,53 +502,53 @@ inclass
 
     with case do
 
-      -- без указания начала и длины
+      -- Р±РµР· СѓРєР°Р·Р°РЅРёСЏ РЅР°С‡Р°Р»Р° Рё РґР»РёРЅС‹
       assert_equal(array_slice(test_array, nil), [1, 2, 3, 4, 5]);
 
-      -- без указания длины
+      -- Р±РµР· СѓРєР°Р·Р°РЅРёСЏ РґР»РёРЅС‹
       assert_equal(array_slice(test_array, 1), [1, 2, 3, 4, 5]);
       assert_equal(array_slice(test_array, 2), [2, 3, 4, 5]);
       assert_equal(array_slice(test_array, 5), [5]);
 
-      -- без указания начала
+      -- Р±РµР· СѓРєР°Р·Р°РЅРёСЏ РЅР°С‡Р°Р»Р°
       assert_equal(array_slice(test_array, , 0), []);
       assert_equal(array_slice(test_array, , 1), [1]);
       assert_equal(array_slice(test_array, , 5), [1, 2, 3, 4, 5]);
 
-      -- с указанием начала и длины
+      -- СЃ СѓРєР°Р·Р°РЅРёРµРј РЅР°С‡Р°Р»Р° Рё РґР»РёРЅС‹
       assert_equal(array_slice(test_array, 1, 1), [1]);
       assert_equal(array_slice(test_array, 5, 1), [5]);
       assert_equal(array_slice(test_array, 1, 5), [1, 2, 3, 4, 5]);
 
-      -- с отрицательным началом
+      -- СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рј РЅР°С‡Р°Р»РѕРј
       assert_equal(array_slice(test_array, -1), [5]);
       assert_equal(array_slice(test_array, -5), [1, 2, 3, 4, 5]);
       assert_equal(array_slice(test_array, -1, 1), [5]);
       assert_equal(array_slice(test_array, -5, 1), [1]);
       assert_equal(array_slice(test_array, -5, 5), [1, 2, 3, 4, 5]);
 
-      -- с отрицательной длиной
+      -- СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕР№ РґР»РёРЅРѕР№
       assert_equal(array_slice(test_array, 1, -1), [1, 2, 3, 4]);
       assert_equal(array_slice(test_array, 1, -2), [1, 2, 3]);
       assert_equal(array_slice(test_array, 1, -5), []);
 
-      -- с отрицательными началом и длиной
+      -- СЃ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹РјРё РЅР°С‡Р°Р»РѕРј Рё РґР»РёРЅРѕР№
       assert_equal(array_slice(test_array, -4, -1), [2, 3, 4]);
       assert_equal(array_slice(test_array, -3, -2), [3]);
 
-      -- с выходом за пределы начала
+      -- СЃ РІС‹С…РѕРґРѕРј Р·Р° РїСЂРµРґРµР»С‹ РЅР°С‡Р°Р»Р°
       assert_equal(array_slice(test_array, 6), nil);
       assert_equal(array_slice(test_array, 7), []);
       assert_equal(array_slice(test_array, -6), [1, 2, 3, 4, 5]);
       assert_equal(array_slice(test_array, -7), [1, 2, 3, 4, 5]);
 
-      -- с выходом за пределы длины
+      -- СЃ РІС‹С…РѕРґРѕРј Р·Р° РїСЂРµРґРµР»С‹ РґР»РёРЅС‹
       assert_equal(array_slice(test_array, 1, 6), [1, 2, 3, 4, 5]);
       assert_equal(array_slice(test_array, 1, 7), [1, 2, 3, 4, 5]);
       assert_equal(array_slice(test_array, 1, -6), []);
       assert_equal(array_slice(test_array, 1, -7), []);
 
-      -- с выходом за пределы начала и длины
+      -- СЃ РІС‹С…РѕРґРѕРј Р·Р° РїСЂРµРґРµР»С‹ РЅР°С‡Р°Р»Р° Рё РґР»РёРЅС‹
       assert_equal(array_slice(test_array, -3, -3), nil);
     end;
   end;
@@ -608,7 +608,7 @@ inclass
 
     with case do
 
-      description("парам-пам");
+      description("РїР°СЂР°Рј-РїР°Рј");
 
       test_array = [1, 2, 3];
 

@@ -1,4 +1,4 @@
-class inherited UnitTesting.Suite "Набор для тестирования класса для работы с экранированием";
+п»їclass inherited UnitTesting.Suite "РќР°Р±РѕСЂ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ РєР»Р°СЃСЃР° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ СЌРєСЂР°РЅРёСЂРѕРІР°РЅРёРµРј";
 import classes Functions.Escaping;
 
 inclass
@@ -121,7 +121,7 @@ inclass
       assert_equal(  str_unescape('\/\"test_string\/\"', ['"', '/']),  '/"test_string/"'  );
       assert_equal(  str_unescape('\\\"test_string\\\"', ['"', '\']),  '\"test_string\"'  );
 
-      assert_equal(  str_unescape('\\foo \"bar'),                      '\foo "bar', '\f является специальной последовательностью');
+      assert_equal(  str_unescape('\\foo \"bar'),                      '\foo "bar', '\f СЏРІР»СЏРµС‚СЃСЏ СЃРїРµС†РёР°Р»СЊРЅРѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊСЋ');
 
       assert_equal(  str_unescape('\\t\\t \/\"test_string\/\"\/\/', ['"', '/']),         '\\t\\t /"test_string/"//'  );
       assert_equal(  str_unescape('\\t\\t \\/\"test_string\/\"\\/\/', ['"', '/', '\']),  '\\t\\t \/"test_string/"\//'  );

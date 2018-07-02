@@ -1,10 +1,10 @@
-class "Класс для хранения результатов выполнения тестового набора";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РІС‹РїРѕР»РЅРµРЅРёСЏ С‚РµСЃС‚РѕРІРѕРіРѕ РЅР°Р±РѕСЂР°";
 import classes Functions.String, Functions.Array;
 
 inclass
 
 
-  -- возвращает новый экземпляр класса
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРІС‹Р№ СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР°
   func new(name: string; description: string = nil; cases: UnitTesting.CaseResult[] = nil): UnitTesting.SuiteResult;
     
     result = self.create;
@@ -26,7 +26,7 @@ inobject
   var success:     boolean;
 
 
-  -- добавляет результат тестового случая в результаты
+  -- РґРѕР±Р°РІР»СЏРµС‚ СЂРµР·СѓР»СЊС‚Р°С‚ С‚РµСЃС‚РѕРІРѕРіРѕ СЃР»СѓС‡Р°СЏ РІ СЂРµР·СѓР»СЊС‚Р°С‚С‹
   func add(case: UnitTesting.CaseResult): UnitTesting.SuiteResult;
     
     array_append(self.cases, case);
@@ -36,14 +36,14 @@ inobject
   end;
 
 
-  -- возвращает истину, если результаты успешны
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё СЂРµР·СѓР»СЊС‚Р°С‚С‹ СѓСЃРїРµС€РЅС‹
   func is_successful: boolean;
     
     return self.success;
   end;
 
 
-  -- возвращает количество тестовых случаев в результатах
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ С‚РµСЃС‚РѕРІС‹С… СЃР»СѓС‡Р°РµРІ РІ СЂРµР·СѓР»СЊС‚Р°С‚Р°С…
   func case_count: integer;
 
     return array_length(self.cases);
@@ -60,7 +60,7 @@ inobject
   end;
 
 
-  -- возвращает успешные тестовые случаи из результатов
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СѓСЃРїРµС€РЅС‹Рµ С‚РµСЃС‚РѕРІС‹Рµ СЃР»СѓС‡Р°Рё РёР· СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
   func successful_cases: UnitTesting.CaseResult[];
     
     with array_filter(self.cases) do
@@ -71,7 +71,7 @@ inobject
   end;
 
 
-  -- возвращает неудачные тестовые случаи из результатов
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРµСѓРґР°С‡РЅС‹Рµ С‚РµСЃС‚РѕРІС‹Рµ СЃР»СѓС‡Р°Рё РёР· СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
   func unsuccessful_cases: UnitTesting.CaseResult[];
     
     with array_filter(self.cases) do
@@ -82,10 +82,10 @@ inobject
   end;
 
 
-  -- возвращает текстовое представление набора
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСЃС‚РѕРІРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РЅР°Р±РѕСЂР°
   func to_text: string[];
 
-    array_append(result, str_format("набор {} ({}):", [self.name, self.description]));
+    array_append(result, str_format("РЅР°Р±РѕСЂ {} ({}):", [self.name, self.description]));
 
     with array_each(self.cases) do
       while __next do

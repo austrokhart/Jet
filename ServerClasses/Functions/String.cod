@@ -1,10 +1,10 @@
-class "Класс для работы со строками";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ СЃС‚СЂРѕРєР°РјРё";
 import classes Functions.Variable, Functions.Array, Functions.Indexing, Functions.Math;
 
 inclass
 
 
-  -- константы для метода str_pad
+  -- РєРѕРЅСЃС‚Р°РЅС‚С‹ РґР»СЏ РјРµС‚РѕРґР° str_pad
   type str_pad_direction = (
     STR_PAD_LEFT,
     STR_PAD_RIGHT,
@@ -12,7 +12,7 @@ inclass
   );
 
 
-  -- константы для метода str_trim
+  -- РєРѕРЅСЃС‚Р°РЅС‚С‹ РґР»СЏ РјРµС‚РѕРґР° str_trim
   type str_trim_direction = (
     STR_TRIM_LEFT,
     STR_TRIM_RIGHT,
@@ -20,7 +20,7 @@ inclass
   );
 
 
-  -- константы для метода str_pos
+  -- РєРѕРЅСЃС‚Р°РЅС‚С‹ РґР»СЏ РјРµС‚РѕРґР° str_pos
   type str_pos_result = (
     STR_POS_OFFSET = 1,
     STR_POS_LENGTH = 2
@@ -30,37 +30,37 @@ inclass
   type str_method_find = Methods.Functions.String.Find;
 
 
-  -- возвращает значение value, приведённое к строке
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ value, РїСЂРёРІРµРґС‘РЅРЅРѕРµ Рє СЃС‚СЂРѕРєРµ
   func str_from(const value: variant): string;
     
     return System.str(value);
   end;
 
 
-  -- возвращает длину строки str
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР»РёРЅСѓ СЃС‚СЂРѕРєРё str
   func str_length(const str: string): integer;
     
     return System.length(str);
   end;
 
 
-  -- возвращает истину, если строка str не является пустой
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё СЃС‚СЂРѕРєР° str РЅРµ СЏРІР»СЏРµС‚СЃСЏ РїСѓСЃС‚РѕР№
   func str_has_content(const str: string): boolean;
     
     return self.str_length(str) <> 0;
   end;
 
 
-  -- возвращает символ в строке str по индексу index, если индекс находится в пределах строки, иначе пустую строку
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРёРјРІРѕР» РІ СЃС‚СЂРѕРєРµ str РїРѕ РёРЅРґРµРєСЃСѓ index, РµСЃР»Рё РёРЅРґРµРєСЃ РЅР°С…РѕРґРёС‚СЃСЏ РІ РїСЂРµРґРµР»Р°С… СЃС‚СЂРѕРєРё, РёРЅР°С‡Рµ РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ
   func str_char_at(const str: string; index: integer): string;
 
-    -- проверим, что индекс находится в пределах строки и вернём срез длиной 1 символ, иначе пустую строку
+    -- РїСЂРѕРІРµСЂРёРј, С‡С‚Рѕ РёРЅРґРµРєСЃ РЅР°С…РѕРґРёС‚СЃСЏ РІ РїСЂРµРґРµР»Р°С… СЃС‚СЂРѕРєРё Рё РІРµСЂРЅС‘Рј СЃСЂРµР· РґР»РёРЅРѕР№ 1 СЃРёРјРІРѕР», РёРЅР°С‡Рµ РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ
     result = if (1 <= index and index <= self.str_length(str), str[index], "");
     return result;
   end;
 
 
-  -- возвращает подстроку с началом в offset и длиной length
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РїРѕРґСЃС‚СЂРѕРєСѓ СЃ РЅР°С‡Р°Р»РѕРј РІ offset Рё РґР»РёРЅРѕР№ length
   func str_substr(const str: string; offset: integer = 1; length: variant = nil): string;
 
     if offset = 1 and var_identical(length, nil) then return str; end;
@@ -77,28 +77,28 @@ inclass
   end;
 
 
-  -- возвращает пару [индекс вхождения, длина вхождения] для ближайшего вхождения значения из value в строку str
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РїР°СЂСѓ [РёРЅРґРµРєСЃ РІС…РѕР¶РґРµРЅРёСЏ, РґР»РёРЅР° РІС…РѕР¶РґРµРЅРёСЏ] РґР»СЏ Р±Р»РёР¶Р°Р№С€РµРіРѕ РІС…РѕР¶РґРµРЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ РёР· value РІ СЃС‚СЂРѕРєСѓ str
   func str_pos(str: string; value: variant; offset: integer = 1): integer[];
 
     var i: integer;
 
-    -- обработаем offset, чтобы добавить его в результат в случае, если для поиска задано смещение
+    -- РѕР±СЂР°Р±РѕС‚Р°РµРј offset, С‡С‚РѕР±С‹ РґРѕР±Р°РІРёС‚СЊ РµРіРѕ РІ СЂРµР·СѓР»СЊС‚Р°С‚ РІ СЃР»СѓС‡Р°Рµ, РµСЃР»Рё РґР»СЏ РїРѕРёСЃРєР° Р·Р°РґР°РЅРѕ СЃРјРµС‰РµРЅРёРµ
     offset = handle_offset(offset, self.str_length(str));
 
-    -- выделим подстроку, если для поиска задано смещение, зададим значение по-умолчанию.
+    -- РІС‹РґРµР»РёРј РїРѕРґСЃС‚СЂРѕРєСѓ, РµСЃР»Рё РґР»СЏ РїРѕРёСЃРєР° Р·Р°РґР°РЅРѕ СЃРјРµС‰РµРЅРёРµ, Р·Р°РґР°РґРёРј Р·РЅР°С‡РµРЅРёРµ РїРѕ-СѓРјРѕР»С‡Р°РЅРёСЋ.
     if offset > 1 then str = self.str_substr(str, offset); end;
 
     result = [-1, 0];
 
-    -- для каждого значения
+    -- РґР»СЏ РєР°Р¶РґРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
     with array_each(array_from(value)) do
       while __next do
 
-        -- поищем вхождение и если оно есть, добавим к нему смещение
+        -- РїРѕРёС‰РµРј РІС…РѕР¶РґРµРЅРёРµ Рё РµСЃР»Рё РѕРЅРѕ РµСЃС‚СЊ, РґРѕР±Р°РІРёРј Рє РЅРµРјСѓ СЃРјРµС‰РµРЅРёРµ
         i = System.pos(__item, str);
         i = if (i <> 0, offset +i -1, -1);
 
-        -- если вхождение найдено впервые или оно ближе предыдущего, запишем результат
+        -- РµСЃР»Рё РІС…РѕР¶РґРµРЅРёРµ РЅР°Р№РґРµРЅРѕ РІРїРµСЂРІС‹Рµ РёР»Рё РѕРЅРѕ Р±Р»РёР¶Рµ РїСЂРµРґС‹РґСѓС‰РµРіРѕ, Р·Р°РїРёС€РµРј СЂРµР·СѓР»СЊС‚Р°С‚
         if i <> -1 and (result[self.STR_POS_OFFSET] = -1 or i < result[self.STR_POS_OFFSET]) then
           result = [i, self.str_length(__item)];
         end;
@@ -109,17 +109,17 @@ inclass
   end;
 
 
-  -- возвращает истину, если в строке str встречается значение из value
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё РІ СЃС‚СЂРѕРєРµ str РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµ РёР· value
   func str_contains(const str, value: string; offset: integer = 1): boolean;
     
     return self.str_pos(str, value, offset) <> [-1, 0];
   end;
 
 
-  -- возвращает истину, если строка str начинается со значения из value
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё СЃС‚СЂРѕРєР° str РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃРѕ Р·РЅР°С‡РµРЅРёСЏ РёР· value
   func str_starts_with(const str: string; value: variant): boolean;
 
-    -- для каждого значения проверим его соответствие началу строки
+    -- РґР»СЏ РєР°Р¶РґРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РїСЂРѕРІРµСЂРёРј РµРіРѕ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РЅР°С‡Р°Р»Сѓ СЃС‚СЂРѕРєРё
     with array_each(array_from(value)) do
       while __next do
         if self.str_substr(str, 1, self.str_length(__item)) = __item then return true; end;
@@ -130,10 +130,10 @@ inclass
   end;
 
 
-  -- возвращает истину, если строка str заканчивается на значение из value
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё СЃС‚СЂРѕРєР° str Р·Р°РєР°РЅС‡РёРІР°РµС‚СЃСЏ РЅР° Р·РЅР°С‡РµРЅРёРµ РёР· value
   func str_ends_with(const str: string; value: variant): boolean;
 
-    -- для каждого значения проверим его соответствие концу строки
+    -- РґР»СЏ РєР°Р¶РґРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РїСЂРѕРІРµСЂРёРј РµРіРѕ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РєРѕРЅС†Сѓ СЃС‚СЂРѕРєРё
     with array_each(array_from(value)) do
       while __next do
         if self.str_substr(str, -self.str_length(__item)) = __item then return true; end;
@@ -144,34 +144,34 @@ inclass
   end;
 
 
-  -- возвращает объект класса-обёртки для поиска подстрок
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ РєР»Р°СЃСЃР°-РѕР±С‘СЂС‚РєРё РґР»СЏ РїРѕРёСЃРєР° РїРѕРґСЃС‚СЂРѕРє
   func str_find(const str: string; value: variant): str_method_find;
 
     return str_method_find.new(str, value);
   end;
 
 
-  -- возвращает строку str, повторённую количество раз count
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ str, РїРѕРІС‚РѕСЂС‘РЅРЅСѓСЋ РєРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р· count
   func str_repeat(const str: string; count: integer): string;
     
     return System.repstr(str, count);
   end;
 
 
-  -- возвращает строку str, дополненную последовательностью value по краям
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ str, РґРѕРїРѕР»РЅРµРЅРЅСѓСЋ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊСЋ value РїРѕ РєСЂР°СЏРј
   func str_pad(const str: string; direction: str_pad_direction; const value: string; length: integer): string;
 
     var count: integer;
 
-    -- в случае длины меньше 1 вернём пустую строку
+    -- РІ СЃР»СѓС‡Р°Рµ РґР»РёРЅС‹ РјРµРЅСЊС€Рµ 1 РІРµСЂРЅС‘Рј РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ
     if length < 1 then return ""; end;
 
-    -- в зависимости от направления
+    -- РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РЅР°РїСЂР°РІР»РµРЅРёСЏ
     if direction = self.STR_PAD_LEFT then
 
       count = int(math_ceil((length -self.str_length(str)) /self.str_length(value)));
 
-      -- заполним строку слева и выделим подстроку справа
+      -- Р·Р°РїРѕР»РЅРёРј СЃС‚СЂРѕРєСѓ СЃР»РµРІР° Рё РІС‹РґРµР»РёРј РїРѕРґСЃС‚СЂРѕРєСѓ СЃРїСЂР°РІР°
       result = self.str_repeat(value, count) +str;
       result = self.str_substr(result, -length, length);
 
@@ -179,7 +179,7 @@ inclass
 
       count = int(math_ceil((length -self.str_length(str)) /self.str_length(value)));
 
-      -- заполним строку справа и выделим подстроку слева
+      -- Р·Р°РїРѕР»РЅРёРј СЃС‚СЂРѕРєСѓ СЃРїСЂР°РІР° Рё РІС‹РґРµР»РёРј РїРѕРґСЃС‚СЂРѕРєСѓ СЃР»РµРІР°
       result = str +self.str_repeat(value, count);
       result = self.str_substr(result, 1, length);
 
@@ -187,7 +187,7 @@ inclass
 
       count = int(math_ceil((length -self.str_length(str)) /(self.str_length(value) *2)));
 
-      -- заполним строку с обоих сторон и выделим подстроку по центру
+      -- Р·Р°РїРѕР»РЅРёРј СЃС‚СЂРѕРєСѓ СЃ РѕР±РѕРёС… СЃС‚РѕСЂРѕРЅ Рё РІС‹РґРµР»РёРј РїРѕРґСЃС‚СЂРѕРєСѓ РїРѕ С†РµРЅС‚СЂСѓ
       result = self.str_repeat(value, count) +str +self.str_repeat(value, count);
       result = self.str_substr(result, int(math_ceil((self.str_length(result) -length) /2)) +1, length);
     end;
@@ -196,14 +196,14 @@ inclass
   end;
 
 
-  -- возвращает строку str, очищенную от последовательностей values по краям
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ str, РѕС‡РёС‰РµРЅРЅСѓСЋ РѕС‚ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚РµР№ values РїРѕ РєСЂР°СЏРј
   func str_trim(const str: string; direction: str_trim_direction; const values: variant = [" "]): string;
 
     result = str;
 
     with array_each(array_from(values)) do
 
-      -- если нужно, очистим начало
+      -- РµСЃР»Рё РЅСѓР¶РЅРѕ, РѕС‡РёСЃС‚РёРј РЅР°С‡Р°Р»Рѕ
       if direction in [self.STR_TRIM_LEFT, self.STR_TRIM_BOTH] then
 
         while __next do
@@ -214,7 +214,7 @@ inclass
         end;
       end;
 
-      -- если нужно, очистим конец
+      -- РµСЃР»Рё РЅСѓР¶РЅРѕ, РѕС‡РёСЃС‚РёРј РєРѕРЅРµС†
       if direction in [self.STR_TRIM_RIGHT, self.STR_TRIM_BOTH] then
 
         __to_start;
@@ -232,8 +232,8 @@ inclass
   end;
 
 
-  -- возвращает строку str с заменой подстроки с началом в offset и длиной length на значение value
-  func str_insert(const str, value: string; offset: integer; length: variant = nil): string; -- обработать offset и length, перевести на использование str_substr
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ str СЃ Р·Р°РјРµРЅРѕР№ РїРѕРґСЃС‚СЂРѕРєРё СЃ РЅР°С‡Р°Р»РѕРј РІ offset Рё РґР»РёРЅРѕР№ length РЅР° Р·РЅР°С‡РµРЅРёРµ value
+  func str_insert(const str, value: string; offset: integer; length: variant = nil): string; -- РѕР±СЂР°Р±РѕС‚Р°С‚СЊ offset Рё length, РїРµСЂРµРІРµСЃС‚Рё РЅР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ str_substr
 
     offset = handle_offset(offset, self.str_length(str));
 
@@ -243,7 +243,7 @@ inclass
   end;
 
 
-  -- заменяет подстроку с началом в offset и длиной length на значение value и возвращает удалённую подстроку
+  -- Р·Р°РјРµРЅСЏРµС‚ РїРѕРґСЃС‚СЂРѕРєСѓ СЃ РЅР°С‡Р°Р»РѕРј РІ offset Рё РґР»РёРЅРѕР№ length РЅР° Р·РЅР°С‡РµРЅРёРµ value Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СѓРґР°Р»С‘РЅРЅСѓСЋ РїРѕРґСЃС‚СЂРѕРєСѓ
   func str_splice(var str: string; const value: string; offset: integer; length: variant = nil): string;
     
     result = self.str_substr(str, offset, length);
@@ -253,7 +253,7 @@ inclass
   end;
 
 
-  -- возвращает строку str с заменой значений из value на значение replacement
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ str СЃ Р·Р°РјРµРЅРѕР№ Р·РЅР°С‡РµРЅРёР№ РёР· value РЅР° Р·РЅР°С‡РµРЅРёРµ replacement
   func str_replace(const str: string; value: variant; replacement: string): string;
     
     with self.str_find(str, value) do
@@ -265,7 +265,7 @@ inclass
   end;
 
 
-  -- возвращает строку str с применением форматирования
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ str СЃ РїСЂРёРјРµРЅРµРЅРёРµРј С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ
   func str_format(const str: string; values: variant): string;
 
 
@@ -280,19 +280,19 @@ inclass
 
     each_value = array_each(array_from(values));
 
-    -- поищем последовательности {}
+    -- РїРѕРёС‰РµРј РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё {}
     with str_find(str, "{}") do
 
       while __next do
 
-        -- посчитаем соседние пары скобок
+        -- РїРѕСЃС‡РёС‚Р°РµРј СЃРѕСЃРµРґРЅРёРµ РїР°СЂС‹ СЃРєРѕР±РѕРє
         i = 1;
         while str_substr(__left, -i, 1) = "{" and str_substr(__right, i, 1) = "}" do i = i +1; end;
 
-        -- заменим значение в зависимости от количества скобок и наличия замен
+        -- Р·Р°РјРµРЅРёРј Р·РЅР°С‡РµРЅРёРµ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РєРѕР»РёС‡РµСЃС‚РІР° СЃРєРѕР±РѕРє Рё РЅР°Р»РёС‡РёСЏ Р·Р°РјРµРЅ
         __match = form_replacement(if (mod(i, 2) = 1 and each_value.__next, self.str_from(each_value.__item), ""), div(i, 2));
 
-        -- если нужно, обрежем соседние скобки
+        -- РµСЃР»Рё РЅСѓР¶РЅРѕ, РѕР±СЂРµР¶РµРј СЃРѕСЃРµРґРЅРёРµ СЃРєРѕР±РєРё
         if i > 1 then
           __left  = str_substr(__left, 1, -i +1);
           __right = str_substr(__right, i);
@@ -306,16 +306,16 @@ inclass
   end;
 
 
-  -- возвращает массив значений, полученных при разбиении строки str по значениям из separator
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РјР°СЃСЃРёРІ Р·РЅР°С‡РµРЅРёР№, РїРѕР»СѓС‡РµРЅРЅС‹С… РїСЂРё СЂР°Р·Р±РёРµРЅРёРё СЃС‚СЂРѕРєРё str РїРѕ Р·РЅР°С‡РµРЅРёСЏРј РёР· separator
   func str_explode(const str: string; separator: variant): string[];
 
     var offset: integer;
 
-    -- зададим offset для перемещения по строке
+    -- Р·Р°РґР°РґРёРј offset РґР»СЏ РїРµСЂРµРјРµС‰РµРЅРёСЏ РїРѕ СЃС‚СЂРѕРєРµ
     offset = 1;
 
-    -- для каждого вхождения запишем подстроку от смещения до него, обновим смещение
-    -- если вхождений не осталось, запишем оставшуюся подстроку
+    -- РґР»СЏ РєР°Р¶РґРѕРіРѕ РІС…РѕР¶РґРµРЅРёСЏ Р·Р°РїРёС€РµРј РїРѕРґСЃС‚СЂРѕРєСѓ РѕС‚ СЃРјРµС‰РµРЅРёСЏ РґРѕ РЅРµРіРѕ, РѕР±РЅРѕРІРёРј СЃРјРµС‰РµРЅРёРµ
+    -- РµСЃР»Рё РІС…РѕР¶РґРµРЅРёР№ РЅРµ РѕСЃС‚Р°Р»РѕСЃСЊ, Р·Р°РїРёС€РµРј РѕСЃС‚Р°РІС€СѓСЋСЃСЏ РїРѕРґСЃС‚СЂРѕРєСѓ
     with self.str_find(str, separator) do
 
       while __next do

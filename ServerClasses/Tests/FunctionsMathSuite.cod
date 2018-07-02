@@ -1,4 +1,4 @@
-class inherited UnitTesting.Suite "Набор для тестирования класса для работы с числами";
+п»їclass inherited UnitTesting.Suite "РќР°Р±РѕСЂ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ РєР»Р°СЃСЃР° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С‡РёСЃР»Р°РјРё";
 import classes Functions.Math;
 
 inclass

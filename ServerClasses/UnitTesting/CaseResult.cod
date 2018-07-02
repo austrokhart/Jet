@@ -1,10 +1,10 @@
-class "Класс для хранения результатов выполнения тестовой ситуации";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РІС‹РїРѕР»РЅРµРЅРёСЏ С‚РµСЃС‚РѕРІРѕР№ СЃРёС‚СѓР°С†РёРё";
 import classes Functions.String, Functions.Array;
 
 inclass
 
 
-  -- создаёт новый экземпляр класса
+  -- СЃРѕР·РґР°С‘С‚ РЅРѕРІС‹Р№ СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР°
   func new(name: string = nil; description: string = nil; asserts: UnitTesting.AssertResult[] = nil): UnitTesting.CaseResult;
     
     result = self.create;
@@ -26,7 +26,7 @@ inobject
   var success:     boolean;
 
 
-  -- добавляет результат проверки в результаты
+  -- РґРѕР±Р°РІР»СЏРµС‚ СЂРµР·СѓР»СЊС‚Р°С‚ РїСЂРѕРІРµСЂРєРё РІ СЂРµР·СѓР»СЊС‚Р°С‚С‹
   func add(assert: UnitTesting.AssertResult): UnitTesting.CaseResult;
 
     array_append(self.asserts, assert);
@@ -36,21 +36,21 @@ inobject
   end;
 
 
-  -- возвращает истину, если результаты успешены
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё СЂРµР·СѓР»СЊС‚Р°С‚С‹ СѓСЃРїРµС€РµРЅС‹
   func is_successful: boolean;
     
     return self.success;
   end;
 
 
-  -- возвращает количество проверок в результатах
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРІРµСЂРѕРє РІ СЂРµР·СѓР»СЊС‚Р°С‚Р°С…
   func assert_count: integer;
 
     return array_length(self.asserts);
   end;
 
 
-  -- возвращает успешные проверки из результатов
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СѓСЃРїРµС€РЅС‹Рµ РїСЂРѕРІРµСЂРєРё РёР· СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
   func successful_asserts: UnitTesting.AssertResult[];
 
     with array_filter(self.asserts) do
@@ -61,7 +61,7 @@ inobject
   end;
 
 
-  -- возвращает неудачные проверки из результатов
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРµСѓРґР°С‡РЅС‹Рµ РїСЂРѕРІРµСЂРєРё РёР· СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
   func unsuccessful_asserts: UnitTesting.AssertResult[];
     
     with array_filter(self.asserts) do
@@ -72,14 +72,14 @@ inobject
   end;
 
 
-  -- возвращает текстовое представление случая
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСЃС‚РѕРІРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ СЃР»СѓС‡Р°СЏ
   func to_text: string[];
 
     if self.is_successful then
-      array_append(result, str_format("случай {} ({})... {}", [self.name, self.description, "успех"]));
+      array_append(result, str_format("СЃР»СѓС‡Р°Р№ {} ({})... {}", [self.name, self.description, "СѓСЃРїРµС…"]));
 
     else
-      array_append(result, str_format("случай {} ({})... {}", [self.name, self.description, "неудача"]));
+      array_append(result, str_format("СЃР»СѓС‡Р°Р№ {} ({})... {}", [self.name, self.description, "РЅРµСѓРґР°С‡Р°"]));
 
       with array_each(self.asserts) do
         while __next do array_append(result, str_format("..{}. {}", [__index, __item.to_text])); end;

@@ -1,4 +1,4 @@
-class "Набор для тестирования класса Dict";
+п»їclass "РќР°Р±РѕСЂ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ РєР»Р°СЃСЃР° Dict";
 
 inclass
 
@@ -30,22 +30,22 @@ inclass
 
     with case do
 
-      -- с пустыми массивами ключей и значений
+      -- СЃ РїСѓСЃС‚С‹РјРё РјР°СЃСЃРёРІР°РјРё РєР»СЋС‡РµР№ Рё Р·РЅР°С‡РµРЅРёР№
       test_dict = Dict.combine([], []);
       assert_equal(test_dict.content, []);
 
-      -- с совпадающими ключами и значениями
+      -- СЃ СЃРѕРІРїР°РґР°СЋС‰РёРјРё РєР»СЋС‡Р°РјРё Рё Р·РЅР°С‡РµРЅРёСЏРјРё
       test_dict = Dict.combine(["a", "b", "c"], [1, 2, 3]);
       assert_equal(test_dict.content, [["a", 1], ["b", 2], ["c", 3]]);
 
-      -- с большим количеством ключей
+      -- СЃ Р±РѕР»СЊС€РёРј РєРѕР»РёС‡РµСЃС‚РІРѕРј РєР»СЋС‡РµР№
       test_dict = Dict.combine(["a", "b", "c"], []);
       assert_equal(test_dict.content, [["a", nil], ["b", nil], ["c", nil]]);
 
-      test_dict = Dict.combine(["a", "b", "c"], [1] as variant[]); -- x если не указать тип, записывались пустые строки
+      test_dict = Dict.combine(["a", "b", "c"], [1] as variant[]); -- x РµСЃР»Рё РЅРµ СѓРєР°Р·Р°С‚СЊ С‚РёРї, Р·Р°РїРёСЃС‹РІР°Р»РёСЃСЊ РїСѓСЃС‚С‹Рµ СЃС‚СЂРѕРєРё
       assert_equal(test_dict.content, [["a", 1], ["b", nil], ["c", nil]]);
 
-      -- с большим количеством значений
+      -- СЃ Р±РѕР»СЊС€РёРј РєРѕР»РёС‡РµСЃС‚РІРѕРј Р·РЅР°С‡РµРЅРёР№
       test_dict = Dict.combine([], [1, 2, 3]);
       assert_equal(test_dict.content, []);
 
@@ -149,7 +149,7 @@ inclass
 
       assert_true(test_dict.is_set("a"));
       assert_true(test_dict.is_set("b"));
-      assert_true(test_dict.is_set("B")); -- сроки сравниваются без учёта регистра
+      assert_true(test_dict.is_set("B")); -- СЃСЂРѕРєРё СЃСЂР°РІРЅРёРІР°СЋС‚СЃСЏ Р±РµР· СѓС‡С‘С‚Р° СЂРµРіРёСЃС‚СЂР°
       assert_false(test_dict.is_set("c"));
     end;
   end;

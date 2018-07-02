@@ -1,4 +1,4 @@
-class "Класс для работы со словарями (ассоциативными массивами)";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ СЃР»РѕРІР°СЂСЏРјРё (Р°СЃСЃРѕС†РёР°С‚РёРІРЅС‹РјРё РјР°СЃСЃРёРІР°РјРё)";
 import classes Functions.Array;
 
 inclass
@@ -10,14 +10,14 @@ inclass
   );
 
 
-  -- создаёт новый экземпляр класса
+  -- СЃРѕР·РґР°С‘С‚ РЅРѕРІС‹Р№ СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР°
   func new: Dict;
 
     return self.create;
   end;
 
 
-  -- формирует словарь из массива ключей и массива значений
+  -- С„РѕСЂРјРёСЂСѓРµС‚ СЃР»РѕРІР°СЂСЊ РёР· РјР°СЃСЃРёРІР° РєР»СЋС‡РµР№ Рё РјР°СЃСЃРёРІР° Р·РЅР°С‡РµРЅРёР№
   func combine(const keys: string[]; const values: variant[]): Dict;
 
     result = self.create;
@@ -48,14 +48,14 @@ inobject
   var content: variant[2];
 
 
-  -- возвращает индекс пары с ключом
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёРЅРґРµРєСЃ РїР°СЂС‹ СЃ РєР»СЋС‡РѕРј
   func pair_index(key: string): integer;
     
     return array_pos(self.content, [key], [self.PAIR_KEY])[ARRAY_POS_OFFSET];
   end;
 
 
-  -- возвращает значение из словаря по ключу
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ РёР· СЃР»РѕРІР°СЂСЏ РїРѕ РєР»СЋС‡Сѓ
   func get(key: string; default_value: variant = nil): variant;
 
     var index: integer;
@@ -71,7 +71,7 @@ inobject
   end;
 
 
-  -- устанавливает значение в словаре по ключу
+  -- СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ Р·РЅР°С‡РµРЅРёРµ РІ СЃР»РѕРІР°СЂРµ РїРѕ РєР»СЋС‡Сѓ
   func set(key: string; value: variant): Dict;
     
     var index: integer;
@@ -87,7 +87,7 @@ inobject
   end;
 
 
-  -- разустанавливает значение по ключу
+  -- СЂР°Р·СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ Р·РЅР°С‡РµРЅРёРµ РїРѕ РєР»СЋС‡Сѓ
   func unset(key: string): Dict;
     
     var index: integer;
@@ -101,14 +101,14 @@ inobject
   end;
 
 
-  -- возвращает истину, если по ключу установлено значение
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё РїРѕ РєР»СЋС‡Сѓ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ Р·РЅР°С‡РµРЅРёРµ
   func is_set(key: string): boolean;
     
     return self.pair_index(key) <> -1;
   end;
 
 
-  -- очищает словарь
+  -- РѕС‡РёС‰Р°РµС‚ СЃР»РѕРІР°СЂСЊ
   func clear: Dict;
     
     array_clear(self.content);
@@ -116,7 +116,7 @@ inobject
   end;
 
 
-  -- расширяет словарь другим словарём
+  -- СЂР°СЃС€РёСЂСЏРµС‚ СЃР»РѕРІР°СЂСЊ РґСЂСѓРіРёРј СЃР»РѕРІР°СЂС‘Рј
   func extend(const other_dict: Dict): Dict;
 
     with array_each(other_dict.pairs) do
@@ -127,14 +127,14 @@ inobject
   end;
 
 
-  -- возвращает копию словаря
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕРїРёСЋ СЃР»РѕРІР°СЂСЏ
   func copy: Dict;
 
     return self.from_pairs(self.pairs);
   end;
 
 
-  -- возвращает ключи в словаре
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РєР»СЋС‡Рё РІ СЃР»РѕРІР°СЂРµ
   func keys: string[];
     
     with array_map(self.content) do
@@ -145,7 +145,7 @@ inobject
   end;
 
 
-  -- возвращает значения в словаре
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёСЏ РІ СЃР»РѕРІР°СЂРµ
   func values: variant[];
     
     with array_map(self.content) do

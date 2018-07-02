@@ -1,4 +1,4 @@
-class "Класс для работы с данными в формате JSON";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РґР°РЅРЅС‹РјРё РІ С„РѕСЂРјР°С‚Рµ JSON";
 import classes Functions.Variable, Functions.Array, Functions.String, Functions.Escaping, Functions.Date, Functions.DateISO;
 
 inclass

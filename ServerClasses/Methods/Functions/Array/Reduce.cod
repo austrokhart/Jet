@@ -1,4 +1,4 @@
-class inherited Methods.Functions.Array.Iterable "Интерфейс для работы с массивом методом reduce";
+п»їclass inherited Methods.Functions.Array.Iterable "РРЅС‚РµСЂС„РµР№СЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РјР°СЃСЃРёРІРѕРј РјРµС‚РѕРґРѕРј reduce";
 import classes Functions.Array;
 
 inclass

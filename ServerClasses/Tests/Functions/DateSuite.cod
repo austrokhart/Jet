@@ -1,4 +1,4 @@
-class inherited UnitTesting.Suite "Набор тестов для функций для работы с датами";
+п»їclass inherited UnitTesting.Suite "РќР°Р±РѕСЂ С‚РµСЃС‚РѕРІ РґР»СЏ С„СѓРЅРєС†РёР№ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РґР°С‚Р°РјРё";
 import classes Functions.Date, Functions.DateISO;
 
 inclass

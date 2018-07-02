@@ -1,4 +1,4 @@
-class "";
+п»їclass "";
 import classes Functions.JSON;
 
 inclass
@@ -75,15 +75,15 @@ inclass
 
       description('');
 
-      assert_equal(  JSON_encode_array([]), '[]', 'с пустым массивом');
+      assert_equal(  JSON_encode_array([]), '[]', 'СЃ РїСѓСЃС‚С‹Рј РјР°СЃСЃРёРІРѕРј');
 
-      assert_equal(  JSON_encode_array([nil]),       '[null]', 'с nil');
+      assert_equal(  JSON_encode_array([nil]),       '[null]', 'СЃ nil');
       assert_equal(  JSON_encode_array([nil, nil]),  '[null, null]');
 
-      assert_equal(  JSON_encode_array([true]),         '[true]', 'с булевыми типами');
+      assert_equal(  JSON_encode_array([true]),         '[true]', 'СЃ Р±СѓР»РµРІС‹РјРё С‚РёРїР°РјРё');
       assert_equal(  JSON_encode_array([true, false]),  '[true, false]');
 
-      assert_equal(  JSON_encode_array([10]),             '[10]', 'с числами');
+      assert_equal(  JSON_encode_array([10]),             '[10]', 'СЃ С‡РёСЃР»Р°РјРё');
       assert_equal(  JSON_encode_array([10, 20]),         '[10, 20]');
       assert_equal(  JSON_encode_array([-10]),            '[-10]');
       assert_equal(  JSON_encode_array([-10, -20]),       '[-10, -20]');
@@ -92,21 +92,21 @@ inclass
       assert_equal(  JSON_encode_array([-0.05]),          '[-0.05]');
       assert_equal(  JSON_encode_array([-0.05, -0.07]),   '[-0.05, -0.07]');
 
-      assert_equal(  JSON_encode_array(['a']),                  '["a"]', 'со строками');
+      assert_equal(  JSON_encode_array(['a']),                  '["a"]', 'СЃРѕ СЃС‚СЂРѕРєР°РјРё');
       assert_equal(  JSON_encode_array(['a', 'b']),             '["a", "b"]');
       assert_equal(  JSON_encode_array(['"foo \"bar \\"baz']),  '["\"foo \"bar \\\"baz"]');
 
-      assert_equal(  JSON_encode_array([10, 20, -0.05, 0.07]),                   '[10, 20, -0.05, 0.07]', 'с комбинированными данными');
+      assert_equal(  JSON_encode_array([10, 20, -0.05, 0.07]),                   '[10, 20, -0.05, 0.07]', 'СЃ РєРѕРјР±РёРЅРёСЂРѕРІР°РЅРЅС‹РјРё РґР°РЅРЅС‹РјРё');
       assert_equal(  JSON_encode_array(['\"foo', 500]),                          '["\"foo", 500]');
       assert_equal(  JSON_encode_array([0.05, '1', '\\\"foo \"bar "baz', 500]),  '[0.05, "1", "\\\"foo \"bar \"baz", 500]');
 
-      assert_equal(  JSON_encode_array([[10]]),                                  '[[10]]', 'с вложенными массивами');
+      assert_equal(  JSON_encode_array([[10]]),                                  '[[10]]', 'СЃ РІР»РѕР¶РµРЅРЅС‹РјРё РјР°СЃСЃРёРІР°РјРё');
       assert_equal(  JSON_encode_array([[10, 20], [30, 40]]),                    '[[10, 20], [30, 40]]');
       assert_equal(  JSON_encode_array([10, [20, [30, 40] as variant[]]]),       '[10, [20, [30, 40]]]');
 
-      assert_equal(  JSON_encode_array([Dict.new]),                                                 '[{}]', 'с объектами');
+      assert_equal(  JSON_encode_array([Dict.new]),                                                 '[{}]', 'СЃ РѕР±СЉРµРєС‚Р°РјРё');
       assert_equal(  JSON_encode_array([Dict.new.set('A', 1)]),                                     '[{"A": 1}]');
-      assert_equal(  JSON_encode_array([Dict.new.set('A', [Dict.new.set('B', [] as variant[])])]),  '[{"A": [{"B": []}]}]');  -- без привдения записывал nil
+      assert_equal(  JSON_encode_array([Dict.new.set('A', [Dict.new.set('B', [] as variant[])])]),  '[{"A": [{"B": []}]}]');  -- Р±РµР· РїСЂРёРІРґРµРЅРёСЏ Р·Р°РїРёСЃС‹РІР°Р» nil
     end;
   end;
 

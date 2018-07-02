@@ -1,10 +1,10 @@
-class "Класс для работы с проверками";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РїСЂРѕРІРµСЂРєР°РјРё";
 import classes Functions.Variable;
 
 inclass
 
 
-  -- типы сравнения
+  -- С‚РёРїС‹ СЃСЂР°РІРЅРµРЅРёСЏ
   type comparison_type = (
     comparison_is_equal,
     comparison_is_true,
@@ -12,7 +12,7 @@ inclass
   );
 
 
-  -- сравнивает значения в зависимости от типа сравнения
+  -- СЃСЂР°РІРЅРёРІР°РµС‚ Р·РЅР°С‡РµРЅРёСЏ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С‚РёРїР° СЃСЂР°РІРЅРµРЅРёСЏ
   func compare(value, expected: variant; comparison: comparison_type): boolean;
     
     if comparison in [self.comparison_is_equal, self.comparison_is_true, self.comparison_is_false] then

@@ -1,32 +1,32 @@
-class "Класс для работы с переменными";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РїРµСЂРµРјРµРЅРЅС‹РјРё";
 import classes Functions.Variable, Functions.Array;
 
 inclass
 
 
-  -- Методы для определения типов
+  -- РњРµС‚РѕРґС‹ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ С‚РёРїРѕРІ
   --
 
-  -- Для определения типов используется стандартная функция varType;
-  -- Для определения используются константы, которые не инициализируются в проекте СИС2 из-за некорректного условия.
+  -- Р”Р»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ С‚РёРїРѕРІ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ СЃС‚Р°РЅРґР°СЂС‚РЅР°СЏ С„СѓРЅРєС†РёСЏ varType;
+  -- Р”Р»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ РєРѕРЅСЃС‚Р°РЅС‚С‹, РєРѕС‚РѕСЂС‹Рµ РЅРµ РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋС‚СЃСЏ РІ РїСЂРѕРµРєС‚Рµ РЎРРЎ2 РёР·-Р·Р° РЅРµРєРѕСЂСЂРµРєС‚РЅРѕРіРѕ СѓСЃР»РѕРІРёСЏ.
   --
-  -- Из СИС2:
+  -- РР· РЎРРЎ2:
   --
-  -- varUnknown : Integer= 0;  -- неизвестный тип
-  -- varString  : Integer = 1;  -- строка
-  -- varInt     : Integer = 2;  -- 4-байтовое целое
-  -- varNumeric : Integer = 3;  -- Число с плавающей точкой
-  -- varLogical : Integer = 4;  -- Логическое (булево) значение
-  -- varDate    : Integer = 5;  -- ДатаВремя в формате TDateTime
-  -- varObject  : Integer = 6;  -- Объект
-  -- varVariant : Integer = 7;  -- Вариант
-  -- varArray   : Integer = 8;  -- Массив
-  -- varClass   : Integer = 9;  -- Указатель на класс
-  -- varNull    : Integer = 10; -- Пусто
+  -- varUnknown : Integer= 0;  -- РЅРµРёР·РІРµСЃС‚РЅС‹Р№ С‚РёРї
+  -- varString  : Integer = 1;  -- СЃС‚СЂРѕРєР°
+  -- varInt     : Integer = 2;  -- 4-Р±Р°Р№С‚РѕРІРѕРµ С†РµР»РѕРµ
+  -- varNumeric : Integer = 3;  -- Р§РёСЃР»Рѕ СЃ РїР»Р°РІР°СЋС‰РµР№ С‚РѕС‡РєРѕР№
+  -- varLogical : Integer = 4;  -- Р›РѕРіРёС‡РµСЃРєРѕРµ (Р±СѓР»РµРІРѕ) Р·РЅР°С‡РµРЅРёРµ
+  -- varDate    : Integer = 5;  -- Р”Р°С‚Р°Р’СЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ TDateTime
+  -- varObject  : Integer = 6;  -- РћР±СЉРµРєС‚
+  -- varVariant : Integer = 7;  -- Р’Р°СЂРёР°РЅС‚
+  -- varArray   : Integer = 8;  -- РњР°СЃСЃРёРІ
+  -- varClass   : Integer = 9;  -- РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РєР»Р°СЃСЃ
+  -- varNull    : Integer = 10; -- РџСѓСЃС‚Рѕ
   --
-  -- varUnit    :Integer = 17; -- Измеритель
-  -- varUser    :Integer = 50; -- Пользовательский тип, в частности, этот тип
-  --                           -- имеют параметры процедур и функций типа Массив
+  -- varUnit    :Integer = 17; -- РР·РјРµСЂРёС‚РµР»СЊ
+  -- varUser    :Integer = 50; -- РџРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёР№ С‚РёРї, РІ С‡Р°СЃС‚РЅРѕСЃС‚Рё, СЌС‚РѕС‚ С‚РёРї
+  --                           -- РёРјРµСЋС‚ РїР°СЂР°РјРµС‚СЂС‹ РїСЂРѕС†РµРґСѓСЂ Рё С„СѓРЅРєС†РёР№ С‚РёРїР° РњР°СЃСЃРёРІ
 
   type var_type = (
     var_string  = 1,
@@ -42,12 +42,12 @@ inclass
   );
 
 
-  -- проверяет равенство значений
+  -- РїСЂРѕРІРµСЂСЏРµС‚ СЂР°РІРµРЅСЃС‚РІРѕ Р·РЅР°С‡РµРЅРёР№
   func var_equal(value: variant; other_value: variant): boolean;
 
-    -- если типы значений равны
-    -- или оба значения являются числами
-    -- или одно из них равно nil
+    -- РµСЃР»Рё С‚РёРїС‹ Р·РЅР°С‡РµРЅРёР№ СЂР°РІРЅС‹
+    -- РёР»Рё РѕР±Р° Р·РЅР°С‡РµРЅРёСЏ СЏРІР»СЏСЋС‚СЃСЏ С‡РёСЃР»Р°РјРё
+    -- РёР»Рё РѕРґРЅРѕ РёР· РЅРёС… СЂР°РІРЅРѕ nil
     if (System.varType(value) = System.varType(other_value))
        or (self.var_is_numeric(value) and self.var_is_numeric(other_value))
        or (self.var_is_nil(value) or self.var_is_nil(other_value))
@@ -60,105 +60,105 @@ inclass
   end;
 
 
-  -- проверяет неравенство значений
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РЅРµСЂР°РІРµРЅСЃС‚РІРѕ Р·РЅР°С‡РµРЅРёР№
   func var_not_equal(value: variant; other_value: variant): boolean;
     
     result = not self.var_equal(value, other_value);
   end;
 
 
-  -- проверяет идентичность значений, возвращает истину если значения и типы переменных совпадают
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РёРґРµРЅС‚РёС‡РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёР№, РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ РµСЃР»Рё Р·РЅР°С‡РµРЅРёСЏ Рё С‚РёРїС‹ РїРµСЂРµРјРµРЅРЅС‹С… СЃРѕРІРїР°РґР°СЋС‚
   func var_identical(value: variant; other_value: variant): boolean;
     
     result = (System.varType(value) = System.varType(other_value) and value = other_value);
   end;
 
 
-  -- проверяет неидентичность
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РЅРµРёРґРµРЅС‚РёС‡РЅРѕСЃС‚СЊ
   func var_not_identical(value: variant; other_value: variant): boolean;
     
     result = not self.var_identical(value, other_value);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_string(const value: variant): boolean;
 
     result = (System.varType(value) = self.var_string);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_integer(value: variant): boolean;
     
     result = (System.varType(value) = self.var_integer);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_float(value: variant): boolean;
     
     result = (System.varType(value) = self.var_float);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_numeric(value: variant): boolean;
     
     result = (self.var_is_integer(value) or self.var_is_float(value));
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_boolean(value: variant): boolean;
     
     result = (System.varType(value) = self.var_boolean);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_date(value: variant): boolean;
     
     result = (System.varType(value) = self.var_date);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_object(value: variant): boolean;
     
     result = (System.varType(value) = self.var_object);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_variant(value: variant): boolean;
     
     result = (System.varType(value) = self.var_variant);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_array(value: variant): boolean;
 
     result = (System.varType(value) = self.var_array);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_class(value: variant): boolean;
 
     result = (System.varType(value) = self.var_class);
   end;
 
 
-  -- проверяет принадлежность значения
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
   func var_is_nil(value: variant): boolean;
     
     result = (System.varType(value) = self.var_nil);
   end;
 
 
-  -- проверяет принадлежность значения к типу, в качестве аргумента expected необходимо передать соответствующую константу класса
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ Рє С‚РёРїСѓ, РІ РєР°С‡РµСЃС‚РІРµ Р°СЂРіСѓРјРµРЅС‚Р° expected РЅРµРѕР±С…РѕРґРёРјРѕ РїРµСЂРµРґР°С‚СЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰СѓСЋ РєРѕРЅСЃС‚Р°РЅС‚Сѓ РєР»Р°СЃСЃР°
   func var_type_is(value: variant; expected: variant): boolean;
 
     if self.var_is_integer(expected) then
@@ -173,7 +173,7 @@ inclass
   end;
 
 
-  -- проверяет принадлежность значения к типу, аргумент expected приводится к массиву
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Р·РЅР°С‡РµРЅРёСЏ Рє С‚РёРїСѓ, Р°СЂРіСѓРјРµРЅС‚ expected РїСЂРёРІРѕРґРёС‚СЃСЏ Рє РјР°СЃСЃРёРІСѓ
   func var_type_in(value: variant; expected: variant): boolean;
 
     with array_each(array_from(expected)) do
@@ -186,7 +186,7 @@ inclass
   end;
 
 
-  -- проверяет для значения принадлежность к типу объект и к классу expected
+  -- РїСЂРѕРІРµСЂСЏРµС‚ РґР»СЏ Р·РЅР°С‡РµРЅРёСЏ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Рє С‚РёРїСѓ РѕР±СЉРµРєС‚ Рё Рє РєР»Р°СЃСЃСѓ expected
   func var_instance_of(value: variant; expected: class): boolean;
     
     result = (self.var_is_object(value) and value.inheritsFrom(expected));
@@ -199,7 +199,7 @@ inclass
   end;
 
 
-  -- обменивает значения переменных
+  -- РѕР±РјРµРЅРёРІР°РµС‚ Р·РЅР°С‡РµРЅРёСЏ РїРµСЂРµРјРµРЅРЅС‹С…
   proc var_swap(var variable: variant; var other_variable: variant);
     
     var temp: variant;

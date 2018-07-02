@@ -1,11 +1,11 @@
-class "Класс-обёртка для работы с выводом в консоль";
+п»їclass "РљР»Р°СЃСЃ-РѕР±С‘СЂС‚РєР° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РІС‹РІРѕРґРѕРј РІ РєРѕРЅСЃРѕР»СЊ";
 import classes Functions.Array;
 
 inclass
 
 
-  -- выводит строку в окно сообщений
-  -- аргумент message приводится к массиву, затем складывается в строку
+  -- РІС‹РІРѕРґРёС‚ СЃС‚СЂРѕРєСѓ РІ РѕРєРЅРѕ СЃРѕРѕР±С‰РµРЅРёР№
+  -- Р°СЂРіСѓРјРµРЅС‚ message РїСЂРёРІРѕРґРёС‚СЃСЏ Рє РјР°СЃСЃРёРІСѓ, Р·Р°С‚РµРј СЃРєР»Р°РґС‹РІР°РµС‚СЃСЏ РІ СЃС‚СЂРѕРєСѓ
   func log(message: variant): class SmartConsole;
 
     if System.debugMode then Console.trace(array_implode(array_from(message), " ")); end;
@@ -13,8 +13,8 @@ inclass
   end;
 
 
-  -- выводит массив строк в окно сообщений
-  -- аргумент messages приводится к массиву
+  -- РІС‹РІРѕРґРёС‚ РјР°СЃСЃРёРІ СЃС‚СЂРѕРє РІ РѕРєРЅРѕ СЃРѕРѕР±С‰РµРЅРёР№
+  -- Р°СЂРіСѓРјРµРЅС‚ messages РїСЂРёРІРѕРґРёС‚СЃСЏ Рє РјР°СЃСЃРёРІСѓ
   func log_multi(messages: variant): class SmartConsole;
 
     if System.debugMode then
@@ -28,7 +28,7 @@ inclass
   end;
 
 
-  -- очищает окно сообщений
+  -- РѕС‡РёС‰Р°РµС‚ РѕРєРЅРѕ СЃРѕРѕР±С‰РµРЅРёР№
   func clear: class SmartConsole;
 
     if System.debugMode then Console.clearTrace; end;

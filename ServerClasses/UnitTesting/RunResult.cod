@@ -1,10 +1,10 @@
-class "Класс для хранения результатов выполнения обработчика";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕР±СЂР°Р±РѕС‚С‡РёРєР°";
 import classes Functions.String, Functions.Array;
 
 inclass
 
 
-  -- возвращает новый экземпляр объекта
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРІС‹Р№ СЌРєР·РµРјРїР»СЏСЂ РѕР±СЉРµРєС‚Р°
   func new(suites: UnitTesting.SuiteResult[] = nil): UnitTesting.RunResult;
     
     result = self.create;
@@ -20,7 +20,7 @@ inobject
   var success: boolean;
 
 
-  -- добавляет результат тестового набора в результаты
+  -- РґРѕР±Р°РІР»СЏРµС‚ СЂРµР·СѓР»СЊС‚Р°С‚ С‚РµСЃС‚РѕРІРѕРіРѕ РЅР°Р±РѕСЂР° РІ СЂРµР·СѓР»СЊС‚Р°С‚С‹
   func add(suite: UnitTesting.SuiteResult): UnitTesting.RunResult;
     
     array_append(self.suites, suite);
@@ -30,14 +30,14 @@ inobject
   end;
 
 
-  -- возвращает истину, если результаты успешны
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё СЂРµР·СѓР»СЊС‚Р°С‚С‹ СѓСЃРїРµС€РЅС‹
   func is_successful: boolean;
     
     return self.success;
   end;
 
 
-  -- возвращает количество тестовых наборов в результатах
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ С‚РµСЃС‚РѕРІС‹С… РЅР°Р±РѕСЂРѕРІ РІ СЂРµР·СѓР»СЊС‚Р°С‚Р°С…
   func suite_count: integer;
 
     return array_length(self.suites);
@@ -64,7 +64,7 @@ inobject
   end;
 
 
-  -- возвращает успешные тестовые наборы
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СѓСЃРїРµС€РЅС‹Рµ С‚РµСЃС‚РѕРІС‹Рµ РЅР°Р±РѕСЂС‹
   func successful_suites: UnitTesting.SuiteResult[];
     
     with array_filter(self.suites) do
@@ -74,7 +74,7 @@ inobject
   end;
 
 
-  -- возвращает неудачные тестовые наборы
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРµСѓРґР°С‡РЅС‹Рµ С‚РµСЃС‚РѕРІС‹Рµ РЅР°Р±РѕСЂС‹
   func unsuccessful_suites: UnitTesting.SuiteResult[];
     
     with array_filter(self.suites) do
@@ -85,17 +85,17 @@ inobject
   end;
 
 
-  -- возвращает текстовое представление результатов
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСЃС‚РѕРІРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
   func to_text: string[];
     
-    array_append(result, "выполнение тестов:");
+    array_append(result, "РІС‹РїРѕР»РЅРµРЅРёРµ С‚РµСЃС‚РѕРІ:");
 
     with array_each(self.suites) do
       while __next do array_extend(result, __item.to_text); end;
     end;
 
-    array_append(result, str_format("выполнено наборов: {}, случаев: {}, проверок: {}", [self.suite_count, self.case_count, self.assert_count]));
-    array_append(result, str_format("результат выполнения: {}", if (self.is_successful, "успех", "неудача")));
+    array_append(result, str_format("РІС‹РїРѕР»РЅРµРЅРѕ РЅР°Р±РѕСЂРѕРІ: {}, СЃР»СѓС‡Р°РµРІ: {}, РїСЂРѕРІРµСЂРѕРє: {}", [self.suite_count, self.case_count, self.assert_count]));
+    array_append(result, str_format("СЂРµР·СѓР»СЊС‚Р°С‚ РІС‹РїРѕР»РЅРµРЅРёСЏ: {}", if (self.is_successful, "СѓСЃРїРµС…", "РЅРµСѓРґР°С‡Р°")));
 
     return result;
   end;

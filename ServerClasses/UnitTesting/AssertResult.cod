@@ -1,10 +1,10 @@
-class "Класс для хранения результатов проверки";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ РїСЂРѕРІРµСЂРєРё";
 import classes Functions.String, Functions.Array;
 
 inclass
 
 
-  -- создаёт новый экземпляр класса
+  -- СЃРѕР·РґР°С‘С‚ РЅРѕРІС‹Р№ СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР°
   func new(value, expected: variant; comparison: UnitTesting.Assert.comparison_type; inverted: boolean = false; description: string = nil): UnitTesting.AssertResult;
 
     result = self.create;
@@ -30,28 +30,28 @@ inobject
   var success:     boolean;
 
 
-  -- возвращает истину, если проверка является отрицательной
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё РїСЂРѕРІРµСЂРєР° СЏРІР»СЏРµС‚СЃСЏ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕР№
   func is_inverted: boolean;
     
     return self.inverted;
   end;
 
-  -- возвращает истину, если результат успешен
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё СЂРµР·СѓР»СЊС‚Р°С‚ СѓСЃРїРµС€РµРЅ
   func is_successful: boolean;
     
     return self.success;
   end;
 
 
-  -- возвращает текстовое представление проверки
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСЃС‚РѕРІРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РїСЂРѕРІРµСЂРєРё
   func to_text: string;
 
-    -- если результат отрицается и отрицательный или если результат не отрицается и положительный
+    -- РµСЃР»Рё СЂРµР·СѓР»СЊС‚Р°С‚ РѕС‚СЂРёС†Р°РµС‚СЃСЏ Рё РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Р№ РёР»Рё РµСЃР»Рё СЂРµР·СѓР»СЊС‚Р°С‚ РЅРµ РѕС‚СЂРёС†Р°РµС‚СЃСЏ Рё РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Р№
     if (self.is_inverted xor self.is_successful) then
-      result = str_format("успех ({})", [self.description]);
+      result = str_format("СѓСЃРїРµС… ({})", [self.description]);
 
     else
-      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [tostr(self.value), if (self.is_inverted, " не", ""), tostr(self.expected), self.description]);
+      result = str_format("РЅРµСѓРґР°С‡Р°; РїРѕР»СѓС‡РµРЅРѕ: {}, РѕР¶РёРґР°Р»РѕСЃСЊ{}: {} ({})", [tostr(self.value), if (self.is_inverted, " РЅРµ", ""), tostr(self.expected), self.description]);
     end;
 
     return result;

@@ -1,4 +1,4 @@
-class inherited Methods.ArrayObject.IterableBase "Интерфейс для работы с массивом-объектом методом map";
+п»їclass inherited Methods.ArrayObject.IterableBase "РРЅС‚РµСЂС„РµР№СЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РјР°СЃСЃРёРІРѕРј-РѕР±СЉРµРєС‚РѕРј РјРµС‚РѕРґРѕРј map";
 
 inclass
 

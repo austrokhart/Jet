@@ -1,73 +1,73 @@
-class "Класс для работы с датами";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РґР°С‚Р°РјРё";
 import classes Functions.Array, Functions.String;
 
 inclass
 
 
-  -- возвращает дату на основе указанных данных
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°С‚Сѓ РЅР° РѕСЃРЅРѕРІРµ СѓРєР°Р·Р°РЅРЅС‹С… РґР°РЅРЅС‹С…
   func date_create(year, month, day: integer; hour: integer = 0; minute: integer = 0; second: integer = 0): date;
     
     return System.createDate(day, month, year, hour, minute, second);
   end;
 
 
-  -- возвращает номер секунды в дате
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРјРµСЂ СЃРµРєСѓРЅРґС‹ РІ РґР°С‚Рµ
   func date_second(const datetime: date): real;
     
     return System.second(datetime);
   end;
 
 
-  -- возвращает номер минуты в дате
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРјРµСЂ РјРёРЅСѓС‚С‹ РІ РґР°С‚Рµ
   func date_minute(const datetime: date): integer;
     
     return System.minute(datetime);
   end;
 
 
-  -- возвращает номер часа в дате
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРјРµСЂ С‡Р°СЃР° РІ РґР°С‚Рµ
   func date_hour(const datetime: date): integer;
     
     return System.hour(datetime);
   end;
 
 
-  -- возвращает номер дня в дате
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРјРµСЂ РґРЅСЏ РІ РґР°С‚Рµ
   func date_day(const datetime: date): integer;
     
     return System.day(datetime);
   end;
 
 
-  -- возвращает номер месяца в дате
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРјРµСЂ РјРµСЃСЏС†Р° РІ РґР°С‚Рµ
   func date_month(const datetime: date): integer;
     
     return System.mon(datetime);
   end;
 
 
-  -- возвращает номер года в дате
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРјРµСЂ РіРѕРґР° РІ РґР°С‚Рµ
   func date_year(const datetime: date): integer;
     
     return System.year(datetime);
   end;
 
 
-  -- возвращает количество секунд между двумя датами
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРµРєСѓРЅРґ РјРµР¶РґСѓ РґРІСѓРјСЏ РґР°С‚Р°РјРё
   func date_period(const datetime, other_datetime: date): real;
     
     return System.periodSec(other_datetime, datetime);
   end;
 
 
-  -- возвращает дату с отрбрасыванием времени
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°С‚Сѓ СЃ РѕС‚СЂР±СЂР°СЃС‹РІР°РЅРёРµРј РІСЂРµРјРµРЅРё
   func date_only_date(const datetime: date): date;
     
     return self.date_create(self.date_year(datetime), self.date_month(datetime), self.date_day(datetime));
   end;
 
 
-  -- возвращает время с отбрасыванием даты
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ СЃ РѕС‚Р±СЂР°СЃС‹РІР°РЅРёРµРј РґР°С‚С‹
   func date_only_time(const datetime: date): date;
     
     return self.date_create(0, 0, 0, self.date_hour(datetime), self.date_minute(datetime), int(self.date_second(datetime)));
@@ -80,35 +80,35 @@ inclass
   end;
 
 
-  -- возвращает дату с добавлением секунд
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°С‚Сѓ СЃ РґРѕР±Р°РІР»РµРЅРёРµРј СЃРµРєСѓРЅРґ
   func date_add_seconds(const datetime: date; value: real): date;
 
     return System.addSec(datetime, value);
   end;
 
 
-  -- возвращает дату с добавлением минут
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°С‚Сѓ СЃ РґРѕР±Р°РІР»РµРЅРёРµРј РјРёРЅСѓС‚
   func date_add_minutes(const datetime: date; value: integer): date;
     
     return self.date_add_seconds(datetime, value *60);
   end;
 
 
-  -- возвращает дату с добавлением часов
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°С‚Сѓ СЃ РґРѕР±Р°РІР»РµРЅРёРµРј С‡Р°СЃРѕРІ
   func date_add_hours(const datetime: date; value: integer): date;
     
     return self.date_add_minutes(datetime, value *60);
   end;
 
 
-  -- возвращает дату с добавлением дней
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°С‚Сѓ СЃ РґРѕР±Р°РІР»РµРЅРёРµРј РґРЅРµР№
   func date_add_days(const datetime: date; value: integer): date;
     
     return datetime +1;
   end;
 
 
-  -- возвращает дату с добавлением месяцев
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°С‚Сѓ СЃ РґРѕР±Р°РІР»РµРЅРёРµРј РјРµСЃСЏС†РµРІ
   func date_add_months(const datetime: date; value: integer): date;
 
 --    return self.create_date(
@@ -127,7 +127,7 @@ inclass
   end;
 
 
-  -- возвращает дату с добавлением лет
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°С‚Сѓ СЃ РґРѕР±Р°РІР»РµРЅРёРµРј Р»РµС‚
   func date_add_years(const datetime: date; value: integer): date;
     
     return self.date_add_months(datetime, value *12);

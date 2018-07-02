@@ -1,10 +1,10 @@
-class "Класс для работы с классами";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РєР»Р°СЃСЃР°РјРё";
 import classes Functions.Variable, Functions.Array;
 
 inclass
 
 
-  -- возвращает метод класса
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РјРµС‚РѕРґ РєР»Р°СЃСЃР°
   func class_member(cls: class; name: string): MemberInfo;
     
     result = cls.classInfo.memberByName(name);
@@ -41,7 +41,7 @@ inclass
     result = member.internal;
   end;
 
-  -- возвращает истину, если передан объект MethodInfo и он соответствует свойству класса
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё РїРµСЂРµРґР°РЅ РѕР±СЉРµРєС‚ MethodInfo Рё РѕРЅ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ СЃРІРѕР№СЃС‚РІСѓ РєР»Р°СЃСЃР°
   func member_is_prop(member: MemberInfo): boolean;
     
     result = (member is MethodInfo and (member as MethodInfo).kind = (member as MethodInfo).mkProp);
@@ -63,7 +63,7 @@ inclass
   end;
 
 
-  -- возвращает истину, если в классе объявлен метод под именем
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёСЃС‚РёРЅСѓ, РµСЃР»Рё РІ РєР»Р°СЃСЃРµ РѕР±СЉСЏРІР»РµРЅ РјРµС‚РѕРґ РїРѕРґ РёРјРµРЅРµРј
   func class_has_member(cls: class; name: string): boolean;
     
     result = (self.class_member(cls, name) <> nil);
@@ -90,8 +90,8 @@ inclass
   end;
 
 
-  -- возвращает члены класса
-  -- в членах класса помимо свойств и процедур/функций встречаются другие вещи, например типы
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ С‡Р»РµРЅС‹ РєР»Р°СЃСЃР°
+  -- РІ С‡Р»РµРЅР°С… РєР»Р°СЃСЃР° РїРѕРјРёРјРѕ СЃРІРѕР№СЃС‚РІ Рё РїСЂРѕС†РµРґСѓСЂ/С„СѓРЅРєС†РёР№ РІСЃС‚СЂРµС‡Р°СЋС‚СЃСЏ РґСЂСѓРіРёРµ РІРµС‰Рё, РЅР°РїСЂРёРјРµСЂ С‚РёРїС‹
   func class_members(cls: class): MemberInfo[];
     
     with Iterator.new(1, cls.classInfo.membersCount) do
@@ -132,7 +132,7 @@ inclass
   end;
 
 
-  -- возвращает результат вызова метода
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚ РІС‹Р·РѕРІР° РјРµС‚РѕРґР°
   func call_method(method: MethodInfo; context: Object; arguments: variant[]): variant;
     
     if self.member_is_proc(method) then

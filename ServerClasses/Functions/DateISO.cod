@@ -1,11 +1,11 @@
-class "Класс для работы с датами в формате ISO 8601";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РґР°С‚Р°РјРё РІ С„РѕСЂРјР°С‚Рµ ISO 8601";
 import classes Functions.Array, Functions.String, Functions.Date;
 
 inclass
 
 
-  -- возвращает дату, преобразованную в строку в формате ISO 8601
-  -- вида: YYYY-MM-DD[THH:MM:SS(Z|+\-HH:MM)]
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РґР°С‚Сѓ, РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРЅСѓСЋ РІ СЃС‚СЂРѕРєСѓ РІ С„РѕСЂРјР°С‚Рµ ISO 8601
+  -- РІРёРґР°: YYYY-MM-DD[THH:MM:SS(Z|+\-HH:MM)]
   func date_to_ISO(datetime: date; UTC_offset: string = Settings.UTC_OFFSET): string;
 
     result = array_implode([
@@ -59,7 +59,7 @@ inclass
   end;
 
 
-  -- возвращает время смещения относительно UTC в секундах
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ СЃРјРµС‰РµРЅРёСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ UTC РІ СЃРµРєСѓРЅРґР°С…
   func date_parse_ISO_offset(offset: string): integer;
 
     var sign, hours, minutes: integer;

@@ -1,10 +1,10 @@
-class "Класс для работы с тестовыми ситуациями";
+п»їclass "РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С‚РµСЃС‚РѕРІС‹РјРё СЃРёС‚СѓР°С†РёСЏРјРё";
 import classes Functions.Array;
 
 inclass
 
 
-  -- создаёт новый экземпляр класса
+  -- СЃРѕР·РґР°С‘С‚ РЅРѕРІС‹Р№ СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР°
   func new(container: UnitTesting.CaseResult; inverted: boolean = false): UnitTesting.Case;
     
     result = self.create;
@@ -22,7 +22,7 @@ inobject
   var inverted: boolean;
 
 
-  -- возвращает или записывает в результат имя
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёР»Рё Р·Р°РїРёСЃС‹РІР°РµС‚ РІ СЂРµР·СѓР»СЊС‚Р°С‚ РёРјСЏ
   func name(value: string = nil): string;
 
     if value <> nil then self.container.name = value; end;
@@ -30,7 +30,7 @@ inobject
   end;
 
 
-  -- возвращает или записывает в результат сообщение
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РёР»Рё Р·Р°РїРёСЃС‹РІР°РµС‚ РІ СЂРµР·СѓР»СЊС‚Р°С‚ СЃРѕРѕР±С‰РµРЅРёРµ
   func description(value: string = nil): string;
 
     if value <> nil then self.container.description = value; end;
@@ -38,14 +38,14 @@ inobject
   end;
 
 
-  -- возвращает объект аналогичный текущему, в котором проверки будут записываться с отрицанием
+  -- РІРѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ Р°РЅР°Р»РѕРіРёС‡РЅС‹Р№ С‚РµРєСѓС‰РµРјСѓ, РІ РєРѕС‚РѕСЂРѕРј РїСЂРѕРІРµСЂРєРё Р±СѓРґСѓС‚ Р·Р°РїРёСЃС‹РІР°С‚СЊСЃСЏ СЃ РѕС‚СЂРёС†Р°РЅРёРµРј
   func invert: UnitTesting.Case;
     
     return self.new(self.container, true);
   end;
 
 
-  -- записывает в результат проверку
+  -- Р·Р°РїРёСЃС‹РІР°РµС‚ РІ СЂРµР·СѓР»СЊС‚Р°С‚ РїСЂРѕРІРµСЂРєСѓ
   func assert_equal(value, expected: variant; description: string = nil): UnitTesting.Case;
 
     self.container.add(UnitTesting.AssertResult.new(value, expected, UnitTesting.Assert.comparison_is_equal, self.inverted, description));
@@ -53,7 +53,7 @@ inobject
   end;
 
 
-  -- записывает в результат проверку
+  -- Р·Р°РїРёСЃС‹РІР°РµС‚ РІ СЂРµР·СѓР»СЊС‚Р°С‚ РїСЂРѕРІРµСЂРєСѓ
   func assert_true(value: variant; description: string = nil): UnitTesting.Case;
 
     self.container.add(UnitTesting.AssertResult.new(value, true, UnitTesting.Assert.comparison_is_true, self.inverted, description));
@@ -61,7 +61,7 @@ inobject
   end;
 
 
-  -- записывает в результат проверку
+  -- Р·Р°РїРёСЃС‹РІР°РµС‚ РІ СЂРµР·СѓР»СЊС‚Р°С‚ РїСЂРѕРІРµСЂРєСѓ
   func assert_false(value: variant; description: string = nil): UnitTesting.Case;
 
     self.container.add(UnitTesting.AssertResult.new(value, false, UnitTesting.Assert.comparison_is_false, self.inverted, description));
