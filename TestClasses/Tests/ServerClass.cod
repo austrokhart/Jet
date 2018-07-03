@@ -1,0 +1,16 @@
+﻿class "";
+
+inclass
+
+
+  func self_value: string;
+    
+    return "server value!";
+  end;
+
+
+  func client_value: string;
+    
+    return Tests.ClientClass.self_value;
+  end;
+end

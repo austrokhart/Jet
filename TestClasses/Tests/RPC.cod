@@ -1,5 +1,4 @@
 ﻿class "Класс для проведения тестов библиотеки RPC";
---import classes Functions.String;
 
 inclass
 

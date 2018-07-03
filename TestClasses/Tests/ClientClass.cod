@@ -1,0 +1,16 @@
+﻿class "Клиентский класс, не принадлежит серверу процедур";
+
+inclass
+
+
+  func self_value: string;
+    
+    return "client value!";
+  end;
+
+
+  func server_value: string;
+    
+    return Tests.ServerClass.self_value;
+  end;
+end
