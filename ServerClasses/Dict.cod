@@ -30,18 +30,6 @@ inclass
   end;
 
 
-  func from_pairs(const pairs: variant[2]): Dict;
-
-    result = self.create;
-
-    with array_each(pairs) do
-      while __next do result.set(array_get(__item, self.PAIR_KEY), array_get(__item, self.PAIR_VALUE)); end;
-    end;
-
-    return result;
-  end;
-
-
 inobject
 
 
@@ -130,7 +118,13 @@ inobject
   -- возвращает копию словаря
   func copy: Dict;
 
-    return self.from_pairs(self.pairs);
+    result = self.new;
+
+    with array_each(self.pairs) do
+      while __next do result.set(array_get(__item, self.PAIR_KEY), array_get(__item, self.PAIR_VALUE)); end;
+    end;
+
+    return result;
   end;
 
 
