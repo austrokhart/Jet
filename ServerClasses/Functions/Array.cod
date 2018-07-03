@@ -202,7 +202,7 @@ inclass
     with Iterator.new(offset, self.array_length(array)) do
       while __next do
 
-        if result = [-1, 0] and self.array_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then
+        if result = [-1, 0] and self.array_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then -- здесь нужно было использовать var_equal, но значения сравниваются и так
           result = [__index, 1];
 
         elsif result <> [-1, 0] and self.array_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then
