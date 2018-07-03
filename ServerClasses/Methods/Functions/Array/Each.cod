@@ -1,4 +1,4 @@
-﻿class inherited Methods.Functions.Array.Iterable "Интерфейс для работы с массивом методом each";
+﻿class inherited Methods.Functions.Array.BaseIterable "Интерфейс для работы с массивом методом each";
 import classes Functions.Array;
 
 inclass

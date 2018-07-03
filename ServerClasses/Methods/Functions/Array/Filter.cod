@@ -1,4 +1,4 @@
-﻿class inherited Methods.Functions.Array.Iterable "Интерфейс для работы с массивом методом filter";
+﻿class inherited Methods.Functions.Array.BaseIterable "Интерфейс для работы с массивом методом filter";
 import classes Functions.Array;
 
 inclass
@@ -27,8 +27,8 @@ inobject
   end;
 
 
-  proc __assign(var variable: variant);
+  proc __assign(var variable: variant; value: variant = nil);
     
-    variable = self.__result;
+    variable = if (value <> nil, value, self.__result);
   end;
 end
