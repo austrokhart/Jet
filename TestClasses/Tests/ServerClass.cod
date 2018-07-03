@@ -11,6 +11,6 @@ inclass
 
   func client_value: string;
     
-    return Tests.ClientClass.self_value;
+    -- return Tests.ClientClass.self_value; -- Обращение к классу "Jet.Tests.ClientClass" недопустимо на сервере
   end;
 end
