@@ -1,5 +1,4 @@
 ﻿class "";
-import classes Packages.SmartConsole;
 
 inclass
 
@@ -10,7 +9,7 @@ inobject
 
   proc run(Sender :Button);
 
-    SmartConsole.new(true).clear.log_multi(UnitTesting.Runner.run([Tests.FunctionsArraySuite]).to_text);
+    SmartConsole.new(true).clear.log_multi(UnitTesting.Runner.run([Tests.Functions.EscapingSuite]).to_text);
   end;
 
 --}

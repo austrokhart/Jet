@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Properties Version="1"/>
+<Items>
+  <Item Name="MathTesting"/>
+  <Item Name="ArrayTesting"/>
+  <Item Name="StringTesting"/>
+  <Item Name="DateTesting"/>
+  <Item Name="EscapingTesting"/>
+  <Item Name="JSONTesting"/>
+</Items>
