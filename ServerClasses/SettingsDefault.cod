@@ -1,0 +1,7 @@
+﻿class "Класс для хранения настроек";
+
+inclass
+
+
+  var UTC_OFFSET: string = "+03:00";
+end
