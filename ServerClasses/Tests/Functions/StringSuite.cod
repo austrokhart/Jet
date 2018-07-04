@@ -211,7 +211,6 @@ inclass
   proc test_str_find(case: UnitTesting.Case);
 
     var test_str: string;
-    var find: str_method_find;
 
     with case do
 

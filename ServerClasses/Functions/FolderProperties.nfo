@@ -4,6 +4,7 @@
   <Item Name="Indexing"/>
   <Item Name="Math"/>
   <Item Name="Array"/>
+  <Item Name="MDArray"/>
   <Item Name="String"/>
   <Item Name="Date"/>
   <Item Name="DateISO"/>

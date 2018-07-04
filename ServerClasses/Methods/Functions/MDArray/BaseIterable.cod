@@ -1,0 +1,61 @@
+﻿class "Класс, реализующий базовые методы итерации массива";
+import classes Functions.Array;
+
+inobject
+
+
+  var __index: integer;
+  var __item:  variant;
+  var __path:  integer[];
+  var __array: variant[];
+
+
+  proc __to_start;
+    
+    self.__index = 0;
+    self.__item  = nil;
+  end;
+
+
+  proc __to_end;
+
+    self.__index = array_length(self.__array) +1;
+  end;
+
+
+  func __next: boolean;
+
+    -- массив индексируется начиная с единицы
+    -- если начнём с 0 и будем делать прединкремент, охватим все значения
+
+    if self.__index >= array_length(self.__array) then return false; end;
+
+    self.__index = self.__index +1;
+    self.__item  = array_get(self.__array, self.__index, , self.__path);
+
+    return true;
+  end;
+
+
+  func __previous: boolean;
+
+    if self.__index <= 1 then return false; end;
+
+    self.__index = self.__index -1;
+    self.__item  = array_get(self.__array, self.__index, , self.__path);
+
+    return true;
+  end;
+
+
+  func __at_start: boolean;
+
+    return self.__index = 1;
+  end;
+
+
+  func __at_end: boolean;
+    
+    return self.__index = array_length(self.__array);
+  end;
+end

@@ -3,6 +3,7 @@
 <Items>
   <Item Name="MathSuite"/>
   <Item Name="ArraySuite"/>
+  <Item Name="MDArraySuite"/>
   <Item Name="StringSuite"/>
   <Item Name="DateSuite"/>
   <Item Name="EscapingSuite"/>
