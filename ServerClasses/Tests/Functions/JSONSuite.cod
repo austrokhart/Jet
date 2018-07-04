@@ -8,7 +8,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_encode_null, 'null');
     end;
@@ -19,7 +19,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_encode_boolean(true),  'true');
       assert_equal(  JSON_encode_boolean(false), 'false');
@@ -31,7 +31,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_encode_numeric(0),      '0');
       assert_equal(  JSON_encode_numeric(2000),   '2000');
@@ -58,7 +58,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_encode_string('abc'),           '"abc"');
       assert_equal(  JSON_encode_string('foobar500'),     '"foobar500"');
@@ -73,7 +73,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_encode_array([]), '[]', 'с пустым массивом');
 
@@ -115,7 +115,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_encode_object(  Dict.new  ),                                            '{}');
       assert_equal(  JSON_encode_object(  Dict.new.set('A', 1)  ),                                '{"A": 1}');
@@ -130,7 +130,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_decode_null('null'),  nil);
       assert_equal(  JSON_decode('null'),       nil);
@@ -142,7 +142,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_decode_boolean('true'),   true);
       assert_equal(  JSON_decode_boolean('false'),  false);
@@ -154,7 +154,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_decode_numeric('0'),      0);
       assert_equal(  JSON_decode_numeric('1'),      1);
@@ -170,7 +170,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_decode_string('""'),           '');
       assert_equal(  JSON_decode_string('" "'),          ' ');
@@ -185,7 +185,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_decode_array('[]'),          []);
       assert_equal(  JSON_decode_array('[""]'),        ['']);
@@ -203,7 +203,7 @@ inclass
 
     with case do
 
-      description('');
+      comment('');
 
       assert_equal(  JSON_decode_object('{}').pairs,                  Dict.new.pairs);
       assert_equal(  JSON_decode_object('{"A": 10}').pairs,           Dict.new.set('A', 10).pairs);

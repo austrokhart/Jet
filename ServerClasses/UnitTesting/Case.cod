@@ -31,10 +31,10 @@ inobject
 
 
   -- возвращает или записывает в результат сообщение
-  func description(value: string = nil): string;
+  func comment(value: string = nil): string;
 
-    if value <> nil then self.container.description = value; end;
-    return self.container.description;
+    if value <> nil then self.container.comment = value; end;
+    return self.container.comment;
   end;
 
 
@@ -46,25 +46,25 @@ inobject
 
 
   -- записывает в результат проверку
-  func assert_equal(value, expected: variant; description: string = nil): UnitTesting.Case;
+  func assert_equal(value, expected: variant; comment: string = nil): UnitTesting.Case;
 
-    self.container.add(UnitTesting.AssertResult.new(value, expected, UnitTesting.Assert.comparison_is_equal, self.inverted, description));
+    self.container.add(UnitTesting.AssertResult.new(value, expected, UnitTesting.Assert.comparison_is_equal, self.inverted, comment));
     return self;
   end;
 
 
   -- записывает в результат проверку
-  func assert_true(value: variant; description: string = nil): UnitTesting.Case;
+  func assert_true(value: variant; comment: string = nil): UnitTesting.Case;
 
-    self.container.add(UnitTesting.AssertResult.new(value, true, UnitTesting.Assert.comparison_is_true, self.inverted, description));
+    self.container.add(UnitTesting.AssertResult.new(value, true, UnitTesting.Assert.comparison_is_true, self.inverted, comment));
     return self;
   end;
 
 
   -- записывает в результат проверку
-  func assert_false(value: variant; description: string = nil): UnitTesting.Case;
+  func assert_false(value: variant; comment: string = nil): UnitTesting.Case;
 
-    self.container.add(UnitTesting.AssertResult.new(value, false, UnitTesting.Assert.comparison_is_false, self.inverted, description));
+    self.container.add(UnitTesting.AssertResult.new(value, false, UnitTesting.Assert.comparison_is_false, self.inverted, comment));
     return self;
   end;
 end

@@ -5,14 +5,14 @@ inclass
 
 
   -- создаёт новый экземпляр класса
-  func new(name: string = nil; description: string = nil; asserts: UnitTesting.AssertResult[] = nil): UnitTesting.CaseResult;
+  func new(name: string = nil; comment: string = nil; asserts: UnitTesting.AssertResult[] = nil): UnitTesting.CaseResult;
     
     result = self.create;
 
-    result.name        = name;
-    result.description = description;
-    result.asserts     = asserts;
-    result.success     = true;
+    result.name    = name;
+    result.comment = comment;
+    result.asserts = asserts;
+    result.success = true;
 
     return result;
   end;
@@ -21,7 +21,7 @@ inobject
 
 
   var name:        string;
-  var description: string;
+  var comment: string;
   var asserts:     UnitTesting.AssertResult[];
   var success:     boolean;
 
@@ -76,10 +76,10 @@ inobject
   func to_text: string[];
 
     if self.is_successful then
-      array_append(result, str_format("случай {} ({})... {}", [self.name, self.description, "успех"]));
+      array_append(result, str_format("случай {} ({})... {}", [self.name, self.comment, "успех"]));
 
     else
-      array_append(result, str_format("случай {} ({})... {}", [self.name, self.description, "неудача"]));
+      array_append(result, str_format("случай {} ({})... {}", [self.name, self.comment, "неудача"]));
 
       with array_each(self.asserts) do
         while __next do array_append(result, str_format("..{}. {}", [__index, __item.to_text])); end;

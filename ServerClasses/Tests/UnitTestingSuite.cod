@@ -7,7 +7,7 @@ inclass
 
     with case do
 
-      description("пояснение к тестовой ситуации, записано внутри тестовой ситуации");
+      comment("пояснение к тестовой ситуации, записано внутри тестовой ситуации");
       assert_equal(1, 1, "пояснение к проверке, которое не отобразится");
       assert_equal(0, 0);
       assert_equal(-1, -1);
@@ -19,7 +19,7 @@ inclass
 
     with case do
 
-      description("другое пояснение");
+      comment("другое пояснение");
       assert_equal(10, 10);
       invert.assert_equal(10, 0);
       invert.assert_equal(10, 10, "пояснение к проверке, отображается в случае неудачи");
@@ -31,8 +31,8 @@ inclass
 
     with case do
 
-      description("очередное пояснение");
-      description(description +" (плюс дополнение)");
+      comment("очередное пояснение");
+      comment(comment +" (плюс дополнение)");
       assert_equal(0, nil);
       assert_equal("", nil);
       assert_equal(nil, nil);

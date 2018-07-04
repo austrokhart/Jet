@@ -5,16 +5,16 @@ inclass
 
 
   -- создаёт новый экземпляр класса
-  func new(value, expected: variant; comparison: UnitTesting.Assert.comparison_type; inverted: boolean = false; description: string = nil): UnitTesting.AssertResult;
+  func new(value, expected: variant; comparison: UnitTesting.Assert.comparison_type; inverted: boolean = false; comment: string = nil): UnitTesting.AssertResult;
 
     result = self.create;
 
-    result.value       = value;
-    result.expected    = expected;
-    result.comparison  = comparison;
-    result.inverted    = inverted;
-    result.description = description;
-    result.success     = UnitTesting.Assert.compare(value, expected, comparison);
+    result.value      = value;
+    result.expected   = expected;
+    result.comparison = comparison;
+    result.inverted   = inverted;
+    result.comment    = comment;
+    result.success    = UnitTesting.Assert.compare(value, expected, comparison);
 
     return result;
   end;
@@ -26,7 +26,7 @@ inobject
   var expected:    variant;
   var comparison:  integer;
   var inverted:    boolean;
-  var description: string;
+  var comment:     string;
   var success:     boolean;
 
 
@@ -48,10 +48,10 @@ inobject
 
     -- если результат отрицается и отрицательный или если результат не отрицается и положительный
     if (self.is_inverted xor self.is_successful) then
-      result = str_format("успех ({})", [self.description]);
+      result = str_format("успех ({})", [self.comment]);
 
     else
-      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [tostr(self.value), if (self.is_inverted, " не", ""), tostr(self.expected), self.description]);
+      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [tostr(self.value), if (self.is_inverted, " не", ""), tostr(self.expected), self.comment]);
     end;
 
     return result;

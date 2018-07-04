@@ -5,12 +5,12 @@ inclass
 
 
   -- возвращает новый экземпляр класса
-  func new(name: string; description: string = nil; cases: UnitTesting.CaseResult[] = nil): UnitTesting.SuiteResult;
+  func new(name: string; comment: string = nil; cases: UnitTesting.CaseResult[] = nil): UnitTesting.SuiteResult;
     
     result = self.create;
 
     result.name    = name;
-    result.description = description;
+    result.comment = comment;
     result.cases   = cases;
     result.success = true;
 
@@ -20,10 +20,10 @@ inclass
 inobject
 
 
-  var name:        string;
-  var description: string;
-  var cases:       UnitTesting.CaseResult[];
-  var success:     boolean;
+  var name:    string;
+  var comment: string;
+  var cases:   UnitTesting.CaseResult[];
+  var success: boolean;
 
 
   -- добавляет результат тестового случая в результаты
@@ -85,7 +85,7 @@ inobject
   -- возвращает текстовое представление набора
   func to_text: string[];
 
-    array_append(result, str_format("набор {} ({}):", [self.name, self.description]));
+    array_append(result, str_format("набор {} ({}):", [self.name, self.comment]));
 
     with array_each(self.cases) do
       while __next do

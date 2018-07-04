@@ -61,7 +61,7 @@ inclass
 
     with case do
 
-      description("");
+      comment("");
 
       test_dict = Dict.new.set("a", 1);
 
