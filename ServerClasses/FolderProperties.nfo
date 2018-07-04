@@ -13,8 +13,8 @@
   <Item Name="StringObject"/>
   <Item Name="DateObject"/>
   <Item Name="Dict"/>
-  <Item Name="DevConsole"/>
   <Item Name="SmartQuery"/>
+  <Item Name="SmartConsole"/>
   <Item Name="Timer"/>
   <Item Name="Settings"/>
 </Items>

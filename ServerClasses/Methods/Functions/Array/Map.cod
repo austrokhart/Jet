@@ -10,7 +10,7 @@ inclass
 
     result.__array = array;
     result.__path  = path;
-    result.__to_start;
+    result.__begin;
   end;
 
 inobject

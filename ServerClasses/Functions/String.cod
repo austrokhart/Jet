@@ -209,7 +209,7 @@ inclass
         while __next do
           if self.str_starts_with(result, __item) then
             result = self.str_substr(result, self.str_length(__item) +1);
-            __to_start;
+            __begin;
           end;
         end;
       end;
@@ -217,12 +217,12 @@ inclass
       -- если нужно, очистим конец
       if direction in [self.STR_TRIM_RIGHT, self.STR_TRIM_BOTH] then
 
-        __to_start;
+        __begin;
 
         while __next do
           if self.str_ends_with(result, __item) then
             result = self.str_substr(result, 1, -self.str_length(__item));
-            __to_start;
+            __begin;
           end;
         end;
       end;

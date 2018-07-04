@@ -10,16 +10,41 @@ inobject
   var __array: variant[];
 
 
-  proc __to_start;
+  func __count: integer;
     
-    self.__index = 0;
+    return array_length(self.__array);
+  end;
+
+
+  proc __to_index(index: integer);
+    
+    self.__index = index;
+    self.__item  = mdarray_get(self.__array, index, self.__path, nil);
+  end;
+
+
+  proc __begin;
+    
+    self.__to_index(0);
+  end;
+
+
+  proc __end;
+
+    self.__index = array_length(self.__array) +1;
     self.__item  = nil;
   end;
 
 
-  proc __to_end;
+  func __at_begin: boolean;
 
-    self.__index = array_length(self.__array) +1;
+    return self.__index = 1;
+  end;
+
+
+  func __at_end: boolean;
+    
+    return self.__index = self.__count;
   end;
 
 
@@ -28,11 +53,9 @@ inobject
     -- массив индексируется начиная с единицы
     -- если начнём с 0 и будем делать прединкремент, охватим все значения
 
-    if self.__index >= array_length(self.__array) then return false; end;
+    if self.__index >= self.__count then return false; end;
 
-    self.__index = self.__index +1;
-    self.__item  = mdarray_get(self.__array, self.__index, self.__path, nil);
-
+    self.__to_index(self.__index +1);
     return true;
   end;
 
@@ -41,21 +64,7 @@ inobject
 
     if self.__index <= 1 then return false; end;
 
-    self.__index = self.__index -1;
-    self.__item  = mdarray_get(self.__array, self.__index, self.__path, nil);
-
+    self.__to_index(self.__index -1);
     return true;
-  end;
-
-
-  func __at_start: boolean;
-
-    return self.__index = 1;
-  end;
-
-
-  func __at_end: boolean;
-    
-    return self.__index = array_length(self.__array);
   end;
 end
