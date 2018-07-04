@@ -31,7 +31,7 @@ inobject
     if self.__index >= array_length(self.__array) then return false; end;
 
     self.__index = self.__index +1;
-    self.__item  = array_get(self.__array, self.__index, , self.__path);
+    self.__item  = mdarray_get(self.__array, self.__index, self.__path, nil);
 
     return true;
   end;
@@ -42,7 +42,7 @@ inobject
     if self.__index <= 1 then return false; end;
 
     self.__index = self.__index -1;
-    self.__item  = array_get(self.__array, self.__index, , self.__path);
+    self.__item  = mdarray_get(self.__array, self.__index, self.__path, nil);
 
     return true;
   end;

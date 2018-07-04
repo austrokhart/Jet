@@ -25,31 +25,6 @@ inclass
   end;
 
 
---  proc test_array_from_iterable(case: UnitTesting.Case);
---
---    var test_list: List;
---
---    with case do
---
---      test_list = List.create;
---      test_list.add(10);
---      test_list.add(20);
---      test_list.add(30);
---
---      assert_equal(array_from_iterable(test_list), [10, 20, 30]);
---
---      test_list.add(40);
---      test_list.add(50);
---
---      assert_equal(array_from_iterable(test_list), [10, 20, 30, 40, 50]);
---
---      test_list.clear;
---
---      assert_equal(array_from_iterable(test_list), []);
---    end;
---  end;
-
-
   proc test_array_length(case: UnitTesting.Case);
 
     var test_array: variant[];
@@ -72,64 +47,6 @@ inclass
 
       test_array[4] = 40;
       test_array[5] = 50;
-      assert_equal(array_length(test_array), 5);
-    end;
-  end;
-
-
-  proc test_array_length_multi(case: UnitTesting.Case);
-
-    var test_array: variant[];
-
-    with case do
-
-      -- те же проверки, но для многомерных массивов
-
-      test_array = [[]];
-      assert_equal(array_length(test_array), 1, "с многомерными массивами без значений");
-
-      test_array = [[], []];
-      assert_equal(array_length(test_array), 2);
-      assert_equal(array_length(test_array[2]), 0, "с указанием подмассива");
-
-      test_array[3] = [];
-      assert_equal(array_length(test_array), 3, "с динамическим добавлением значений");
-      assert_equal(array_length(test_array[3]), 0);
-
-      test_array[4] = [];
-      test_array[5] = [];
-      assert_equal(array_length(test_array), 5);
-
-
-      test_array = [[10]];
-      assert_equal(array_length(test_array), 1, "с многомерными массивами со значениями");
-
-      test_array = [[10], [20]];
-      assert_equal(array_length(test_array), 2);
-      assert_equal(array_length(test_array[2]), 1, "с указанием подмассива");
-
-      test_array[3] = [30];
-      assert_equal(array_length(test_array), 3, "с динамическим добавлением значений");
-      assert_equal(array_length(test_array[3]), 1);
-
-      test_array[4] = [40];
-      test_array[5] = [50];
-      assert_equal(array_length(test_array), 5);
-
-
-      test_array = [[00, 10]];
-      assert_equal(array_length(test_array), 1, "с многомерными массивами со множеством значений");
-
-      test_array = [[00, 10], [20, 30]];
-      assert_equal(array_length(test_array), 2);
-      assert_equal(array_length(test_array[2]), 2, "с указанием подмассива");
-
-      test_array[3] = [40, 50];
-      assert_equal(array_length(test_array), 3, "с динамическим добавлением значений");
-      assert_equal(array_length(test_array[3]), 2);
-
-      test_array[4] = [60, 70];
-      test_array[5] = [80, 90];
       assert_equal(array_length(test_array), 5);
     end;
   end;
@@ -172,45 +89,8 @@ inclass
       assert_equal(  array_get(test_array, 6),                nil,    "проверки c выходящим индексом");
       assert_equal(  array_get(test_array, -6),               10,     "стоит обратить внимание, что выйти в обратную сторону невозможно");
 
-      assert_equal(  array_get(test_array, 6, nil, "oops"),   "oops", "проверки со значением по-умолчанию");
-      assert_equal(  array_get(test_array, -6, nil, "oops"),  10);
-    end;
-  end;
-
-
-  proc test_array_get_multi(case: UnitTesting.Case);
-
-    var test_array: variant[];
-
-    with case do
-
-      description("те же проверки, но для многомерных массивов");
-
-      test_array = [
-        [05, 10],
-        [20, 30],
-        [40, 50],
-        [60, 70],
-        [80, 90]
-      ];
-
-      assert_equal(  array_get(test_array, 0, [1]),      05,  "проверка с нулевым индексом");
-
-      assert_equal(  array_get(test_array, 1, [1]),      05,  "проверки с положительным индексом");
-      assert_equal(  array_get(test_array, 2, [1]),      20);
-      assert_equal(  array_get(test_array, 1, [2]),      10);
-      assert_equal(  array_get(test_array, 2, [2]),      30);
-
-      assert_equal(  array_get(test_array, -1, [1]),     80,  "проверки с отрицательым индексом");
-      assert_equal(  array_get(test_array, -2, [1]),     60);
-      assert_equal(  array_get(test_array, -1, [2]),     90);
-      assert_equal(  array_get(test_array, -2, [2]),     70);
-
-      assert_equal(  array_get(test_array, 6, [1]),      nil, "проверки с выходящим индексом");
-      assert_equal(  array_get(test_array, -6, [1]),     05);
-
-      assert_equal(  array_get(test_array, 6, [1], "oops"),   "oops", "проверки со значением по-умолчанию");
-      assert_equal(  array_get(test_array, -6, [1], "oops"),  05);
+      assert_equal(  array_get(test_array, 6, "oops"),   "oops", "проверки со значением по-умолчанию");
+      assert_equal(  array_get(test_array, -6, "oops"),  10);
     end;
   end;
 
@@ -253,71 +133,6 @@ inclass
   end;
 
 
-  proc test_array_set_multi(case: UnitTesting.Case);
-
-    var test_array: variant[];
-
-    with case do
-
-      -- те же проверки, но для многомерных массивов
-
-      test_array = [
-        [00, 10],
-        [20, 30],
-        [40, 50] as variant[]
-      ];
-
-      array_set(test_array, 0, 05, [0]);
-      assert_equal(test_array, [[05, 10], [20, 30], [40, 50]], "с нулевыми индексами");
-
-      array_set(test_array, 0, 10, [1]);
-      assert_equal(test_array, [[10, 10], [20, 30], [40, 50]]);
-
-      array_set(test_array, 1, 15, [0]);
-      assert_equal(test_array, [[15, 10], [20, 30], [40, 50]]);
-
-
-      array_set(test_array, 1, 20, [1]);
-      assert_equal(test_array, [[20, 10], [20, 30], [40, 50]], "с положительными индексами");
-
-      array_set(test_array, 1, 20, [2]);
-      assert_equal(test_array, [[20, 20], [20, 30], [40, 50]]);
-
-      array_set(test_array, 3, 50, [1]);
-      assert_equal(test_array, [[20, 20], [20, 30], [50, 50]]);
-
-      array_set(test_array, 3, 60, [2]);
-      assert_equal(test_array, [[20, 20], [20, 30], [50, 60]]);
-
-
-      array_set(test_array, -1, 60, [1]);
-      assert_equal(test_array, [[20, 20], [20, 30], [60, 60]], "с отрицательными индексами");
-
-      array_set(test_array, -1, 70, [2]);
-      assert_equal(test_array, [[20, 20], [20, 30], [60, 70]]);
-
-      array_set(test_array, -3, 25, [-1]);
-      assert_equal(test_array, [[20, 25], [20, 30], [60, 70]]);
-
-      array_set(test_array, -3, 30, [2]);
-      assert_equal(test_array, [[20, 30], [20, 30], [60, 70]]);
-
-
-      array_set(test_array, 4, 80, [1]);
-      assert_equal(test_array, [[20, 30], [20, 30], [60, 70]], "с выходящими индексами");
-
-      array_set(test_array, -4, 40, [2]);
-      assert_equal(test_array, [[20, 40], [20, 30], [60, 70]]);
-
-      array_set(test_array, 1, 30, [-3]);
-      assert_equal(test_array, [[30, 40], [20, 30], [60, 70]]);
-
-      array_set(test_array, 1, 50, [3]);
-      assert_equal(test_array, [[30, 40, 50], [20, 30], [60, 70]]);
-    end;
-  end;
-
-
   proc test_array_unset(case: UnitTesting.Case);
 
     var test_array: variant[];
@@ -352,47 +167,6 @@ inclass
   end;
 
 
-  proc test_array_unset_multi(case: UnitTesting.Case);
-
-    var test_array: variant[];
-
-    with case do
-
-      -- те же проверки, но для многомерных массивов
-
-      test_array = [
-        [00, 10],
-        [20, 30],
-        [40, 50] as variant[]
-      ];
-
-      array_unset(test_array, 1, [2]);
-      assert_equal(test_array, [[00], [20, 30], [40, 50]], "с положительными индексами");
-
-      array_unset(test_array, 1, [1]);
-      assert_equal(test_array, [[], [20, 30], [40, 50]]);
-
-      array_unset(test_array, -1, [-2]);
-      assert_equal(test_array, [[], [20, 30], [50]], "с отрицательными индексами");
-
-      array_unset(test_array, -1, [1]);
-      assert_equal(test_array, [[], [20, 30], []]);
-
-      array_unset(test_array, 4, [1]);
-      assert_equal(test_array, [[], [20, 30], []], "с выходящими индексами");
-
-      array_unset(test_array, -4, [2]);
-      assert_equal(test_array, [[], [20, 30], []]);
-
-      array_unset(test_array, 2, [4]);
-      assert_equal(test_array, [[], [20, 30], []]);
-
-      array_unset(test_array, 2, [-4]);
-      assert_equal(test_array, [[], [30], []]);
-    end;
-  end;
-
-
   proc test_array_is_set(case: UnitTesting.Case);
 
     var test_array: variant[];
@@ -421,41 +195,6 @@ inclass
   end;
 
 
-  proc test_array_is_set_multi(case: UnitTesting.Case);
-
-    var test_array: variant[];
-
-    with case do
-
-      -- то же самое, но для многомерных массивов
-
-      test_array = [
-        [00, 10, 20],
-        [30, 40    ],
-        [60        ] as variant[]
-      ];
-
-      array_set(test_array, 3, 90, [3]);
-
-      assert_false(  array_is_set(test_array, 0), "c нулевыми индексами");
-      assert_false(  array_is_set(test_array, 0, [0]));
-      assert_false(  array_is_set(test_array, 1, [0]));
-
-      assert_true(   array_is_set(test_array, 1), "с положительными индексами");
-      assert_true(   array_is_set(test_array, 1, [1]));
-      assert_true(   array_is_set(test_array, 2, [2]));
-      assert_true(   array_is_set(test_array, 3, [3]));
-
-      assert_false(  array_is_set(test_array, -1), "с отсутствующими и выходящими индексами");
-      assert_false(  array_is_set(test_array, 4));
-      assert_false(  array_is_set(test_array, -1, [1]));
-      assert_false(  array_is_set(test_array, 1, [-1]));
-      assert_false(  array_is_set(test_array, 2, [3]));
-      assert_false(  array_is_set(test_array, 3, [2]));
-    end;
-  end;
-
-
   proc test_array_clear(case: UnitTesting.Case);
 
     var test_array: variant[];
@@ -465,53 +204,6 @@ inclass
       -- простая проверка
 
       test_array = [1, 2, 3, 4, 5];
-
-      array_clear(test_array);
-      assert_equal(test_array, []);
-    end;
-  end;
-
-
-  proc test_array_clear_multi(case: UnitTesting.Case);
-
-    var test_array: variant[];
-
-    with case do
-
-      -- то же самое, но для многомерных массивов
-
-      test_array = [
-        [0, 1],
-        [2, 3],
-        [4, 5],
-        [6, 7],
-        [8, 9] as variant[]
-      ];
-
-      assert_equal(test_array, [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]);
-
-      array_clear(test_array, [2]);
-      assert_equal(test_array, [[0], [2], [4], [6], [8]]);
-
-      array_clear(test_array, [1]);
-      assert_equal(test_array, [[], [], [], [], []]);
-
-      array_clear(test_array);
-      assert_equal(test_array, []);
-
-
-      test_array = [
-        [0, 1, 2, 3, 4],
-        [5, 6, 7, 8, 9] as variant[]
-      ];
-
-      assert_equal(test_array, [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]);
-
-      array_clear(test_array, [5]);
-      assert_equal(test_array, [[0, 1, 2, 3], [5, 6, 7, 8]]);
-
-      array_clear(test_array, [-5]);
-      assert_equal(test_array, [[1, 2, 3], [6, 7, 8]]);
 
       array_clear(test_array);
       assert_equal(test_array, []);
@@ -595,41 +287,6 @@ inclass
 
       assert_equal(array_pos(test_array, [40, 30, 20]), [-1, 0], "со множеством отсутствующих значений");
       assert_equal(array_pos(test_array, ["20", "30", "40"]), [-1, 0]);
-    end;
-  end;
-
-
-  proc test_array_pos_multi(case: UnitTesting.Case);
-
-    var test_array: variant[];
-
-    with case do
-
-      -- то же самое, но для многомерных массивов
-
-      test_array = [10, 20, 30, 40, 50];
-      assert_equal(array_pos(test_array, [40]), [4, 1]);
-
-      test_array = [
-        [00, 10],
-        [20, 30],
-        [40, 50],
-        [60, 70],
-        [80, 90]
-      ];
-
-      assert_equal(array_pos(test_array, [[00, 10]]), [1, 1]);
-      assert_equal(array_pos(test_array, [[80, 90]]), [5, 1]);
-
-      assert_equal(array_pos(test_array, [[00, 10], [20, 30]]), [1, 2]);
-      assert_equal(array_pos(test_array, [[60, 70], [80, 90]]), [4, 2]);
-
-      assert_equal(array_pos(test_array, [00], [1]), [1, 1]);
-      assert_equal(array_pos(test_array, [00, 20], [1]), [1, 2]);
-
-      assert_equal(array_pos(test_array, [00, 10]), [-1, 0]);
-      assert_equal(array_pos(test_array, [00, 10, 20]), [-1, 0]);
-      assert_equal(array_pos(test_array, [["00", "20"]]), [-1, 0]);
     end;
   end;
 

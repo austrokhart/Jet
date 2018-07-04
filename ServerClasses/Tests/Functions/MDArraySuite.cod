@@ -4,7 +4,7 @@ import classes Functions.Array;
 inclass
 
 
-  proc test_array_length(case: UnitTesting.Case);
+  proc test_mdarray_length(case: UnitTesting.Case);
 
     var test_array: variant[];
 
@@ -13,56 +13,56 @@ inclass
       -- те же проверки, но для многомерных массивов
 
       test_array = [[]];
-      assert_equal(array_length(test_array), 1, "с многомерными массивами без значений");
+      assert_equal(mdarray_length(test_array), 1, "с многомерными массивами без значений");
 
       test_array = [[], []];
-      assert_equal(array_length(test_array), 2);
-      assert_equal(array_length(test_array[2]), 0, "с указанием подмассива");
+      assert_equal(mdarray_length(test_array), 2);
+      assert_equal(mdarray_length(test_array[2]), 0, "с указанием подмассива");
 
       test_array[3] = [];
-      assert_equal(array_length(test_array), 3, "с динамическим добавлением значений");
-      assert_equal(array_length(test_array[3]), 0);
+      assert_equal(mdarray_length(test_array), 3, "с динамическим добавлением значений");
+      assert_equal(mdarray_length(test_array[3]), 0);
 
       test_array[4] = [];
       test_array[5] = [];
-      assert_equal(array_length(test_array), 5);
+      assert_equal(mdarray_length(test_array), 5);
 
 
       test_array = [[10]];
-      assert_equal(array_length(test_array), 1, "с многомерными массивами со значениями");
+      assert_equal(mdarray_length(test_array), 1, "с многомерными массивами со значениями");
 
       test_array = [[10], [20]];
-      assert_equal(array_length(test_array), 2);
-      assert_equal(array_length(test_array[2]), 1, "с указанием подмассива");
+      assert_equal(mdarray_length(test_array), 2);
+      assert_equal(mdarray_length(test_array[2]), 1, "с указанием подмассива");
 
       test_array[3] = [30];
-      assert_equal(array_length(test_array), 3, "с динамическим добавлением значений");
-      assert_equal(array_length(test_array[3]), 1);
+      assert_equal(mdarray_length(test_array), 3, "с динамическим добавлением значений");
+      assert_equal(mdarray_length(test_array[3]), 1);
 
       test_array[4] = [40];
       test_array[5] = [50];
-      assert_equal(array_length(test_array), 5);
+      assert_equal(mdarray_length(test_array), 5);
 
 
       test_array = [[00, 10]];
-      assert_equal(array_length(test_array), 1, "с многомерными массивами со множеством значений");
+      assert_equal(mdarray_length(test_array), 1, "с многомерными массивами со множеством значений");
 
       test_array = [[00, 10], [20, 30]];
-      assert_equal(array_length(test_array), 2);
-      assert_equal(array_length(test_array[2]), 2, "с указанием подмассива");
+      assert_equal(mdarray_length(test_array), 2);
+      assert_equal(mdarray_length(test_array[2]), 2, "с указанием подмассива");
 
       test_array[3] = [40, 50];
-      assert_equal(array_length(test_array), 3, "с динамическим добавлением значений");
-      assert_equal(array_length(test_array[3]), 2);
+      assert_equal(mdarray_length(test_array), 3, "с динамическим добавлением значений");
+      assert_equal(mdarray_length(test_array[3]), 2);
 
       test_array[4] = [60, 70];
       test_array[5] = [80, 90];
-      assert_equal(array_length(test_array), 5);
+      assert_equal(mdarray_length(test_array), 5);
     end;
   end;
 
 
-  proc test_array_get(case: UnitTesting.Case);
+  proc test_mdarray_get(case: UnitTesting.Case);
 
     var test_array: variant[];
 
@@ -78,28 +78,28 @@ inclass
         [80, 90]
       ];
 
-      assert_equal(  array_get(test_array, 0, [1]),      05,  "проверка с нулевым индексом");
+      assert_equal(  mdarray_get(test_array, 0, [1]),      05,  "проверка с нулевым индексом");
 
-      assert_equal(  array_get(test_array, 1, [1]),      05,  "проверки с положительным индексом");
-      assert_equal(  array_get(test_array, 2, [1]),      20);
-      assert_equal(  array_get(test_array, 1, [2]),      10);
-      assert_equal(  array_get(test_array, 2, [2]),      30);
+      assert_equal(  mdarray_get(test_array, 1, [1]),      05,  "проверки с положительным индексом");
+      assert_equal(  mdarray_get(test_array, 2, [1]),      20);
+      assert_equal(  mdarray_get(test_array, 1, [2]),      10);
+      assert_equal(  mdarray_get(test_array, 2, [2]),      30);
 
-      assert_equal(  array_get(test_array, -1, [1]),     80,  "проверки с отрицательым индексом");
-      assert_equal(  array_get(test_array, -2, [1]),     60);
-      assert_equal(  array_get(test_array, -1, [2]),     90);
-      assert_equal(  array_get(test_array, -2, [2]),     70);
+      assert_equal(  mdarray_get(test_array, -1, [1]),     80,  "проверки с отрицательым индексом");
+      assert_equal(  mdarray_get(test_array, -2, [1]),     60);
+      assert_equal(  mdarray_get(test_array, -1, [2]),     90);
+      assert_equal(  mdarray_get(test_array, -2, [2]),     70);
 
-      assert_equal(  array_get(test_array, 6, [1]),      nil, "проверки с выходящим индексом");
-      assert_equal(  array_get(test_array, -6, [1]),     05);
+      assert_equal(  mdarray_get(test_array, 6, [1]),      nil, "проверки с выходящим индексом");
+      assert_equal(  mdarray_get(test_array, -6, [1]),     05);
 
-      assert_equal(  array_get(test_array, 6, [1], "oops"),   "oops", "проверки со значением по-умолчанию");
-      assert_equal(  array_get(test_array, -6, [1], "oops"),  05);
+      assert_equal(  mdarray_get(test_array, 6, [1], "oops"),   "oops", "проверки со значением по-умолчанию");
+      assert_equal(  mdarray_get(test_array, -6, [1], "oops"),  05);
     end;
   end;
 
 
-  proc test_array_set(case: UnitTesting.Case);
+  proc test_mdarray_set(case: UnitTesting.Case);
 
     var test_array: variant[];
 
@@ -113,58 +113,58 @@ inclass
         [40, 50] as variant[]
       ];
 
-      array_set(test_array, 0, 05, [0]);
+      mdarray_set(test_array, 0, [0], 05);
       assert_equal(test_array, [[05, 10], [20, 30], [40, 50]], "с нулевыми индексами");
 
-      array_set(test_array, 0, 10, [1]);
+      mdarray_set(test_array, 0, [1], 10);
       assert_equal(test_array, [[10, 10], [20, 30], [40, 50]]);
 
-      array_set(test_array, 1, 15, [0]);
+      mdarray_set(test_array, 1, [0], 15);
       assert_equal(test_array, [[15, 10], [20, 30], [40, 50]]);
 
 
-      array_set(test_array, 1, 20, [1]);
+      mdarray_set(test_array, 1, [1], 20);
       assert_equal(test_array, [[20, 10], [20, 30], [40, 50]], "с положительными индексами");
 
-      array_set(test_array, 1, 20, [2]);
+      mdarray_set(test_array, 1, [2], 20);
       assert_equal(test_array, [[20, 20], [20, 30], [40, 50]]);
 
-      array_set(test_array, 3, 50, [1]);
+      mdarray_set(test_array, 3, [1], 50);
       assert_equal(test_array, [[20, 20], [20, 30], [50, 50]]);
 
-      array_set(test_array, 3, 60, [2]);
+      mdarray_set(test_array, 3, [2], 60);
       assert_equal(test_array, [[20, 20], [20, 30], [50, 60]]);
 
 
-      array_set(test_array, -1, 60, [1]);
+      mdarray_set(test_array, -1, [1], 60);
       assert_equal(test_array, [[20, 20], [20, 30], [60, 60]], "с отрицательными индексами");
 
-      array_set(test_array, -1, 70, [2]);
+      mdarray_set(test_array, -1, [2], 70);
       assert_equal(test_array, [[20, 20], [20, 30], [60, 70]]);
 
-      array_set(test_array, -3, 25, [-1]);
+      mdarray_set(test_array, -3, [-1], 25);
       assert_equal(test_array, [[20, 25], [20, 30], [60, 70]]);
 
-      array_set(test_array, -3, 30, [2]);
+      mdarray_set(test_array, -3, [2], 30);
       assert_equal(test_array, [[20, 30], [20, 30], [60, 70]]);
 
 
-      array_set(test_array, 4, 80, [1]);
+      mdarray_set(test_array, 4, [1], 80);
       assert_equal(test_array, [[20, 30], [20, 30], [60, 70]], "с выходящими индексами");
 
-      array_set(test_array, -4, 40, [2]);
+      mdarray_set(test_array, -4, [2], 40);
       assert_equal(test_array, [[20, 40], [20, 30], [60, 70]]);
 
-      array_set(test_array, 1, 30, [-3]);
+      mdarray_set(test_array, 1, [-3], 30);
       assert_equal(test_array, [[30, 40], [20, 30], [60, 70]]);
 
-      array_set(test_array, 1, 50, [3]);
+      mdarray_set(test_array, 1, [3], 50);
       assert_equal(test_array, [[30, 40, 50], [20, 30], [60, 70]]);
     end;
   end;
 
 
-  proc test_array_unset(case: UnitTesting.Case);
+  proc test_mdarray_unset(case: UnitTesting.Case);
 
     var test_array: variant[];
 
@@ -178,34 +178,34 @@ inclass
         [40, 50] as variant[]
       ];
 
-      array_unset(test_array, 1, [2]);
+      mdarray_unset(test_array, 1, [2]);
       assert_equal(test_array, [[00], [20, 30], [40, 50]], "с положительными индексами");
 
-      array_unset(test_array, 1, [1]);
+      mdarray_unset(test_array, 1, [1]);
       assert_equal(test_array, [[], [20, 30], [40, 50]]);
 
-      array_unset(test_array, -1, [-2]);
+      mdarray_unset(test_array, -1, [-2]);
       assert_equal(test_array, [[], [20, 30], [50]], "с отрицательными индексами");
 
-      array_unset(test_array, -1, [1]);
+      mdarray_unset(test_array, -1, [1]);
       assert_equal(test_array, [[], [20, 30], []]);
 
-      array_unset(test_array, 4, [1]);
+      mdarray_unset(test_array, 4, [1]);
       assert_equal(test_array, [[], [20, 30], []], "с выходящими индексами");
 
-      array_unset(test_array, -4, [2]);
+      mdarray_unset(test_array, -4, [2]);
       assert_equal(test_array, [[], [20, 30], []]);
 
-      array_unset(test_array, 2, [4]);
+      mdarray_unset(test_array, 2, [4]);
       assert_equal(test_array, [[], [20, 30], []]);
 
-      array_unset(test_array, 2, [-4]);
+      mdarray_unset(test_array, 2, [-4]);
       assert_equal(test_array, [[], [30], []]);
     end;
   end;
 
 
-  proc test_array_is_set(case: UnitTesting.Case);
+  proc test_mdarray_is_set(case: UnitTesting.Case);
 
     var test_array: variant[];
 
@@ -219,28 +219,28 @@ inclass
         [60        ] as variant[]
       ];
 
-      array_set(test_array, 3, 90, [3]);
+      mdarray_set(test_array, 3, [3], 90);
 
-      assert_false(  array_is_set(test_array, 0), "c нулевыми индексами");
-      assert_false(  array_is_set(test_array, 0, [0]));
-      assert_false(  array_is_set(test_array, 1, [0]));
+      assert_false(  mdarray_is_set(test_array, 0), "c нулевыми индексами");
+      assert_false(  mdarray_is_set(test_array, 0, [0]));
+      assert_false(  mdarray_is_set(test_array, 1, [0]));
 
-      assert_true(   array_is_set(test_array, 1), "с положительными индексами");
-      assert_true(   array_is_set(test_array, 1, [1]));
-      assert_true(   array_is_set(test_array, 2, [2]));
-      assert_true(   array_is_set(test_array, 3, [3]));
+      assert_true(   mdarray_is_set(test_array, 1), "с положительными индексами");
+      assert_true(   mdarray_is_set(test_array, 1, [1]));
+      assert_true(   mdarray_is_set(test_array, 2, [2]));
+      assert_true(   mdarray_is_set(test_array, 3, [3]));
 
-      assert_false(  array_is_set(test_array, -1), "с отсутствующими и выходящими индексами");
-      assert_false(  array_is_set(test_array, 4));
-      assert_false(  array_is_set(test_array, -1, [1]));
-      assert_false(  array_is_set(test_array, 1, [-1]));
-      assert_false(  array_is_set(test_array, 2, [3]));
-      assert_false(  array_is_set(test_array, 3, [2]));
+      assert_false(  mdarray_is_set(test_array, -1), "с отсутствующими и выходящими индексами");
+      assert_false(  mdarray_is_set(test_array, 4));
+      assert_false(  mdarray_is_set(test_array, -1, [1]));
+      assert_false(  mdarray_is_set(test_array, 1, [-1]));
+      assert_false(  mdarray_is_set(test_array, 2, [3]));
+      assert_false(  mdarray_is_set(test_array, 3, [2]));
     end;
   end;
 
 
-  proc test_array_clear(case: UnitTesting.Case);
+  proc test_mdarray_clear(case: UnitTesting.Case);
 
     var test_array: variant[];
 
@@ -258,13 +258,13 @@ inclass
 
       assert_equal(test_array, [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]);
 
-      array_clear(test_array, [2]);
+      mdarray_clear(test_array, [2]);
       assert_equal(test_array, [[0], [2], [4], [6], [8]]);
 
-      array_clear(test_array, [1]);
+      mdarray_clear(test_array, [1]);
       assert_equal(test_array, [[], [], [], [], []]);
 
-      array_clear(test_array);
+      mdarray_clear(test_array);
       assert_equal(test_array, []);
 
 
@@ -275,19 +275,19 @@ inclass
 
       assert_equal(test_array, [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]);
 
-      array_clear(test_array, [5]);
+      mdarray_clear(test_array, [5]);
       assert_equal(test_array, [[0, 1, 2, 3], [5, 6, 7, 8]]);
 
-      array_clear(test_array, [-5]);
+      mdarray_clear(test_array, [-5]);
       assert_equal(test_array, [[1, 2, 3], [6, 7, 8]]);
 
-      array_clear(test_array);
+      mdarray_clear(test_array);
       assert_equal(test_array, []);
     end;
   end;
 
 
-  proc test_array_pos(case: UnitTesting.Case);
+  proc test_mdarray_pos(case: UnitTesting.Case);
 
     var test_array: variant[];
 
@@ -296,7 +296,7 @@ inclass
       -- то же самое, но для многомерных массивов
 
       test_array = [10, 20, 30, 40, 50];
-      assert_equal(array_pos(test_array, [40]), [4, 1]);
+      assert_equal(mdarray_pos(test_array, nil, [40]), [4, 1]);
 
       test_array = [
         [00, 10],
@@ -306,92 +306,52 @@ inclass
         [80, 90]
       ];
 
-      assert_equal(array_pos(test_array, [[00, 10]]), [1, 1]);
-      assert_equal(array_pos(test_array, [[80, 90]]), [5, 1]);
+      assert_equal(mdarray_pos(test_array, nil, [[00, 10]]), [1, 1]);
+      assert_equal(mdarray_pos(test_array, nil, [[80, 90]]), [5, 1]);
 
-      assert_equal(array_pos(test_array, [[00, 10], [20, 30]]), [1, 2]);
-      assert_equal(array_pos(test_array, [[60, 70], [80, 90]]), [4, 2]);
+      assert_equal(mdarray_pos(test_array, nil, [[00, 10], [20, 30]]), [1, 2]);
+      assert_equal(mdarray_pos(test_array, nil, [[60, 70], [80, 90]]), [4, 2]);
 
-      assert_equal(array_pos(test_array, [00], [1]), [1, 1]);
-      assert_equal(array_pos(test_array, [00, 20], [1]), [1, 2]);
+      assert_equal(mdarray_pos(test_array, [1], [00]), [1, 1]);
+      assert_equal(mdarray_pos(test_array, [1], [00, 20]), [1, 2]);
 
-      assert_equal(array_pos(test_array, [00, 10]), [-1, 0]);
-      assert_equal(array_pos(test_array, [00, 10, 20]), [-1, 0]);
-      assert_equal(array_pos(test_array, [["00", "20"]]), [-1, 0]);
+      assert_equal(mdarray_pos(test_array, nil, [00, 10]), [-1, 0]);
+      assert_equal(mdarray_pos(test_array, nil, [00, 10, 20]), [-1, 0]);
+      assert_equal(mdarray_pos(test_array, nil, [["00", "20"]]), [-1, 0]);
     end;
   end;
 
 
-  proc test_array_contains(case: UnitTesting.Case);
+  proc test_mdarray_contains(case: UnitTesting.Case);
     
   end;
 
 
-  proc test_array_sort(case: UnitTesting.Case);
+  proc test_mdarray_sort(case: UnitTesting.Case);
     
   end;
 
 
-  proc test_array_each(case: UnitTesting.Case);
+  proc test_mdarray_each(case: UnitTesting.Case);
 
-    var each: Methods.Functions.Array.Each;
 
-    with case do
-
-      each = array_each([]);
-      assert_false(each.__next);
-
-      each = array_each([10]);
-
-      assert_true(each.__next);
-      assert_equal(each.__index, 1);
-      assert_equal(each.__item, 10);
-
-      assert_false(each.__next);
-
-      each = array_each([10, 20]);
-
-      assert_true(each.__next);
-      assert_equal(each.__index, 1);
-      assert_equal(each.__item, 10);
-
-      assert_true(each.__next);
-      assert_equal(each.__index, 2);
-      assert_equal(each.__item, 20);
-
-      assert_false(each.__next);
-    end;
   end;
 
 
-  proc test_array_filter(case: UnitTesting.Case);
+  proc test_mdarray_filter(case: UnitTesting.Case);
 
-    with array_filter([1, 2, 3, 4, 5]) do
-      while __next do __apply(mod(__item, 2) = 1); end;
-      case.assert_equal(__result, [1, 3, 5]);
-    end;
+
   end;
 
 
-  proc test_array_map(case: UnitTesting.Case);
+  proc test_mdarray_map(case: UnitTesting.Case);
 
-    with array_map([1, 2, 3, 4, 5]) do
-      while __next do __apply(__item *__item); end;
-      case.assert_equal(__result, [1, 4, 9, 16, 25]);
-    end;
+
   end;
 
 
-  proc test_array_reduce(case: UnitTesting.Case);
+  proc test_mdarray_reduce(case: UnitTesting.Case);
 
-    with array_reduce([1, 2, 3, 4, 5], 0) do
-      while __next do __apply(__result +__item); end;
-      case.assert_equal(__result, 15);
-    end;
 
-    with array_reduce([1, 2, 3, 4, 5], 1) do
-      while __next do __apply(__result *__item); end;
-      case.assert_equal(__result, 120);
-    end;
   end;
 end

@@ -18,11 +18,11 @@ inclass
   end;
 
 
-  func from_iterable(value: variant): ArrayObject;
-
-    result = self.create;
-    result.content = array_from_iterable(value);
-  end;
+--  func from_iterable(value: variant): ArrayObject;
+--
+--    result = self.create;
+--    result.content = array_from_iterable(value);
+--  end;
 
 
 --  func from_range(range_from, range_to: integer; range_step: integer = 1): ArrayObject;

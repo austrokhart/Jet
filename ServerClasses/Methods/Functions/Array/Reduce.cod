@@ -4,7 +4,7 @@ import classes Functions.Array;
 inclass
 
 
-  func new(array: variant[]; initial_value: variant; path: integer[] = nil): Methods.Functions.Array.Reduce;
+  func new(array: variant[]; path: integer[] = nil; initial_value: variant): Methods.Functions.Array.Reduce;
     
     result = self.create;
 
