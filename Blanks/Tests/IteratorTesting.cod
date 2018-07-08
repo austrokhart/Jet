@@ -1,0 +1,17 @@
+﻿class "";
+
+inclass
+
+inobject
+
+--------------------------------------------------------------------------------
+--{ Обработчики событий бланка
+
+  proc run(Sender :Button);
+
+    SmartConsole.new(true).clear.log_multi(UnitTesting.Runner.run([Tests.IteratorSuite]).to_text);
+  end;
+
+--}
+
+end
