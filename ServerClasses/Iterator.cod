@@ -3,35 +3,106 @@
 inclass
 
 
-  func new(range_from, range_to: integer; range_step: integer = 1): Iterator;
+  func new(iterator_from, iterator_to: integer; iterator_step: integer = 1): Iterator;
     
     result = self.create;
 
-    result.__from  = range_from;
-    result.__to    = range_to;
-    result.__step  = range_step;
-    result.__index = range_from -range_step;
+    result.__from = iterator_from;
+    result.__to   = iterator_to;
+    result.__step = iterator_step;
+    result.__begin;
+  end;
+
+
+  func new_children(parent: variant; iterator_from, iterator_to: integer; iterator_step: integer = 1): Iterator;
+    
+    result = self.create;
+
+    result.__parent = parent;
+    result.__from   = iterator_from;
+    result.__to     = iterator_to;
+    result.__step   = iterator_step;
+    result.__begin;
   end;
 
 inobject
 
 
-  var __from:  integer;
-  var __to:    integer;
-  var __step:  integer;
-  var __index: integer;
+  var __parent: variant;
+  var __from:   integer;
+  var __to:     integer;
+  var __step:   integer;
+  var __index:  integer;
+
+
+  func __self: Iterator;
+    
+    return self;
+  end;
+
+
+  func __begin: boolean;
+    
+    self.__index = self.__from -self.__step;
+    return true;
+  end;
+
+
+  func __end: boolean;
+
+    self.__index = self.__to +self.__step;
+    return true;
+  end;
+
+
+  func __at_begin: boolean;
+    
+    return self.__index = self.__from;
+  end;
+
+
+  func __at_end: boolean;
+    
+    return self.__index = self.__to;
+  end;
 
 
   func __next: boolean;
 
-    self.__index = self.__index +self.__step;
+    if (self.__step > 0 and self.__index < self.__to) or
+       (self.__step < 0 and self.__index > self.__to) then
 
-    if (self.__step > 0 and self.__index <= self.__to)
-       or (self.__step < 0 and self.__index >= self.__to) then
-
-      result = true;
+      self.__index = self.__index +self.__step;
+      return true;
     else
-      result = false;
+
+      return false;
     end;
+  end;
+
+
+  func __previous: boolean;
+    
+    if (self.__step > 0 and self.__index > self.__from) or
+       (self.__step < 0 and self.__index < self.__from) then
+
+      self.__index = self.__index -self.__step;
+      return true;
+    else
+
+      return false;
+    end;
+  end;
+
+
+  func __next_loop: boolean;
+    
+    return self.__next or (self.__begin and self.__next);
+  end;
+
+
+  func __previous_loop: boolean;
+    
+    return self.__previous or (self.__end and self.__previous);
   end;
 end
