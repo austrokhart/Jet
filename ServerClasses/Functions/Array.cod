@@ -96,15 +96,27 @@ inclass
   end;
 
 
-  func array_pos(const array: variant[]; value: variant[]; offset: integer = 1): integer[];
+  func array_pos(const array: variant[]; value: variant[]; offset: integer = 1): integer;
 
     return self.md_array_pos(array, nil, value, offset);
+  end;
+
+
+  func array_pos_any(const array: variant[]; values: variant[]; offset: integer = 1): integer[];
+
+    return self.md_array_pos_any(array, nil, values, offset);
   end;
 
 
   func array_contains(const array: variant[]; value: variant[]; offset: integer = 1): boolean;
     
     return self.md_array_contains(array, nil, value, offset);
+  end;
+
+
+  func array_contains_any(const array: variant[]; values: variant[]; offset: integer = 1): boolean;
+    
+    return self.md_array_contains_any(array, nil, values, offset);
   end;
 
 
@@ -331,34 +343,65 @@ inclass
   end;
 
 
-  func md_array_pos(const array: variant[]; path: integer[] = nil; value: variant[]; offset: integer = 1): integer[];
+  func md_array_pos(const array: variant[]; path: integer[]; value: variant[]; offset: integer = 1): integer;
 
     -- функция возвращает индекс и длину вхождения последовательности value в массив array в плоскости path с началом в offset
     -- использует алгоритм:
+    --
+    -- переберём массив array, начиная со смещения offset, и для каждого элемента:
+    --   если совпадение ещё не найдено и текущий элемент совпадает с первым элементом последовательности value, запишем смещение и длину совпадения
+    --   иначе если совпадение уже найдено и текущий элемент совпадает с соответствующим элементом последовательности value, нарастим длину совпадения
+    --   иначе если совпадение уже найдено и текущий элемент не совпадает с соответствующим элементом последовательности value, вернёмся к началу сопадения и очистим данные о нём;
+    --   после всего, если длина совпадения соответствует длине последовательности value, вернём смещение совпадения
+    --
+    -- если совпадение не было найдено, вернём -1
 
-    -- переберём массив array и поищем совпадение его элементов с первым элементом последовательности value:
-    -- если совпадение найдено, запишем его смещение и длину, затем проверим совпадение последующих элементов последовательности:
-    -- если все элементы совпадают, завершим поиск;
-    -- если один из элементов не совпадает, вернёмся к записанному смещению,
-    -- сбросим данные совпадения и продолжим поиск со следующего элемента
+    var not_found, match: integer[];
 
     offset = handle_offset(offset, self.md_array_length(array));
-    result = [-1, 0];
+
+    not_found = [-1, 0];
+    match = not_found;
 
     with Iterator.new(offset, self.md_array_length(array)) do
       while __next do
 
-        if result = [-1, 0] and self.md_array_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then -- здесь нужно было использовать var_equal, но значения сравниваются и так
-          result = [__index, 1];
+        if match = not_found and self.md_array_get(array, __index, path) = value[match[self.ARRAY_POS_LENGTH] +1] then -- здесь нужно было использовать var_equal, но значения сравниваются и так
+          match[self.ARRAY_POS_OFFSET] = __index;
+          match[self.ARRAY_POS_LENGTH] = match[self.ARRAY_POS_LENGTH] +1;
 
-        elsif result <> [-1, 0] and self.md_array_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then
-          result[self.ARRAY_POS_LENGTH] = result[self.ARRAY_POS_LENGTH] +1;
+        elsif match <> not_found and self.md_array_get(array, __index, path) = value[match[self.ARRAY_POS_LENGTH] +1] then
+          match[self.ARRAY_POS_LENGTH] = match[self.ARRAY_POS_LENGTH] +1;
 
-        elsif result <> [-1, 0] then
-          __index = result[self.ARRAY_POS_OFFSET]; result = [-1, 0];
+        elsif match <> not_found then
+          __index = match[self.ARRAY_POS_OFFSET];
+          match = not_found;
         end;
 
-        if result[self.ARRAY_POS_LENGTH] = self.md_array_length(value) then break; end;
+        if match[self.ARRAY_POS_LENGTH] = self.md_array_length(value) then return match[self.ARRAY_POS_OFFSET]; end;
+      end;
+    end;
+
+    return not_found[self.ARRAY_POS_OFFSET];
+  end;
+
+
+  func md_array_pos_any(const array: variant[]; path: integer[]; values: variant[]; offset: integer = 1): integer[];
+
+    var not_found, match: integer[];
+
+    not_found = [-1, 0];
+    result = not_found;
+
+    with Iterator.new(1, self.md_array_length(values)) do
+      while __next do
+
+        match[self.ARRAY_POS_OFFSET] = md_array_pos(array, path, values[__index], offset);
+        match[self.ARRAY_POS_LENGTH] = if (match[self.ARRAY_POS_OFFSET] <> -1, self.md_array_length(values[__index]), 0);
+
+        if match <> not_found and (result = not_found or match[self.ARRAY_POS_OFFSET] < result[self.ARRAY_POS_OFFSET]) then
+          result = match;
+        end;
       end;
     end;
 
@@ -368,7 +411,13 @@ inclass
 
   func md_array_contains(const array: variant[]; path: integer[] = nil; value: variant[]; offset: integer = 1): boolean;
     
-    return self.md_array_pos(array, path, value, offset) <> [-1, 0];
+    return self.md_array_pos(array, path, value, offset) <> -1;
+  end;
+
+
+  func md_array_contains_any(const array: variant[]; path: integer[] = nil; values: variant[]; offset: integer = 1): boolean;
+    
+    return self.md_array_pos_any(array, path, values, offset) <> [-1, 0];
   end;
 
 
