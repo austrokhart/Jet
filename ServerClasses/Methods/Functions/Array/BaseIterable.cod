@@ -19,7 +19,7 @@ inobject
   proc __to_index(index: integer);
     
     self.__index = index;
-    self.__item  = mdarray_get(self.__array, index, self.__path, nil);
+    self.__item  = md_array_get(self.__array, index, self.__path, nil);
   end;
 
 

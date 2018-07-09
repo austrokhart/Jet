@@ -32,161 +32,161 @@ inclass
 
   func array_from(const value: variant): variant[];
 
-    return self.mdarray_from(value);
+    return self.md_array_from(value);
   end;
 
 
   func array_length(const array: variant[]): integer;
     
-    return self.mdarray_length(array);
+    return self.md_array_length(array);
   end;
 
 
   func array_has_content(const array: variant[]): boolean;
 
-    return self.mdarray_has_content(array);
+    return self.md_array_has_content(array);
   end;
 
 
   func array_get(const array: variant[]; index: integer; default_value: variant = nil): variant;
 
-    return self.mdarray_get(array, index, nil, default_value);
+    return self.md_array_get(array, index, nil, default_value);
   end;
 
 
   proc array_set(var array: variant[]; index: integer; value: variant);
 
-    self.mdarray_set(array, index, nil, value);
+    self.md_array_set(array, index, nil, value);
   end;
 
 
   proc array_unset(var array: variant[]; index: integer);
 
-    self.mdarray_unset(array, index, nil);
+    self.md_array_unset(array, index, nil);
   end;
 
 
   func array_is_set(const array: variant[]; index: integer): boolean;
 
-    return self.mdarray_is_set(array, index, nil);
+    return self.md_array_is_set(array, index, nil);
   end;
 
 
   proc array_clear(var array: variant[]; path: integer[] = nil);
 
-    self.mdarray_clear(array, nil);
+    self.md_array_clear(array, nil);
   end;
 
 
   proc array_append(var array: variant[]; value: variant);
 
-    self.mdarray_append(array, value);
+    self.md_array_append(array, value);
   end;
 
 
   proc array_prepend(var array: variant[]; value: variant);
 
-    self.mdarray_prepend(array, value);
+    self.md_array_prepend(array, value);
   end;
 
 
   proc array_extend(var array: variant[]; value: variant[]);
     
-    self.mdarray_extend(array, value);
+    self.md_array_extend(array, value);
   end;
 
 
   func array_pos(const array: variant[]; value: variant[]; offset: integer = 1): integer[];
 
-    return self.mdarray_pos(array, nil, value, offset);
+    return self.md_array_pos(array, nil, value, offset);
   end;
 
 
   func array_contains(const array: variant[]; value: variant[]; offset: integer = 1): boolean;
     
-    return self.mdarray_contains(array, nil, value, offset);
+    return self.md_array_contains(array, nil, value, offset);
   end;
 
 
   func array_slice(const array: variant[]; offset: integer = 1; length: variant = nil): variant[];
 
-    return self.mdarray_slice(array, nil, offset, length);
+    return self.md_array_slice(array, nil, offset, length);
   end;
 
 
   func array_splice(var array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
 
-    return self.mdarray_splice(array, value, offset, length);
+    return self.md_array_splice(array, value, offset, length);
   end;
 
 
   func array_concat(const arrays: variant[]): variant[];
 
-    return self.mdarray_concat(arrays);
+    return self.md_array_concat(arrays);
   end;
 
 
   func array_repeat(const value: variant[]; count: integer): variant[];
     
-    return self.mdarray_repeat(value, count);
+    return self.md_array_repeat(value, count);
   end;
 
 
   proc array_swap(var array: variant[]; index, other_index: integer);
     
-    self.mdarray_swap(array, index, other_index);
+    self.md_array_swap(array, index, other_index);
   end;
 
 
   proc array_reverse(var array: variant[]);
 
-    self.mdarray_reverse(array);
+    self.md_array_reverse(array);
   end;
 
 
   proc array_pad(var array: variant[]; direction: array_pad_direction; value: variant[]; length: integer);
 
-    self.mdarray_pad(array, direction, value, length);
+    self.md_array_pad(array, direction, value, length);
   end;
 
 
   proc array_sort(var array: variant[]);
 
-    self.mdarray_sort(array, nil);
+    self.md_array_sort(array, nil);
   end;
 
 
   func array_each(const array: variant[]): array_method_each;
     
-    return self.mdarray_each(array, nil);
+    return self.md_array_each(array, nil);
   end;
 
 
   func array_filter(const array: variant[]): array_method_filter;
     
-    return self.mdarray_filter(array, nil);
+    return self.md_array_filter(array, nil);
   end;
 
 
   func array_map(const array: variant[]; path: integer[] = nil): array_method_map;
     
-    return self.mdarray_map(array, nil);
+    return self.md_array_map(array, nil);
   end;
 
 
   func array_reduce(const array: variant[]; initial_value: variant): array_method_reduce;
     
-    return self.mdarray_reduce(array, nil, initial_value);
+    return self.md_array_reduce(array, nil, initial_value);
   end;
 
 
   func array_implode(const array: variant[]; separator: string = " "): string;
 
-    return self.mdarray_implode(array, separator);
+    return self.md_array_implode(array, separator);
   end;
 
 
-  func mdarray_from(const value: variant): variant[];
+  func md_array_from(const value: variant): variant[];
 
     if var_is_array(value) then
       result = value;
@@ -203,20 +203,20 @@ inclass
   end;
 
 
-  func mdarray_length(const array: variant[]): integer;
+  func md_array_length(const array: variant[]): integer;
     
     return Kernel.System.lengthOfArray(array);
   end;
 
 
-  func mdarray_has_content(const array: variant[]): boolean;
+  func md_array_has_content(const array: variant[]): boolean;
 
     -- сравнение с [] невозможно, возникают ошибки
-    return self.mdarray_length(array) <> 0;
+    return self.md_array_length(array) <> 0;
   end;
 
 
-  func mdarray_get(const array: variant[]; index: integer; path: integer[] = nil; default_value: variant = nil): variant;
+  func md_array_get(const array: variant[]; index: integer; path: integer[] = nil; default_value: variant = nil): variant;
 
     -- функция должна возвращать значение элемента с индексом index и последующими индексами path в массиве array, если элемент установлен, иначе значение по-умолчанию
 
@@ -224,14 +224,14 @@ inclass
     -- если установлен, то: если измерение path не задано, вернём значение элемента, иначе вызовем функцию рекурсивно с сокращением path;
     -- иначе вернём значение по-умолчанию
 
-    index = handle_offset(index, self.mdarray_length(array));
+    index = handle_offset(index, self.md_array_length(array));
 
-    if self.mdarray_is_set(array, index) then
-      if not self.mdarray_has_content(path) then
+    if self.md_array_is_set(array, index) then
+      if not self.md_array_has_content(path) then
         return array[index];
 
       elsif var_is_array(array[index]) then
-        return self.mdarray_get(array[index], path[1], self.mdarray_slice(path, nil, 2), default_value);
+        return self.md_array_get(array[index], path[1], self.md_array_slice(path, nil, 2), default_value);
       end;
     end;
 
@@ -239,7 +239,7 @@ inclass
   end;
 
 
-  proc mdarray_set(var array: variant[]; index: integer; path: integer[] = nil; value: variant);
+  proc md_array_set(var array: variant[]; index: integer; path: integer[] = nil; value: variant);
 
     -- функция должна устанавливать элемент с индексом index, последующими индексами path и значением value в массиве array
 
@@ -249,36 +249,36 @@ inclass
     -- передача неустановленного значения по ссылке задаёт его со значением nil!
     -- поэтому до рекурсивного вызова используется проверка на установленность элемента
 
-    index = handle_offset(index, self.mdarray_length(array));
+    index = handle_offset(index, self.md_array_length(array));
 
-    if not self.mdarray_has_content(path) then
+    if not self.md_array_has_content(path) then
       array[index] = value;
 
-    elsif self.mdarray_is_set(array, index) and var_is_array(array[index]) then
-      self.mdarray_set(array[index], path[1], self.mdarray_slice(path, nil, 2), value);
+    elsif self.md_array_is_set(array, index) and var_is_array(array[index]) then
+      self.md_array_set(array[index], path[1], self.md_array_slice(path, nil, 2), value);
     end;
   end;
 
 
-  proc mdarray_unset(var array: variant[]; index: integer; path: integer[] = nil);
+  proc md_array_unset(var array: variant[]; index: integer; path: integer[] = nil);
 
-    -- алгоритм аналогчен использующемуся в процедуре self.mdarray_set
+    -- алгоритм аналогчен использующемуся в процедуре self.md_array_set
 
-    index = handle_offset(index, self.mdarray_length(array));
+    index = handle_offset(index, self.md_array_length(array));
 
-    --if self.mdarray_is_set(array, index) then
+    --if self.md_array_is_set(array, index) then
 
-      if not self.mdarray_has_content(path) then
+      if not self.md_array_has_content(path) then
         Kernel.System.deleteFromArray(array, index);
 
-      elsif self.mdarray_is_set(array, index) and var_is_array(array[index]) then
-        self.mdarray_unset(array[index], path[1], self.mdarray_slice(path, nil, 2));
+      elsif self.md_array_is_set(array, index) and var_is_array(array[index]) then
+        self.md_array_unset(array[index], path[1], self.md_array_slice(path, nil, 2));
       end;
     --end;
   end;
 
 
-  func mdarray_is_set(const array: variant[]; index: integer; path: integer[] = nil): boolean;
+  func md_array_is_set(const array: variant[]; index: integer; path: integer[] = nil): boolean;
 
     -- функция возвращает истину, если в массиве array установлен элемент с индексом index и последующими индексами path
 
@@ -288,11 +288,11 @@ inclass
 
     if index > 0 and Kernel.System.nextArrItem(array, index -1) = index then
 
-      if not self.mdarray_has_content(path) then
+      if not self.md_array_has_content(path) then
         return true;
 
       elsif var_is_array(array[index]) then
-        return self.mdarray_is_set(array[index], path[1], self.mdarray_slice(path, nil, 2));
+        return self.md_array_is_set(array[index], path[1], self.md_array_slice(path, nil, 2));
       end;
     end;
 
@@ -300,38 +300,38 @@ inclass
   end;
 
 
-  proc mdarray_clear(var array: variant[]; path: integer[] = nil);
+  proc md_array_clear(var array: variant[]; path: integer[] = nil);
 
     -- во время разустановки происходит смещение индексов, что не даёт обработать элементы по порядку
     -- поэтому обработаем в обратном порядке
 
-    with Iterator.new(self.mdarray_length(array), 1, -1) do
-      while __next do self.mdarray_unset(array, __index, path); end;
+    with Iterator.new(self.md_array_length(array), 1, -1) do
+      while __next do self.md_array_unset(array, __index, path); end;
     end;
   end;
 
 
-  proc mdarray_append(var array: variant[]; value: variant);
+  proc md_array_append(var array: variant[]; value: variant);
 
-    Kernel.System.insertInArray(array, self.mdarray_length(array) +1, value);
+    Kernel.System.insertInArray(array, self.md_array_length(array) +1, value);
   end;
 
 
-  proc mdarray_prepend(var array: variant[]; value: variant);
+  proc md_array_prepend(var array: variant[]; value: variant);
 
     Kernel.System.insertInArray(array, 1, value);
   end;
 
 
-  proc mdarray_extend(var array: variant[]; value: variant[]);
+  proc md_array_extend(var array: variant[]; value: variant[]);
     
-    with Iterator.new(1, self.mdarray_length(value)) do
-      while __next do self.mdarray_append(array, value[__index]); end;
+    with Iterator.new(1, self.md_array_length(value)) do
+      while __next do self.md_array_append(array, value[__index]); end;
     end;
   end;
 
 
-  func mdarray_pos(const array: variant[]; path: integer[] = nil; value: variant[]; offset: integer = 1): integer[];
+  func md_array_pos(const array: variant[]; path: integer[] = nil; value: variant[]; offset: integer = 1): integer[];
 
     -- функция возвращает индекс и длину вхождения последовательности value в массив array в плоскости path с началом в offset
     -- использует алгоритм:
@@ -342,23 +342,23 @@ inclass
     -- если один из элементов не совпадает, вернёмся к записанному смещению,
     -- сбросим данные совпадения и продолжим поиск со следующего элемента
 
-    offset = handle_offset(offset, self.mdarray_length(array));
+    offset = handle_offset(offset, self.md_array_length(array));
     result = [-1, 0];
 
-    with Iterator.new(offset, self.mdarray_length(array)) do
+    with Iterator.new(offset, self.md_array_length(array)) do
       while __next do
 
-        if result = [-1, 0] and self.mdarray_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then -- здесь нужно было использовать var_equal, но значения сравниваются и так
+        if result = [-1, 0] and self.md_array_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then -- здесь нужно было использовать var_equal, но значения сравниваются и так
           result = [__index, 1];
 
-        elsif result <> [-1, 0] and self.mdarray_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then
+        elsif result <> [-1, 0] and self.md_array_get(array, __index, path) = value[result[self.ARRAY_POS_LENGTH] +1] then
           result[self.ARRAY_POS_LENGTH] = result[self.ARRAY_POS_LENGTH] +1;
 
         elsif result <> [-1, 0] then
           __index = result[self.ARRAY_POS_OFFSET]; result = [-1, 0];
         end;
 
-        if result[self.ARRAY_POS_LENGTH] = self.mdarray_length(value) then break; end;
+        if result[self.ARRAY_POS_LENGTH] = self.md_array_length(value) then break; end;
       end;
     end;
 
@@ -366,36 +366,36 @@ inclass
   end;
 
 
-  func mdarray_contains(const array: variant[]; path: integer[] = nil; value: variant[]; offset: integer = 1): boolean;
+  func md_array_contains(const array: variant[]; path: integer[] = nil; value: variant[]; offset: integer = 1): boolean;
     
-    return self.mdarray_pos(array, path, value, offset) <> [-1, 0];
+    return self.md_array_pos(array, path, value, offset) <> [-1, 0];
   end;
 
 
-  func mdarray_slice(const array: variant[]; path: integer[] = nil; offset: integer = 1; length: variant = nil): variant[];
+  func md_array_slice(const array: variant[]; path: integer[] = nil; offset: integer = 1; length: variant = nil): variant[];
 
-    offset = handle_offset(offset, self.mdarray_length(array));
+    offset = handle_offset(offset, self.md_array_length(array));
 
-    with Iterator.new(offset, offset +handle_length(offset, length, self.mdarray_length(array)) -1) do
-      while __next do self.mdarray_append(result, self.mdarray_get(array, __index, path)); end;
+    with Iterator.new(offset, offset +handle_length(offset, length, self.md_array_length(array)) -1) do
+      while __next do self.md_array_append(result, self.md_array_get(array, __index, path)); end;
     end;
 
     return result;
   end;
 
 
-  func mdarray_splice(var array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
+  func md_array_splice(var array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
 
     -- функция извлекает подмассив с началом в offset и длиной length и заменяет его на элементы массива value
 
-    result = self.mdarray_slice(array, nil, offset, length);
-    offset = handle_offset(offset, self.mdarray_length(array));
+    result = self.md_array_slice(array, nil, offset, length);
+    offset = handle_offset(offset, self.md_array_length(array));
 
-    with Iterator.new(offset +handle_length(offset, length, self.mdarray_length(array)) -1, offset, -1) do
-      while __next do self.mdarray_unset(array, __index); end;
+    with Iterator.new(offset +handle_length(offset, length, self.md_array_length(array)) -1, offset, -1) do
+      while __next do self.md_array_unset(array, __index); end;
     end;
 
-    with Iterator.new(1, self.mdarray_length(value)) do
+    with Iterator.new(1, self.md_array_length(value)) do
       while __next do Kernel.System.insertInArray(array, offset +__index -1, value[__index]); end;
     end;
 
@@ -403,52 +403,52 @@ inclass
   end;
 
 
-  func mdarray_concat(const arrays: variant[]): variant[];
+  func md_array_concat(const arrays: variant[]): variant[];
 
-    with Iterator.new(1, self.mdarray_length(arrays)) do
-      while __next do self.mdarray_extend(result, array_from(arrays[__index])); end;
+    with Iterator.new(1, self.md_array_length(arrays)) do
+      while __next do self.md_array_extend(result, array_from(arrays[__index])); end;
     end;
 
     return result;
   end;
 
 
-  func mdarray_repeat(const value: variant[]; count: integer): variant[];
+  func md_array_repeat(const value: variant[]; count: integer): variant[];
     
     with Iterator.new(1, count) do
-      self.mdarray_extend(result, value);
+      self.md_array_extend(result, value);
     end;
 
     return result;
   end;
 
 
-  proc mdarray_swap(var array: variant[]; index, other_index: integer);
+  proc md_array_swap(var array: variant[]; index, other_index: integer);
     
     var temp: variant;
 
-    index       = handle_offset(index, self.mdarray_length(array));
-    other_index = handle_offset(other_index, self.mdarray_length(array));
+    index       = handle_offset(index, self.md_array_length(array));
+    other_index = handle_offset(other_index, self.md_array_length(array));
 
-    --if self.mdarray_is_set(array, path, index) and self.mdarray_is_set(array, path, other_index) then
+    --if self.md_array_is_set(array, path, index) and self.md_array_is_set(array, path, other_index) then
 
-      temp = self.mdarray_get(array, index);
+      temp = self.md_array_get(array, index);
 
-      self.mdarray_set(array, index, nil, self.mdarray_get(array, other_index));
-      self.mdarray_set(array, other_index, nil, temp);
+      self.md_array_set(array, index, nil, self.md_array_get(array, other_index));
+      self.md_array_set(array, other_index, nil, temp);
     --end;
   end;
 
 
-  proc mdarray_reverse(var array: variant[]);
+  proc md_array_reverse(var array: variant[]);
 
-    with Iterator.new(1, var_int(self.mdarray_length(array) /2)) do
-      while __next do self.mdarray_swap(array, __index, self.mdarray_length(array) -__index +1); end;
+    with Iterator.new(1, var_int(self.md_array_length(array) /2)) do
+      while __next do self.md_array_swap(array, __index, self.md_array_length(array) -__index +1); end;
     end;
   end;
 
 
-  proc mdarray_pad(var array: variant[]; direction: array_pad_direction; value: variant[]; length: integer);
+  proc md_array_pad(var array: variant[]; direction: array_pad_direction; value: variant[]; length: integer);
 
     -- функция должна дополнить (значениями value) или сократить массив array, в зависимости от длины length,
     -- слева и/или справа, в зависимости от направления direction
@@ -461,77 +461,77 @@ inclass
 
 
     if direction = self.ARRAY_PAD_LEFT then
-      count = length -self.mdarray_length(array);
+      count = length -self.md_array_length(array);
 
     elsif direction = self.ARRAY_PAD_BOTH then
-      count = var_int((length -self.mdarray_length(array)) /2);
+      count = var_int((length -self.md_array_length(array)) /2);
 
     elsif direction = self.ARRAY_PAD_RIGHT then
       count = 0;
     end;
 
 
-    if self.mdarray_length(array) < length then
+    if self.md_array_length(array) < length then
 
       with Iterator.new(1, count) do
-        with Iterator.new_children(__self, 1, self.mdarray_length(value)) do
-          while __parent.__next and __previous_loop do self.mdarray_prepend(array, value[__index]); end;
+        with Iterator.new_children(__self, 1, self.md_array_length(value)) do
+          while __parent.__next and __previous_loop do self.md_array_prepend(array, value[__index]); end;
         end;
       end;
 
-      with Iterator.new(1, length -self.mdarray_length(array)) do
-        with Iterator.new_children(__self, 1, self.mdarray_length(value)) do
-          while __parent.__next and __next_loop do self.mdarray_append(array, value[__index]); end;
+      with Iterator.new(1, length -self.md_array_length(array)) do
+        with Iterator.new_children(__self, 1, self.md_array_length(value)) do
+          while __parent.__next and __next_loop do self.md_array_append(array, value[__index]); end;
         end;
       end;
 
-    elsif self.mdarray_length(array) > length then
+    elsif self.md_array_length(array) > length then
 
       with Iterator.new(1, -count) do
-        while __next do self.mdarray_unset(array,  1  ); end;
+        while __next do self.md_array_unset(array,  1  ); end;
       end;
 
-      with Iterator.new(length +1, self.mdarray_length(array)) do
+      with Iterator.new(length +1, self.md_array_length(array)) do
         __end;
-        while __previous do self.mdarray_unset(array,  __index  ); end;
+        while __previous do self.md_array_unset(array,  __index  ); end;
       end;
     end;
   end;
 
 
-  proc mdarray_sort(var array: variant[]; path: integer[] = nil);
+  proc md_array_sort(var array: variant[]; path: integer[] = nil);
 
     Kernel.System.sortArray(array, path);
   end;
 
 
-  func mdarray_each(const array: variant[]; path: integer[] = nil): array_method_each;
+  func md_array_each(const array: variant[]; path: integer[] = nil): array_method_each;
     
     return self.array_method_each.new(array, path);
   end;
 
 
-  func mdarray_filter(const array: variant[]; path: integer[] = nil): array_method_filter;
+  func md_array_filter(const array: variant[]; path: integer[] = nil): array_method_filter;
     
     return self.array_method_filter.new(array, path);
   end;
 
 
-  func mdarray_map(const array: variant[]; path: integer[] = nil): array_method_map;
+  func md_array_map(const array: variant[]; path: integer[] = nil): array_method_map;
     
     return self.array_method_map.new(array, path);
   end;
 
 
-  func mdarray_reduce(const array: variant[]; path: integer[] = nil; initial_value: variant): array_method_reduce;
+  func md_array_reduce(const array: variant[]; path: integer[] = nil; initial_value: variant): array_method_reduce;
     
     return self.array_method_reduce.new(array, path, initial_value);
   end;
 
 
-  func mdarray_implode(const array: variant[]; separator: string = " "): string;
+  func md_array_implode(const array: variant[]; separator: string = " "): string;
 
-    with self.mdarray_reduce(array, nil, "") do
+    with self.md_array_reduce(array, nil, "") do
       while __next do __apply(__result +str(__item) +if (__at_end, "", separator)); end;
       __assign(result);
     end;

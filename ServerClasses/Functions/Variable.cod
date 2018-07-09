@@ -4,30 +4,6 @@ import classes Functions.Variable, Functions.Array;
 inclass
 
 
-  -- Методы для определения типов
-  --
-
-  -- Для определения типов используется стандартная функция varType;
-  -- Для определения используются константы, которые не инициализируются в проекте СИС2 из-за некорректного условия.
-  --
-  -- Из СИС2:
-  --
-  -- varUnknown : Integer= 0;  -- неизвестный тип
-  -- varString  : Integer = 1;  -- строка
-  -- varInt     : Integer = 2;  -- 4-байтовое целое
-  -- varNumeric : Integer = 3;  -- Число с плавающей точкой
-  -- varLogical : Integer = 4;  -- Логическое (булево) значение
-  -- varDate    : Integer = 5;  -- ДатаВремя в формате TDateTime
-  -- varObject  : Integer = 6;  -- Объект
-  -- varVariant : Integer = 7;  -- Вариант
-  -- varArray   : Integer = 8;  -- Массив
-  -- varClass   : Integer = 9;  -- Указатель на класс
-  -- varNull    : Integer = 10; -- Пусто
-  --
-  -- varUnit    :Integer = 17; -- Измеритель
-  -- varUser    :Integer = 50; -- Пользовательский тип, в частности, этот тип
-  --                           -- имеют параметры процедур и функций типа Массив
-
   type var_type = (
     TYPE_STRING  = 1,
     TYPE_INTEGER = 2,
@@ -47,7 +23,6 @@ inclass
     return Mathematic.int(Mathematic.trunc(value));
   end;
 
-
   func var_real(const value: variant): real;
     
     return Mathematic.num(value);
@@ -59,60 +34,50 @@ inclass
     return System.varType(value) = self.TYPE_STRING;
   end;
 
-
   func var_is_integer(const value: variant): boolean;
     
     return System.varType(value) = self.TYPE_INTEGER;
   end;
-
 
   func var_is_float(value: variant): boolean;
     
     return System.varType(value) = self.TYPE_REAL;
   end;
 
-
   func var_is_numeric(value: variant): boolean;
     
     return self.var_is_integer(value) or self.var_is_float(value);
   end;
-
 
   func var_is_boolean(value: variant): boolean;
     
     return System.varType(value) = self.TYPE_BOOLEAN;
   end;
 
-
   func var_is_date(value: variant): boolean;
     
     return System.varType(value) = self.TYPE_DATE;
   end;
-
 
   func var_is_object(value: variant): boolean;
     
     return System.varType(value) = self.TYPE_OBJECT;
   end;
 
-
   func var_is_variant(value: variant): boolean;
     
     return System.varType(value) = self.TYPE_VARIANT;
   end;
-
 
   func var_is_array(value: variant): boolean;
 
     return System.varType(value) = self.TYPE_ARRAY;
   end;
 
-
   func var_is_class(value: variant): boolean;
 
     return System.varType(value) = self.TYPE_CLASS;
   end;
-
 
   func var_is_nil(value: variant): boolean;
     

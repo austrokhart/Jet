@@ -39,7 +39,7 @@ inobject
   -- возвращает индекс пары с ключом
   func pair_index(key: string): integer;
     
-    return mdarray_pos(self.content, [self.PAIR_KEY], [key])[ARRAY_POS_OFFSET];
+    return md_array_pos(self.content, [self.PAIR_KEY], [key])[ARRAY_POS_OFFSET];
   end;
 
 
@@ -50,7 +50,7 @@ inobject
         index = self.pair_index(key);
 
     if index <> -1 then
-      result = mdarray_get(self.content, index, [self.PAIR_VALUE], default_value);
+      result = md_array_get(self.content, index, [self.PAIR_VALUE], default_value);
     else
       result = default_value;
     end;
@@ -66,7 +66,7 @@ inobject
         index = self.pair_index(key);
 
     if index <> -1 then
-      mdarray_set(self.content, index, [self.PAIR_VALUE], value);
+      md_array_set(self.content, index, [self.PAIR_VALUE], value);
     else
       array_append(self.content, [key, value] as variant[]);
     end;
