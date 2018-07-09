@@ -29,132 +29,133 @@ inclass
   --                           -- имеют параметры процедур и функций типа Массив
 
   type var_type = (
-    var_string  = 1,
-    var_integer = 2,
-    var_float   = 3,
-    var_boolean = 4,
-    var_date    = 5,
-    var_object  = 6,
-    var_variant = 7,
-    var_array   = 8,
-    var_class   = 9,
-    var_nil     = 10
+    TYPE_STRING  = 1,
+    TYPE_INTEGER = 2,
+    TYPE_REAL    = 3,
+    TYPE_BOOLEAN = 4,
+    TYPE_DATE    = 5,
+    TYPE_OBJECT  = 6,
+    TYPE_VARIANT = 7,
+    TYPE_ARRAY   = 8,
+    TYPE_CLASS   = 9,
+    TYPE_NIL     = 10
   );
 
 
+  func var_int(const value: variant): integer;
+    
+    return Mathematic.int(Mathematic.trunc(value));
+  end;
+
+
+  func var_real(const value: variant): real;
+    
+    return Mathematic.num(value);
+  end;
+
+
+  func var_is_string(const value: variant): boolean;
+
+    return System.varType(value) = self.TYPE_STRING;
+  end;
+
+
+  func var_is_integer(const value: variant): boolean;
+    
+    return System.varType(value) = self.TYPE_INTEGER;
+  end;
+
+
+  func var_is_float(value: variant): boolean;
+    
+    return System.varType(value) = self.TYPE_REAL;
+  end;
+
+
+  func var_is_numeric(value: variant): boolean;
+    
+    return self.var_is_integer(value) or self.var_is_float(value);
+  end;
+
+
+  func var_is_boolean(value: variant): boolean;
+    
+    return System.varType(value) = self.TYPE_BOOLEAN;
+  end;
+
+
+  func var_is_date(value: variant): boolean;
+    
+    return System.varType(value) = self.TYPE_DATE;
+  end;
+
+
+  func var_is_object(value: variant): boolean;
+    
+    return System.varType(value) = self.TYPE_OBJECT;
+  end;
+
+
+  func var_is_variant(value: variant): boolean;
+    
+    return System.varType(value) = self.TYPE_VARIANT;
+  end;
+
+
+  func var_is_array(value: variant): boolean;
+
+    return System.varType(value) = self.TYPE_ARRAY;
+  end;
+
+
+  func var_is_class(value: variant): boolean;
+
+    return System.varType(value) = self.TYPE_CLASS;
+  end;
+
+
+  func var_is_nil(value: variant): boolean;
+    
+    return System.varType(value) = self.TYPE_NIL;
+  end;
+
+
   -- проверяет равенство значений
-  func var_equal(value: variant; other_value: variant): boolean;
+  func var_equal(const value, other_value: variant): boolean;
 
     -- если типы значений равны
     -- или оба значения являются числами
     -- или одно из них равно nil
-    if (System.varType(value) = System.varType(other_value))
-       or (self.var_is_numeric(value) and self.var_is_numeric(other_value))
-       or (self.var_is_nil(value) or self.var_is_nil(other_value))
+    if (System.varType(value) = System.varType(other_value)) or
+       (self.var_is_numeric(value) and self.var_is_numeric(other_value)) or
+       (self.var_is_nil(value)     or  self.var_is_nil(other_value))
     then
 
-      result = (value = other_value);
+      return value = other_value;
     else
-      result = false;
+      return false;
     end;
   end;
 
 
   -- проверяет неравенство значений
-  func var_not_equal(value: variant; other_value: variant): boolean;
+  func var_not_equal(const value, other_value: variant): boolean;
     
-    result = not self.var_equal(value, other_value);
+    return not self.var_equal(value, other_value);
   end;
 
 
   -- проверяет идентичность значений, возвращает истину если значения и типы переменных совпадают
-  func var_identical(value: variant; other_value: variant): boolean;
+  func var_identical(value, other_value: variant): boolean;
     
-    result = (System.varType(value) = System.varType(other_value) and value = other_value);
+    return System.varType(value) = System.varType(other_value) and value = other_value;
   end;
 
 
   -- проверяет неидентичность
-  func var_not_identical(value: variant; other_value: variant): boolean;
+  func var_not_identical(value, other_value: variant): boolean;
     
-    result = not self.var_identical(value, other_value);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_string(const value: variant): boolean;
-
-    result = (System.varType(value) = self.var_string);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_integer(value: variant): boolean;
-    
-    result = (System.varType(value) = self.var_integer);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_float(value: variant): boolean;
-    
-    result = (System.varType(value) = self.var_float);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_numeric(value: variant): boolean;
-    
-    result = (self.var_is_integer(value) or self.var_is_float(value));
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_boolean(value: variant): boolean;
-    
-    result = (System.varType(value) = self.var_boolean);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_date(value: variant): boolean;
-    
-    result = (System.varType(value) = self.var_date);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_object(value: variant): boolean;
-    
-    result = (System.varType(value) = self.var_object);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_variant(value: variant): boolean;
-    
-    result = (System.varType(value) = self.var_variant);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_array(value: variant): boolean;
-
-    result = (System.varType(value) = self.var_array);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_class(value: variant): boolean;
-
-    result = (System.varType(value) = self.var_class);
-  end;
-
-
-  -- проверяет принадлежность значения
-  func var_is_nil(value: variant): boolean;
-    
-    result = (System.varType(value) = self.var_nil);
+    return not self.var_identical(value, other_value);
   end;
 
 
@@ -173,29 +174,23 @@ inclass
   end;
 
 
-  -- проверяет принадлежность значения к типу, аргумент expected приводится к массиву
-  func var_type_in(value: variant; expected: variant): boolean;
-
-    with array_each(array_from(expected)) do
-      while __next do
-        if not self.var_type_is(value, __item) then return false; end;
-      end;
-    end;
-
-    result = true;
-  end;
+--  -- проверяет принадлежность значения к типу, аргумент expected приводится к массиву
+--  func var_type_in(value: variant; expected: variant): boolean;
+--
+--    with array_each(array_from(expected)) do
+--      while __next do
+--        if not self.var_type_is(value, __item) then return false; end;
+--      end;
+--    end;
+--
+--    result = true;
+--  end;
 
 
   -- проверяет для значения принадлежность к типу объект и к классу expected
   func var_instance_of(value: variant; expected: class): boolean;
     
     result = (self.var_is_object(value) and value.inheritsFrom(expected));
-  end;
-
-
-  func var_address(var variable: variant): integer;
-    
-    return System.varAddr("variable");
   end;
 
 
