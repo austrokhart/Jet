@@ -141,7 +141,7 @@ inclass
         offset = offset +1;
       end;
 
-      result = if (str_contains(match, '.'), num(match), int(match));
+      result = if (str_contains(match, '.'), var_real(match), var_int(match));
     else
 
       offset = offset +1;

@@ -169,7 +169,7 @@ inclass
     -- в зависимости от направления
     if direction = self.STR_PAD_LEFT then
 
-      count = int(math_ceil((length -self.str_length(str)) /self.str_length(value)));
+      count = var_int(math_ceil((length -self.str_length(str)) /self.str_length(value)));
 
       -- заполним строку слева и выделим подстроку справа
       result = self.str_repeat(value, count) +str;
@@ -177,7 +177,7 @@ inclass
 
     elsif direction = self.STR_PAD_RIGHT then
 
-      count = int(math_ceil((length -self.str_length(str)) /self.str_length(value)));
+      count = var_int(math_ceil((length -self.str_length(str)) /self.str_length(value)));
 
       -- заполним строку справа и выделим подстроку слева
       result = str +self.str_repeat(value, count);
@@ -185,11 +185,11 @@ inclass
 
     elsif direction = self.STR_PAD_BOTH then
 
-      count = int(math_ceil((length -self.str_length(str)) /(self.str_length(value) *2)));
+      count = var_int(math_ceil((length -self.str_length(str)) /(self.str_length(value) *2)));
 
       -- заполним строку с обоих сторон и выделим подстроку по центру
       result = self.str_repeat(value, count) +str +self.str_repeat(value, count);
-      result = self.str_substr(result, int(math_ceil((self.str_length(result) -length) /2)) +1, length);
+      result = self.str_substr(result, var_int(math_ceil((self.str_length(result) -length) /2)) +1, length);
     end;
 
     return result;

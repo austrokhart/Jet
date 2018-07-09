@@ -1,5 +1,5 @@
 ﻿class "Класс для работы с датами в формате ISO 8601";
-import classes Functions.Array, Functions.String, Functions.Date;
+import classes Functions.Variable, Functions.Array, Functions.String, Functions.Date;
 
 inclass
 
@@ -49,7 +49,7 @@ inclass
     array_extend(date_parts, time_parts);
 
     with array_map(date_parts) do
-      while __next do __apply(int(__item)); end; __assign(date_parts);
+      while __next do __apply(var_int(__item)); end; __assign(date_parts);
     end;
 
     result = date_create(date_parts[1], date_parts[2], date_parts[3], date_parts[4], date_parts[5], date_parts[6]);
@@ -67,8 +67,8 @@ inclass
     if offset = "Z" then return 0; end;
 
     sign    = if (str_substr(offset, 1, 1) = "+", +1, -1);
-    hours   = int(str_substr(offset, 2, 2));
-    minutes = int(str_substr(offset, 5, 2));
+    hours   = var_int(str_substr(offset, 2, 2));
+    minutes = var_int(str_substr(offset, 5, 2));
 
     return sign *(hours *60 *60 +minutes *60);
   end;

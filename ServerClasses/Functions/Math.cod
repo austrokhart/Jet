@@ -4,6 +4,12 @@ import classes Functions.Array;
 inclass
 
 
+  func math_abs(number: real): real;
+    
+    return Mathematic.abs(number);
+  end;
+
+
   func math_floor(number: real): real;
 
     return Mathematic.trunc(number);
