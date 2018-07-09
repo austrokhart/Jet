@@ -8,19 +8,48 @@ inclass
 
     with case do
 
-      -- тестируется приведение из nil, не массивов, массивов
+      -- тестируется метод array_from с nil, значениями - не массивами, значениями - массивами
+      -- степень покрытия: хорошо
 
-      assert_equal(  array_from(nil),              [], "проверка с nil");
-      assert_equal(  array_from([]),               [], "проверка с пустым массивом");
+      assert_equal(  array_from(nil),                 [], "проверка с nil");
 
-      assert_equal(  array_from(0),                [0], "проверки cо значениями - не массивами");
-      assert_equal(  array_from("0"),              ["0"]);
-      assert_equal(  array_from(false),            [false]);
-      assert_equal(  array_from("false"),          ["false"]);
+      assert_equal(  array_from(true),                [true], "проверки cо значениями - не массивами");
+      assert_equal(  array_from(false),               [false]);
+      assert_equal(  array_from(00),                  [00]);
+      assert_equal(  array_from(10),                  [10]);
+      assert_equal(  array_from(00.0),                [00.0]);
+      assert_equal(  array_from(10.0),                [10.0]);
+      assert_equal(  array_from("00"),                ["00"]);
+      assert_equal(  array_from("10"),                ["10"]);
+      assert_equal(  array_from("abcde"),             ["abcde"]);
+      assert_equal(  array_from("abcdef"),            ["abcdef"]);
+      assert_equal(  array_from(01.07.2018),          [01.07.2018]);
+      assert_equal(  array_from(01.07.2018 12:00),    [01.07.2018 12:00]);
 
-      assert_equal(  array_from([nil]),            [nil], "проверки со значениями - массивами");
-      assert_equal(  array_from([1, 2, 3]),        [1, 2, 3]);
-      assert_equal(  array_from([-2, -1, false]),  [-2, -1, false]);
+      assert_equal(  array_from([]),                  [], "проверки со значениями - массивами");
+      assert_equal(  array_from([nil]),               [nil]);
+      assert_equal(  array_from([true]),              [true]);
+      assert_equal(  array_from([false]),             [false]);
+      assert_equal(  array_from([00]),                [00]);
+      assert_equal(  array_from([10]),                [10]);
+      assert_equal(  array_from([00.0]),              [00.0]);
+      assert_equal(  array_from([10.0]),              [10.0]);
+      assert_equal(  array_from(["00"]),              ["00"]);
+      assert_equal(  array_from(["10"]),              ["10"]);
+      assert_equal(  array_from(["abcde"]),           ["abcde"]);
+      assert_equal(  array_from(["abcdef"]),          ["abcdef"]);
+      assert_equal(  array_from([01.07.2018]),        [01.07.2018]);
+      assert_equal(  array_from([01.07.2018 12:00]),  [01.07.2018 12:00]);
+
+      assert_equal(  array_from([[], [], [], [], []]),                                          [[], [], [], [], []]);
+      assert_equal(  array_from([nil, nil, nil, nil, nil]),                                     [nil, nil, nil, nil, nil]);
+      assert_equal(  array_from([true, true, true, true, true]),                                [true, true, true, true, true]);
+      assert_equal(  array_from([10, 20, 30, 40, 50]),                                          [10, 20, 30, 40, 50]);
+      assert_equal(  array_from([10.0, 20.0, 30.0, 40.0, 50.0]),                                [10.0, 20.0, 30.0, 40.0, 50.0]);
+      assert_equal(  array_from(["abcdef", "ghijk", "lmnopq", "rstuvw", "xyz"]),                ["abcdef", "ghijk", "lmnopq", "rstuvw", "xyz"]);
+      assert_equal(  array_from([01.01.2018, 01.01.2019, 01.01.2020, 01.01.2021, 01.01.2022]),  [01.01.2018, 01.01.2019, 01.01.2020, 01.01.2021, 01.01.2022]);
+
+      assert_equal(  array_from([nil, true, false, 00, 10, 00.0, 10.0, "abcde", "abcdef", 01.07.2018, 01.07.2018 12:00]),  [nil, true, false, 00, 10, 00.0, 10.0, "abcde", "abcdef", 01.07.2018, 01.07.2018 12:00]);
     end;
   end;
 
@@ -31,7 +60,8 @@ inclass
 
     with case do
 
-      -- тестируется получение длины массива без значений, с разным количеством значений и со значениями, изменёнными динамически
+      -- тестируется метод array_length c пустым массивом, с непустыми массивами и с массивами, в которые значения записаны динамически
+      -- степень покрытия: хорошо
 
       test_array = [];
       assert_equal(array_length(test_array), 0, "проверка с пустым массивом");
@@ -56,13 +86,26 @@ inclass
 
     with case do
 
-      -- простая проверка
+      -- тестируется метод array_has_content с nil, пустым массивом, непустыми массивами
+      -- степень покрытия: хорошо
 
-      assert_false(  array_has_content(nil));
       assert_false(  array_has_content([]));
+      assert_false(  array_has_content(nil), "вообще-то это значение не массив, но оно будет приведено к массиву за счёт типов аргументов функции");
 
       assert_true(   array_has_content([nil]));
-      assert_true(   array_has_content([10, 20, 30]));
+      assert_true(   array_has_content([[]]));
+      assert_true(   array_has_content([true]));
+      assert_true(   array_has_content([false]));
+      assert_true(   array_has_content([00]));
+      assert_true(   array_has_content([10]));
+      assert_true(   array_has_content([00.0]));
+      assert_true(   array_has_content([10.0]));
+      assert_true(   array_has_content(["00"]));
+      assert_true(   array_has_content(["10"]));
+      assert_true(   array_has_content(["abcde"]));
+      assert_true(   array_has_content(["abcdef"]));
+      assert_true(   array_has_content([01.07.2018]));
+      assert_true(   array_has_content([01.07.2018 12:00]));
     end;
   end;
 
@@ -73,21 +116,22 @@ inclass
 
     with case do
 
-      -- тестируется получение элементов массива с использованием нулевых, положительных, отрицательных,
-      -- выходящих за пределы массива индексов и с использованием значений по-умолчанию
+      -- тестируется метод array_get с нулевыми, положительными, отрицательными,
+      -- выходящими за пределы массива индексами и с использованием значений по-умолчанию
+      -- степень покрытия: хорошо
 
       test_array = [10, 20, 30, 40, 50];
 
-      assert_equal(  array_get(test_array, 0),                10,     "проверка с нулевым индексом");
+      assert_equal(  array_get(test_array, 0),           10,     "проверка с нулевым индексом");
 
-      assert_equal(  array_get(test_array, 1),                10,     "проверки с положительным индексом");
-      assert_equal(  array_get(test_array, 5),                50);
+      assert_equal(  array_get(test_array, 1),           10,     "проверки с положительным индексом");
+      assert_equal(  array_get(test_array, 5),           50);
 
-      assert_equal(  array_get(test_array, -1),               50,     "проверки с отрицательными индексом");
-      assert_equal(  array_get(test_array, -5),               10);
+      assert_equal(  array_get(test_array, -1),          50,     "проверки с отрицательными индексом");
+      assert_equal(  array_get(test_array, -5),          10);
 
-      assert_equal(  array_get(test_array, 6),                nil,    "проверки c выходящим индексом");
-      assert_equal(  array_get(test_array, -6),               10,     "стоит обратить внимание, что выйти в обратную сторону невозможно");
+      assert_equal(  array_get(test_array, 6),           nil,    "проверки c выходящим индексом");
+      assert_equal(  array_get(test_array, -6),          10,     "стоит обратить внимание, что выйти в обратную сторону невозможно");
 
       assert_equal(  array_get(test_array, 6, "oops"),   "oops", "проверки со значением по-умолчанию");
       assert_equal(  array_get(test_array, -6, "oops"),  10);
@@ -97,72 +141,120 @@ inclass
 
   proc test_array_set(case: UnitTesting.Case);
 
-    var test_array: variant[];
+    var test_array, temp_array: variant[];
 
     with case do
 
-      -- тестируется установка элементов массива с использованием нулевых, положительных, отрицательных,
-      -- выходящих за пределы массива индексов
+      -- тестируется метод array_set с нулевыми, положительными, отрицательными,
+      -- выходящими за пределы массива индексами
+      -- степень покрытия: хорошо
 
       test_array = [10, 20, 30, 40, 50];
 
-      array_set(test_array, 0, 15);
-      assert_equal(test_array, [15, 20, 30, 40, 50], "с нулевым индексом");
 
-      array_set(test_array, 1, 20);
-      assert_equal(test_array, [20, 20, 30, 40, 50], "с положительными индексами");
+      temp_array = test_array;
+      array_set(temp_array, 0, 100);
+      assert_equal(temp_array, [100, 20, 30, 40, 50], "с нулевым индексом");
 
-      array_set(test_array, 2, 30);
-      assert_equal(test_array, [20, 30, 30, 40, 50]);
 
-      array_set(test_array, 5, 60);
-      assert_equal(test_array, [20, 30, 30, 40, 60]);
+      temp_array = test_array;
+      array_set(temp_array, 1, 100);
+      assert_equal(temp_array, [100, 20, 30, 40, 50], "с положительными индексами");
 
-      array_set(test_array, -1, 70);
-      assert_equal(test_array, [20, 30, 30, 40, 70], "с отрицательными индексами");
+      temp_array = test_array;
+      array_set(temp_array, 2, 200);
+      assert_equal(temp_array, [10, 200, 30, 40, 50]);
 
-      array_set(test_array, -5, 30);
-      assert_equal(test_array, [30, 30, 30, 40, 70]);
+      temp_array = test_array;
+      array_set(temp_array, 5, 500);
+      assert_equal(temp_array, [10, 20, 30, 40, 500]);
 
-      array_set(test_array, -6, 40);
-      assert_equal(test_array, [40, 30, 30, 40, 70], "с индексами, выходящими за пределы");
 
-      array_set(test_array, 6, 80);
-      assert_equal(test_array, [40, 30, 30, 40, 70, 80]);
+      temp_array = test_array;
+      array_set(temp_array, -1, 500);
+      assert_equal(temp_array, [10, 20, 30, 40, 500], "с отрицательными индексами");
+
+      temp_array = test_array;
+      array_set(temp_array, -2, 400);
+      assert_equal(temp_array, [10, 20, 30, 400, 50]);
+
+      temp_array = test_array;
+      array_set(temp_array, -5, 100);
+      assert_equal(temp_array, [100, 20, 30, 40, 50]);
+
+
+      temp_array = test_array;
+      array_set(temp_array, -6, 000);
+      assert_equal(temp_array, [000, 20, 30, 40, 50], "с индексами, выходящими за пределы");
+
+      temp_array = test_array;
+      array_set(temp_array, -7, -100);
+      assert_equal(temp_array, [-100, 20, 30, 40, 50], "с индексами, выходящими за пределы");
+
+      temp_array = test_array;
+      array_set(temp_array, 6, 600);
+      assert_equal(temp_array, [10, 20, 30, 40, 50, 600]);
+
+      temp_array = test_array;
+      array_set(temp_array, 7, 700);
+      assert_equal(temp_array, [10, 20, 30, 40, 50, nil, 700], "для массива с разрывом в индексации");
     end;
   end;
 
 
   proc test_array_unset(case: UnitTesting.Case);
 
-    var test_array: variant[];
+    var test_array, temp_array: variant[];
 
     with case do
 
-      -- тестируется разустановка элементов массива с использованием нулевых, положительных, отрицательных,
-      -- выходящих за пределы массива индексов
+      -- тестируется метод array_unset с нулевыми, положительными, отрицательными,
+      -- выходящими за пределы массива индексами
 
       test_array = [10, 20, 30, 40, 50];
 
-      array_unset(test_array, 5);
-      assert_equal(test_array, [10, 20, 30, 40], "с положительными индексами");
 
-      array_unset(test_array, 1);
-      assert_equal(test_array, [20, 30, 40]);
+      temp_array = test_array;
+      array_unset(temp_array, 1);
+      assert_equal(temp_array, [20, 30, 40, 50], "с положительными индексами");
+
+      temp_array = test_array;
+      array_unset(temp_array, 2);
+      assert_equal(temp_array, [10, 30, 40, 50], "с положительными индексами");
+
+      temp_array = test_array;
+      array_unset(temp_array, 5);
+      assert_equal(temp_array, [10, 20, 30, 40]);
 
 
-      array_unset(test_array, -1);
-      assert_equal(test_array, [20, 30], "с отрицательными индексами");
+      temp_array = test_array;
+      array_unset(temp_array, -1);
+      assert_equal(temp_array, [10, 20, 30, 40], "с отрицательными индексами");
 
-      array_unset(test_array, -2);
-      assert_equal(test_array, [30]);
+      temp_array = test_array;
+      array_unset(temp_array, -2);
+      assert_equal(temp_array, [10, 20, 30, 50]);
+
+      temp_array = test_array;
+      array_unset(temp_array, -5);
+      assert_equal(temp_array, [20, 30, 40, 50]);
 
 
-      array_unset(test_array, 2);
-      assert_equal(test_array, [30], "с выходящим индексом");
+      temp_array = test_array;
+      array_unset(temp_array, 6);
+      assert_equal(temp_array, [10, 20, 30, 40, 50], "с выходящими индексами");
 
-      array_unset(test_array, -2);
-      assert_equal(test_array, []);
+      temp_array = test_array;
+      array_unset(temp_array, 7);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      array_unset(temp_array, -6);
+      assert_equal(temp_array, [20, 30, 40, 50]);
+
+      temp_array = test_array;
+      array_unset(temp_array, -7);
+      assert_equal(temp_array, [20, 30, 40, 50]);
     end;
   end;
 
@@ -173,24 +265,31 @@ inclass
 
     with case do
 
-      -- тестируется проверка на установленность элементов массива с использованием нулевых, положительных, отрицательных,
-      -- выходящих за пределы массива индексов
+      -- тестируется метод array_is_set с нулевыми, положительными, отрицательными,
+      -- выходящими за пределы массива индексами
+      -- степень покрытия: хорошо
 
       test_array[1] = 10;
       test_array[4] = 40;
       test_array[5] = 50;
 
-      assert_false(  array_is_set(test_array, 0), "c нулевым индексом");
-
-      assert_true(   array_is_set(test_array, 1), "с положительными индексами");
-      assert_true(   array_is_set(test_array, 5));
-
-      assert_false(  array_is_set(test_array, -1), "с отрицательными индексами");
+      assert_false(  array_is_set(test_array, -7), "с отрицательными индексами");
+      assert_false(  array_is_set(test_array, -6));
       assert_false(  array_is_set(test_array, -5));
+      assert_false(  array_is_set(test_array, -4));
+      assert_false(  array_is_set(test_array, -3));
+      assert_false(  array_is_set(test_array, -2));
+      assert_false(  array_is_set(test_array, -1));
 
-      assert_false(  array_is_set(test_array, 2), "с отсутствующими и выходящими индексами");
-      assert_false(  array_is_set(test_array, 3));
-      assert_false(  array_is_set(test_array, 6));
+      assert_false(  array_is_set(test_array, 0), "с нулём");
+
+      assert_true (  array_is_set(test_array, 1));
+      assert_false(  array_is_set(test_array, 2));
+      assert_false(  array_is_set(test_array, 3), "с незаданными индексами");
+      assert_true (  array_is_set(test_array, 4));
+      assert_true (  array_is_set(test_array, 5));
+      assert_false(  array_is_set(test_array, 6), "с выходящими индексами");
+      assert_false(  array_is_set(test_array, 7));
     end;
   end;
 
@@ -201,9 +300,10 @@ inclass
 
     with case do
 
-      -- простая проверка
+      -- тестируется метод array_clear
+      -- степень покрытия: хорошо
 
-      test_array = [1, 2, 3, 4, 5];
+      test_array = [10, 20, 30, 40, 50];
 
       array_clear(test_array);
       assert_equal(test_array, []);
@@ -217,14 +317,36 @@ inclass
 
     with case do
 
-      -- простая проверка
+      -- тестируется метод array_append c пустыми массивами, с непустыми массивами и с массивами с разрывами
+      -- степень покрытия: хорошо
 
-      array_append(test_array, 1);
-      assert_equal(test_array, [1]);
+      test_array = [];
+      array_append(test_array, 10);
+      assert_equal(test_array, [10]);
 
-      array_append(test_array, 2);
-      array_append(test_array, 3);
-      assert_equal(test_array, [1, 2, 3]);
+      test_array = [];
+      array_append(test_array, 10);
+      array_append(test_array, 20);
+      array_append(test_array, 30);
+      assert_equal(test_array, [10, 20, 30]);
+
+
+      test_array = [10, 20];
+      array_append(test_array, 30);
+      array_append(test_array, 40);
+      array_append(test_array, 50);
+      assert_equal(test_array, [10, 20, 30, 40, 50]);
+
+      test_array = [10, 20, 30, 40];
+      array_append(test_array, 50);
+      assert_equal(test_array, [10, 20, 30, 40, 50]);
+
+
+      test_array = [];
+      test_array[5] = 50;
+      array_append(test_array, 60);
+      array_append(test_array, 70);
+      assert_equal(test_array, [nil, nil, nil, nil, 50, 60, 70]);
     end;
   end;
 
@@ -235,14 +357,34 @@ inclass
 
     with case do
 
-      -- простая проверка
+      -- тестируется метод array_prepend c пустыми массивами, с непустыми массивами и с массивами с разрывами
+      -- степень покрытия: хорошо
 
-      array_prepend(test_array, 1);
-      assert_equal(test_array, [1]);
+      test_array = [];
+      array_prepend(test_array, 10);
+      assert_equal(test_array, [10]);
 
-      array_prepend(test_array, 2);
-      array_prepend(test_array, 3);
-      assert_equal(test_array, [3, 2, 1]);
+      test_array = [];
+      array_prepend(test_array, 10);
+      array_prepend(test_array, 20);
+      array_prepend(test_array, 30);
+      assert_equal(test_array, [30, 20, 10]);
+
+      test_array = [20, 10];
+      array_prepend(test_array, 30);
+      array_prepend(test_array, 40);
+      array_prepend(test_array, 50);
+      assert_equal(test_array, [50, 40, 30, 20, 10]);
+
+      test_array = [40, 30, 20, 10];
+      array_prepend(test_array, 50);
+      assert_equal(test_array, [50, 40, 30, 20, 10]);
+
+      test_array = [];
+      test_array[5] = 10;
+      array_prepend(test_array, 60);
+      array_prepend(test_array, 70);
+      assert_equal(test_array, [70, 60, nil, nil, nil, nil, 10], "для массива с разрывом в индексации");
     end;
   end;
 
@@ -253,13 +395,39 @@ inclass
 
     with case do
 
-      -- простая проверка
+      -- тестируется метод array_extend c пустыми массивами, с непустыми массивами и с массивами с разрывами
+      -- степень покрытия: хорошо
 
-      array_extend(test_array, [1]);
-      assert_equal(test_array, [1]);
+      test_array = [];
+      array_extend(test_array, []);
+      assert_equal(test_array, []);
 
-      array_extend(test_array, [2, 3]);
-      assert_equal(test_array, [1, 2, 3]);
+      test_array = [];
+      array_extend(test_array, [10]);
+      assert_equal(test_array, [10]);
+
+      test_array = [];
+      array_extend(test_array, [10]);
+      array_extend(test_array, [20]);
+      array_extend(test_array, [30]);
+      assert_equal(test_array, [10, 20, 30], "не самое эффективное использование данного метода, но такая возможность есть");
+
+      test_array = [];
+      array_extend(test_array, [10, 20, 30]);
+      assert_equal(test_array, [10, 20, 30]);
+
+      test_array = [10, 20];
+      array_extend(test_array, [30, 40, 50]);
+      assert_equal(test_array, [10, 20, 30, 40, 50]);
+
+      test_array = [10, 20, 30, 40];
+      array_extend(test_array, [50]);
+      assert_equal(test_array, [10, 20, 30, 40, 50]);
+
+      test_array = [];
+      test_array[5] = 50;
+      array_extend(test_array, [60, 70]);
+      assert_equal(test_array, [nil, nil, nil, nil, 50, 60, 70], "для массива с разрывом в индексации");
     end;
   end;
 
@@ -270,117 +438,1013 @@ inclass
 
     with case do
 
-      -- тестируется поиск вхождения в массив одного, множества, отсутствующих значений
+      -- тестируется метод array_pos с присутствующими, отсутствующими последовательностями
+      -- и с использованием смещения
+      -- степень покрытия: хорошо
 
       test_array = [10, 20, 30, 40, 50];
 
-      assert_equal(array_pos(test_array, [10]), [1, 1], "с одним значением");
-      assert_equal(array_pos(test_array, [50]), [5, 1]);
+      assert_equal(  array_pos(test_array, [10]),         [1, 1]);
+      assert_equal(  array_pos(test_array, [20]),         [2, 1]);
+      assert_equal(  array_pos(test_array, [50]),         [5, 1]);
 
-      assert_equal(array_pos(test_array, [10, 20]), [1, 2], "со множеством значений");
-      assert_equal(array_pos(test_array, [40, 50]), [4, 2]);
+      assert_equal(  array_pos(test_array, [10, 20]),     [1, 2]);
+      assert_equal(  array_pos(test_array, [20, 30]),     [2, 2]);
+      assert_equal(  array_pos(test_array, [40, 50]),     [4, 2]);
 
-      assert_equal(array_pos(test_array, [20, 30, 40]), [2, 3]);
-      assert_equal(array_pos(test_array, [10, 20, 30, 40, 50]), [1, 5]);
+      assert_equal(  array_pos(test_array, [10, 20, 30]),          [1, 3]);
+      assert_equal(  array_pos(test_array, [10, 20, 30, 40, 50]),  [1, 5]);
 
-      assert_equal(array_pos(test_array, [00]), [-1, 0], "с отсутсвующими значениями");
+      assert_equal(  array_pos(test_array, [05]),                  [-1, 0], "с отсутсвующими последовательностями");
+      assert_equal(  array_pos(test_array, [10, 15]),              [-1, 0]);
+      assert_equal(  array_pos(test_array, [10, 20, 25]),          [-1, 0]);
 
-      assert_equal(array_pos(test_array, [40, 30, 20]), [-1, 0], "со множеством отсутствующих значений");
-      assert_equal(array_pos(test_array, ["20", "30", "40"]), [-1, 0]);
+      assert_equal(  array_pos(test_array, [10, 20, nil]),         [-1, 0]);
+      assert_equal(  array_pos(test_array, [10, 20, true]),        [-1, 0]);
+      assert_equal(  array_pos(test_array, [10, 20, 30.33]),       [-1, 0]);
+      assert_equal(  array_pos(test_array, [10, 20, "30"]),        [-1, 0]);
+      assert_equal(  array_pos(test_array, [10, 20, 30.01.2018]),  [-1, 0]);
+
+      assert_equal(  array_pos(test_array, [20], 1),      [2, 1], "с использованием смещения");
+      assert_equal(  array_pos(test_array, [20], 4),      [-1, 0]);
+
+      assert_equal(  array_pos(test_array, [40], 1),      [4, 1]);
+      assert_equal(  array_pos(test_array, [40], 4),      [4, 1]);
+
+      assert_equal(  array_pos(test_array, [20, 30], 1),  [2, 2]);
+      assert_equal(  array_pos(test_array, [20, 30], 4),  [-1, 0]);
+
+      assert_equal(  array_pos(test_array, [30, 40], 1),  [3, 2]);
+      assert_equal(  array_pos(test_array, [30, 40], 4),  [-1, 0]);
     end;
   end;
 
 
   proc test_array_contains(case: UnitTesting.Case);
-    
+
+    var test_array: variant[];
+
+    with case do
+
+      -- тестируется метод array_contains
+
+      test_array = [10, 20, 30, 40, 50];
+
+      assert_true (  array_contains(test_array, [10]));
+      assert_true (  array_contains(test_array, [20]));
+      assert_true (  array_contains(test_array, [50]));
+
+      assert_true (  array_contains(test_array, [10, 20]));
+      assert_true (  array_contains(test_array, [20, 30]));
+      assert_true (  array_contains(test_array, [40, 50]));
+
+      assert_true (  array_contains(test_array, [10, 20, 30]));
+      assert_true (  array_contains(test_array, [10, 20, 30, 40, 50]));
+
+      assert_false(  array_contains(test_array, [05]), "с отсутсвующими последовательностями");
+      assert_false(  array_contains(test_array, [10, 15]));
+      assert_false(  array_contains(test_array, [10, 20, 25]));
+
+      assert_false(  array_contains(test_array, [10, 20, nil]));
+      assert_false(  array_contains(test_array, [10, 20, true]));
+      assert_false(  array_contains(test_array, [10, 20, 30.33]));
+      assert_false(  array_contains(test_array, [10, 20, "30"]));
+      assert_false(  array_contains(test_array, [10, 20, 30.01.2018]));
+
+      assert_true (  array_contains(test_array, [20], 1), "с использованием смещения");
+      assert_false(  array_contains(test_array, [20], 4));
+
+      assert_true (  array_contains(test_array, [40], 1));
+      assert_true (  array_contains(test_array, [40], 4));
+
+      assert_true (  array_contains(test_array, [20, 30], 1));
+      assert_false(  array_contains(test_array, [20, 30], 4));
+
+      assert_true (  array_contains(test_array, [30, 40], 1));
+      assert_false(  array_contains(test_array, [30, 40], 4));
+    end;
   end;
 
 
   proc test_array_slice(case: UnitTesting.Case);
 
     var test_array: variant[];
-        test_array = [1, 2, 3, 4, 5];
+        test_array = [10, 20, 30, 40, 50];
 
     with case do
 
-      -- без указания начала и длины
-      assert_equal(array_slice(test_array, nil), [1, 2, 3, 4, 5]);
+      -- тестируется метод array_slice с различным смещением, длиной
+      -- степень покрытия: хорошо
 
-      -- без указания длины
-      assert_equal(array_slice(test_array, 1), [1, 2, 3, 4, 5]);
-      assert_equal(array_slice(test_array, 2), [2, 3, 4, 5]);
-      assert_equal(array_slice(test_array, 5), [5]);
+      -- со смещением
 
-      -- без указания начала
-      assert_equal(array_slice(test_array, , 0), []);
-      assert_equal(array_slice(test_array, , 1), [1]);
-      assert_equal(array_slice(test_array, , 5), [1, 2, 3, 4, 5]);
+      assert_equal(  array_slice(test_array, -7),   [10, 20, 30, 40, 50], "с отрицательным смещением");
+      assert_equal(  array_slice(test_array, -6),   [10, 20, 30, 40, 50]);
+      assert_equal(  array_slice(test_array, -5),   [10, 20, 30, 40, 50]);
+      assert_equal(  array_slice(test_array, -4),   [20, 30, 40, 50]);
+      assert_equal(  array_slice(test_array, -3),   [30, 40, 50]);
+      assert_equal(  array_slice(test_array, -2),   [40, 50]);
+      assert_equal(  array_slice(test_array, -1),   [50]);
 
-      -- с указанием начала и длины
-      assert_equal(array_slice(test_array, 1, 1), [1]);
-      assert_equal(array_slice(test_array, 5, 1), [5]);
-      assert_equal(array_slice(test_array, 1, 5), [1, 2, 3, 4, 5]);
+      assert_equal(  array_slice(test_array, 0),    [10, 20, 30, 40, 50], "с нулевым смещением");
+      assert_equal(  array_slice(test_array, nil),  [10, 20, 30, 40, 50], "с nil смещением");
+      assert_equal(  array_slice(test_array),       [10, 20, 30, 40, 50]);
 
-      -- с отрицательным началом
-      assert_equal(array_slice(test_array, -1), [5]);
-      assert_equal(array_slice(test_array, -5), [1, 2, 3, 4, 5]);
-      assert_equal(array_slice(test_array, -1, 1), [5]);
-      assert_equal(array_slice(test_array, -5, 1), [1]);
-      assert_equal(array_slice(test_array, -5, 5), [1, 2, 3, 4, 5]);
+      assert_equal(  array_slice(test_array, 1),    [10, 20, 30, 40, 50], "с положительным смещением");
+      assert_equal(  array_slice(test_array, 2),    [20, 30, 40, 50]);
+      assert_equal(  array_slice(test_array, 3),    [30, 40, 50]);
+      assert_equal(  array_slice(test_array, 4),    [40, 50]);
+      assert_equal(  array_slice(test_array, 5),    [50]);
+      assert_equal(  array_slice(test_array, 6),    []);
+      assert_equal(  array_slice(test_array, 7),    []);
 
-      -- с отрицательной длиной
-      assert_equal(array_slice(test_array, 1, -1), [1, 2, 3, 4]);
-      assert_equal(array_slice(test_array, 1, -2), [1, 2, 3]);
-      assert_equal(array_slice(test_array, 1, -5), []);
 
-      -- с отрицательными началом и длиной
-      assert_equal(array_slice(test_array, -4, -1), [2, 3, 4]);
-      assert_equal(array_slice(test_array, -3, -2), [3]);
+      -- с длиной
 
-      -- с выходом за пределы начала
-      assert_equal(array_slice(test_array, 6), nil);
-      assert_equal(array_slice(test_array, 7), []);
-      assert_equal(array_slice(test_array, -6), [1, 2, 3, 4, 5]);
-      assert_equal(array_slice(test_array, -7), [1, 2, 3, 4, 5]);
+      assert_equal(  array_slice(test_array, 1, -7),   [], "с отрицательной длиной");
+      assert_equal(  array_slice(test_array, 1, -6),   []);
+      assert_equal(  array_slice(test_array, 1, -5),   []);
+      assert_equal(  array_slice(test_array, 1, -4),   [10]);
+      assert_equal(  array_slice(test_array, 1, -3),   [10, 20]);
+      assert_equal(  array_slice(test_array, 1, -2),   [10, 20, 30]);
+      assert_equal(  array_slice(test_array, 1, -1),   [10, 20, 30, 40]);
 
-      -- с выходом за пределы длины
-      assert_equal(array_slice(test_array, 1, 6), [1, 2, 3, 4, 5]);
-      assert_equal(array_slice(test_array, 1, 7), [1, 2, 3, 4, 5]);
-      assert_equal(array_slice(test_array, 1, -6), []);
-      assert_equal(array_slice(test_array, 1, -7), []);
+      assert_equal(  array_slice(test_array, 1, 0),    [], "с нулевой длиной");
+      assert_equal(  array_slice(test_array, 1, nil),  [10, 20, 30, 40, 50], "с nil длиной");
+      assert_equal(  array_slice(test_array, 1),       [10, 20, 30, 40, 50]);
 
-      -- с выходом за пределы начала и длины
-      assert_equal(array_slice(test_array, -3, -3), nil);
+      assert_equal(  array_slice(test_array, 1, 1),    [10], "с положительной длиной");
+      assert_equal(  array_slice(test_array, 1, 2),    [10, 20]);
+      assert_equal(  array_slice(test_array, 1, 3),    [10, 20, 30]);
+      assert_equal(  array_slice(test_array, 1, 4),    [10, 20, 30, 40]);
+      assert_equal(  array_slice(test_array, 1, 5),    [10, 20, 30, 40, 50]);
+      assert_equal(  array_slice(test_array, 1, 6),    [10, 20, 30, 40, 50]);
+      assert_equal(  array_slice(test_array, 1, 7),    [10, 20, 30, 40, 50]);
+
+
+      -- со смещением и длиной
+
+      assert_equal(  array_slice(test_array, 3, -7),   [], "с отрицательной длиной");
+      assert_equal(  array_slice(test_array, 3, -6),   []);
+      assert_equal(  array_slice(test_array, 3, -5),   []);
+      assert_equal(  array_slice(test_array, 3, -4),   []);
+      assert_equal(  array_slice(test_array, 3, -3),   []);
+      assert_equal(  array_slice(test_array, 3, -2),   [30]);
+      assert_equal(  array_slice(test_array, 3, -1),   [30, 40]);
+
+      assert_equal(  array_slice(test_array, 3, 0),    [], "с нулевой длиной");
+      assert_equal(  array_slice(test_array, 3, nil),  [30, 40, 50], "с nil длиной");
+      assert_equal(  array_slice(test_array, 3),       [30, 40, 50]);
+
+      assert_equal(  array_slice(test_array, 3, 1),    [30], "с положительной длиной");
+      assert_equal(  array_slice(test_array, 3, 2),    [30, 40]);
+      assert_equal(  array_slice(test_array, 3, 3),    [30, 40, 50]);
+      assert_equal(  array_slice(test_array, 3, 4),    [30, 40, 50]);
+      assert_equal(  array_slice(test_array, 3, 5),    [30, 40, 50]);
+      assert_equal(  array_slice(test_array, 3, 6),    [30, 40, 50]);
+      assert_equal(  array_slice(test_array, 3, 7),    [30, 40, 50]);
     end;
   end;
 
 
   proc test_array_splice(case: UnitTesting.Case);
-    
+
+    -- тестируется метод array_splice с массивом для замены: пустым, с одним элементом, со множеством элементов; и различным смещением, длиной
+    -- степень покрытия: хорошо
+
+    var test_array, temp_array, value: variant[];
+
+
+    with case do
+
+      -- с пустым массивом для замены
+
+      test_array = [10, 20, 30, 40, 50];
+      value = [];
+
+
+      -- со смещением
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -7),  [10, 20, 30, 40, 50], "с отрицательным смещением");
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -6),  [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -5),  [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -4),  [20, 30, 40, 50]);
+      assert_equal(temp_array, [10]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -3),  [30, 40, 50]);
+      assert_equal(temp_array, [10, 20]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -2),  [40, 50]);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -1),  [50]);
+      assert_equal(temp_array, [10, 20, 30, 40]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 0),  [10, 20, 30, 40, 50], "с нулевым смещением");
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, nil),  [10, 20, 30, 40, 50], "со смещением nil");
+      assert_equal(temp_array, []);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1),  [10, 20, 30, 40, 50], "с положительным смещением");
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 2),  [20, 30, 40, 50]);
+      assert_equal(temp_array, [10]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3),  [30, 40, 50]);
+      assert_equal(temp_array, [10, 20]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 4),  [40, 50]);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 5),  [50]);
+      assert_equal(temp_array, [10, 20, 30, 40]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 6),  []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 7),  []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+
+      -- с длиной
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -7), []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -6), []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -5), []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -4), [10]);
+      assert_equal(temp_array, [20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -3), [10, 20]);
+      assert_equal(temp_array, [30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -2), [10, 20, 30]);
+      assert_equal(temp_array, [40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -1), [10, 20, 30, 40]);
+      assert_equal(temp_array, [50]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 0), [], "с нулевой длиной");
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, nil), [10, 20, 30, 40, 50], "с длиной nil");
+      assert_equal(temp_array, []);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 1), [10]);
+      assert_equal(temp_array, [20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 2), [10, 20]);
+      assert_equal(temp_array, [30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 3), [10, 20, 30]);
+      assert_equal(temp_array, [40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 4), [10, 20, 30, 40]);
+      assert_equal(temp_array, [50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 5), [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 6), [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 7), [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, []);
+
+
+      -- со смещением и длиной
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -7), []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -6), []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -5), []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -4), []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -3), []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -2), [30]);
+      assert_equal(temp_array, [10, 20, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -1), [30, 40]);
+      assert_equal(temp_array, [10, 20, 50]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 0), [], "с нулевой длиной");
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, nil), [30, 40, 50], "с nil длиной");
+      assert_equal(temp_array, [10, 20]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 1), [30], "с положительной длиной");
+      assert_equal(temp_array, [10, 20, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 2), [30, 40]);
+      assert_equal(temp_array, [10, 20, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 3), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 4), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 5), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 6), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 7), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20]);
+    end;
+
+
+    with case do
+
+      -- с массивом для замены с одним элементом
+
+      test_array = [10, 20, 30, 40, 50];
+      value = ["aa"];
+
+
+      -- со смещением
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -7),  [10, 20, 30, 40, 50], "с отрицательным смещением");
+      assert_equal(temp_array, ["aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -6),  [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -5),  [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -4),  [20, 30, 40, 50]);
+      assert_equal(temp_array, [10, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -3),  [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -2),  [40, 50]);
+      assert_equal(temp_array, [10, 20, 30, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -1),  [50]);
+      assert_equal(temp_array, [10, 20, 30, 40, "aa"]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 0),  [10, 20, 30, 40, 50], "с нулевым смещением");
+      assert_equal(temp_array, ["aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, nil),  [10, 20, 30, 40, 50], "со смещением nil");
+      assert_equal(temp_array, ["aa"]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1),  [10, 20, 30, 40, 50], "с положительным смещением");
+      assert_equal(temp_array, ["aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 2),  [20, 30, 40, 50]);
+      assert_equal(temp_array, [10, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3),  [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 4),  [40, 50]);
+      assert_equal(temp_array, [10, 20, 30, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 5),  [50]);
+      assert_equal(temp_array, [10, 20, 30, 40, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 6),  []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 7),  []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50, nil, "aa"]);
+
+
+      -- с длиной
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -7), []);
+      assert_equal(temp_array, ["aa", 10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -6), []);
+      assert_equal(temp_array, ["aa", 10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -5), []);
+      assert_equal(temp_array, ["aa", 10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -4), [10]);
+      assert_equal(temp_array, ["aa", 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -3), [10, 20]);
+      assert_equal(temp_array, ["aa", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -2), [10, 20, 30]);
+      assert_equal(temp_array, ["aa", 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -1), [10, 20, 30, 40]);
+      assert_equal(temp_array, ["aa", 50]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 0), [], "с нулевой длиной");
+      assert_equal(temp_array, ["aa", 10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, nil), [10, 20, 30, 40, 50], "с длиной nil");
+      assert_equal(temp_array, ["aa"]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 1), [10]);
+      assert_equal(temp_array, ["aa", 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 2), [10, 20]);
+      assert_equal(temp_array, ["aa", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 3), [10, 20, 30]);
+      assert_equal(temp_array, ["aa", 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 4), [10, 20, 30, 40]);
+      assert_equal(temp_array, ["aa", 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 5), [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 6), [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 7), [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa"]);
+
+
+      -- со смещением и длиной
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -7), []);
+      assert_equal(temp_array, [10, 20, "aa", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -6), []);
+      assert_equal(temp_array, [10, 20, "aa", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -5), []);
+      assert_equal(temp_array, [10, 20, "aa", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -4), []);
+      assert_equal(temp_array, [10, 20, "aa", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -3), []);
+      assert_equal(temp_array, [10, 20, "aa", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -2), [30]);
+      assert_equal(temp_array, [10, 20, "aa", 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -1), [30, 40]);
+      assert_equal(temp_array, [10, 20, "aa", 50]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 0), [], "с нулевой длиной");
+      assert_equal(temp_array, [10, 20, "aa", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, nil), [30, 40, 50], "с nil длиной");
+      assert_equal(temp_array, [10, 20, "aa"]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 1), [30], "с положительной длиной");
+      assert_equal(temp_array, [10, 20, "aa", 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 2), [30, 40]);
+      assert_equal(temp_array, [10, 20, "aa", 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 3), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 4), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 5), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 6), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 7), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa"]);
+    end;
+
+
+    with case do
+
+      -- с массивом для замены с множеством элементов
+
+      test_array = [10, 20, 30, 40, 50];
+      value = ["aa", "bb", "cc"];
+
+
+      -- со смещением
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -7),  [10, 20, 30, 40, 50], "с отрицательным смещением");
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -6),  [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -5),  [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -4),  [20, 30, 40, 50]);
+      assert_equal(temp_array, [10, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -3),  [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -2),  [40, 50]);
+      assert_equal(temp_array, [10, 20, 30, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, -1),  [50]);
+      assert_equal(temp_array, [10, 20, 30, 40, "aa", "bb", "cc"]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 0),  [10, 20, 30, 40, 50], "с нулевым смещением");
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, nil),  [10, 20, 30, 40, 50], "со смещением nil");
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1),  [10, 20, 30, 40, 50], "с положительным смещением");
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 2),  [20, 30, 40, 50]);
+      assert_equal(temp_array, [10, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3),  [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 4),  [40, 50]);
+      assert_equal(temp_array, [10, 20, 30, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 5),  [50]);
+      assert_equal(temp_array, [10, 20, 30, 40, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 6),  []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 7),  []);
+      assert_equal(temp_array, [10, 20, 30, 40, 50, nil, "aa", "bb", "cc"]);
+
+
+      -- с длиной
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -7), []);
+      assert_equal(temp_array, ["aa", "bb", "cc", 10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -6), []);
+      assert_equal(temp_array, ["aa", "bb", "cc", 10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -5), []);
+      assert_equal(temp_array, ["aa", "bb", "cc", 10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -4), [10]);
+      assert_equal(temp_array, ["aa", "bb", "cc", 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -3), [10, 20]);
+      assert_equal(temp_array, ["aa", "bb", "cc", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -2), [10, 20, 30]);
+      assert_equal(temp_array, ["aa", "bb", "cc", 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, -1), [10, 20, 30, 40]);
+      assert_equal(temp_array, ["aa", "bb", "cc", 50]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 0), [], "с нулевой длиной");
+      assert_equal(temp_array, ["aa", "bb", "cc", 10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, nil), [10, 20, 30, 40, 50], "с длиной nil");
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 1), [10]);
+      assert_equal(temp_array, ["aa", "bb", "cc", 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 2), [10, 20]);
+      assert_equal(temp_array, ["aa", "bb", "cc", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 3), [10, 20, 30]);
+      assert_equal(temp_array, ["aa", "bb", "cc", 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 4), [10, 20, 30, 40]);
+      assert_equal(temp_array, ["aa", "bb", "cc", 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 5), [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 6), [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 1, 7), [10, 20, 30, 40, 50]);
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+
+      -- со смещением и длиной
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -7), []);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -6), []);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -5), []);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -4), []);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -3), []);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -2), [30]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, -1), [30, 40]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 50]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 0), [], "с нулевой длиной");
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 30, 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, nil), [30, 40, 50], "с nil длиной");
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc"]);
+
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 1), [30], "с положительной длиной");
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 40, 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 2), [30, 40]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc", 50]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 3), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 4), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 5), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 6), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      assert_equal(array_splice(temp_array, value, 3, 7), [30, 40, 50]);
+      assert_equal(temp_array, [10, 20, "aa", "bb", "cc"]);
+    end;
   end;
 
 
   proc test_array_concat(case: UnitTesting.Case);
-    
+
+    with case do
+
+      -- тестируется метод array_concat с пустыми массивами и nil, данными одного и разных типов
+      -- степень покрытия: хорошо
+
+
+      assert_equal(  array_concat([]),                              [], "с пустыми массивами");
+
+      assert_equal(  array_concat([[]]),                            []);
+      assert_equal(  array_concat([[[]]]),                          [[]]);
+
+      assert_equal(  array_concat([[], [], []]),                    []);
+      assert_equal(  array_concat([[[]], [[]], [[]]]),              [[], [], []]);
+
+
+      assert_equal(  array_concat(nil),                             [], "с nil");
+
+      assert_equal(  array_concat([nil]),                           []);
+      assert_equal(  array_concat([[nil]]),                         [nil]);
+      assert_equal(  array_concat([[[nil]]]),                       [[nil]]);
+
+      assert_equal(  array_concat([nil, nil, nil]),                 []);
+      assert_equal(  array_concat([[nil], [nil], [nil]]),           [nil, nil, nil]);
+      assert_equal(  array_concat([[[nil]], [[nil]], [[nil]]]),     [[nil], [nil], [nil]]);
+
+
+      assert_equal(  array_concat([10]),                            [10], "с данными одного типа");
+      assert_equal(  array_concat([[10]]),                          [10]);
+      assert_equal(  array_concat([[[10]]]),                        [[10]]);
+
+      assert_equal(  array_concat([10, 20, 30]),                    [10, 20, 30]);
+      assert_equal(  array_concat([[10], [20], [30]]),              [10, 20, 30]);
+      assert_equal(  array_concat([[[10]], [[20]], [[30]]]),        [[10], [20], [30]]);
+
+
+      assert_equal(  array_concat(["10", [20, 30]]),                ["10", 20, 30], "с данными разных типов");
+      assert_equal(  array_concat([["10", 20.22] as variant, 30]),  ["10", 20.22, 30]);
+      assert_equal(  array_concat([10.01.2018, [20], "30"]),        [10.01.2018, 20, "30"]);
+      assert_equal(  array_concat([[[10, 20]], [[30.33]]]),         [[10, 20], [30.33]]);
+
+
+      assert_equal(  array_concat([nil, [true, false], [10, 20.22, "30"]]),    [true, false, 10, 20.22, "30"], "пример приведения nil к пустому массиву");
+      assert_equal(  array_concat([[nil], [true, false], [10, 20.22, "30"]]),  [nil, true, false, 10, 20.22, "30"]);
+    end;
   end;
 
 
   proc test_array_swap(case: UnitTesting.Case);
 
-    var test_array: variant[];
+    var test_array, temp_array: variant[];
 
     with case do
 
-      test_array = [1, 2, 3, 4, 5];
+      -- тестируется метод array_swap с отрицательными, нулевыми и положительными индексами
+      -- степень покрытия: хорошо
 
-      array_swap(test_array, 1, 5);
-      assert_equal(test_array, [5, 2, 3, 4, 1]);
+      test_array = [10, 20, 30, 40, 50];
 
-      array_swap(test_array, 1, 2);
-      assert_equal(test_array, [2, 5, 3, 4, 1]);
 
-      array_swap(test_array, 2, 3);
-      assert_equal(test_array, [2, 3, 5, 4, 1]);
+      temp_array = test_array;
+      array_swap(temp_array, 3, -7);
+      assert_equal(temp_array, [30, 20, 10, 40, 50], "с изменением индекса");
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, -6);
+      assert_equal(temp_array, [30, 20, 10, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, -5);
+      assert_equal(temp_array, [30, 20, 10, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, -4);
+      assert_equal(temp_array, [10, 30, 20, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, -3);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, -2);
+      assert_equal(temp_array, [10, 20, 40, 30, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, -1);
+      assert_equal(temp_array, [10, 20, 50, 40, 30]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, 0);
+      assert_equal(temp_array, [30, 20, 10, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, 1);
+      assert_equal(temp_array, [30, 20, 10, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, 2);
+      assert_equal(temp_array, [10, 30, 20, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, 3);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, 4);
+      assert_equal(temp_array, [10, 20, 40, 30, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, 5);
+      assert_equal(temp_array, [10, 20, 50, 40, 30]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, 6);
+      assert_equal(temp_array, [10, 20, nil, 40, 50, 30]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, 7);
+      assert_equal(temp_array, [10, 20, nil, 40, 50, nil, 30]);
+
+
+      temp_array = test_array;
+      array_swap(temp_array, -7, 3);
+      assert_equal(temp_array, [30, 20, 10, 40, 50], "с изменением другого индекса");
+
+      temp_array = test_array;
+      array_swap(temp_array, -6, 3);
+      assert_equal(temp_array, [30, 20, 10, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, -5, 3);
+      assert_equal(temp_array, [30, 20, 10, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, -4, 3);
+      assert_equal(temp_array, [10, 30, 20, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, -3, 3);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, -2, 3);
+      assert_equal(temp_array, [10, 20, 40, 30, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, -1, 3);
+      assert_equal(temp_array, [10, 20, 50, 40, 30]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 0, 3);
+      assert_equal(temp_array, [30, 20, 10, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 1, 3);
+      assert_equal(temp_array, [30, 20, 10, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 2, 3);
+      assert_equal(temp_array, [10, 30, 20, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 3, 3);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 4, 3);
+      assert_equal(temp_array, [10, 20, 40, 30, 50]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 5, 3);
+      assert_equal(temp_array, [10, 20, 50, 40, 30]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 6, 3);
+      assert_equal(temp_array, [10, 20, nil, 40, 50, 30]);
+
+      temp_array = test_array;
+      array_swap(temp_array, 7, 3);
+      assert_equal(temp_array, [10, 20, nil, 40, 50, nil, 30]);
     end;
   end;
 
@@ -391,31 +1455,792 @@ inclass
 
     with case do
 
-      test_array = []; array_reverse(test_array);
+      -- тестируется метод array_reverse с массивами с нулевым, нечётным, чётным количеством элементов
+      -- степень покрытия: хорошо
+
+      test_array = [];
+      array_reverse(test_array);
       assert_equal(test_array, []);
 
-      test_array = [1, 2, 3]; array_reverse(test_array);
-      assert_equal(test_array, [3, 2, 1]);
+      test_array = [10];
+      array_reverse(test_array);
+      assert_equal(test_array, [10]);
 
-      test_array = [1, 2, 3, 4, 5]; array_reverse(test_array);
-      assert_equal(test_array, [5, 4, 3, 2, 1]);
+      test_array = [10, 20];
+      array_reverse(test_array);
+      assert_equal(test_array, [20, 10]);
+
+      test_array = [10, 20, 30];
+      array_reverse(test_array);
+      assert_equal(test_array, [30, 20, 10]);
+
+      test_array = [10, 20, 30, 40];
+      array_reverse(test_array);
+      assert_equal(test_array, [40, 30, 20, 10]);
+
+      test_array = [10, 20, 30, 40, 50];
+      array_reverse(test_array);
+      assert_equal(test_array, [50, 40, 30, 20, 10]);
+
+      test_array = [];
+      test_array[5] = 50;
+      array_reverse(test_array);
+      assert_equal(test_array, [50, nil, nil, nil, nil], "для массива с разрывом в индексации");
     end;
   end;
 
 
   proc test_array_pad(case: UnitTesting.Case);
 
-    var test_array: variant[];
+    -- тестируется метод array_pad с различным направлением direction,
+    -- с пустыми массивами, с массивами с одним, множеством элементов для дополнения, с различной длиной
+
+    var test_array, temp_array, value: variant[];
+
 
     with case do
 
-      test_array = [1, 2, 3];
+      -- для направления ARRAY_PAD_LEFT
 
-      array_pad(test_array, ARRAY_PAD_LEFT, ["a", "b", "c", "d"], 6);
-      assert_equal(test_array, ["b", "c", "d", 1, 2, 3]);
+      -- с пустым массивом
+      value = [];
 
-      array_pad(test_array, ARRAY_PAD_RIGHT, ["a", "b", "c", "d"], 8);
-      assert_equal(test_array, ["b", "c", "d", 1, 2, 3, "a", "b"]);
+
+      test_array = [];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, [], "для направления ARRAY_PAD_LEFT с пустым массивом");
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, []);
+
+
+      test_array = [30, 20, 10];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [30, 20, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, [30, 20, 10]);
+
+
+      test_array = [50, 40, 30, 20, 10];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [30, 20, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, [50, 40, 30, 20, 10]);
+
+
+      test_array = [];
+      test_array[3] = 10;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [nil, nil, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, [nil, nil, 10]);
+
+
+      test_array = [];
+      test_array[5] = 10;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [nil, nil, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, [nil, nil, nil, nil, 10]);
+
+
+      -- с массивом с одним значением
+      value = ["aa"];
+
+
+      test_array = [];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, [], "с массивом с одним значением");
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, ["aa", "aa", "aa"]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, ["aa", "aa", "aa", "aa", "aa"]);
+
+
+      test_array = [30, 20, 10];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [30, 20, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, ["aa", "aa", 30, 20, 10]);
+
+
+      test_array = [50, 40, 30, 20, 10];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [30, 20, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, [50, 40, 30, 20, 10]);
+
+
+      test_array = [];
+      test_array[3] = 10;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [nil, nil, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, ["aa", "aa", nil, nil, 10]);
+
+
+      test_array = [];
+      test_array[5] = 10;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [nil, nil, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, [nil, nil, nil, nil, 10]);
+
+
+      -- с массивом со множеством значений
+      value = ["aa", "bb", "cc"];
+
+
+      test_array = [];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, [], "с массивом со множеством значений");
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, ["bb", "cc", "aa", "bb", "cc"]);
+
+
+      test_array = [30, 20, 10];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [30, 20, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, ["bb", "cc", 30, 20, 10]);
+
+
+      test_array = [50, 40, 30, 20, 10];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [30, 20, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, [50, 40, 30, 20, 10]);
+
+
+      test_array = [];
+      test_array[3] = 10;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [nil, nil, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, ["bb", "cc", nil, nil, 10]);
+
+
+      test_array = [];
+      test_array[5] = 10;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 3);
+      assert_equal(temp_array, [nil, nil, 10]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_LEFT, value, 5);
+      assert_equal(temp_array, [nil, nil, nil, nil, 10]);
+    end;
+
+
+    with case do
+
+      -- для направления ARRAY_PAD_RIGHT
+
+      -- с пустым массивом
+      value = [];
+
+
+      test_array = [];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, [], "для направления ARRAY_PAD_RIGHT с пустым массивом");
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, []);
+
+
+      test_array = [10, 20, 30];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [10, 20, 30]);
+
+
+      test_array = [10, 20, 30, 40, 50];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+
+      test_array = [];
+      test_array[3] = 30;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [nil, nil, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [nil, nil, 30]);
+
+
+      test_array = [];
+      test_array[5] = 50;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [nil, nil, nil]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [nil, nil, nil, nil, 50]);
+
+
+
+      -- с массивом с одним значением
+      value = ["aa"];
+
+
+      test_array = [];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, [], "с массивом с одним значением");
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, ["aa", "aa", "aa"]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, ["aa", "aa", "aa", "aa", "aa"]);
+
+
+      test_array = [10, 20, 30];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [10, 20, 30, "aa", "aa"]);
+
+
+      test_array = [10, 20, 30, 40, 50];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+
+      test_array = [];
+      test_array[3] = 30;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [nil, nil, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [nil, nil, 30, "aa", "aa"]);
+
+
+      test_array = [];
+      test_array[5] = 50;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [nil, nil, nil]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [nil, nil, nil, nil, 50]);
+
+
+      -- с массивом со множеством значением
+      value = ["aa", "bb", "cc"];
+
+
+      test_array = [];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, [], "с массивом со множеством значением");
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, ["aa", "bb", "cc"]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, ["aa", "bb", "cc", "aa", "bb"]);
+
+
+      test_array = [10, 20, 30];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [10, 20, 30, "aa", "bb"]);
+
+
+      test_array = [10, 20, 30, 40, 50];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+
+      test_array = [];
+      test_array[3] = 30;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [nil, nil, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [nil, nil, 30, "aa", "bb"]);
+
+
+      test_array = [];
+      test_array[5] = 50;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 3);
+      assert_equal(temp_array, [nil, nil, nil]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_RIGHT, value, 5);
+      assert_equal(temp_array, [nil, nil, nil, nil, 50]);
+
+    end;
+
+
+    with case do
+
+      -- для направления ARRAY_PAD_BOTH
+
+      -- с пустым массивом
+      value = [];
+
+
+      test_array = [];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, [], "для направления ARRAY_PAD_BOTH с пустым массивом");
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, []);
+
+
+      test_array = [10, 20, 30];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, [10, 20, 30]);
+
+
+      test_array = [10, 20, 30, 40, 50];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [20, 30, 40]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+
+      test_array = [];
+      test_array[3] = 30;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [nil, nil, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, [nil, nil, 30]);
+
+
+      test_array = [];
+      test_array[5] = 50;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [nil, nil, nil]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, [nil, nil, nil, nil, 50]);
+
+
+      -- с массивом с одним значением
+      value = ["aa"];
+
+
+      test_array = [];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, [], "с массивом с одним значением");
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, ["aa", "aa", "aa"]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, ["aa", "aa", "aa", "aa", "aa"]);
+
+
+      test_array = [10, 20, 30];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, ["aa", 10, 20, 30, "aa"]);
+
+
+      test_array = [10, 20, 30, 40, 50];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [20, 30, 40]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+
+      test_array = [];
+      test_array[3] = 30;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [nil, nil, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, ["aa", nil, nil, 30, "aa"]);
+
+
+      test_array = [];
+      test_array[5] = 50;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [nil, nil, nil]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, [nil, nil, nil, nil, 50]);
+
+
+      -- с массивом со множеством значений
+      value = ["aa", "bb", "cc"];
+
+
+      test_array = [];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, [], "с массивом со множеством значений");
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, ["cc", "aa", "bb"]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, ["bb", "cc", "aa", "bb", "cc"]);
+
+
+      test_array = [10, 20, 30];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [10, 20, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, ["cc", 10, 20, 30, "aa"]);
+
+
+      test_array = [10, 20, 30, 40, 50];
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [20, 30, 40]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, [10, 20, 30, 40, 50]);
+
+
+      test_array = [];
+      test_array[3] = 30;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [nil, nil, 30]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, ["cc", nil, nil, 30, "aa"]);
+
+
+      test_array = [];
+      test_array[5] = 50;
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp_array, []);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 3);
+      assert_equal(temp_array, [nil, nil, nil]);
+
+      temp_array = test_array;
+      array_pad(temp_array, ARRAY_PAD_BOTH, value, 5);
+      assert_equal(temp_array, [nil, nil, nil, nil, 50]);
     end;
   end;
 
