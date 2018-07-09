@@ -114,9 +114,9 @@ inclass
   end;
 
 
-  func array_splice(var array: variant[]; value: variant[]; offset: integer; length: variant = nil): variant[];
+  func array_splice(var array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
 
-    return self.mdarray_splice(array, nil, offset, length);
+    return self.mdarray_splice(array, value, offset, length);
   end;
 
 
@@ -191,8 +191,8 @@ inclass
     if var_is_array(value) then
       result = value;
 
-    elsif var_instance_of(value, ArrayObject) then
-      result = value.array_from;
+--    elsif var_instance_of(value, ArrayObject) then
+--      result = value.array_from;
 
     elsif var_is_nil(value) then
       result = [];
@@ -384,14 +384,14 @@ inclass
   end;
 
 
-  func mdarray_splice(var array: variant[]; value: variant[]; offset: integer; length: variant = nil): variant[];
+  func mdarray_splice(var array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
 
     -- функция извлекает подмассив с началом в offset и длиной length и заменяет его на элементы массива value
 
     result = self.mdarray_slice(array, nil, offset, length);
     offset = handle_offset(offset, self.mdarray_length(array));
 
-    with Iterator.new(offset +handle_length(offset, length, self.mdarray_length(array)) -1, offset) do
+    with Iterator.new(offset +handle_length(offset, length, self.mdarray_length(array)) -1, offset, -1) do
       while __next do self.mdarray_unset(array, __index); end;
     end;
 
@@ -406,7 +406,7 @@ inclass
   func mdarray_concat(const arrays: variant[]): variant[];
 
     with Iterator.new(1, self.mdarray_length(arrays)) do
-      while __next do self.mdarray_extend(result, arrays[__index]); end;
+      while __next do self.mdarray_extend(result, array_from(arrays[__index])); end;
     end;
 
     return result;
@@ -442,7 +442,7 @@ inclass
 
   proc mdarray_reverse(var array: variant[]);
 
-    with Iterator.new(1, int(self.mdarray_length(array) /2)) do
+    with Iterator.new(1, var_int(self.mdarray_length(array) /2)) do
       while __next do self.mdarray_swap(array, __index, self.mdarray_length(array) -__index +1); end;
     end;
   end;
@@ -450,34 +450,50 @@ inclass
 
   proc mdarray_pad(var array: variant[]; direction: array_pad_direction; value: variant[]; length: integer);
 
+    -- функция должна дополнить (значениями value) или сократить массив array, в зависимости от длины length,
+    -- слева и/или справа, в зависимости от направления direction
+
+    -- узнаем, сколько элементов нужно добавить или удалить слева, это зависит от направления direction
+    -- если массив меньше длины length, добавим полученное количество элементов слева и дополним до длины length справа
+    -- если массив больше длины length, удалим полученное количество элементов слева и сократим до длины length справа
+
     var count: integer;
+
 
     if direction = self.ARRAY_PAD_LEFT then
       count = length -self.mdarray_length(array);
 
     elsif direction = self.ARRAY_PAD_BOTH then
-      count = int((length -self.mdarray_length(array)) /2);
+      count = var_int((length -self.mdarray_length(array)) /2);
 
     elsif direction = self.ARRAY_PAD_RIGHT then
       count = 0;
     end;
 
-    with Iterator.new(1, count) do
-      while __next do self.mdarray_prepend(array, self.mdarray_get(value,  -(mod(__index -1, self.mdarray_length(value)) +1)  )); end;
-    end;
 
-    with Iterator.new(1, length -self.mdarray_length(array)) do
-      while __next do self.mdarray_append(array, self.mdarray_get(value,  mod(__index -1, self.mdarray_length(value)) +1  )); end;
-    end;
+    if self.mdarray_length(array) < length then
 
-    if count < 0 then
-
-      with Iterator.new(1, -count) do
-        while __next do self.mdarray_unset(array,  mod(__index -1, self.mdarray_length(value)) +1  ); end;
+      with Iterator.new(1, count) do
+        with Iterator.new_children(__self, 1, self.mdarray_length(value)) do
+          while __parent.__next and __previous_loop do self.mdarray_prepend(array, value[__index]); end;
+        end;
       end;
 
-      with Iterator.new(1, -(length -self.mdarray_length(array))) do
-        while __next do self.mdarray_unset(array,  mod(__index -1, self.mdarray_length(value)) +1  ); end;
+      with Iterator.new(1, length -self.mdarray_length(array)) do
+        with Iterator.new_children(__self, 1, self.mdarray_length(value)) do
+          while __parent.__next and __next_loop do self.mdarray_append(array, value[__index]); end;
+        end;
+      end;
+
+    elsif self.mdarray_length(array) > length then
+
+      with Iterator.new(1, -count) do
+        while __next do self.mdarray_unset(array,  1  ); end;
+      end;
+
+      with Iterator.new(length +1, self.mdarray_length(array)) do
+        __end;
+        while __previous do self.mdarray_unset(array,  __index  ); end;
       end;
     end;
   end;
