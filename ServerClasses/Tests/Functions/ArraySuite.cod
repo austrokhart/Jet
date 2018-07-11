@@ -286,11 +286,11 @@ inclass
 
       assert_false(  array_is_set(test_array, 0), "с нулём");
 
-      assert_true (  array_is_set(test_array, 1));
+      assert_true(   array_is_set(test_array, 1));
       assert_false(  array_is_set(test_array, 2));
       assert_false(  array_is_set(test_array, 3), "с незаданными индексами");
-      assert_true (  array_is_set(test_array, 4));
-      assert_true (  array_is_set(test_array, 5));
+      assert_true(   array_is_set(test_array, 4));
+      assert_true(   array_is_set(test_array, 5));
       assert_false(  array_is_set(test_array, 6), "с выходящими индексами");
       assert_false(  array_is_set(test_array, 7));
     end;
@@ -437,8 +437,178 @@ inclass
 
   proc test_array_pos(case: UnitTesting.Case);
 
-    -- тестируется метод array_pos с присутствующими, отсутствующими последовательностями
-    -- и с использованием смещения
+    -- тестируется метод array_pos с последовательностями разной длины, с отсутствующими последовательностями,
+    -- с различным смещением
+    -- степень покрытия: хорошо
+
+    var test_array, value: variant[];
+
+    with case do
+
+      test_array = [10, 20, 30, 40, 50];
+
+
+      assert_equal(  array_pos(test_array, [10]),                  1, "с последовательностями разной длины");
+      assert_equal(  array_pos(test_array, [20]),                  2);
+      assert_equal(  array_pos(test_array, [50]),                  5);
+
+      assert_equal(  array_pos(test_array, [10, 20]),              1);
+      assert_equal(  array_pos(test_array, [20, 30]),              2);
+      assert_equal(  array_pos(test_array, [40, 50]),              4);
+
+      assert_equal(  array_pos(test_array, [10, 20, 30]),          1);
+      assert_equal(  array_pos(test_array, [20, 30, 40]),          2);
+      assert_equal(  array_pos(test_array, [30, 40, 50]),          3);
+
+      assert_equal(  array_pos(test_array, [10, 20, 30, 40]),      1);
+      assert_equal(  array_pos(test_array, [20, 30, 40, 50]),      2);
+
+      assert_equal(  array_pos(test_array, [10, 20, 30, 40, 50]),  1);
+
+
+      assert_equal(  array_pos(test_array, ["xx"]),                      -1, "с отсутствующими последовательностями");
+      assert_equal(  array_pos(test_array, [10, "xx"]),                  -1);
+      assert_equal(  array_pos(test_array, [10, 20, "xx"]),              -1);
+      assert_equal(  array_pos(test_array, [10, 20, 30, 40, "xx"]),      -1);
+      assert_equal(  array_pos(test_array, [10, 20, 30, 40, 50, "xx"]),  -1);
+      assert_equal(  array_pos(test_array, [20, 30, 40, 50, "xx"]),      -1);
+      assert_equal(  array_pos(test_array, [30, 40, 50, "xx"]),          -1);
+      assert_equal(  array_pos(test_array, [40, 50, "xx"]),              -1);
+      assert_equal(  array_pos(test_array, [50, "xx"]),                  -1);
+
+
+      assert_equal(  array_pos(test_array, [nil]),         -1, "с последовательностями со значениями разных типов");
+      assert_equal(  array_pos(test_array, [true]),        -1);
+      assert_equal(  array_pos(test_array, [false]),       -1);
+      assert_equal(  array_pos(test_array, [00]),          -1);
+      assert_equal(  array_pos(test_array, [100]),         -1);
+      assert_equal(  array_pos(test_array, [00.00]),       -1);
+      assert_equal(  array_pos(test_array, [100.00]),      -1);
+      assert_equal(  array_pos(test_array, ["yy"]),        -1);
+      assert_equal(  array_pos(test_array, [01.01.2018]),  -1);
+      assert_equal(  array_pos(test_array, [[]]),          -1);
+
+
+      value = [10];
+
+      assert_equal(  array_pos(test_array, value, -7),  1, "со отрицательным смещением для последовательности [10]");
+      assert_equal(  array_pos(test_array, value, -6),  1);
+      assert_equal(  array_pos(test_array, value, -5),  1);
+      assert_equal(  array_pos(test_array, value, -4),  -1);
+      assert_equal(  array_pos(test_array, value, -3),  -1);
+      assert_equal(  array_pos(test_array, value, -2),  -1);
+      assert_equal(  array_pos(test_array, value, -1),  -1);
+      assert_equal(  array_pos(test_array, value, 0),   1, "с нулевым");
+      assert_equal(  array_pos(test_array, value, 1),   1, "с положительным");
+      assert_equal(  array_pos(test_array, value, 2),   -1);
+      assert_equal(  array_pos(test_array, value, 3),   -1);
+      assert_equal(  array_pos(test_array, value, 4),   -1);
+      assert_equal(  array_pos(test_array, value, 5),   -1);
+      assert_equal(  array_pos(test_array, value, 6),   -1);
+      assert_equal(  array_pos(test_array, value, 7),   -1);
+
+
+      value = [20];
+
+      assert_equal(  array_pos(test_array, value, -7),  2, "с отрицательным смещением для последовательности [20]");
+      assert_equal(  array_pos(test_array, value, -6),  2);
+      assert_equal(  array_pos(test_array, value, -5),  2);
+      assert_equal(  array_pos(test_array, value, -4),  2);
+      assert_equal(  array_pos(test_array, value, -3),  -1);
+      assert_equal(  array_pos(test_array, value, -2),  -1);
+      assert_equal(  array_pos(test_array, value, -1),  -1);
+      assert_equal(  array_pos(test_array, value, 0),   2, "с нулевым");
+      assert_equal(  array_pos(test_array, value, 1),   2, "с положительным");
+      assert_equal(  array_pos(test_array, value, 2),   2);
+      assert_equal(  array_pos(test_array, value, 3),   -1);
+      assert_equal(  array_pos(test_array, value, 4),   -1);
+      assert_equal(  array_pos(test_array, value, 5),   -1);
+      assert_equal(  array_pos(test_array, value, 6),   -1);
+      assert_equal(  array_pos(test_array, value, 7),   -1);
+
+
+      value = [50];
+
+      assert_equal(  array_pos(test_array, value, -7),  5, "с отрицательным смещением для последовательности [50]");
+      assert_equal(  array_pos(test_array, value, -6),  5);
+      assert_equal(  array_pos(test_array, value, -5),  5);
+      assert_equal(  array_pos(test_array, value, -4),  5);
+      assert_equal(  array_pos(test_array, value, -3),  5);
+      assert_equal(  array_pos(test_array, value, -2),  5);
+      assert_equal(  array_pos(test_array, value, -1),  5);
+      assert_equal(  array_pos(test_array, value, 0),   5, "с нулевым");
+      assert_equal(  array_pos(test_array, value, 1),   5, "с положительным");
+      assert_equal(  array_pos(test_array, value, 2),   5);
+      assert_equal(  array_pos(test_array, value, 3),   5);
+      assert_equal(  array_pos(test_array, value, 4),   5);
+      assert_equal(  array_pos(test_array, value, 5),   5);
+      assert_equal(  array_pos(test_array, value, 6),   -1);
+      assert_equal(  array_pos(test_array, value, 7),   -1);
+
+
+      value = [10, 20];
+
+      assert_equal(  array_pos(test_array, value, -7),  1, "с отрицательным смещением для последовательности [10, 20]");
+      assert_equal(  array_pos(test_array, value, -6),  1);
+      assert_equal(  array_pos(test_array, value, -5),  1);
+      assert_equal(  array_pos(test_array, value, -4),  -1);
+      assert_equal(  array_pos(test_array, value, -3),  -1);
+      assert_equal(  array_pos(test_array, value, -2),  -1);
+      assert_equal(  array_pos(test_array, value, -1),  -1);
+      assert_equal(  array_pos(test_array, value, 0),   1, "с нулевым");
+      assert_equal(  array_pos(test_array, value, 1),   1, "с положительным");
+      assert_equal(  array_pos(test_array, value, 2),   -1);
+      assert_equal(  array_pos(test_array, value, 3),   -1);
+      assert_equal(  array_pos(test_array, value, 4),   -1);
+      assert_equal(  array_pos(test_array, value, 5),   -1);
+      assert_equal(  array_pos(test_array, value, 6),   -1);
+      assert_equal(  array_pos(test_array, value, 7),   -1);
+
+
+      value = [20, 30];
+
+      assert_equal(  array_pos(test_array, value, -7),  2, "с отрицательным смещением для последовательности [20, 30]");
+      assert_equal(  array_pos(test_array, value, -6),  2);
+      assert_equal(  array_pos(test_array, value, -5),  2);
+      assert_equal(  array_pos(test_array, value, -4),  2);
+      assert_equal(  array_pos(test_array, value, -3),  -1);
+      assert_equal(  array_pos(test_array, value, -2),  -1);
+      assert_equal(  array_pos(test_array, value, -1),  -1);
+      assert_equal(  array_pos(test_array, value, 0),   2, "с нулевым");
+      assert_equal(  array_pos(test_array, value, 1),   2, "с положительным");
+      assert_equal(  array_pos(test_array, value, 2),   2);
+      assert_equal(  array_pos(test_array, value, 3),   -1);
+      assert_equal(  array_pos(test_array, value, 4),   -1);
+      assert_equal(  array_pos(test_array, value, 5),   -1);
+      assert_equal(  array_pos(test_array, value, 6),   -1);
+      assert_equal(  array_pos(test_array, value, 7),   -1);
+
+
+      value = [40, 50];
+
+      assert_equal(  array_pos(test_array, value, -7),  4, "с отрицательным смещением для последовательности [40, 50]");
+      assert_equal(  array_pos(test_array, value, -6),  4);
+      assert_equal(  array_pos(test_array, value, -5),  4);
+      assert_equal(  array_pos(test_array, value, -4),  4);
+      assert_equal(  array_pos(test_array, value, -3),  4);
+      assert_equal(  array_pos(test_array, value, -2),  4);
+      assert_equal(  array_pos(test_array, value, -1),  -1);
+      assert_equal(  array_pos(test_array, value, 0),   4, "с нулевым");
+      assert_equal(  array_pos(test_array, value, 1),   4, "с положительным");
+      assert_equal(  array_pos(test_array, value, 2),   4);
+      assert_equal(  array_pos(test_array, value, 3),   4);
+      assert_equal(  array_pos(test_array, value, 4),   4);
+      assert_equal(  array_pos(test_array, value, 5),   -1);
+      assert_equal(  array_pos(test_array, value, 6),   -1);
+      assert_equal(  array_pos(test_array, value, 7),   -1);
+    end;
+  end;
+
+
+  proc test_array_pos_any(case: UnitTesting.Case);
+
+    -- тестируется метод array_pos_any с присутствующими и отсутствующими последовательностями, с отсутствующими последовательностями,
+    -- с разным порядком совпадающих последовательностей
     -- степень покрытия: хорошо
 
     var test_array: variant[];
@@ -448,91 +618,57 @@ inclass
       test_array = [10, 20, 30, 40, 50];
 
 
-      assert_equal(  array_pos(test_array, [10]),              1);
-      assert_equal(  array_pos(test_array, [20]),              2);
-      assert_equal(  array_pos(test_array, [50]),              5);
+      assert_equal(  array_pos_any(test_array, [[10]]),                    [1, 1], "с присутствующими и отсутствующими последовательностями");
+      assert_equal(  array_pos_any(test_array, [[10], ["xx"]]),            [1, 1]);
+      assert_equal(  array_pos_any(test_array, [["xx"], [10]]),            [1, 1]);
 
-      assert_equal(  array_pos(test_array, [10, 20]),          1);
-      assert_equal(  array_pos(test_array, [20, 30]),          2);
-      assert_equal(  array_pos(test_array, [40, 50]),          4);
+      assert_equal(  array_pos_any(test_array, [[20]]),                    [2, 1]);
+      assert_equal(  array_pos_any(test_array, [[20], ["xx"]]),            [2, 1]);
+      assert_equal(  array_pos_any(test_array, [["xx"], [20]]),            [2, 1]);
 
-      assert_equal(  array_pos(test_array, [10, 20, 30]),          1);
-      assert_equal(  array_pos(test_array, [10, 20, 30, 40, 50]),  1);
+      assert_equal(  array_pos_any(test_array, [[50]]),                    [5, 1]);
+      assert_equal(  array_pos_any(test_array, [[50], ["xx"]]),            [5, 1]);
+      assert_equal(  array_pos_any(test_array, [["xx"], [50]]),            [5, 1]);
 
+      assert_equal(  array_pos_any(test_array, [[10, 20]]),                [1, 2]);
+      assert_equal(  array_pos_any(test_array, [[10, 20], [10, "xx"]]),    [1, 2]);
+      assert_equal(  array_pos_any(test_array, [[10, "xx"], [10, 20]]),    [1, 2]);
 
-      assert_equal(  array_pos(test_array, ["xx"]),            -1, "с отсутствующими последовательностями");
+      assert_equal(  array_pos_any(test_array, [[20, 30]]),                [2, 2]);
+      assert_equal(  array_pos_any(test_array, [[20, 30], [20, "xx"]]),    [2, 2]);
+      assert_equal(  array_pos_any(test_array, [[20, "xx"], [20, 30]]),    [2, 2]);
 
-      assert_equal(  array_pos(test_array, [10, "xx"]),        -1);
-      assert_equal(  array_pos(test_array, [10, 20, "xx"]),    -1);
-
-      assert_equal(  array_pos(test_array, [50, "xx"]),        -1);
-      assert_equal(  array_pos(test_array, [40, 50, "xx"]),    -1);
-
-
-      assert_equal(  array_pos(test_array, [nil]),             -1, "со значениями разных типов");
-      assert_equal(  array_pos(test_array, [true]),            -1);
-      assert_equal(  array_pos(test_array, [false]),           -1);
-      assert_equal(  array_pos(test_array, [00]),              -1);
-      assert_equal(  array_pos(test_array, [100]),             -1);
-      assert_equal(  array_pos(test_array, [00.00]),           -1);
-      assert_equal(  array_pos(test_array, [100.00]),          -1);
-      assert_equal(  array_pos(test_array, ["yy"]),            -1);
-      assert_equal(  array_pos(test_array, [01.01.2018]),      -1);
-      assert_equal(  array_pos(test_array, [[]]),              -1);
+      assert_equal(  array_pos_any(test_array, [[40, 50]]),                [4, 2]);
+      assert_equal(  array_pos_any(test_array, [[40, 50], [40, "xx"]]),    [4, 2]);
+      assert_equal(  array_pos_any(test_array, [[40, "xx"], [40, 50]]),    [4, 2]);
 
 
-      assert_equal(  array_pos(test_array, [20], 1),           2, "с использованием смещения");
-      assert_equal(  array_pos(test_array, [20], 4),           -1);
+      assert_equal(  array_pos_any(test_array, [["xx"]]),                                                  [-1, 0], "с отсутствующими последовательностями");
+      assert_equal(  array_pos_any(test_array, [[10, "xx"]]),                                              [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[10, 20, "xx"]]),                                          [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[10, 20, 30, 40, "xx"]]),                                  [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[10, 20, 30, 40, 50, "xx"]]),                              [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[20, 30, 40, 50, "xx"]]),                                  [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[30, 40, 50, "xx"]]),                                      [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[40, 50, "xx"]]),                                          [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[50, "xx"]]),                                              [-1, 0]);
 
-      assert_equal(  array_pos(test_array, [40], 1),           4);
-      assert_equal(  array_pos(test_array, [40], 4),           4);
+      assert_equal(  array_pos_any(test_array, [["xx"], ["yy"]]),                                          [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[10, "xx"], [10, "yy"]]),                                  [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[10, 20, "xx"], [10, 20, "yy"]]),                          [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[10, 20, 30, 40, "xx"], [10, 20, 30, 40, "yy"]]),          [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[10, 20, 30, 40, 50, "xx"], [10, 20, 30, 40, 50, "yy"]]),  [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[20, 30, 40, 50, "xx"], [20, 30, 40, 50, "yy"]]),          [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[30, 40, 50, "xx"], [30, 40, 50, "yy"]]),                  [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[40, 50, "xx"], [40, 50, "yy"]]),                          [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[50, "xx"], [50, "yy"]]),                                  [-1, 0]);
 
-      assert_equal(  array_pos(test_array, [20, 30], 1),       2);
-      assert_equal(  array_pos(test_array, [20, 30], 4),       -1);
 
-      assert_equal(  array_pos(test_array, [30, 40], 1),       3);
-      assert_equal(  array_pos(test_array, [30, 40], 4),       -1);
-    end;
-  end;
+      assert_equal(  array_pos_any(test_array, [[10], [10, 20]]),          [1, 1], "с разным порядком совпадающих последовательностей");
+      assert_equal(  array_pos_any(test_array, [[10, 20], [10]]),          [1, 2]);
 
-
-  proc test_array_pos_any(case: UnitTesting.Case);
-
-    -- тестируется метод array_pos_any
-
-    var test_array: variant[];
-
-    with case do
-
-      test_array = [10, 20, 30, 40, 50];
-
-      assert_equal(  array_pos_any(test_array, [[10]]),                  [1, 1]);
-      assert_equal(  array_pos_any(test_array, [[10], ["xx"]]),          [1, 1]);
-      assert_equal(  array_pos_any(test_array, [["xx"], [10]]),          [1, 1]);
-
-      assert_equal(  array_pos_any(test_array, [[10, 20]]),              [1, 2]);
-      assert_equal(  array_pos_any(test_array, [[10, 20], [10, "xx"]]),  [1, 2]);
-      assert_equal(  array_pos_any(test_array, [[10, "xx"], [10, 20]]),  [1, 2]);
-
-      assert_equal(  array_pos_any(test_array, [[40, 50]]),              [4, 2]);
-      assert_equal(  array_pos_any(test_array, [[40, 50], [40, "xx"]]),  [4, 2]);
-      assert_equal(  array_pos_any(test_array, [[40, "xx"], [40, 50]]),  [4, 2]);
-
-      assert_equal(  array_pos_any(test_array, [["xx"]]),                [-1, 0], "с отсутствующими значениями");
-
-      assert_equal(  array_pos_any(test_array, [[nil]]),                 [-1, 0], "со значениями разных типов");
-      assert_equal(  array_pos_any(test_array, [[true]]),                [-1, 0]);
-      assert_equal(  array_pos_any(test_array, [[false]]),               [-1, 0]);
-      assert_equal(  array_pos_any(test_array, [[00]]),                  [-1, 0]);
-      assert_equal(  array_pos_any(test_array, [[100]]),                 [-1, 0]);
-      assert_equal(  array_pos_any(test_array, [[00.00]]),               [-1, 0]);
-      assert_equal(  array_pos_any(test_array, [[100.00]]),              [-1, 0]);
-      assert_equal(  array_pos_any(test_array, [["yy"]]),                [-1, 0]);
-      assert_equal(  array_pos_any(test_array, [[01.01.2018]]),          [-1, 0]);
-      assert_equal(  array_pos_any(test_array, [[[]]]),                  [-1, 0]);
-
-      assert_equal(  array_pos_any(test_array, [[10], [10, 20]]),        [1, 1], "с разным порядком значений");
-      assert_equal(  array_pos_any(test_array, [[10, 20], [10]]),        [1, 2]);
+      assert_equal(  array_pos_any(test_array, [[10, 20], [10, 20, 30]]),  [1, 2]);
+      assert_equal(  array_pos_any(test_array, [[10, 20, 30], [10, 20]]),  [1, 3]);
     end;
   end;
 
@@ -540,65 +676,21 @@ inclass
   proc test_array_contains(case: UnitTesting.Case);
 
     -- тестируется метод array_contains
-
-    var test_array: variant[];
-
-    with case do
-
-      test_array = [10, 20, 30, 40, 50];
-
-
-      assert_true (  array_contains(test_array, [10]));
-      assert_true (  array_contains(test_array, [20]));
-      assert_true (  array_contains(test_array, [50]));
-
-      assert_true (  array_contains(test_array, [10, 20]));
-      assert_true (  array_contains(test_array, [20, 30]));
-      assert_true (  array_contains(test_array, [40, 50]));
-
-      assert_true (  array_contains(test_array, [10, 20, 30]));
-      assert_true (  array_contains(test_array, [10, 20, 30, 40, 50]));
-
-
-      assert_false(  array_contains(test_array, ["xx"]), "с отсутствующими последовательностями");
-
-      assert_false(  array_contains(test_array, [10, "xx"]));
-      assert_false(  array_contains(test_array, [10, 20, "xx"]));
-
-      assert_false(  array_contains(test_array, [50, "xx"]));
-      assert_false(  array_contains(test_array, [40, 50, "xx"]));
-
-
-      assert_false(  array_contains(test_array, [nil]));
-      assert_false(  array_contains(test_array, [true]));
-      assert_false(  array_contains(test_array, [false]));
-      assert_false(  array_contains(test_array, [00]));
-      assert_false(  array_contains(test_array, [100]));
-      assert_false(  array_contains(test_array, [00.00]));
-      assert_false(  array_contains(test_array, [100.00]));
-      assert_false(  array_contains(test_array, ["yy"]));
-      assert_false(  array_contains(test_array, [01.01.2018]));
-      assert_false(  array_contains(test_array, [[]]));
-
-
-      assert_true (  array_contains(test_array, [20], 1), "с использованием смещения");
-      assert_false(  array_contains(test_array, [20], 4));
-
-      assert_true (  array_contains(test_array, [40], 1));
-      assert_true (  array_contains(test_array, [40], 4));
-
-      assert_true (  array_contains(test_array, [20, 30], 1));
-      assert_false(  array_contains(test_array, [20, 30], 4));
-
-      assert_true (  array_contains(test_array, [30, 40], 1));
-      assert_false(  array_contains(test_array, [30, 40], 4));
-    end;
+    case.comment("случай успешен, если успешен случай array_pos");
   end;
 
 
   proc test_array_contains_any(case: UnitTesting.Case);
 
     -- тестируется метод array_contains_any
+    case.comment("случай успешен, если успешен случай array_pos_any");
+  end;
+
+
+  proc test_array_starts_with(case: UnitTesting.Case);
+
+    -- тестируется метод array_starts_with с соответствующими, несоответствующими началу массива последовательностями
+    -- степень покрытия: хорошо
 
     var test_array: variant[];
 
@@ -607,33 +699,182 @@ inclass
       test_array = [10, 20, 30, 40, 50];
 
 
-      assert_true (  array_contains_any(test_array, [[10]]));
-      assert_true (  array_contains_any(test_array, [[10], ["xx"]]));
-      assert_true (  array_contains_any(test_array, [["xx"], [10]]));
+      assert_true(   array_starts_with(test_array, [10]));
+      assert_true(   array_starts_with(test_array, [10, 20]));
+      assert_true(   array_starts_with(test_array, [10, 20, 30]));
+      assert_true(   array_starts_with(test_array, [10, 20, 30, 40]));
+      assert_true(   array_starts_with(test_array, [10, 20, 30, 40, 50]));
 
-      assert_true (  array_contains_any(test_array, [[10, 20]]));
-      assert_true (  array_contains_any(test_array, [[10, 20], [10, "xx"]]));
-      assert_true (  array_contains_any(test_array, [[10, "xx"], [10, 20]]));
 
-      assert_true (  array_contains_any(test_array, [[40, 50]]));
-      assert_true (  array_contains_any(test_array, [[40, 50], [40, "xx"]]));
-      assert_true (  array_contains_any(test_array, [[40, "xx"], [40, 50]]));
+      assert_false(  array_starts_with(test_array, [20, 30, 40, 50]), "с несоответствующими началу последовательностями");
+      assert_false(  array_starts_with(test_array, [30, 40, 50]));
+      assert_false(  array_starts_with(test_array, [40, 50]));
+      assert_false(  array_starts_with(test_array, [50]));
 
-      assert_false(  array_contains_any(test_array, [["xx"]]), "с отсутствующими значениями");
+      assert_false(  array_starts_with(test_array, ["xx"]));
+      assert_false(  array_starts_with(test_array, [10, "xx"]));
+      assert_false(  array_starts_with(test_array, [10, 20, "xx"]));
+      assert_false(  array_starts_with(test_array, [10, 20, 30, "xx"]));
+      assert_false(  array_starts_with(test_array, [10, 20, 30, 40, "xx"]));
+      assert_false(  array_starts_with(test_array, [10, 20, 30, 40, 50, "xx"]));
 
-      assert_false(  array_contains_any(test_array, [[nil]]), "со значениями разных типов");
-      assert_false(  array_contains_any(test_array, [[true]]));
-      assert_false(  array_contains_any(test_array, [[false]]));
-      assert_false(  array_contains_any(test_array, [[00]]));
-      assert_false(  array_contains_any(test_array, [[100]]));
-      assert_false(  array_contains_any(test_array, [[00.00]]));
-      assert_false(  array_contains_any(test_array, [[100.00]]));
-      assert_false(  array_contains_any(test_array, [["yy"]]));
-      assert_false(  array_contains_any(test_array, [[01.01.2018]]));
-      assert_false(  array_contains_any(test_array, [[[]]]));
 
-      assert_true (  array_contains_any(test_array, [[10], [10, 20]]), "с разным порядком значений");
-      assert_true (  array_contains_any(test_array, [[10, 20], [10]]));
+      assert_false(  array_starts_with(test_array, [nil]), "с разными типами данных");
+      assert_false(  array_starts_with(test_array, [true]));
+      assert_false(  array_starts_with(test_array, [false]));
+      assert_false(  array_starts_with(test_array, [00]));
+      assert_false(  array_starts_with(test_array, [100]));
+      assert_false(  array_starts_with(test_array, [00.00]));
+      assert_false(  array_starts_with(test_array, [100.00]));
+      assert_false(  array_starts_with(test_array, ["yy"]));
+      assert_false(  array_starts_with(test_array, [01.01.2018]));
+      assert_false(  array_starts_with(test_array, [[]]));
+    end;
+  end;
+
+
+  proc test_array_starts_with_any(case: UnitTesting.Case);
+
+    -- тестируется метод array_starts_with_any с соответствующими и несоответствующими, несоответствующими началу массива последовательностями
+    -- степень покрытия: хорошо
+
+    var test_array: variant[];
+
+    with case do
+
+      test_array = [10, 20, 30, 40, 50];
+
+
+      assert_true(   array_starts_with_any(test_array, [[10]]), "с соответствующими и несоответствующими началу последовательностями");
+      assert_true(   array_starts_with_any(test_array, [[10], ["xx"]]));
+      assert_true(   array_starts_with_any(test_array, [["xx"], [10]]));
+
+      assert_true(   array_starts_with_any(test_array, [[10, 20]]));
+      assert_true(   array_starts_with_any(test_array, [[10, 20], [10, "xx"]]));
+      assert_true(   array_starts_with_any(test_array, [[10, "xx"], [10, 20]]));
+
+      assert_true(   array_starts_with_any(test_array, [[10, 20, 30]]));
+      assert_true(   array_starts_with_any(test_array, [[10, 20, 30], [10, 20, "xx"]]));
+      assert_true(   array_starts_with_any(test_array, [[10, 20, "xx"], [10, 20, 30]]));
+
+      assert_true(   array_starts_with_any(test_array, [[10, 20, 30, 40]]));
+      assert_true(   array_starts_with_any(test_array, [[10, 20, 30, 40], [10, 20, 30, "xx"]]));
+      assert_true(   array_starts_with_any(test_array, [[10, 20, 30, "xx"], [10, 20, 30, 40]]));
+
+      assert_true(   array_starts_with_any(test_array, [[10, 20, 30, 40, 50]]));
+      assert_true(   array_starts_with_any(test_array, [[10, 20, 30, 40, 50], [10, 20, 30, 40, "xx"]]));
+      assert_true(   array_starts_with_any(test_array, [[10, 20, 30, 40, "xx"], [10, 20, 30, 40, 50]]));
+
+
+      assert_false(  array_starts_with_any(test_array, [["xx"]]), "с несоответствующими началу последовательностями");
+      assert_false(  array_starts_with_any(test_array, [[10, "xx"]]));
+      assert_false(  array_starts_with_any(test_array, [[10, 20, "xx"]]));
+      assert_false(  array_starts_with_any(test_array, [[10, 20, 30, "xx"]]));
+      assert_false(  array_starts_with_any(test_array, [[10, 20, 30, 40, "xx"]]));
+      assert_false(  array_starts_with_any(test_array, [[10, 20, 30, 40, 50, "xx"]]));
+
+      assert_false(  array_starts_with_any(test_array, [["xx"], ["yy"]]));
+      assert_false(  array_starts_with_any(test_array, [[10, "xx"], [10, "yy"]]));
+      assert_false(  array_starts_with_any(test_array, [[10, 20, "xx"], [10, 20, "yy"]]));
+      assert_false(  array_starts_with_any(test_array, [[10, 20, 30, "xx"], [10, 20, 30, "yy"]]));
+      assert_false(  array_starts_with_any(test_array, [[10, 20, 30, 40, "xx"], [10, 20, 30, 40, "yy"]]));
+      assert_false(  array_starts_with_any(test_array, [[10, 20, 30, 40, 50, "xx"], [10, 20, 30, 40, 50, "yy"]]));
+    end;
+  end;
+
+
+  proc test_array_ends_with(case: UnitTesting.Case);
+
+    -- тестируется метод array_starts_with с соответствующими, несоответствующими началу массива последовательностями
+    -- степень покрытия: хорошо
+
+    var test_array: variant[];
+
+    with case do
+
+      test_array = [10, 20, 30, 40, 50];
+
+
+      assert_true(   array_ends_with(test_array, [50]));
+      assert_true(   array_ends_with(test_array, [40, 50]));
+      assert_true(   array_ends_with(test_array, [30, 40, 50]));
+      assert_true(   array_ends_with(test_array, [20, 30, 40, 50]));
+      assert_true(   array_ends_with(test_array, [10, 20, 30, 40, 50]));
+
+
+      assert_false(  array_ends_with(test_array, [10, 20, 30, 40]), "с несоответствующими началу последовательностями");
+      assert_false(  array_ends_with(test_array, [10, 20, 30]));
+      assert_false(  array_ends_with(test_array, [10, 20]));
+      assert_false(  array_ends_with(test_array, [10]));
+
+      assert_false(  array_ends_with(test_array, ["xx"]));
+      assert_false(  array_ends_with(test_array, ["xx", 50]));
+      assert_false(  array_ends_with(test_array, ["xx", 40, 50]));
+      assert_false(  array_ends_with(test_array, ["xx", 30, 40, 50]));
+      assert_false(  array_ends_with(test_array, ["xx", 20, 30, 40, 50]));
+      assert_false(  array_ends_with(test_array, ["xx", 10, 20, 30, 40, 50]));
+
+
+      assert_false(  array_ends_with(test_array, [nil]), "с разными типами данных");
+      assert_false(  array_ends_with(test_array, [true]));
+      assert_false(  array_ends_with(test_array, [false]));
+      assert_false(  array_ends_with(test_array, [00]));
+      assert_false(  array_ends_with(test_array, [100]));
+      assert_false(  array_ends_with(test_array, [00.00]));
+      assert_false(  array_ends_with(test_array, [100.00]));
+      assert_false(  array_ends_with(test_array, ["yy"]));
+      assert_false(  array_ends_with(test_array, [01.01.2018]));
+      assert_false(  array_ends_with(test_array, [[]]));
+    end;
+  end;
+
+
+  proc test_array_ends_with_any(case: UnitTesting.Case);
+
+    -- тестируется метод array_starts_with_any с соответствующими и несоответствующими, несоответствующими началу массива последовательностями
+    -- степень покрытия: хорошо
+
+    var test_array: variant[];
+
+    with case do
+
+      test_array = [10, 20, 30, 40, 50];
+
+
+      assert_true(   array_ends_with_any(test_array, [[50]]), "с соответствующими и несоответствующими началу последовательностями");
+      assert_true(   array_ends_with_any(test_array, [[50], ["xx"]]));
+      assert_true(   array_ends_with_any(test_array, [["xx"], [50]]));
+
+      assert_true(   array_ends_with_any(test_array, [[40, 50]]));
+      assert_true(   array_ends_with_any(test_array, [[40, 50], ["xx", 50]]));
+      assert_true(   array_ends_with_any(test_array, [["xx", 50], [40, 50]]));
+
+      assert_true(   array_ends_with_any(test_array, [[30, 40, 50]]));
+      assert_true(   array_ends_with_any(test_array, [[30, 40, 50], ["xx", 40, 50]]));
+      assert_true(   array_ends_with_any(test_array, [["xx", 40, 50], [30, 40, 50]]));
+
+      assert_true(   array_ends_with_any(test_array, [[20, 30, 40, 50]]));
+      assert_true(   array_ends_with_any(test_array, [[20, 30, 40, 50], ["xx", 30, 40, 50]]));
+      assert_true(   array_ends_with_any(test_array, [["xx", 30, 40, 50], [20, 30, 40, 50]]));
+
+      assert_true(   array_ends_with_any(test_array, [[10, 20, 30, 40, 50]]));
+      assert_true(   array_ends_with_any(test_array, [[10, 20, 30, 40, 50], ["xx", 20, 30, 40]]));
+      assert_true(   array_ends_with_any(test_array, [[10, 20, 30, 40, "xx"], [10, 20, 30, 40, 50]]));
+
+
+      assert_false(  array_ends_with_any(test_array, [["xx"]]), "с несоответствующими началу последовательностями");
+      assert_false(  array_ends_with_any(test_array, [["xx", 50]]));
+      assert_false(  array_ends_with_any(test_array, [["xx", 40, 50]]));
+      assert_false(  array_ends_with_any(test_array, [["xx", 30, 40, 50]]));
+      assert_false(  array_ends_with_any(test_array, [["xx", 20, 30, 40, 50]]));
+      assert_false(  array_ends_with_any(test_array, [["xx", 10, 20, 30, 40, 50]]));
+
+      assert_false(  array_ends_with_any(test_array, [["xx"], ["yy"]]));
+      assert_false(  array_ends_with_any(test_array, [["xx", 50], ["yy", 50]]));
+      assert_false(  array_ends_with_any(test_array, [["xx", 40, 50], ["yy", 40, 50]]));
+      assert_false(  array_ends_with_any(test_array, [["xx", 30, 40, 50], ["yy", 30, 40, 50]]));
+      assert_false(  array_ends_with_any(test_array, [["xx", 20, 30, 40, 50], ["yy", 20, 30, 40, 50]]));
+      assert_false(  array_ends_with_any(test_array, [["xx", 10, 20, 30, 40, 50], ["yy", 10, 20, 30, 40, 50]]));
     end;
   end;
 
