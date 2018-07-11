@@ -6,10 +6,10 @@ inclass
 
   proc test_array_from(case: UnitTesting.Case);
 
-    with case do
+    -- тестируется метод array_from с nil, значениями - не массивами, значениями - массивами
+    -- степень покрытия: хорошо
 
-      -- тестируется метод array_from с nil, значениями - не массивами, значениями - массивами
-      -- степень покрытия: хорошо
+    with case do
 
       assert_equal(  array_from(nil),                 [], "проверка с nil");
 
@@ -56,12 +56,12 @@ inclass
 
   proc test_array_length(case: UnitTesting.Case);
 
+    -- тестируется метод array_length c пустым массивом, с непустыми массивами и с массивами, в которые значения записаны динамически
+    -- степень покрытия: хорошо
+
     var test_array: variant[];
 
     with case do
-
-      -- тестируется метод array_length c пустым массивом, с непустыми массивами и с массивами, в которые значения записаны динамически
-      -- степень покрытия: хорошо
 
       test_array = [];
       assert_equal(array_length(test_array), 0, "проверка с пустым массивом");
@@ -84,10 +84,10 @@ inclass
 
   proc test_array_has_content(case: UnitTesting.Case);
 
-    with case do
+    -- тестируется метод array_has_content с nil, пустым массивом, непустыми массивами
+    -- степень покрытия: хорошо
 
-      -- тестируется метод array_has_content с nil, пустым массивом, непустыми массивами
-      -- степень покрытия: хорошо
+    with case do
 
       assert_false(  array_has_content([]));
       assert_false(  array_has_content(nil), "вообще-то это значение не массив, но оно будет приведено к массиву за счёт типов аргументов функции");
@@ -112,15 +112,16 @@ inclass
 
   proc test_array_get(case: UnitTesting.Case);
 
+    -- тестируется метод array_get с нулевыми, положительными, отрицательными,
+    -- выходящими за пределы массива индексами и с использованием значений по-умолчанию
+    -- степень покрытия: хорошо
+
     var test_array: variant[];
 
     with case do
 
-      -- тестируется метод array_get с нулевыми, положительными, отрицательными,
-      -- выходящими за пределы массива индексами и с использованием значений по-умолчанию
-      -- степень покрытия: хорошо
-
       test_array = [10, 20, 30, 40, 50];
+
 
       assert_equal(  array_get(test_array, 0),           10,     "проверка с нулевым индексом");
 
@@ -141,13 +142,13 @@ inclass
 
   proc test_array_set(case: UnitTesting.Case);
 
+    -- тестируется метод array_set с нулевыми, положительными, отрицательными,
+    -- выходящими за пределы массива индексами
+    -- степень покрытия: хорошо
+
     var test_array, temp_array: variant[];
 
     with case do
-
-      -- тестируется метод array_set с нулевыми, положительными, отрицательными,
-      -- выходящими за пределы массива индексами
-      -- степень покрытия: хорошо
 
       test_array = [10, 20, 30, 40, 50];
 
@@ -204,12 +205,13 @@ inclass
 
   proc test_array_unset(case: UnitTesting.Case);
 
+    -- тестируется метод array_unset с нулевыми, положительными, отрицательными,
+    -- выходящими за пределы массива индексами
+    -- степень покрытия: хорошо
+
     var test_array, temp_array: variant[];
 
     with case do
-
-      -- тестируется метод array_unset с нулевыми, положительными, отрицательными,
-      -- выходящими за пределы массива индексами
 
       test_array = [10, 20, 30, 40, 50];
 
@@ -261,17 +263,18 @@ inclass
 
   proc test_array_is_set(case: UnitTesting.Case);
 
+    -- тестируется метод array_is_set с нулевыми, положительными, отрицательными,
+    -- выходящими за пределы массива индексами
+    -- степень покрытия: хорошо
+
     var test_array: variant[];
 
     with case do
 
-      -- тестируется метод array_is_set с нулевыми, положительными, отрицательными,
-      -- выходящими за пределы массива индексами
-      -- степень покрытия: хорошо
-
       test_array[1] = 10;
       test_array[4] = 40;
       test_array[5] = 50;
+
 
       assert_false(  array_is_set(test_array, -7), "с отрицательными индексами");
       assert_false(  array_is_set(test_array, -6));
@@ -296,12 +299,12 @@ inclass
 
   proc test_array_clear(case: UnitTesting.Case);
 
+    -- тестируется метод array_clear
+    -- степень покрытия: хорошо
+
     var test_array: variant[];
 
     with case do
-
-      -- тестируется метод array_clear
-      -- степень покрытия: хорошо
 
       test_array = [10, 20, 30, 40, 50];
 
@@ -313,12 +316,12 @@ inclass
 
   proc test_array_append(case: UnitTesting.Case);
 
+    -- тестируется метод array_append c пустыми массивами, с непустыми массивами и с массивами с разрывами
+    -- степень покрытия: хорошо
+
     var test_array: variant[];
 
     with case do
-
-      -- тестируется метод array_append c пустыми массивами, с непустыми массивами и с массивами с разрывами
-      -- степень покрытия: хорошо
 
       test_array = [];
       array_append(test_array, 10);
@@ -353,12 +356,12 @@ inclass
 
   proc test_array_prepend(case: UnitTesting.Case);
 
+    -- тестируется метод array_prepend c пустыми массивами, с непустыми массивами и с массивами с разрывами
+    -- степень покрытия: хорошо
+
     var test_array: variant[];
 
     with case do
-
-      -- тестируется метод array_prepend c пустыми массивами, с непустыми массивами и с массивами с разрывами
-      -- степень покрытия: хорошо
 
       test_array = [];
       array_prepend(test_array, 10);
@@ -391,12 +394,12 @@ inclass
 
   proc test_array_extend(case: UnitTesting.Case);
 
+    -- тестируется метод array_extend c пустыми массивами, с непустыми массивами и с массивами с разрывами
+    -- степень покрытия: хорошо
+
     var test_array: variant[];
 
     with case do
-
-      -- тестируется метод array_extend c пустыми массивами, с непустыми массивами и с массивами с разрывами
-      -- степень покрытия: хорошо
 
       test_array = [];
       array_extend(test_array, []);
@@ -434,61 +437,116 @@ inclass
 
   proc test_array_pos(case: UnitTesting.Case);
 
+    -- тестируется метод array_pos с присутствующими, отсутствующими последовательностями
+    -- и с использованием смещения
+    -- степень покрытия: хорошо
+
     var test_array: variant[];
 
     with case do
 
-      -- тестируется метод array_pos с присутствующими, отсутствующими последовательностями
-      -- и с использованием смещения
-      -- степень покрытия: хорошо
+      test_array = [10, 20, 30, 40, 50];
+
+
+      assert_equal(  array_pos(test_array, [10]),              1);
+      assert_equal(  array_pos(test_array, [20]),              2);
+      assert_equal(  array_pos(test_array, [50]),              5);
+
+      assert_equal(  array_pos(test_array, [10, 20]),          1);
+      assert_equal(  array_pos(test_array, [20, 30]),          2);
+      assert_equal(  array_pos(test_array, [40, 50]),          4);
+
+      assert_equal(  array_pos(test_array, [10, 20, 30]),          1);
+      assert_equal(  array_pos(test_array, [10, 20, 30, 40, 50]),  1);
+
+
+      assert_equal(  array_pos(test_array, ["xx"]),            -1, "с отсутствующими последовательностями");
+
+      assert_equal(  array_pos(test_array, [10, "xx"]),        -1);
+      assert_equal(  array_pos(test_array, [10, 20, "xx"]),    -1);
+
+      assert_equal(  array_pos(test_array, [50, "xx"]),        -1);
+      assert_equal(  array_pos(test_array, [40, 50, "xx"]),    -1);
+
+
+      assert_equal(  array_pos(test_array, [nil]),             -1, "со значениями разных типов");
+      assert_equal(  array_pos(test_array, [true]),            -1);
+      assert_equal(  array_pos(test_array, [false]),           -1);
+      assert_equal(  array_pos(test_array, [00]),              -1);
+      assert_equal(  array_pos(test_array, [100]),             -1);
+      assert_equal(  array_pos(test_array, [00.00]),           -1);
+      assert_equal(  array_pos(test_array, [100.00]),          -1);
+      assert_equal(  array_pos(test_array, ["yy"]),            -1);
+      assert_equal(  array_pos(test_array, [01.01.2018]),      -1);
+      assert_equal(  array_pos(test_array, [[]]),              -1);
+
+
+      assert_equal(  array_pos(test_array, [20], 1),           2, "с использованием смещения");
+      assert_equal(  array_pos(test_array, [20], 4),           -1);
+
+      assert_equal(  array_pos(test_array, [40], 1),           4);
+      assert_equal(  array_pos(test_array, [40], 4),           4);
+
+      assert_equal(  array_pos(test_array, [20, 30], 1),       2);
+      assert_equal(  array_pos(test_array, [20, 30], 4),       -1);
+
+      assert_equal(  array_pos(test_array, [30, 40], 1),       3);
+      assert_equal(  array_pos(test_array, [30, 40], 4),       -1);
+    end;
+  end;
+
+
+  proc test_array_pos_any(case: UnitTesting.Case);
+
+    -- тестируется метод array_pos_any
+
+    var test_array: variant[];
+
+    with case do
 
       test_array = [10, 20, 30, 40, 50];
 
-      assert_equal(  array_pos(test_array, [10]),         [1, 1]);
-      assert_equal(  array_pos(test_array, [20]),         [2, 1]);
-      assert_equal(  array_pos(test_array, [50]),         [5, 1]);
+      assert_equal(  array_pos_any(test_array, [[10]]),                  [1, 1]);
+      assert_equal(  array_pos_any(test_array, [[10], ["xx"]]),          [1, 1]);
+      assert_equal(  array_pos_any(test_array, [["xx"], [10]]),          [1, 1]);
 
-      assert_equal(  array_pos(test_array, [10, 20]),     [1, 2]);
-      assert_equal(  array_pos(test_array, [20, 30]),     [2, 2]);
-      assert_equal(  array_pos(test_array, [40, 50]),     [4, 2]);
+      assert_equal(  array_pos_any(test_array, [[10, 20]]),              [1, 2]);
+      assert_equal(  array_pos_any(test_array, [[10, 20], [10, "xx"]]),  [1, 2]);
+      assert_equal(  array_pos_any(test_array, [[10, "xx"], [10, 20]]),  [1, 2]);
 
-      assert_equal(  array_pos(test_array, [10, 20, 30]),          [1, 3]);
-      assert_equal(  array_pos(test_array, [10, 20, 30, 40, 50]),  [1, 5]);
+      assert_equal(  array_pos_any(test_array, [[40, 50]]),              [4, 2]);
+      assert_equal(  array_pos_any(test_array, [[40, 50], [40, "xx"]]),  [4, 2]);
+      assert_equal(  array_pos_any(test_array, [[40, "xx"], [40, 50]]),  [4, 2]);
 
-      assert_equal(  array_pos(test_array, [05]),                  [-1, 0], "с отсутсвующими последовательностями");
-      assert_equal(  array_pos(test_array, [10, 15]),              [-1, 0]);
-      assert_equal(  array_pos(test_array, [10, 20, 25]),          [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [["xx"]]),                [-1, 0], "с отсутствующими значениями");
 
-      assert_equal(  array_pos(test_array, [10, 20, nil]),         [-1, 0]);
-      assert_equal(  array_pos(test_array, [10, 20, true]),        [-1, 0]);
-      assert_equal(  array_pos(test_array, [10, 20, 30.33]),       [-1, 0]);
-      assert_equal(  array_pos(test_array, [10, 20, "30"]),        [-1, 0]);
-      assert_equal(  array_pos(test_array, [10, 20, 30.01.2018]),  [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[nil]]),                 [-1, 0], "со значениями разных типов");
+      assert_equal(  array_pos_any(test_array, [[true]]),                [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[false]]),               [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[00]]),                  [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[100]]),                 [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[00.00]]),               [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[100.00]]),              [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [["yy"]]),                [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[01.01.2018]]),          [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[[]]]),                  [-1, 0]);
 
-      assert_equal(  array_pos(test_array, [20], 1),      [2, 1], "с использованием смещения");
-      assert_equal(  array_pos(test_array, [20], 4),      [-1, 0]);
-
-      assert_equal(  array_pos(test_array, [40], 1),      [4, 1]);
-      assert_equal(  array_pos(test_array, [40], 4),      [4, 1]);
-
-      assert_equal(  array_pos(test_array, [20, 30], 1),  [2, 2]);
-      assert_equal(  array_pos(test_array, [20, 30], 4),  [-1, 0]);
-
-      assert_equal(  array_pos(test_array, [30, 40], 1),  [3, 2]);
-      assert_equal(  array_pos(test_array, [30, 40], 4),  [-1, 0]);
+      assert_equal(  array_pos_any(test_array, [[10], [10, 20]]),        [1, 1], "с разным порядком значений");
+      assert_equal(  array_pos_any(test_array, [[10, 20], [10]]),        [1, 2]);
     end;
   end;
 
 
   proc test_array_contains(case: UnitTesting.Case);
 
+    -- тестируется метод array_contains
+
     var test_array: variant[];
 
     with case do
 
-      -- тестируется метод array_contains
-
       test_array = [10, 20, 30, 40, 50];
+
 
       assert_true (  array_contains(test_array, [10]));
       assert_true (  array_contains(test_array, [20]));
@@ -501,15 +559,27 @@ inclass
       assert_true (  array_contains(test_array, [10, 20, 30]));
       assert_true (  array_contains(test_array, [10, 20, 30, 40, 50]));
 
-      assert_false(  array_contains(test_array, [05]), "с отсутсвующими последовательностями");
-      assert_false(  array_contains(test_array, [10, 15]));
-      assert_false(  array_contains(test_array, [10, 20, 25]));
 
-      assert_false(  array_contains(test_array, [10, 20, nil]));
-      assert_false(  array_contains(test_array, [10, 20, true]));
-      assert_false(  array_contains(test_array, [10, 20, 30.33]));
-      assert_false(  array_contains(test_array, [10, 20, "30"]));
-      assert_false(  array_contains(test_array, [10, 20, 30.01.2018]));
+      assert_false(  array_contains(test_array, ["xx"]), "с отсутствующими последовательностями");
+
+      assert_false(  array_contains(test_array, [10, "xx"]));
+      assert_false(  array_contains(test_array, [10, 20, "xx"]));
+
+      assert_false(  array_contains(test_array, [50, "xx"]));
+      assert_false(  array_contains(test_array, [40, 50, "xx"]));
+
+
+      assert_false(  array_contains(test_array, [nil]));
+      assert_false(  array_contains(test_array, [true]));
+      assert_false(  array_contains(test_array, [false]));
+      assert_false(  array_contains(test_array, [00]));
+      assert_false(  array_contains(test_array, [100]));
+      assert_false(  array_contains(test_array, [00.00]));
+      assert_false(  array_contains(test_array, [100.00]));
+      assert_false(  array_contains(test_array, ["yy"]));
+      assert_false(  array_contains(test_array, [01.01.2018]));
+      assert_false(  array_contains(test_array, [[]]));
+
 
       assert_true (  array_contains(test_array, [20], 1), "с использованием смещения");
       assert_false(  array_contains(test_array, [20], 4));
@@ -526,15 +596,59 @@ inclass
   end;
 
 
-  proc test_array_slice(case: UnitTesting.Case);
+  proc test_array_contains_any(case: UnitTesting.Case);
+
+    -- тестируется метод array_contains_any
 
     var test_array: variant[];
-        test_array = [10, 20, 30, 40, 50];
 
     with case do
 
-      -- тестируется метод array_slice с различным смещением, длиной
-      -- степень покрытия: хорошо
+      test_array = [10, 20, 30, 40, 50];
+
+
+      assert_true (  array_contains_any(test_array, [[10]]));
+      assert_true (  array_contains_any(test_array, [[10], ["xx"]]));
+      assert_true (  array_contains_any(test_array, [["xx"], [10]]));
+
+      assert_true (  array_contains_any(test_array, [[10, 20]]));
+      assert_true (  array_contains_any(test_array, [[10, 20], [10, "xx"]]));
+      assert_true (  array_contains_any(test_array, [[10, "xx"], [10, 20]]));
+
+      assert_true (  array_contains_any(test_array, [[40, 50]]));
+      assert_true (  array_contains_any(test_array, [[40, 50], [40, "xx"]]));
+      assert_true (  array_contains_any(test_array, [[40, "xx"], [40, 50]]));
+
+      assert_false(  array_contains_any(test_array, [["xx"]]), "с отсутствующими значениями");
+
+      assert_false(  array_contains_any(test_array, [[nil]]), "со значениями разных типов");
+      assert_false(  array_contains_any(test_array, [[true]]));
+      assert_false(  array_contains_any(test_array, [[false]]));
+      assert_false(  array_contains_any(test_array, [[00]]));
+      assert_false(  array_contains_any(test_array, [[100]]));
+      assert_false(  array_contains_any(test_array, [[00.00]]));
+      assert_false(  array_contains_any(test_array, [[100.00]]));
+      assert_false(  array_contains_any(test_array, [["yy"]]));
+      assert_false(  array_contains_any(test_array, [[01.01.2018]]));
+      assert_false(  array_contains_any(test_array, [[[]]]));
+
+      assert_true (  array_contains_any(test_array, [[10], [10, 20]]), "с разным порядком значений");
+      assert_true (  array_contains_any(test_array, [[10, 20], [10]]));
+    end;
+  end;
+
+
+  proc test_array_slice(case: UnitTesting.Case);
+
+    -- тестируется метод array_slice с различным смещением, длиной
+    -- степень покрытия: хорошо
+
+    var test_array: variant[];
+
+    with case do
+
+      test_array = [10, 20, 30, 40, 50];
+
 
       -- со смещением
 
@@ -613,7 +727,6 @@ inclass
     -- степень покрытия: хорошо
 
     var test_array, temp_array, value: variant[];
-
 
     with case do
 
@@ -1266,11 +1379,10 @@ inclass
 
   proc test_array_concat(case: UnitTesting.Case);
 
+    -- тестируется метод array_concat с пустыми массивами и nil, данными одного и разных типов
+    -- степень покрытия: хорошо
+
     with case do
-
-      -- тестируется метод array_concat с пустыми массивами и nil, данными одного и разных типов
-      -- степень покрытия: хорошо
-
 
       assert_equal(  array_concat([]),                              [], "с пустыми массивами");
 
@@ -1315,12 +1427,12 @@ inclass
 
   proc test_array_swap(case: UnitTesting.Case);
 
+    -- тестируется метод array_swap с отрицательными, нулевыми и положительными индексами
+    -- степень покрытия: хорошо
+
     var test_array, temp_array: variant[];
 
     with case do
-
-      -- тестируется метод array_swap с отрицательными, нулевыми и положительными индексами
-      -- степень покрытия: хорошо
 
       test_array = [10, 20, 30, 40, 50];
 
@@ -1451,12 +1563,12 @@ inclass
 
   proc test_array_reverse(case: UnitTesting.Case);
 
+    -- тестируется метод array_reverse с массивами с нулевым, нечётным, чётным количеством элементов
+    -- степень покрытия: хорошо
+
     var test_array: variant[];
 
     with case do
-
-      -- тестируется метод array_reverse с массивами с нулевым, нечётным, чётным количеством элементов
-      -- степень покрытия: хорошо
 
       test_array = [];
       array_reverse(test_array);
@@ -1496,7 +1608,6 @@ inclass
     -- с пустыми массивами, с массивами с одним, множеством элементов для дополнения, с различной длиной
 
     var test_array, temp_array, value: variant[];
-
 
     with case do
 
