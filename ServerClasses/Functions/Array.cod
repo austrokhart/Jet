@@ -120,6 +120,30 @@ inclass
   end;
 
 
+  func array_starts_with(const array: variant[]; value: variant[]): boolean;
+    
+    return self.md_array_starts_with(array, nil, value);
+  end;
+
+
+  func array_starts_with_any(const array: variant[]; values: variant[]): boolean;
+    
+    return self.md_array_starts_with_any(array, nil, values);
+  end;
+
+
+  func array_ends_with(const array: variant[]; value: variant[]): boolean;
+    
+    return self.md_array_ends_with(array, nil, value);
+  end;
+
+
+  func array_ends_with_any(const array: variant[]; values: variant[]): boolean;
+    
+    return self.md_array_ends_with_any(array, nil, values);
+  end;
+
+
   func array_slice(const array: variant[]; offset: integer = 1; length: variant = nil): variant[];
 
     return self.md_array_slice(array, nil, offset, length);
@@ -231,7 +255,8 @@ inclass
   func md_array_get(const array: variant[]; index: integer; path: integer[] = nil; default_value: variant = nil): variant;
 
     -- функция должна возвращать значение элемента с индексом index и последующими индексами path в массиве array, если элемент установлен, иначе значение по-умолчанию
-
+    --
+    -- используем алгоритм:
     -- для начала проверим, что элемент с индексом index установлен (это быстро, потому что проверка проходит на единственной плоскости)
     -- если установлен, то: если измерение path не задано, вернём значение элемента, иначе вызовем функцию рекурсивно с сокращением path;
     -- иначе вернём значение по-умолчанию
@@ -254,10 +279,12 @@ inclass
   proc md_array_set(var array: variant[]; index: integer; path: integer[] = nil; value: variant);
 
     -- функция должна устанавливать элемент с индексом index, последующими индексами path и значением value в массиве array
-
+    --
+    -- используем алгоритм:
+    --
     -- если измерение path не задано, установим значение (это быстро, потому что перед нами единственная плоскость, где всегда можно установить элемент)
     -- иначе если элемент установлен и является массивом, вызовем функцию рекурсивно с сокращением path
-
+    --
     -- передача неустановленного значения по ссылке задаёт его со значением nil!
     -- поэтому до рекурсивного вызова используется проверка на установленность элемента
 
@@ -278,15 +305,12 @@ inclass
 
     index = handle_offset(index, self.md_array_length(array));
 
-    --if self.md_array_is_set(array, index) then
+    if not self.md_array_has_content(path) then
+      Kernel.System.deleteFromArray(array, index);
 
-      if not self.md_array_has_content(path) then
-        Kernel.System.deleteFromArray(array, index);
-
-      elsif self.md_array_is_set(array, index) and var_is_array(array[index]) then
-        self.md_array_unset(array[index], path[1], self.md_array_slice(path, nil, 2));
-      end;
-    --end;
+    elsif self.md_array_is_set(array, index) and var_is_array(array[index]) then
+      self.md_array_unset(array[index], path[1], self.md_array_slice(path, nil, 2));
+    end;
   end;
 
 
@@ -294,6 +318,7 @@ inclass
 
     -- функция возвращает истину, если в массиве array установлен элемент с индексом index и последующими индексами path
 
+    -- используем алгоритм:
     -- индекс установлен, если он больше нуля и вызов функции nextArrItem для предыущего индекса возвращает исходный индекс
     -- если индекс установлен, то: если измерение path задано, вызовем функцию рекурсивно с сокращением path, иначе вернём истину;
     -- иначе вернём ложь
@@ -317,8 +342,9 @@ inclass
     -- во время разустановки происходит смещение индексов, что не даёт обработать элементы по порядку
     -- поэтому обработаем в обратном порядке
 
-    with Iterator.new(self.md_array_length(array), 1, -1) do
-      while __next do self.md_array_unset(array, __index, path); end;
+    with Iterator.new(1, self.md_array_length(array)) do
+      __end;
+      while __previous do self.md_array_unset(array, __index, path); end;
     end;
   end;
 
@@ -346,7 +372,8 @@ inclass
   func md_array_pos(const array: variant[]; path: integer[]; value: variant[]; offset: integer = 1): integer;
 
     -- функция возвращает индекс и длину вхождения последовательности value в массив array в плоскости path с началом в offset
-    -- использует алгоритм:
+    --
+    -- используем алгоритм:
     --
     -- переберём массив array, начиная со смещения offset, и для каждого элемента:
     --   если совпадение ещё не найдено и текущий элемент совпадает с первым элементом последовательности value, запишем смещение и длину совпадения
@@ -397,7 +424,7 @@ inclass
       while __next do
 
         match[self.ARRAY_POS_OFFSET] = md_array_pos(array, path, values[__index], offset);
-        match[self.ARRAY_POS_LENGTH] = if (match[self.ARRAY_POS_OFFSET] <> -1, self.md_array_length(values[__index]), 0);
+        match[self.ARRAY_POS_LENGTH] = if (match[self.ARRAY_POS_OFFSET] <> not_found[self.ARRAY_POS_OFFSET], self.md_array_length(values[__index]), not_found[self.ARRAY_POS_LENGTH]);
 
         if match <> not_found and (result = not_found or match[self.ARRAY_POS_OFFSET] < result[self.ARRAY_POS_OFFSET]) then
           result = match;
@@ -421,6 +448,54 @@ inclass
   end;
 
 
+  func md_array_starts_with(const array: variant[]; path: integer[] = nil; value: variant[]): boolean;
+    
+    with Iterator.new(1, self.md_array_length(value)) do
+      while __next do
+        if self.md_array_get(array, __index, path) <> self.md_array_get(value, __index, path) then return false; end;
+      end;
+    end;
+
+    return true;
+  end;
+
+
+  func md_array_starts_with_any(const array: variant; path: integer[] = nil; values: variant[]): boolean;
+    
+    with Iterator.new(1, self.md_array_length(values)) do
+      while __next do
+        if self.md_array_starts_with(array, path, values[__index]) then return true; end;
+      end;
+    end;
+
+    return false;
+  end;
+
+
+  func md_array_ends_with(const array: variant[]; path: integer[] = nil; value: variant[]): boolean;
+    
+    with Iterator.new(1, self.md_array_length(value)) do
+      while __next do
+        if self.md_array_get(array, -__index, path) <> self.md_array_get(value, -__index, path) then return false; end;
+      end;
+    end;
+
+    return true;
+  end;
+
+
+  func md_array_ends_with_any(const array: variant; path: integer[] = nil; values: variant[]): boolean;
+    
+    with Iterator.new(1, self.md_array_length(values)) do
+      while __next do
+        if self.md_array_ends_with(array, path, values[__index]) then return true; end;
+      end;
+    end;
+
+    return false;
+  end;
+
+
   func md_array_slice(const array: variant[]; path: integer[] = nil; offset: integer = 1; length: variant = nil): variant[];
 
     offset = handle_offset(offset, self.md_array_length(array));
@@ -437,11 +512,15 @@ inclass
 
     -- функция извлекает подмассив с началом в offset и длиной length и заменяет его на элементы массива value
 
-    result = self.md_array_slice(array, nil, offset, length);
     offset = handle_offset(offset, self.md_array_length(array));
 
-    with Iterator.new(offset +handle_length(offset, length, self.md_array_length(array)) -1, offset, -1) do
-      while __next do self.md_array_unset(array, __index); end;
+    with Iterator.new(offset, offset +handle_length(offset, length, self.md_array_length(array)) -1) do
+      __end;
+
+      while __previous do
+        self.md_array_prepend(result, array[__index]);
+        self.md_array_unset(array, __index);
+      end;
     end;
 
     with Iterator.new(1, self.md_array_length(value)) do
@@ -479,13 +558,10 @@ inclass
     index       = handle_offset(index, self.md_array_length(array));
     other_index = handle_offset(other_index, self.md_array_length(array));
 
-    --if self.md_array_is_set(array, path, index) and self.md_array_is_set(array, path, other_index) then
+    temp = self.md_array_get(array, index);
 
-      temp = self.md_array_get(array, index);
-
-      self.md_array_set(array, index, nil, self.md_array_get(array, other_index));
-      self.md_array_set(array, other_index, nil, temp);
-    --end;
+    self.md_array_set(array, index, nil, self.md_array_get(array, other_index));
+    self.md_array_set(array, other_index, nil, temp);
   end;
 
 
@@ -501,7 +577,8 @@ inclass
 
     -- функция должна дополнить (значениями value) или сократить массив array, в зависимости от длины length,
     -- слева и/или справа, в зависимости от направления direction
-
+    --
+    -- используем алгоритм:
     -- узнаем, сколько элементов нужно добавить или удалить слева, это зависит от направления direction
     -- если массив меньше длины length, добавим полученное количество элементов слева и дополним до длины length справа
     -- если массив больше длины length, удалим полученное количество элементов слева и сократим до длины length справа
