@@ -14,7 +14,7 @@ inclass
   end;
 
 
-  func new_children(parent: variant; iterator_from, iterator_to: integer; iterator_step: integer = 1): Iterator;
+  func new_child(parent: variant; iterator_from, iterator_to: integer; iterator_step: integer = 1): Iterator;
     
     result = self.create;
 

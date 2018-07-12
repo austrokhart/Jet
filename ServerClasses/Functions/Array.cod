@@ -427,24 +427,33 @@ inclass
 
   func md_array_pos_any(const array: variant[]; path: integer[]; values: variant[]; offset: integer = 1): integer[];
 
-    var not_found, match: integer[];
+--    var not_found, match: integer[];
+--
+--    not_found = [-1, 0];
+--    result = not_found;
+--
+--    with Iterator.new(1, self.md_array_length(values)) do
+--      while __next do
+--
+--        match[self.ARRAY_POS_OFFSET] = md_array_pos(array, path, values[__index], offset);
+--        match[self.ARRAY_POS_LENGTH] = if (match[self.ARRAY_POS_OFFSET] <> not_found[self.ARRAY_POS_OFFSET], self.md_array_length(values[__index]), not_found[self.ARRAY_POS_LENGTH]);
+--
+--        if match <> not_found and (result = not_found or match[self.ARRAY_POS_OFFSET] < result[self.ARRAY_POS_OFFSET]) then
+--          result = match;
+--        end;
+--      end;
+--    end;
+--
+--    return result;
 
-    not_found = [-1, 0];
-    result = not_found;
-
-    with Iterator.new(1, self.md_array_length(values)) do
+    with Iterator.new(1, self.md_array_length(array)) do
       while __next do
 
-        match[self.ARRAY_POS_OFFSET] = md_array_pos(array, path, values[__index], offset);
-        match[self.ARRAY_POS_LENGTH] = if (match[self.ARRAY_POS_OFFSET] <> not_found[self.ARRAY_POS_OFFSET], self.md_array_length(values[__index]), not_found[self.ARRAY_POS_LENGTH]);
-
-        if match <> not_found and (result = not_found or match[self.ARRAY_POS_OFFSET] < result[self.ARRAY_POS_OFFSET]) then
-          result = match;
-        end;
+--        with Iterator.new( do
+--
+--        end;
       end;
     end;
-
-    return result;
   end;
 
 
@@ -608,13 +617,13 @@ inclass
     if self.md_array_length(array) < length then
 
       with Iterator.new(1, count) do
-        with Iterator.new_children(__self, 1, self.md_array_length(value)) do
+        with Iterator.new_child(__self, 1, self.md_array_length(value)) do
           while __parent.__next and __previous_loop do self.md_array_prepend(array, value[__index]); end;
         end;
       end;
 
       with Iterator.new(1, length -self.md_array_length(array)) do
-        with Iterator.new_children(__self, 1, self.md_array_length(value)) do
+        with Iterator.new_child(__self, 1, self.md_array_length(value)) do
           while __parent.__next and __next_loop do self.md_array_append(array, value[__index]); end;
         end;
       end;
