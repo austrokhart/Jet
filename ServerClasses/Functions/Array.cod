@@ -120,27 +120,27 @@ inclass
   end;
 
 
-  func array_starts_with(const array: variant[]; value: variant[]): boolean;
+  func array_starts_with(const array: variant[]; value: variant[]; offset: integer = 1): boolean;
     
-    return self.md_array_starts_with(array, nil, value);
+    return self.md_array_starts_with(array, nil, value, offset);
   end;
 
 
-  func array_starts_with_any(const array: variant[]; values: variant[]): boolean;
+  func array_starts_with_any(const array: variant[]; values: variant[]; offset: integer = 1): boolean;
     
-    return self.md_array_starts_with_any(array, nil, values);
+    return self.md_array_starts_with_any(array, nil, values, offset);
   end;
 
 
-  func array_ends_with(const array: variant[]; value: variant[]): boolean;
+  func array_ends_with(const array: variant[]; value: variant[]; offset: integer = -1): boolean;
     
-    return self.md_array_ends_with(array, nil, value);
+    return self.md_array_ends_with(array, nil, value, offset);
   end;
 
 
-  func array_ends_with_any(const array: variant[]; values: variant[]): boolean;
+  func array_ends_with_any(const array: variant[]; values: variant[]; offset: integer = -1): boolean;
     
-    return self.md_array_ends_with_any(array, nil, values);
+    return self.md_array_ends_with_any(array, nil, values, offset);
   end;
 
 
@@ -383,109 +383,71 @@ inclass
 
   func md_array_pos(const array: variant[]; path: integer[]; value: variant[]; offset: integer = 1): integer;
 
-    -- функция возвращает индекс и длину вхождения последовательности value в массив array в плоскости path с началом в offset
-    --
-    -- используем алгоритм:
-    --
-    -- переберём массив array, начиная со смещения offset, и для каждого элемента:
-    --   если совпадение ещё не найдено и текущий элемент совпадает с первым элементом последовательности value, запишем смещение и длину совпадения
-    --   иначе если совпадение уже найдено и текущий элемент совпадает с соответствующим элементом последовательности value, нарастим длину совпадения
-    --   иначе если совпадение уже найдено и текущий элемент не совпадает с соответствующим элементом последовательности value, вернёмся к началу сопадения и очистим данные о нём;
-    --   после всего, если длина совпадения соответствует длине последовательности value, вернём смещение совпадения
-    --
-    -- если совпадение не было найдено, вернём -1
-
-    var not_found, match: integer[];
-
-    offset = handle_offset(offset, self.md_array_length(array));
-
-    not_found = [-1, 0];
-    match = not_found;
-
-    with Iterator.new(offset, self.md_array_length(array)) do
-      while __next do
-
-        if match = not_found and self.md_array_get(array, __index, path) = value[match[self.ARRAY_POS_LENGTH] +1] then -- здесь нужно было использовать var_equal, но значения сравниваются и так
-          match[self.ARRAY_POS_OFFSET] = __index;
-          match[self.ARRAY_POS_LENGTH] = match[self.ARRAY_POS_LENGTH] +1;
-
-        elsif match <> not_found and self.md_array_get(array, __index, path) = value[match[self.ARRAY_POS_LENGTH] +1] then
-          match[self.ARRAY_POS_LENGTH] = match[self.ARRAY_POS_LENGTH] +1;
-
-        elsif match <> not_found then
-          __index = match[self.ARRAY_POS_OFFSET];
-          match = not_found;
-        end;
-
-        if match[self.ARRAY_POS_LENGTH] = self.md_array_length(value) then return match[self.ARRAY_POS_OFFSET]; end;
-      end;
-    end;
-
-    return not_found[self.ARRAY_POS_OFFSET];
+    return self.md_array_pos_any(array, path, [value], offset)[self.ARRAY_POS_OFFSET];
   end;
 
 
-  func md_array_pos_any(const array: variant[]; path: integer[]; values: variant[]; offset: integer = 1): integer[];
+  func md_array_pos_any(const array: variant[]; path: integer[]; values: variant[2]; offset: integer = 1): integer[];
 
---    var not_found, match: integer[];
---
---    not_found = [-1, 0];
---    result = not_found;
---
---    with Iterator.new(1, self.md_array_length(values)) do
---      while __next do
---
---        match[self.ARRAY_POS_OFFSET] = md_array_pos(array, path, values[__index], offset);
---        match[self.ARRAY_POS_LENGTH] = if (match[self.ARRAY_POS_OFFSET] <> not_found[self.ARRAY_POS_OFFSET], self.md_array_length(values[__index]), not_found[self.ARRAY_POS_LENGTH]);
---
---        if match <> not_found and (result = not_found or match[self.ARRAY_POS_OFFSET] < result[self.ARRAY_POS_OFFSET]) then
---          result = match;
---        end;
---      end;
---    end;
---
---    return result;
+    var value_index, i: integer;
+    var value: variant[];
 
-    with Iterator.new(1, self.md_array_length(array)) do
-      while __next do
+    offset = handle_offset(offset, self.md_array_length(array));
 
---        with Iterator.new( do
---
---        end;
+    for offset = offset..self.md_array_length(array) do
+      for value_index = 1..self.md_array_length(values) do
+
+        value = values[value_index];
+
+        if offset +self.md_array_length(value) -1 <= self.md_array_length(array) then
+
+          for i = 1..self.md_array_length(value) do
+            if self.md_array_get(array, offset +i -1, path) <> value[i] then break; end;
+            if i = self.md_array_length(value) then return [offset, self.md_array_length(value)]; end;
+          end;
+        end;
       end;
     end;
+
+    return [-1, 0];
   end;
 
 
   func md_array_contains(const array: variant[]; path: integer[] = nil; value: variant[]; offset: integer = 1): boolean;
     
-    return self.md_array_pos(array, path, value, offset) <> -1;
+    return self.md_array_contains_any(array, path, [value], offset);
   end;
 
 
-  func md_array_contains_any(const array: variant[]; path: integer[] = nil; values: variant[]; offset: integer = 1): boolean;
+  func md_array_contains_any(const array: variant[]; path: integer[] = nil; values: variant[2]; offset: integer = 1): boolean;
     
     return self.md_array_pos_any(array, path, values, offset) <> [-1, 0];
   end;
 
 
-  func md_array_starts_with(const array: variant[]; path: integer[] = nil; value: variant[]): boolean;
+  func md_array_starts_with(const array: variant[]; path: integer[] = nil; value: variant[]; offset: integer = 1): boolean;
     
-    with Iterator.new(1, self.md_array_length(value)) do
-      while __next do
-        if self.md_array_get(array, __index, path) <> self.md_array_get(value, __index, path) then return false; end;
-      end;
-    end;
-
-    return true;
+    return self.md_array_starts_with_any(array, path, [value], offset);
   end;
 
 
-  func md_array_starts_with_any(const array: variant; path: integer[] = nil; values: variant[]): boolean;
-    
-    with Iterator.new(1, self.md_array_length(values)) do
-      while __next do
-        if self.md_array_starts_with(array, path, values[__index]) then return true; end;
+  func md_array_starts_with_any(const array: variant[]; path: integer[] = nil; values: variant[2]; offset: integer = 1): boolean;
+
+    var value_index, i: integer;
+    var value: variant[];
+
+    offset = handle_offset(offset, self.md_array_length(array));
+
+    for value_index = 1..self.md_array_length(values) do
+
+      value = values[value_index];
+
+      if offset +self.md_array_length(value) -1 <= self.md_array_length(array) then
+
+        for i = 1..self.md_array_length(value) do
+          if self.md_array_get(array, offset +i -1, path) <> self.md_array_get(value, i) then break; end;
+          if i = self.md_array_length(value) then return true; end;
+        end;
       end;
     end;
 
@@ -493,27 +455,31 @@ inclass
   end;
 
 
-  func md_array_ends_with(const array: variant[]; path: integer[] = nil; value: variant[]): boolean;
+  func md_array_ends_with(const array: variant[]; path: integer[] = nil; value: variant[]; offset: integer = -1): boolean;
     
-    with Iterator.new(1, self.md_array_length(value)) do
-      while __next do
-        if self.md_array_get(array, -__index, path) <> self.md_array_get(value, -__index, path) then return false; end;
-      end;
-    end;
-
-    return true;
+    return self.md_array_ends_with_any(array, path, [value], offset);
   end;
 
 
-  func md_array_ends_with_any(const array: variant; path: integer[] = nil; values: variant[]): boolean;
+  func md_array_ends_with_any(const array: variant; path: integer[] = nil; values: variant[2]; offset: integer = -1): boolean;
     
-    with Iterator.new(1, self.md_array_length(values)) do
-      while __next do
-        if self.md_array_ends_with(array, path, values[__index]) then return true; end;
+    var value_index, i: integer;
+    var value: variant[];
+
+    offset = handle_offset(offset, self.md_array_length(array));
+
+    for value_index = 1..self.md_array_length(values) do
+
+      value = values[value_index];
+
+      if 1 <= offset -self.md_array_length(value) +1 then
+
+        for i = 1..self.md_array_length(value) do
+          if self.md_array_get(array, offset -i +1, path) <> self.md_array_get(value, -i) then break; end;
+          if i = self.md_array_length(value) then return true; end;
+        end;
       end;
     end;
-
-    return false;
   end;
 
 
