@@ -156,9 +156,9 @@ inclass
   end;
 
 
-  func array_concat(const arrays: variant[]): variant[];
+  func array_concat(const values: variant[]): variant[];
 
-    return self.md_array_concat(arrays);
+    return self.md_array_concat(values);
   end;
 
 
@@ -354,9 +354,10 @@ inclass
     -- во время разустановки происходит смещение индексов, что не даёт обработать элементы по порядку
     -- поэтому обработаем в обратном порядке
 
-    with Iterator.new(1, self.md_array_length(array)) do
-      __to_end;
-      while __previous do self.md_array_unset(array, __index, path); end;
+    var i: integer;
+
+    for i = self.md_array_length(array)..1 step -1 do
+      self.md_array_unset(array, i, path);
     end;
   end;
 
@@ -374,9 +375,11 @@ inclass
 
 
   proc md_array_extend(var array: variant[]; value: variant[]);
-    
-    with Iterator.new(1, self.md_array_length(value)) do
-      while __next do self.md_array_append(array, value[__index]); end;
+
+    var i: integer;
+
+    for i = 1..self.md_array_length(value) do
+      self.md_array_append(array, value[i]);
     end;
   end;
 
@@ -485,10 +488,12 @@ inclass
 
   func md_array_slice(const array: variant[]; path: integer[] = nil; offset: integer = 1; length: variant = nil): variant[];
 
+    var i: integer;
+
     offset = handle_offset(offset, self.md_array_length(array));
 
-    with Iterator.new(offset, offset +handle_length(offset, length, self.md_array_length(array)) -1) do
-      while __next do self.md_array_append(result, self.md_array_get(array, __index, path)); end;
+    for i = offset..(offset +handle_length(offset, length, self.md_array_length(array)) -1) do
+      self.md_array_append(result, self.md_array_get(array, i, path));
     end;
 
     return result;
@@ -499,25 +504,29 @@ inclass
 
     -- функция извлекает подмассив с началом в offset и длиной length и заменяет его на элементы массива value
 
+    var i: integer;
+
     offset = handle_offset(offset, self.md_array_length(array));
 
-    with Iterator.new(offset, offset +handle_length(offset, length, self.md_array_length(array)) -1) do
-      while __next     do self.md_array_append(result, array[__index]); end;
-      while __previous do self.md_array_unset(array, __index); end;
+    for i = (offset +handle_length(offset, length, self.md_array_length(array)) -1)..offset step -1 do
+      self.md_array_prepend(result, array[i]);
+      self.md_array_unset(array, i);
     end;
 
-    with Iterator.new(1, self.md_array_length(value)) do
-      while __next do Kernel.System.insertInArray(array, offset +__index -1, value[__index]); end;
+    for i = 1..self.md_array_length(value) do
+      Kernel.System.insertInArray(array, offset +i -1, value[i]);
     end;
 
     return result;
   end;
 
 
-  func md_array_concat(const arrays: variant[]): variant[];
+  func md_array_concat(const values: variant[]): variant[];
 
-    with Iterator.new(1, self.md_array_length(arrays)) do
-      while __next do self.md_array_extend(result, array_from(arrays[__index])); end;
+    var i: integer;
+
+    for i = 1..self.md_array_length(values) do
+      self.md_array_extend(result, array_from(values[i]));
     end;
 
     return result;
@@ -525,8 +534,10 @@ inclass
 
 
   func md_array_repeat(const value: variant[]; count: integer): variant[];
-    
-    with Iterator.new(1, count) do
+
+    var i: integer;
+
+    for i = 1..count do
       self.md_array_extend(result, value);
     end;
 
@@ -550,8 +561,10 @@ inclass
 
   proc md_array_reverse(var array: variant[]);
 
-    with Iterator.new(1, var_int(self.md_array_length(array) /2)) do
-      while __next do self.md_array_swap(array, __index, self.md_array_length(array) -__index +1); end;
+    var i: integer;
+
+    for i = 1..var_int(self.md_array_length(array) /2) do
+      self.md_array_swap(array, i, self.md_array_length(array) -i +1);
     end;
   end;
 
@@ -566,43 +579,40 @@ inclass
     -- если массив меньше длины length, добавим полученное количество элементов слева и дополним до длины length справа
     -- если массив больше длины length, удалим полученное количество элементов слева и сократим до длины length справа
 
-    var count: integer;
+    var left_padding, i: integer;
 
 
     if direction = self.ARRAY_PAD_LEFT then
-      count = length -self.md_array_length(array);
+      left_padding = length -self.md_array_length(array);
 
     elsif direction = self.ARRAY_PAD_BOTH then
-      count = var_int((length -self.md_array_length(array)) /2);
+      left_padding = var_int((length -self.md_array_length(array)) /2);
 
     elsif direction = self.ARRAY_PAD_RIGHT then
-      count = 0;
+      left_padding = 0;
     end;
 
 
     if self.md_array_length(array) < length then
+      if self.md_array_has_content(value) then
 
-      with Iterator.new(1, count) do
-        with Iterator.new_child(__self, 1, self.md_array_length(value)) do
-          while __parent.__next and __previous_loop do self.md_array_prepend(array, value[__index]); end;
+        for i = 1..left_padding do
+          self.md_array_prepend(array,  self.md_array_get(value, -(mod(i -1, self.md_array_length(value)) +1))  );
         end;
-      end;
 
-      with Iterator.new(1, length -self.md_array_length(array)) do
-        with Iterator.new_child(__self, 1, self.md_array_length(value)) do
-          while __parent.__next and __next_loop do self.md_array_append(array, value[__index]); end;
+        for i = 1..(length -self.md_array_length(array)) do
+          self.md_array_append(array,  self.md_array_get(value, mod(i -1, self.md_array_length(value)) +1)  );
         end;
       end;
 
     elsif self.md_array_length(array) > length then
 
-      with Iterator.new(1, -count) do
-        while __next do self.md_array_unset(array,  1  ); end;
+      for i = -left_padding..1 step -1 do
+        self.md_array_unset(array, i);
       end;
 
-      with Iterator.new(length +1, self.md_array_length(array)) do
-        __to_end;
-        while __previous do self.md_array_unset(array,  __index  ); end;
+      for i = self.md_array_length(array)..(length +1) step -1 do
+        self.md_array_unset(array, i);
       end;
     end;
   end;
@@ -616,27 +626,31 @@ inclass
 
   proc md_array_trim_any(var array: variant[]; direction: array_trim_direction; values: variant[2]);
 
-    with Iterator.new(1, self.md_array_length(values)) do
+    var i: integer;
+    var value: variant[];
 
-      if direction in [self.ARRAY_TRIM_LEFT, self.ARRAY_TRIM_BOTH] then
+    if direction in [self.ARRAY_TRIM_LEFT, self.ARRAY_TRIM_BOTH] then
 
-        while __next do
-          if self.md_array_starts_with(array, nil, values[__index]) then
-            self.md_array_splice(array, nil, 1, self.md_array_length(values[__index]));
-            __to_begin;
-          end;
+      for i = 1..self.md_array_length(values) do
+
+        value = values[i];
+
+        if self.md_array_starts_with(array, nil, value) then
+          self.md_array_splice(array, nil, 1, self.md_array_length(value));
+          i = 1;
         end;
       end;
+    end;
 
-      if direction in [self.ARRAY_TRIM_RIGHT, self.ARRAY_TRIM_BOTH] then
+    if direction in [self.ARRAY_TRIM_RIGHT, self.ARRAY_TRIM_BOTH] then
 
-        __to_begin;
+      for i = 1..self.md_array_length(values) do
 
-        while __next do
-          if self.md_array_ends_with(array, nil, values[__index]) then
-            self.md_array_splice(array, nil, -self.md_array_length(values[__index]));
-            __to_begin;
-          end;
+        value = values[i];
+
+        if self.md_array_ends_with(array, nil, value) then
+          self.md_array_splice(array, nil, -self.md_array_length(value));
+          i = 1;
         end;
       end;
     end;
@@ -675,9 +689,10 @@ inclass
 
   func md_array_implode(const array: variant[]; separator: string = " "): string;
 
-    with self.md_array_reduce(array, nil, "") do
-      while __next do __apply(__result +str(__item) +if (__at_end, "", separator)); end;
-      __assign(result);
+    var i: integer;
+
+    for i = 1..self.md_array_length(array) do
+      result = result +if (i <> 1, separator, "") +str(array[i]);
     end;
 
     return result;
