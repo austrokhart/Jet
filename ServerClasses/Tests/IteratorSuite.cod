@@ -41,7 +41,7 @@ inclass
 
       with Iterator.new(1, 5) do
 
-        __end;
+        __to_end;
 
         assert_true(__previous);
         assert_equal(__index, 5);
@@ -63,7 +63,7 @@ inclass
 
       with Iterator.new(5, 1, 1) do
 
-        __end;
+        __to_end;
         assert_false(__previous);
       end;
     end;
@@ -204,7 +204,7 @@ inclass
 
       with Iterator.new(5, 1, -1) do
 
-        __end;
+        __to_end;
 
         assert_true(__previous);
         assert_equal(__index, 1);
@@ -226,7 +226,7 @@ inclass
 
       with Iterator.new(1, 5, -1) do
 
-        __end;
+        __to_end;
         assert_false(__previous);
       end;
     end;
