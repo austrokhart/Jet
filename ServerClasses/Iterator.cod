@@ -10,7 +10,7 @@ inclass
     result.__from = iterator_from;
     result.__to   = iterator_to;
     result.__step = iterator_step;
-    result.__begin;
+    result.__to_begin;
   end;
 
 
@@ -22,7 +22,7 @@ inclass
     result.__from   = iterator_from;
     result.__to     = iterator_to;
     result.__step   = iterator_step;
-    result.__begin;
+    result.__to_begin;
   end;
 
 inobject
@@ -41,14 +41,14 @@ inobject
   end;
 
 
-  func __begin: boolean;
+  func __to_begin: boolean;
     
     self.__index = self.__from -self.__step;
     return true;
   end;
 
 
-  func __end: boolean;
+  func __to_end: boolean;
 
     self.__index = self.__to +self.__step;
     return true;
@@ -69,40 +69,26 @@ inobject
 
   func __next: boolean;
 
-    if (self.__step > 0 and self.__index < self.__to) or
-       (self.__step < 0 and self.__index > self.__to) then
-
-      self.__index = self.__index +self.__step;
-      return true;
-    else
-
-      return false;
-    end;
+    self.__index = self.__index +self.__step;
+    return (self.__step > 0 and self.__index <= self.__to) or (self.__step < 0 and self.__index >= self.__to);
   end;
 
 
   func __previous: boolean;
-    
-    if (self.__step > 0 and self.__index > self.__from) or
-       (self.__step < 0 and self.__index < self.__from) then
 
-      self.__index = self.__index -self.__step;
-      return true;
-    else
-
-      return false;
-    end;
+    self.__index = self.__index -self.__step;
+    return (self.__step > 0 and self.__index >= self.__from) or (self.__step < 0 and self.__index <= self.__from);
   end;
 
 
   func __next_loop: boolean;
     
-    return self.__next or (self.__begin and self.__next);
+    return self.__next or (self.__to_begin and self.__next);
   end;
 
 
   func __previous_loop: boolean;
     
-    return self.__previous or (self.__end and self.__previous);
+    return self.__previous or (self.__to_end and self.__previous);
   end;
 end
