@@ -186,6 +186,18 @@ inclass
   end;
 
 
+  proc array_trim(var array: variant[]; direction: array_trim_direction; value: variant[]);
+
+    self.md_array_trim(array, direction, value);
+  end;
+
+
+  proc array_trim_any(var array: variant[]; direction: array_trim_direction; values: variant[2]);
+
+    self.md_array_trim_any(array, direction, values);
+  end;
+
+
   proc array_sort(var array: variant[]);
 
     self.md_array_sort(array, nil);
@@ -343,7 +355,7 @@ inclass
     -- поэтому обработаем в обратном порядке
 
     with Iterator.new(1, self.md_array_length(array)) do
-      __end;
+      __to_end;
       while __previous do self.md_array_unset(array, __index, path); end;
     end;
   end;
@@ -515,12 +527,8 @@ inclass
     offset = handle_offset(offset, self.md_array_length(array));
 
     with Iterator.new(offset, offset +handle_length(offset, length, self.md_array_length(array)) -1) do
-      __end;
-
-      while __previous do
-        self.md_array_prepend(result, array[__index]);
-        self.md_array_unset(array, __index);
-      end;
+      while __next     do self.md_array_append(result, array[__index]); end;
+      while __previous do self.md_array_unset(array, __index); end;
     end;
 
     with Iterator.new(1, self.md_array_length(value)) do
@@ -618,8 +626,43 @@ inclass
       end;
 
       with Iterator.new(length +1, self.md_array_length(array)) do
-        __end;
+        __to_end;
         while __previous do self.md_array_unset(array,  __index  ); end;
+      end;
+    end;
+  end;
+
+
+  proc md_array_trim(var array: variant[]; direction: array_trim_direction; value: variant[]);
+
+    self.md_array_trim_any(array, direction, [value]);
+  end;
+
+
+  proc md_array_trim_any(var array: variant[]; direction: array_trim_direction; values: variant[2]);
+
+    with Iterator.new(1, self.md_array_length(values)) do
+
+      if direction in [self.ARRAY_TRIM_LEFT, self.ARRAY_TRIM_BOTH] then
+
+        while __next do
+          if self.md_array_starts_with(array, nil, values[__index]) then
+            self.md_array_splice(array, nil, 1, self.md_array_length(values[__index]));
+            __to_begin;
+          end;
+        end;
+      end;
+
+      if direction in [self.ARRAY_TRIM_RIGHT, self.ARRAY_TRIM_BOTH] then
+
+        __to_begin;
+
+        while __next do
+          if self.md_array_ends_with(array, nil, values[__index]) then
+            self.md_array_splice(array, nil, -self.md_array_length(values[__index]));
+            __to_begin;
+          end;
+        end;
       end;
     end;
   end;
