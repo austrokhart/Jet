@@ -19,7 +19,7 @@ inobject
 
   func check_conditions: boolean;
     
-    return (not self.debug_only or System.debugMode);
+    return (not self.debug_only or Kernel.System.debugMode);
   end;
 
 

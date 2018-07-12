@@ -7,25 +7,25 @@ inclass
   func JSON_encode(value: variant): string;
 
     if var_is_nil(value) then
-      return self.JSON_encode_null;
+      return JSON_encode_null;
 
     elsif var_is_boolean(value) then
-      return self.JSON_encode_boolean(value);
+      return JSON_encode_boolean(value);
 
     elsif var_is_numeric(value) then
-      return self.JSON_encode_numeric(value);
+      return JSON_encode_numeric(value);
 
     elsif var_is_string(value) then
-      return self.JSON_encode_string(value);
+      return JSON_encode_string(value);
 
     elsif var_is_date(value) then
-      return self.JSON_encode_date(value);
+      return JSON_encode_date(value);
 
     elsif var_is_array(value) then
-      return self.JSON_encode_array(value);
+      return JSON_encode_array(value);
 
     elsif var_instance_of(value, Dict) then
-      return self.JSON_encode_object(value);
+      return JSON_encode_object(value);
 
     else
       return "";
@@ -60,7 +60,7 @@ inclass
   func JSON_encode_array(value: variant[]): string;
       
     with array_map(value) do
-      while __next do __apply(self.JSON_encode(__item)); end;
+      while __next do __apply(JSON_encode(__item)); end;
       result = '[' +array_implode(__result, ', ') +']';
     end;
 
@@ -70,7 +70,7 @@ inclass
   func JSON_encode_object(value: Dict): string;
 
     with array_map(value.pairs) do
-      while __next do __apply(  self.JSON_encode(array_get(__item, Dict.PAIR_KEY)) +': ' +self.JSON_encode(array_get(__item, Dict.PAIR_VALUE))  ); end;
+      while __next do __apply(  JSON_encode(array_get(__item, Dict.PAIR_KEY)) +': ' +JSON_encode(array_get(__item, Dict.PAIR_VALUE))  ); end;
       result = '{' +array_implode(__result, ', ') +'}';
     end;
 
@@ -81,22 +81,22 @@ inclass
   func JSON_decode(const value: string; var offset: integer = 1): variant;
     
     if str_starts_with(str_substr(value, offset), 'null') then
-      return self.JSON_decode_null(value, offset);
+      return JSON_decode_null(value, offset);
 
     elsif str_starts_with(str_substr(value, offset), ['true', 'false']) then
-      return self.JSON_decode_boolean(value, offset);
+      return JSON_decode_boolean(value, offset);
 
     elsif str_contains('-0123456789', str_char_at(value, offset)) then
-      return self.JSON_decode_numeric(value, offset);
+      return JSON_decode_numeric(value, offset);
 
     elsif str_char_at(value, offset) = '"' then
-      return self.JSON_decode_string(value, offset);
+      return JSON_decode_string(value, offset);
 
     elsif str_char_at(value, offset) = '[' then
-      return self.JSON_decode_array(value, offset);
+      return JSON_decode_array(value, offset);
 
     elsif str_char_at(value, offset) = '{' then
-      return self.JSON_decode_object(value, offset);
+      return JSON_decode_object(value, offset);
     end;
   end;
 
@@ -182,7 +182,7 @@ inclass
       while str_char_at(value, offset) <> nil and str_char_at(value, offset) <> ']' do
 
         while str_contains(', ', str_char_at(value, offset)) do offset = offset +1; end;
-        item = self.JSON_decode(value, offset);
+        item = JSON_decode(value, offset);
 
         array_append(result, item);
       end;
@@ -207,10 +207,10 @@ inclass
         pair = [];
 
         while str_contains(', ', str_char_at(value, offset)) do offset = offset +1; end;
-        array_append(pair, self.JSON_decode(value, offset));
+        array_append(pair, JSON_decode(value, offset));
 
         while str_contains(': ', str_char_at(value, offset)) do offset = offset +1; end;
-        array_append(pair, self.JSON_decode(value, offset));
+        array_append(pair, JSON_decode(value, offset));
 
         result.set(pair[Dict.PAIR_KEY], pair[Dict.PAIR_VALUE]);
       end;

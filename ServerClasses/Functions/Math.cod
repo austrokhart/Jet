@@ -6,19 +6,19 @@ inclass
 
   func math_abs(number: real): real;
     
-    return Mathematic.abs(number);
+    return Kernel.Mathematic.abs(number);
   end;
 
 
   func math_floor(number: real): real;
 
-    return Mathematic.trunc(number);
+    return Kernel.Mathematic.trunc(number);
   end;
 
 
   func math_ceil(number: real): real;
 
-    result = Mathematic.trunc(number);
+    result = Kernel.Mathematic.trunc(number);
     result = result +if(number -result = 0, 0, 1);
 
     return result;
@@ -27,18 +27,18 @@ inclass
 
   func math_round(number: real): real;
 
-    return Mathematic.round(number);
+    return Kernel.Mathematic.round(number);
   end;
 
 
   func math_min(numbers: real[]): real;
 
-    return System.min(numbers);
+    return Kernel.System.min(numbers);
   end;
 
 
   func math_max(numbers: real[]): real;
 
-    return System.max(numbers);
+    return Kernel.System.max(numbers);
   end;
 end

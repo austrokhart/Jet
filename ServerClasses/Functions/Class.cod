@@ -7,7 +7,7 @@ inclass
 
   func class_find(name: string): class;
     
-    return System.findClass(name);
+    return Kernel.System.findClass(name);
   end;
 
   func class_member(cls: class; name: string): MemberInfo;
@@ -17,26 +17,26 @@ inclass
 
   func class_prop(cls: class; name: string): MemberInfo;
 
-    result = self.class_member(cls, name);
-    return if (self.member_is_prop(result), result, nil);
+    result = class_member(cls, name);
+    return if (member_is_prop(result), result, nil);
   end;
 
   func class_method(cls: class; name: string): MemberInfo;
 
-    result = self.class_member(cls, name);
-    return if (self.member_is_method(result), result, nil);
+    result = class_member(cls, name);
+    return if (member_is_method(result), result, nil);
   end;
 
   func class_proc(cls: class; name: string): MemberInfo;
 
-    result = self.class_member(cls, name);
-    return if (self.member_is_proc(result), result, nil);
+    result = class_member(cls, name);
+    return if (member_is_proc(result), result, nil);
   end;
 
   func class_func(cls: class; name: string): MemberInfo;
 
-    result = self.class_member(cls, name);
-    return if (self.member_is_func(result), result, nil);
+    result = class_member(cls, name);
+    return if (member_is_func(result), result, nil);
   end;
 
 
@@ -55,8 +55,8 @@ inclass
 
   func class_props(cls: class): MethodInfo[];
 
-    with array_filter(self.class_members(cls)) do
-      while __next do __apply(self.member_is_prop(__item)); end; __assign(result);
+    with array_filter(class_members(cls)) do
+      while __next do __apply(member_is_prop(__item)); end; __assign(result);
     end;
 
     return result;
@@ -64,8 +64,8 @@ inclass
 
   func class_procs(cls: class): MethodInfo[];
     
-    with array_filter(self.class_members(cls)) do
-      while __next do __apply(self.member_is_proc(__item)); end; __assign(result);
+    with array_filter(class_members(cls)) do
+      while __next do __apply(member_is_proc(__item)); end; __assign(result);
     end;
 
     return result;
@@ -73,8 +73,8 @@ inclass
 
   func class_funcs(cls: class): MethodInfo[];
     
-    with array_filter(self.class_members(cls)) do
-      while __next do __apply(self.member_is_func(__item)); end; __assign(result);
+    with array_filter(class_members(cls)) do
+      while __next do __apply(member_is_func(__item)); end; __assign(result);
     end;
 
     return result;
@@ -82,8 +82,8 @@ inclass
 
   func class_methods(cls: class): MethodInfo[];
     
-    with array_filter(self.class_members(cls)) do
-      while __next do __apply(self.member_is_method(__item)); end; __assign(result);
+    with array_filter(class_members(cls)) do
+      while __next do __apply(member_is_method(__item)); end; __assign(result);
     end;
 
     return result;
@@ -93,27 +93,27 @@ inclass
 
   func class_has_member(cls: class; name: string): boolean;
     
-    return self.class_member(cls, name) <> nil;
+    return class_member(cls, name) <> nil;
   end;
 
   func class_has_prop(cls: class; name: string): boolean;
     
-    return self.class_prop(cls, name) <> nil;
+    return class_prop(cls, name) <> nil;
   end;
 
   func class_has_method(cls: class; name: string): boolean;
     
-    return self.class_method(cls, name) <> nil;
+    return class_method(cls, name) <> nil;
   end;
 
   func class_has_proc(cls: class; name: string): boolean;
     
-    return self.class_proc(cls, name) <> nil;
+    return class_proc(cls, name) <> nil;
   end;
 
   func class_has_func(cls: class; name: string): boolean;
     
-    return self.class_func(cls, name) <> nil;
+    return class_func(cls, name) <> nil;
   end;
 
 
@@ -130,7 +130,7 @@ inclass
 
   func member_is_method(member: MethodInfo): boolean;
     
-    return self.member_is_proc(member) or self.member_is_func(member);
+    return member_is_proc(member) or member_is_func(member);
   end;
 
   func member_is_proc(member: MemberInfo): boolean;
@@ -147,23 +147,23 @@ inclass
 
   func call_proc(method: MethodInfo; context: object; arguments: variant[]): variant;
     
-    if self.member_is_proc(method) then method.callProcEx(context, arguments); end;
+    if member_is_proc(method) then method.callProcEx(context, arguments); end;
     return nil;
   end;
 
   func call_func(method: MethodInfo; context: object; arguments: variant[]): variant;
     
-    if self.member_is_func(method) then return method.callFuncEx(context, arguments); end;
+    if member_is_func(method) then return method.callFuncEx(context, arguments); end;
     return nil;
   end;
 
   func call_method(method: MethodInfo; context: object; arguments: variant[]): variant;
     
-    if self.member_is_proc(method) then
-      result = self.call_proc(method, context, arguments);
+    if member_is_proc(method) then
+      result = call_proc(method, context, arguments);
 
-    elsif self.member_is_func(method) then
-      result = self.call_func(method, context, arguments);
+    elsif member_is_func(method) then
+      result = call_func(method, context, arguments);
     end;
 
     return result;

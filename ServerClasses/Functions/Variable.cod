@@ -20,68 +20,68 @@ inclass
 
   func var_int(const value: variant): integer;
     
-    return Mathematic.int(Mathematic.trunc(value));
+    return Kernel.Mathematic.int(Kernel.Mathematic.trunc(value));
   end;
 
   func var_real(const value: variant): real;
     
-    return Mathematic.num(value);
+    return Kernel.Mathematic.num(value);
   end;
 
 
   func var_is_string(const value: variant): boolean;
 
-    return System.varType(value) = self.TYPE_STRING;
+    return Kernel.System.varType(value) = TYPE_STRING;
   end;
 
   func var_is_integer(const value: variant): boolean;
     
-    return System.varType(value) = self.TYPE_INTEGER;
+    return Kernel.System.varType(value) = TYPE_INTEGER;
   end;
 
   func var_is_float(value: variant): boolean;
     
-    return System.varType(value) = self.TYPE_REAL;
+    return Kernel.System.varType(value) = TYPE_REAL;
   end;
 
   func var_is_numeric(value: variant): boolean;
     
-    return self.var_is_integer(value) or self.var_is_float(value);
+    return var_is_integer(value) or var_is_float(value);
   end;
 
   func var_is_boolean(value: variant): boolean;
     
-    return System.varType(value) = self.TYPE_BOOLEAN;
+    return Kernel.System.varType(value) = TYPE_BOOLEAN;
   end;
 
   func var_is_date(value: variant): boolean;
     
-    return System.varType(value) = self.TYPE_DATE;
+    return Kernel.System.varType(value) = TYPE_DATE;
   end;
 
   func var_is_object(value: variant): boolean;
     
-    return System.varType(value) = self.TYPE_OBJECT;
+    return Kernel.System.varType(value) = TYPE_OBJECT;
   end;
 
   func var_is_variant(value: variant): boolean;
     
-    return System.varType(value) = self.TYPE_VARIANT;
+    return Kernel.System.varType(value) = TYPE_VARIANT;
   end;
 
   func var_is_array(value: variant): boolean;
 
-    return System.varType(value) = self.TYPE_ARRAY;
+    return Kernel.System.varType(value) = TYPE_ARRAY;
   end;
 
   func var_is_class(value: variant): boolean;
 
-    return System.varType(value) = self.TYPE_CLASS;
+    return Kernel.System.varType(value) = TYPE_CLASS;
   end;
 
   func var_is_nil(value: variant): boolean;
     
-    return System.varType(value) = self.TYPE_NIL;
+    return Kernel.System.varType(value) = TYPE_NIL;
   end;
 
 
@@ -91,9 +91,9 @@ inclass
     -- если типы значений равны
     -- или оба значения являются числами
     -- или одно из них равно nil
-    if (System.varType(value) = System.varType(other_value)) or
-       (self.var_is_numeric(value) and self.var_is_numeric(other_value)) or
-       (self.var_is_nil(value)     or  self.var_is_nil(other_value))
+    if (Kernel.System.varType(value) = Kernel.System.varType(other_value)) or
+       (var_is_numeric(value) and var_is_numeric(other_value)) or
+       (var_is_nil(value)     or  var_is_nil(other_value))
     then
 
       return value = other_value;
@@ -106,32 +106,32 @@ inclass
   -- проверяет неравенство значений
   func var_not_equal(const value, other_value: variant): boolean;
     
-    return not self.var_equal(value, other_value);
+    return not var_equal(value, other_value);
   end;
 
 
   -- проверяет идентичность значений, возвращает истину если значения и типы переменных совпадают
   func var_identical(value, other_value: variant): boolean;
     
-    return System.varType(value) = System.varType(other_value) and value = other_value;
+    return Kernel.System.varType(value) = Kernel.System.varType(other_value) and value = other_value;
   end;
 
 
   -- проверяет неидентичность
   func var_not_identical(value, other_value: variant): boolean;
     
-    return not self.var_identical(value, other_value);
+    return not var_identical(value, other_value);
   end;
 
 
   -- проверяет принадлежность значения к типу, в качестве аргумента expected необходимо передать соответствующую константу класса
   func var_type_is(value: variant; expected: variant): boolean;
 
-    if self.var_is_integer(expected) then
-      result = (System.varType(value) = expected);
+    if var_is_integer(expected) then
+      result = (Kernel.System.varType(value) = expected);
 
-    elsif self.var_is_class(expected) then
-      result = ((self.var_is_class(value) or self.var_is_object(value)) and value.inheritsFrom(expected));
+    elsif var_is_class(expected) then
+      result = ((var_is_class(value) or var_is_object(value)) and value.inheritsFrom(expected));
 
     else
       result = false;
@@ -144,7 +144,7 @@ inclass
 --
 --    with array_each(array_from(expected)) do
 --      while __next do
---        if not self.var_type_is(value, __item) then return false; end;
+--        if not var_type_is(value, __item) then return false; end;
 --      end;
 --    end;
 --
@@ -155,7 +155,7 @@ inclass
   -- проверяет для значения принадлежность к типу объект и к классу expected
   func var_instance_of(value: variant; expected: class): boolean;
     
-    result = (self.var_is_object(value) and value.inheritsFrom(expected));
+    result = (var_is_object(value) and value.inheritsFrom(expected));
   end;
 
 

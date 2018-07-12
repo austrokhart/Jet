@@ -53,7 +53,7 @@ inclass
     end;
 
     result = date_create(date_parts[1], date_parts[2], date_parts[3], date_parts[4], date_parts[5], date_parts[6]);
-    if str_has_content(offset) then result = date_add_seconds(result, self.date_parse_ISO_offset(UTC_offset) -self.date_parse_ISO_offset(offset)); end;
+    if str_has_content(offset) then result = date_add_seconds(result, date_parse_ISO_offset(UTC_offset) -date_parse_ISO_offset(offset)); end;
 
     return result;
   end;

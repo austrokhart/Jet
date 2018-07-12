@@ -33,21 +33,21 @@ inclass
   -- возвращает значение value, приведённое к строке
   func str_from(const value: variant): string;
     
-    return System.str(value);
+    return Kernel.System.str(value);
   end;
 
 
   -- возвращает длину строки str
   func str_length(const str: string): integer;
     
-    return System.length(str);
+    return Kernel.System.length(str);
   end;
 
 
   -- возвращает истину, если строка str не является пустой
   func str_has_content(const str: string): boolean;
     
-    return self.str_length(str) <> 0;
+    return str_length(str) <> 0;
   end;
 
 
@@ -55,7 +55,7 @@ inclass
   func str_char_at(const str: string; index: integer): string;
 
     -- проверим, что индекс находится в пределах строки и вернём срез длиной 1 символ, иначе пустую строку
-    result = if (1 <= index and index <= self.str_length(str), str[index], "");
+    result = if (1 <= index and index <= str_length(str), str[index], "");
     return result;
   end;
 
@@ -65,12 +65,12 @@ inclass
 
     if offset = 1 and var_identical(length, nil) then return str; end;
 
-    offset = handle_offset(offset, self.str_length(str));
+    offset = handle_offset(offset, str_length(str));
 
     if var_identical(length, nil) then
-      result = System.substr(str, offset);
+      result = Kernel.System.substr(str, offset);
     else
-      result = System.substr(str, offset, handle_length(offset, length, self.str_length(str)));
+      result = Kernel.System.substr(str, offset, handle_length(offset, length, str_length(str)));
     end;
 
     return result;
@@ -83,10 +83,10 @@ inclass
     var i: integer;
 
     -- обработаем offset, чтобы добавить его в результат в случае, если для поиска задано смещение
-    offset = handle_offset(offset, self.str_length(str));
+    offset = handle_offset(offset, str_length(str));
 
     -- выделим подстроку, если для поиска задано смещение, зададим значение по-умолчанию.
-    if offset > 1 then str = self.str_substr(str, offset); end;
+    if offset > 1 then str = str_substr(str, offset); end;
 
     result = [-1, 0];
 
@@ -95,12 +95,12 @@ inclass
       while __next do
 
         -- поищем вхождение и если оно есть, добавим к нему смещение
-        i = System.pos(__item, str);
+        i = Kernel.System.pos(__item, str);
         i = if (i <> 0, offset +i -1, -1);
 
         -- если вхождение найдено впервые или оно ближе предыдущего, запишем результат
-        if i <> -1 and (result[self.STR_POS_OFFSET] = -1 or i < result[self.STR_POS_OFFSET]) then
-          result = [i, self.str_length(__item)];
+        if i <> -1 and (result[STR_POS_OFFSET] = -1 or i < result[STR_POS_OFFSET]) then
+          result = [i, str_length(__item)];
         end;
       end;
     end;
@@ -112,7 +112,7 @@ inclass
   -- возвращает истину, если в строке str встречается значение из value
   func str_contains(const str, value: string; offset: integer = 1): boolean;
     
-    return self.str_pos(str, value, offset) <> [-1, 0];
+    return str_pos(str, value, offset) <> [-1, 0];
   end;
 
 
@@ -122,7 +122,7 @@ inclass
     -- для каждого значения проверим его соответствие началу строки
     with array_each(array_from(value)) do
       while __next do
-        if self.str_substr(str, 1, self.str_length(__item)) = __item then return true; end;
+        if str_substr(str, 1, str_length(__item)) = __item then return true; end;
       end;
     end;
 
@@ -136,7 +136,7 @@ inclass
     -- для каждого значения проверим его соответствие концу строки
     with array_each(array_from(value)) do
       while __next do
-        if self.str_substr(str, -self.str_length(__item)) = __item then return true; end;
+        if str_substr(str, -str_length(__item)) = __item then return true; end;
       end;
     end;
 
@@ -154,7 +154,7 @@ inclass
   -- возвращает строку str, повторённую количество раз count
   func str_repeat(const str: string; count: integer): string;
     
-    return System.repstr(str, count);
+    return Kernel.System.repstr(str, count);
   end;
 
 
@@ -167,29 +167,29 @@ inclass
     if length < 1 then return ""; end;
 
     -- в зависимости от направления
-    if direction = self.STR_PAD_LEFT then
+    if direction = STR_PAD_LEFT then
 
-      count = var_int(math_ceil((length -self.str_length(str)) /self.str_length(value)));
+      count = var_int(math_ceil((length -str_length(str)) /str_length(value)));
 
       -- заполним строку слева и выделим подстроку справа
-      result = self.str_repeat(value, count) +str;
-      result = self.str_substr(result, -length, length);
+      result = str_repeat(value, count) +str;
+      result = str_substr(result, -length, length);
 
-    elsif direction = self.STR_PAD_RIGHT then
+    elsif direction = STR_PAD_RIGHT then
 
-      count = var_int(math_ceil((length -self.str_length(str)) /self.str_length(value)));
+      count = var_int(math_ceil((length -str_length(str)) /str_length(value)));
 
       -- заполним строку справа и выделим подстроку слева
-      result = str +self.str_repeat(value, count);
-      result = self.str_substr(result, 1, length);
+      result = str +str_repeat(value, count);
+      result = str_substr(result, 1, length);
 
-    elsif direction = self.STR_PAD_BOTH then
+    elsif direction = STR_PAD_BOTH then
 
-      count = var_int(math_ceil((length -self.str_length(str)) /(self.str_length(value) *2)));
+      count = var_int(math_ceil((length -str_length(str)) /(str_length(value) *2)));
 
       -- заполним строку с обоих сторон и выделим подстроку по центру
-      result = self.str_repeat(value, count) +str +self.str_repeat(value, count);
-      result = self.str_substr(result, var_int(math_ceil((self.str_length(result) -length) /2)) +1, length);
+      result = str_repeat(value, count) +str +str_repeat(value, count);
+      result = str_substr(result, var_int(math_ceil((str_length(result) -length) /2)) +1, length);
     end;
 
     return result;
@@ -204,24 +204,24 @@ inclass
     with array_each(array_from(values)) do
 
       -- если нужно, очистим начало
-      if direction in [self.STR_TRIM_LEFT, self.STR_TRIM_BOTH] then
+      if direction in [STR_TRIM_LEFT, STR_TRIM_BOTH] then
 
         while __next do
-          if self.str_starts_with(result, __item) then
-            result = self.str_substr(result, self.str_length(__item) +1);
+          if str_starts_with(result, __item) then
+            result = str_substr(result, str_length(__item) +1);
             __to_begin;
           end;
         end;
       end;
 
       -- если нужно, очистим конец
-      if direction in [self.STR_TRIM_RIGHT, self.STR_TRIM_BOTH] then
+      if direction in [STR_TRIM_RIGHT, STR_TRIM_BOTH] then
 
         __to_begin;
 
         while __next do
-          if self.str_ends_with(result, __item) then
-            result = self.str_substr(result, 1, -self.str_length(__item));
+          if str_ends_with(result, __item) then
+            result = str_substr(result, 1, -str_length(__item));
             __to_begin;
           end;
         end;
@@ -235,10 +235,10 @@ inclass
   -- возвращает строку str с заменой подстроки с началом в offset и длиной length на значение value
   func str_insert(const str, value: string; offset: integer; length: variant = nil): string; -- обработать offset и length, перевести на использование str_substr
 
-    offset = handle_offset(offset, self.str_length(str));
+    offset = handle_offset(offset, str_length(str));
 
-    return self.str_substr(str, 1, offset -1) +value +self.str_substr(
-             str, offset +handle_length(offset, length, self.str_length(str))
+    return str_substr(str, 1, offset -1) +value +str_substr(
+             str, offset +handle_length(offset, length, str_length(str))
            );
   end;
 
@@ -246,8 +246,8 @@ inclass
   -- заменяет подстроку с началом в offset и длиной length на значение value и возвращает удалённую подстроку
   func str_splice(var str: string; const value: string; offset: integer; length: variant = nil): string;
     
-    result = self.str_substr(str, offset, length);
-    str    = self.str_insert(str, value, offset, length);
+    result = str_substr(str, offset, length);
+    str    = str_insert(str, value, offset, length);
 
     return result;
   end;
@@ -256,7 +256,7 @@ inclass
   -- возвращает строку str с заменой значений из value на значение replacement
   func str_replace(const str: string; value: variant; replacement: string): string;
     
-    with self.str_find(str, value) do
+    with str_find(str, value) do
       while __next do __match = replacement; end;
       __assign(result);
     end;
@@ -271,7 +271,7 @@ inclass
 
     func form_replacement(value: string; brackets_count: integer): string;
       
-      result = self.str_repeat("{", brackets_count) +value +self.str_repeat("}", brackets_count);
+      result = str_repeat("{", brackets_count) +value +str_repeat("}", brackets_count);
     end;
 
 
@@ -290,7 +290,7 @@ inclass
         while str_substr(__left, -i, 1) = "{" and str_substr(__right, i, 1) = "}" do i = i +1; end;
 
         -- заменим значение в зависимости от количества скобок и наличия замен
-        __match = form_replacement(if (mod(i, 2) = 1 and each_value.__next, self.str_from(each_value.__item), ""), div(i, 2));
+        __match = form_replacement(if (mod(i, 2) = 1 and each_value.__next, str_from(each_value.__item), ""), div(i, 2));
 
         -- если нужно, обрежем соседние скобки
         if i > 1 then
@@ -316,11 +316,11 @@ inclass
 
     -- для каждого вхождения запишем подстроку от смещения до него, обновим смещение
     -- если вхождений не осталось, запишем оставшуюся подстроку
-    with self.str_find(str, separator) do
+    with str_find(str, separator) do
 
       while __next do
-        array_append(result, self.str_substr(__left, offset));
-        offset = self.str_length(__left) +self.str_length(__match) +1;
+        array_append(result, str_substr(__left, offset));
+        offset = str_length(__left) +str_length(__match) +1;
       end;
 
       array_append(result, __right);

@@ -7,97 +7,97 @@ inclass
   -- возвращает дату на основе указанных данных
   func date_create(year, month, day: integer; hour: integer = 0; minute: integer = 0; second: integer = 0): date;
     
-    return System.createDate(day, month, year, hour, minute, second);
+    return Kernel.System.createDate(day, month, year, hour, minute, second);
   end;
 
 
   -- возвращает номер секунды в дате
   func date_second(const datetime: date): real;
     
-    return System.second(datetime);
+    return Kernel.System.second(datetime);
   end;
 
 
   -- возвращает номер минуты в дате
   func date_minute(const datetime: date): integer;
     
-    return System.minute(datetime);
+    return Kernel.System.minute(datetime);
   end;
 
 
   -- возвращает номер часа в дате
   func date_hour(const datetime: date): integer;
     
-    return System.hour(datetime);
+    return Kernel.System.hour(datetime);
   end;
 
 
   -- возвращает номер дня в дате
   func date_day(const datetime: date): integer;
     
-    return System.day(datetime);
+    return Kernel.System.day(datetime);
   end;
 
 
   -- возвращает номер месяца в дате
   func date_month(const datetime: date): integer;
     
-    return System.mon(datetime);
+    return Kernel.System.mon(datetime);
   end;
 
 
   -- возвращает номер года в дате
   func date_year(const datetime: date): integer;
     
-    return System.year(datetime);
+    return Kernel.System.year(datetime);
   end;
 
 
   -- возвращает количество секунд между двумя датами
   func date_period(const datetime, other_datetime: date): real;
     
-    return System.periodSec(other_datetime, datetime);
+    return Kernel.System.periodSec(other_datetime, datetime);
   end;
 
 
   -- возвращает дату с отрбрасыванием времени
   func date_only_date(const datetime: date): date;
     
-    return self.date_create(self.date_year(datetime), self.date_month(datetime), self.date_day(datetime));
+    return date_create(date_year(datetime), date_month(datetime), date_day(datetime));
   end;
 
 
   -- возвращает время с отбрасыванием даты
   func date_only_time(const datetime: date): date;
     
-    return self.date_create(0, 0, 0, self.date_hour(datetime), self.date_minute(datetime), var_int(self.date_second(datetime)));
+    return date_create(0, 0, 0, date_hour(datetime), date_minute(datetime), var_int(date_second(datetime)));
   end;
 
 
   func date_has_time(const datetime: date): boolean;
     
-    return self.date_hour(datetime) <> 0 or self.date_minute(datetime) <> 0 or self.date_second(datetime) <> 0;
+    return date_hour(datetime) <> 0 or date_minute(datetime) <> 0 or date_second(datetime) <> 0;
   end;
 
 
   -- возвращает дату с добавлением секунд
   func date_add_seconds(const datetime: date; value: real): date;
 
-    return System.addSec(datetime, value);
+    return Kernel.System.addSec(datetime, value);
   end;
 
 
   -- возвращает дату с добавлением минут
   func date_add_minutes(const datetime: date; value: integer): date;
     
-    return self.date_add_seconds(datetime, value *60);
+    return date_add_seconds(datetime, value *60);
   end;
 
 
   -- возвращает дату с добавлением часов
   func date_add_hours(const datetime: date; value: integer): date;
     
-    return self.date_add_minutes(datetime, value *60);
+    return date_add_minutes(datetime, value *60);
   end;
 
 
@@ -111,17 +111,17 @@ inclass
   -- возвращает дату с добавлением месяцев
   func date_add_months(const datetime: date; value: integer): date;
 
---    return self.create_date(
---      self.date_year  (datetime) +div(value, 12),
---      self.date_month (datetime) +mod(value, 12),
---      self.date_day   (datetime),
---      self.date_hour  (datetime),
---      self.date_minute(datetime),
---      self.date_second(datetime)
+--    return create_date(
+--      date_year  (datetime) +div(value, 12),
+--      date_month (datetime) +mod(value, 12),
+--      date_day   (datetime),
+--      date_hour  (datetime),
+--      date_minute(datetime),
+--      date_second(datetime)
 --    );
 
-    result = System.addMonth(datetime, value);
-    result = self.date_add_seconds(result, self.date_period(00:00:00, self.date_only_time(datetime)));
+    result = Kernel.System.addMonth(datetime, value);
+    result = date_add_seconds(result, date_period(00:00:00, date_only_time(datetime)));
 
     return result;
   end;
@@ -130,6 +130,6 @@ inclass
   -- возвращает дату с добавлением лет
   func date_add_years(const datetime: date; value: integer): date;
     
-    return self.date_add_months(datetime, value *12);
+    return date_add_months(datetime, value *12);
   end;
 end
