@@ -3,23 +3,27 @@ import classes Functions.Class, Functions.Array;
 
 inclass
 
-  func new(debug_only: boolean = false): SmartConsole;
+  func new: SmartConsole;
     
-    result = self.create;
-    result.debug_only = debug_only;
-
-    return result;
+    return self.create;
   end;
 
 inobject
 
 
-  var debug_only: boolean;
+  var debug_check: boolean;
 
 
-  func check_conditions: boolean;
+  func pass_checks: boolean;
     
-    return (not self.debug_only or Kernel.System.debugMode);
+    return (not self.debug_check or Kernel.System.debugMode);
+  end;
+
+
+  func debug_only(state: boolean): SmartConsole;
+    
+    self.debug_check = state;
+    return self;
   end;
 
 
@@ -30,7 +34,7 @@ inobject
     var console: class;
         console = class_find("Console");
 
-    if console <> nil and self.check_conditions then console.trace(array_implode(array_from(message))); end;
+    if console <> nil and self.pass_checks then console.trace(array_implode(array_from(message))); end;
     return self;
   end;
 
@@ -42,7 +46,7 @@ inobject
     var console: class;
         console = class_find("Console");
 
-    if console <> nil and self.check_conditions then
+    if console <> nil and self.pass_checks then
       
       with array_each(array_from(messages)) do
         while __next do console.trace(__item); end;
@@ -59,7 +63,7 @@ inobject
     var console: class;
         console = class_find("Console");
 
-    if console <> nil and self.check_conditions then console.clearTrace; end;
+    if console <> nil and self.pass_checks then console.clearTrace; end;
     return self;
   end;
 end

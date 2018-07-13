@@ -10,7 +10,7 @@ inobject
 
   proc run(Sender :Button);
 
-    SmartConsole.new(true).clear.log_multi(UnitTesting.Runner.run([Tests.DictSuite]).to_text);
+    SmartConsole.new.debug_only(true).clear.log_multi(UnitTesting.Runner.run([Tests.DictSuite]).to_text);
   end;
 
 --}
