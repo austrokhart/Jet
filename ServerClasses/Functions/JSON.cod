@@ -83,7 +83,7 @@ inclass
     if str_starts_with(str_substr(value, offset), 'null') then
       return JSON_decode_null(value, offset);
 
-    elsif str_starts_with(str_substr(value, offset), ['true', 'false']) then
+    elsif str_starts_with_any(str_substr(value, offset), ['true', 'false']) then
       return JSON_decode_boolean(value, offset);
 
     elsif str_contains('-0123456789', str_char_at(value, offset)) then
@@ -158,7 +158,7 @@ inclass
 
       offset = offset +1;
 
-      while str_char_at(value, offset) <> nil and (str_char_at(value, offset) <> '"' or seq_is_escaped(value, offset)) do
+      while str_is_set(value, offset) and (str_char_at(value, offset) <> '"' or seq_is_escaped(value, offset)) do
         match = match +str_char_at(value, offset);
         offset = offset +1;
       end;
@@ -179,7 +179,7 @@ inclass
 
       offset = offset +1;
 
-      while str_char_at(value, offset) <> nil and str_char_at(value, offset) <> ']' do
+      while str_is_set(value, offset) and str_char_at(value, offset) <> ']' do
 
         while str_contains(', ', str_char_at(value, offset)) do offset = offset +1; end;
         item = JSON_decode(value, offset);
@@ -202,7 +202,7 @@ inclass
       result = Dict.new;
       offset = offset +1;
 
-      while str_char_at(value, offset) <> nil and str_char_at(value, offset) <> '}' do
+      while str_is_set(value, offset) and str_char_at(value, offset) <> '}' do
 
         pair = [];
 

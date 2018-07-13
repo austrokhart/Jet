@@ -4,18 +4,18 @@ import classes Functions.String, Functions.Array;
 inclass
 
 
-  func new(str: string; values: variant): Methods.Functions.String.Find;
+  func new(str: string; values: string[]): Methods.Functions.String.Find;
     
     result = self.create;
 
-    result.__values = array_from(values);
+    result.__values = values;
     result.__right  = str;
   end;
 
 inobject
 
 
-  var __values: variant[];
+  var __values: string[];
   var __left:   string;
   var __match:  string;
   var __right:  string;
@@ -30,7 +30,7 @@ inobject
     self.__result = self.__left +self.__match +self.__right;
 
     -- поищем ближайшее вхождение
-    pos = str_pos(self.__right, self.__values);
+    pos = str_pos_any(self.__right, self.__values);
 
     -- если найдено, разобъём по нему правую часть и вернём истину,
     -- иначе вернём ложь

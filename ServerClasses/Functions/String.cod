@@ -51,12 +51,17 @@ inclass
   end;
 
 
-  -- возвращает символ в строке str по индексу index, если индекс находится в пределах строки, иначе пустую строку
-  func str_char_at(const str: string; index: integer): string;
+  func str_is_set(const str: string; index: integer): boolean;
+    
+    return 1 <= index and index <= str_length(str);
+  end;
 
-    -- проверим, что индекс находится в пределах строки и вернём срез длиной 1 символ, иначе пустую строку
-    result = if (1 <= index and index <= str_length(str), str[index], "");
-    return result;
+
+  -- возвращает символ в строке str по индексу index, если индекс находится в пределах строки, иначе пустую строку
+  func str_char_at(const str: string; index: integer; default_value: string = ""): string;
+
+    index = handle_offset(index, str_length(str));
+    return if (str_is_set(str, index), str[index], default_value);
   end;
 
 
@@ -77,52 +82,73 @@ inclass
   end;
 
 
-  -- возвращает пару [индекс вхождения, длина вхождения] для ближайшего вхождения значения из value в строку str
-  func str_pos(str: string; value: variant; offset: integer = 1): integer[];
+  func str_pos(str: string; value: string; offset: integer = 1): integer;
+
+    return self.str_pos_any(str, [value], offset)[STR_POS_OFFSET];
+  end;
+
+
+  func str_pos_any(str: string; values: string[]; offset: integer = 1): integer[];
 
     var i: integer;
 
-    -- обработаем offset, чтобы добавить его в результат в случае, если для поиска задано смещение
     offset = handle_offset(offset, str_length(str));
 
-    -- выделим подстроку, если для поиска задано смещение, зададим значение по-умолчанию.
-    if offset > 1 then str = str_substr(str, offset); end;
+    for offset = offset..str_length(str) do
 
-    result = [-1, 0];
+      with array_each(values) do
+        while __next do
 
-    -- для каждого значения
-    with array_each(array_from(value)) do
-      while __next do
+          if offset +str_length(__item) -1 <= str_length(str) then
 
-        -- поищем вхождение и если оно есть, добавим к нему смещение
-        i = Kernel.System.pos(__item, str);
-        i = if (i <> 0, offset +i -1, -1);
-
-        -- если вхождение найдено впервые или оно ближе предыдущего, запишем результат
-        if i <> -1 and (result[STR_POS_OFFSET] = -1 or i < result[STR_POS_OFFSET]) then
-          result = [i, str_length(__item)];
+            for i = 1..str_length(__item) do
+              if str_char_at(__item, i) <> str_char_at(str, offset +i -1) then break; end;
+              if i = str_length(__item) then return [offset, str_length(__item)]; end;
+            end;
+          end;
         end;
       end;
     end;
 
-    return result;
+    return [-1, 0];
   end;
 
 
   -- возвращает истину, если в строке str встречается значение из value
   func str_contains(const str, value: string; offset: integer = 1): boolean;
     
-    return str_pos(str, value, offset) <> [-1, 0];
+    return str_contains_any(str, [value], offset);
   end;
 
 
-  -- возвращает истину, если строка str начинается со значения из value
-  func str_starts_with(const str: string; value: variant): boolean;
+  func str_contains_any(const str: string; values: string[]; offset: integer = 1): boolean;
+    
+    return str_pos_any(str, values, offset) <> [-1, 0];
+  end;
 
-    -- для каждого значения проверим его соответствие началу строки
-    with array_each(array_from(value)) do
+
+  func str_starts_with(const str: string; value: string; offset: integer = 1): boolean;
+
+    return str_starts_with_any(str, [value], offset);
+  end;
+
+
+  func str_starts_with_any(const str: string; values: string[]; offset: integer = 1): boolean;
+
+    var i: integer;
+
+    offset = handle_offset(offset, str_length(str));
+
+    with array_each(values) do
       while __next do
-        if str_substr(str, 1, str_length(__item)) = __item then return true; end;
+
+        if offset +str_length(__item) -1 <= str_length(str) then
+
+          for i = 1..str_length(__item) do
+            if str_char_at(__item, i) <> str_char_at(str, offset +i -1) then break; end;
+            if i = str_length(__item) then return true; end;
+          end;
+        end;
       end;
     end;
 
@@ -130,13 +156,28 @@ inclass
   end;
 
 
-  -- возвращает истину, если строка str заканчивается на значение из value
-  func str_ends_with(const str: string; value: variant): boolean;
+  func str_ends_with(const str: string; value: string; offset: integer = -1): boolean;
 
-    -- для каждого значения проверим его соответствие концу строки
-    with array_each(array_from(value)) do
+    return str_ends_with_any(str, [value], offset);
+  end;
+
+
+  func str_ends_with_any(const str: string; values: string[]; offset: integer = -1): boolean;
+
+    var i: integer;
+
+    offset = handle_offset(offset, str_length(str));
+
+    with array_each(values) do
       while __next do
-        if str_substr(str, -str_length(__item)) = __item then return true; end;
+
+        if 1 <= offset -str_length(__item) +1 then
+
+          for i = 1..str_length(__item) do
+            if str_char_at(__item, -i) <> str_char_at(str, offset -i +1) then break; end;
+            if i = str_length(__item) then return true; end;
+          end;
+        end;
       end;
     end;
 
@@ -147,7 +188,13 @@ inclass
   -- возвращает объект класса-обёртки для поиска подстрок
   func str_find(const str: string; value: variant): str_method_find;
 
-    return str_method_find.new(str, value);
+    return str_method_find.new(str, [value]);
+  end;
+
+
+  func str_find_any(const str: string; values: variant[]): str_method_find;
+
+    return str_method_find.new(str, values);
   end;
 
 
@@ -196,30 +243,34 @@ inclass
   end;
 
 
-  -- возвращает строку str, очищенную от последовательностей values по краям
-  func str_trim(const str: string; direction: str_trim_direction; const values: variant = [" "]): string;
+  func str_trim(const str: string; direction: str_trim_direction; value: string = " "): string;
+
+    return str_trim_any(str, direction, [value]);
+  end;
+
+
+  func str_trim_any(const str: string; direction: str_trim_direction; values: string[] = [" "]): string;
 
     result = str;
 
-    with array_each(array_from(values)) do
+    if direction in [STR_TRIM_LEFT, STR_TRIM_BOTH] then
 
-      -- если нужно, очистим начало
-      if direction in [STR_TRIM_LEFT, STR_TRIM_BOTH] then
-
+      with array_each(values) do
         while __next do
+
           if str_starts_with(result, __item) then
             result = str_substr(result, str_length(__item) +1);
             __to_begin;
           end;
         end;
       end;
+    end;
 
-      -- если нужно, очистим конец
-      if direction in [STR_TRIM_RIGHT, STR_TRIM_BOTH] then
+    if direction in [STR_TRIM_RIGHT, STR_TRIM_BOTH] then
 
-        __to_begin;
-
+      with array_each(values) do
         while __next do
+
           if str_ends_with(result, __item) then
             result = str_substr(result, 1, -str_length(__item));
             __to_begin;
@@ -253,10 +304,15 @@ inclass
   end;
 
 
-  -- возвращает строку str с заменой значений из value на значение replacement
   func str_replace(const str: string; value: variant; replacement: string): string;
     
-    with str_find(str, value) do
+    return str_replace_any(str, [value], replacement);
+  end;
+
+
+  func str_replace_any(const str: string; values: string[]; replacement: string): string;
+    
+    with str_find_any(str, values) do
       while __next do __match = replacement; end;
       __assign(result);
     end;
@@ -306,8 +362,13 @@ inclass
   end;
 
 
-  -- возвращает массив значений, полученных при разбиении строки str по значениям из separator
-  func str_explode(const str: string; separator: variant): string[];
+  func str_explode(const str, separator: string): string[];
+
+    return str_explode_any(str, [separator]);
+  end;
+
+
+  func str_explode_any(const str: string; separators: string[]): string[];
 
     var offset: integer;
 
@@ -316,7 +377,7 @@ inclass
 
     -- для каждого вхождения запишем подстроку от смещения до него, обновим смещение
     -- если вхождений не осталось, запишем оставшуюся подстроку
-    with str_find(str, separator) do
+    with str_find_any(str, separators) do
 
       while __next do
         array_append(result, str_substr(__left, offset));

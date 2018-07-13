@@ -64,7 +64,7 @@ inclass
 
     array_append(escape_sequences, ESCAPE_CHAR);
 
-    with str_find(str, escape_sequences) do
+    with str_find_any(str, escape_sequences) do
 
       while __next do
         if not seq_is_escaping(__result, str_length(__left) +1) and
@@ -101,7 +101,7 @@ inclass
     -- поищем последовательности из списка
     -- если совпадающая последовательность экранирована и не является экранированием экранирования (\\),
     -- или является, но не является частью другой последовательности (\\[t]), разэкранируем её (в других случаях разэкранировать её не нужно)
-    with str_find(str, unescape_sequences) do
+    with str_find_any(str, unescape_sequences) do
 
       while __next  do
         if seq_is_escaping(__result, str_length(__left) +1) and
