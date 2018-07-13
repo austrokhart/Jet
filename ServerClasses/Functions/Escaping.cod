@@ -5,7 +5,7 @@ inclass
 
 
   var ESCAPE_CHAR: string := '\';
-  var ESCAPE_SEQUENCES: string[] := ['"', '/', '\b', '\f', '\n', '\r', '\t', ESCAPE_CHAR];
+  var ESCAPE_SEQUENCES: string[] := ['"', '/', '\b', '\f', '\n', '\r', '\t'];
 
 
   func seq_is_escaping(const str: string; index: integer; escape_sequences: string[] = ESCAPE_SEQUENCES): boolean;
@@ -18,7 +18,7 @@ inclass
     with array_each(escape_sequences) do
       while __next do
         -- если встречается сама последовательность ESCAPE_CHAR, она игнорируется (строка точно начинается с неё: "\[\]", "\[t]")
-        if __item <> ESCAPE_CHAR and str_starts_with(str_substr(str, index), __item) then return false; end;
+        if __item <> ESCAPE_CHAR and str_starts_with(str, __item, index) then return false; end;
       end;
     end;
 
@@ -37,16 +37,14 @@ inclass
     with array_each(escape_sequences) do
       while __next do
         -- если встречается сама последовательность ESCAPE_CHAR, она игнорируется (строка может заканчиваться на неё: "[\]\", "[\\]\")
-        if __item <> ESCAPE_CHAR and str_ends_with(str_substr(str, 1, index), __item)
-           and str_char_at(str, index) <> __item
-        then
+        if __item <> ESCAPE_CHAR and (str_ends_with(str, __item, index) and str_char_at(str, index) <> __item) then
           return false;
         end;
       end;
     end;
 
     i = 0;
-    while str_char_at(str, index -i -1) = ESCAPE_CHAR do i = i +1; end;
+    while str_is_set(str, index -i -1) and str_char_at(str, index -i -1) = ESCAPE_CHAR do i = i +1; end;
 
     return mod(i, 2) = 1;
   end;

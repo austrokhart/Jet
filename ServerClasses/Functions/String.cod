@@ -343,7 +343,12 @@ inclass
 
         -- посчитаем соседние пары скобок
         i = 1;
-        while str_substr(__left, -i, 1) = "{" and str_substr(__right, i, 1) = "}" do i = i +1; end;
+
+        while (str_is_set(__left, str_length(__left) -i +1) and str_char_at(__left, str_length(__left) -i +1) = "{") and
+              (str_is_set(__right, i) and str_substr(__right, i, 1) = "}")
+        do
+          i = i +1;
+        end;
 
         -- заменим значение в зависимости от количества скобок и наличия замен
         __match = form_replacement(if (mod(i, 2) = 1 and each_value.__next, str_from(each_value.__item), ""), div(i, 2));

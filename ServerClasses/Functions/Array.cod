@@ -486,14 +486,21 @@ inclass
   end;
 
 
-  func md_array_slice(const array: variant[]; path: integer[] = nil; offset: integer = 1; length: variant = nil): variant[];
+  func md_array_slice(const array: variant[]; path: integer[] = nil; offset: integer = 1; length: variant = nil; _step: integer = 1): variant[];
 
     var i: integer;
 
     offset = handle_offset(offset, md_array_length(array));
 
-    for i = offset..(offset +handle_length(offset, length, md_array_length(array)) -1) do
-      md_array_append(result, md_array_get(array, i, path));
+    if _step > 0 then
+      for i = offset..(offset +handle_length(offset, length, md_array_length(array)) -1) step _step do
+        md_array_append(result, md_array_get(array, i, path));
+      end;
+
+    elsif _step < 0 then
+      for i = (offset +handle_length(offset, length, md_array_length(array)) -1)..offset step _step do
+        md_array_append(result, md_array_get(array, i, path));
+      end;
     end;
 
     return result;
