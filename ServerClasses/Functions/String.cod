@@ -345,7 +345,7 @@ inclass
         i = 1;
 
         while (str_is_set(__left, str_length(__left) -i +1) and str_char_at(__left, str_length(__left) -i +1) = "{") and
-              (str_is_set(__right, i) and str_substr(__right, i, 1) = "}")
+              (str_is_set(__right, i) and str_char_at(__right, i) = "}")
         do
           i = i +1;
         end;
