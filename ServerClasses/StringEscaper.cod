@@ -1,5 +1,5 @@
 ﻿class "Класс для экранирования строк";
-import classes Functions.Array, Functions.String, Functions.StringUnicode;
+import classes Functions.Array, Functions.String;
 
 inclass
 
@@ -7,6 +7,9 @@ inclass
   var ESCAPE_CHAR:  string = '\';
   var QUOTE_CHAR:   string = '"';
   var UNICODE_CHAR: string = '\u';
+
+  var BASIC_CHARS: string[] = ['"', '\'];
+  var OTHER_CHARS: string[] = ['/', '\b', '\f', '\n', '\r', '\t'];
 
 
   func new(handling_chars: string[] = other_chars; handle_unicode: boolean = true): Escaper;
@@ -19,15 +22,46 @@ inclass
   end;
 
 
-  func basic_chars: string[];
+  func char_is_escaping(str: string; index: integer = 1): boolean;
     
-    return ['"', '\'];
+    return str_starts_with(str, self.ESCAPE_CHAR, index)
+           and not self.char_is_unicode(str, index)
+           and not str_starts_with_any(str, self.OTHER_CHARS, index);
   end;
 
 
-  func other_chars: string[];
-    
-    return ['/', '\b', '\f', '\n', '\r', '\t'];
+  func char_is_escaped(str: string; index: integer = 1): boolean;
+
+    var i: integer;
+
+    if str_starts_with_any(str, array_concat([self.OTHER_CHARS, self.BASIC_CHARS]), index)
+       or self.char_is_unicode(str, index)
+    then
+
+      i = 1;
+      while str_is_set(str, index -i) and str_char_at(str, index -i) = self.ESCAPE_CHAR do i = i +1; end;
+
+      return mod(i -1, 2) = 1;
+    else
+      return false;
+    end;
+  end;
+
+
+  func char_is_unicode(str: string; index: integer = 1): boolean;
+
+    var i: integer;
+
+    if str_starts_with(str, self.UNICODE_CHAR, index) then
+
+      for i = 1..4 do
+        if str_pos('0123456789abcdef', str_char_at(str, index +2 +i -1)) = -1 then return false; end;
+      end;
+      
+      return true;
+    else
+      return false;
+    end;
   end;
 
 inobject
@@ -53,13 +87,14 @@ inobject
   end;
 
 
+
+
+
   func escape(str: string): string;
 
     var chars: string[];
-    var pos: integer[];
 
     chars = array_concat([self.handling_chars, [self.UNICODE_CHAR], self.basic_chars]);
-
 
     with str_find_any(str, chars) do
       while __next do
@@ -68,7 +103,7 @@ inobject
           __match = self.ESCAPE_CHAR +__match;
 
         elsif __match in [self.UNICODE_CHAR] then
-          if self.mode_handle_unicode and str_char_is_unicode(__match +__right) then
+          if self.mode_handle_unicode and self.char_is_unicode(__match +__right) then
             __match = self.ESCAPE_CHAR +__match;
           end;
 
@@ -76,12 +111,9 @@ inobject
           __match = self.ESCAPE_CHAR +__match;
 
         elsif __match in [self.ESCAPE_CHAR] then
-          if not str_starts_with_any(__match +__right, self.other_chars) and
-             (not self.mode_handle_unicode or not str_char_is_unicode(__match +__right)) then
+          if self.char_is_escaping(__match +__right) then
 
-            if self.mode_escape_once and (str_starts_with_any(__right, array_concat([self.other_chars, self.basic_chars])) or
-               self.mode_handle_unicode and str_char_is_unicode(__right)) then
-
+            if self.mode_escape_once and self.char_is_escaped(__match +__right, 2) then
               __match = __match +str_splice(__right, "", 1, 1);
             else
               __match = self.ESCAPE_CHAR +__match;
@@ -110,17 +142,7 @@ inobject
     with str_find_any(str, escaped_chars) do
       while __next do
 
-        if __match in [self.ESCAPE_CHAR +self.UNICODE_CHAR] then
-          if self.mode_handle_unicode and str_char_is_unicode(__match +__right, 2) then
-            __match = str_substr(__match, 2);
-          end;
-
-        elsif __match in [self.ESCAPE_CHAR +self.ESCAPE_CHAR] then
-          if not str_starts_with_any(__match +__right, self.other_chars, 2) then
-            __match = str_substr(__match, 2);
-          end;
-
-        else
+        if self.char_is_escaping(__match +__right) then
           __match = str_substr(__match, 2);
         end;
       end;

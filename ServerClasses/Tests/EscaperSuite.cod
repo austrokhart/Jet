@@ -75,7 +75,7 @@ inclass
       assert_equal(  esc.unescape('\\t\\t \\/\"test_string\/\"\\/\/'),  '\t\t \/"test_string/"\//'  );
       assert_equal(  esc.unescape('\\t\\t \/\"test_string\/\"\/\/'),    '\t\t /"test_string/"//'  );
 
-      assert_equal(  esc.unescape('\\u1234 \\u1x23'),  '\u1234 \\u1x23');
+      assert_equal(  esc.unescape('\\u1234 \\u1x23'),  '\u1234 \u1x23');
 
 
 --      esc = Escaper.new;
