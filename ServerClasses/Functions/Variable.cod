@@ -39,14 +39,14 @@ inclass
     return Kernel.System.varType(value) = TYPE_INTEGER;
   end;
 
-  func var_is_float(value: variant): boolean;
+  func var_is_real(value: variant): boolean;
     
     return Kernel.System.varType(value) = TYPE_REAL;
   end;
 
-  func var_is_numeric(value: variant): boolean;
+  func var_is_number(value: variant): boolean;
     
-    return var_is_integer(value) or var_is_float(value);
+    return var_is_integer(value) or var_is_real(value);
   end;
 
   func var_is_boolean(value: variant): boolean;
@@ -92,8 +92,8 @@ inclass
     -- или оба значения являются числами
     -- или одно из них равно nil
     if (Kernel.System.varType(value) = Kernel.System.varType(other_value)) or
-       (var_is_numeric(value) and var_is_numeric(other_value)) or
-       (var_is_nil(value)     or  var_is_nil(other_value))
+       (var_is_number(value) and var_is_number(other_value)) or
+       (var_is_nil(value)     or var_is_nil(other_value))
     then
 
       return value = other_value;

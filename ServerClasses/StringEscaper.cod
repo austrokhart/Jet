@@ -12,7 +12,7 @@ inclass
   var OTHER_CHARS: string[] = ['/', '\b', '\f', '\n', '\r', '\t'];
 
 
-  func new(handling_chars: string[] = other_chars; handle_unicode: boolean = true): Escaper;
+  func new(handling_chars: string[] = other_chars; handle_unicode: boolean = true): StringEscaper;
 
     result = self.create;
     result.handling_chars = handling_chars;
@@ -73,21 +73,18 @@ inobject
   var mode_escape_once: boolean;
 
 
-  func handle_unicode(state: boolean): Escaper;
+  func handle_unicode(state: boolean): StringEscaper;
 
     self.mode_handle_unicode = state;
     return self;
   end;
 
 
-  func escape_once(state: boolean): Escaper;
+  func escape_once(state: boolean): StringEscaper;
 
     self.mode_escape_once = state;
     return self;
   end;
-
-
-
 
 
   func escape(str: string): string;

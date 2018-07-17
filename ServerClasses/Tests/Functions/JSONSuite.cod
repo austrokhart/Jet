@@ -8,9 +8,7 @@ inclass
 
     with case do
 
-      comment('');
-
-      assert_equal(  JSON_encode_null, 'null');
+      assert_equal(  JSON_encode(nil), 'null');
     end;
   end;
 
@@ -19,10 +17,8 @@ inclass
 
     with case do
 
-      comment('');
-
-      assert_equal(  JSON_encode_boolean(true),  'true');
-      assert_equal(  JSON_encode_boolean(false), 'false');
+      assert_equal(  JSON_encode(true),  'true');
+      assert_equal(  JSON_encode(false), 'false');
     end;
   end;
 
@@ -31,13 +27,11 @@ inclass
 
     with case do
 
-      comment('');
-
-      assert_equal(  JSON_encode_numeric(0),      '0');
-      assert_equal(  JSON_encode_numeric(2000),   '2000');
-      assert_equal(  JSON_encode_numeric(-2000),  '-2000');
-      assert_equal(  JSON_encode_numeric(20.05),  '20.05');
-      assert_equal(  JSON_encode_numeric(-20.05), '-20.05');
+      assert_equal(  JSON_encode(0),      '0');
+      assert_equal(  JSON_encode(2000),   '2000');
+      assert_equal(  JSON_encode(-2000),  '-2000');
+      assert_equal(  JSON_encode(20.05),  '20.05');
+      assert_equal(  JSON_encode(-20.05), '-20.05');
     end;
   end;
 
@@ -46,10 +40,10 @@ inclass
 
     with case do
 
-      assert_equal(  JSON_encode_date(2018.06.01),                     '"2018-06-01"');
-      assert_equal(  JSON_encode_date(2018.06.01 12:00, "+03:00"),     '"2018-06-01T12:00:00+03:00"');
-      assert_equal(  JSON_encode_date(2018.06.01 12:00:15, "+03:00"),  '"2018-06-01T12:00:15+03:00"');
-      assert_equal(  JSON_encode_date(2018.06.01 12:00:15, "Z"),       '"2018-06-01T12:00:15Z"');
+      assert_equal(  JSON_encode(2018.06.01),                      '"2018-06-01"');
+      assert_equal(  JSON_encode(2018.06.01 12:00,, "+03:00"),     '"2018-06-01T12:00:00+03:00"');
+      assert_equal(  JSON_encode(2018.06.01 12:00:15,, "+03:00"),  '"2018-06-01T12:00:15+03:00"');
+      assert_equal(  JSON_encode(2018.06.01 12:00:15,, "Z"),       '"2018-06-01T12:00:15Z"');
     end;
   end;
 
@@ -58,13 +52,11 @@ inclass
 
     with case do
 
-      comment('');
-
-      assert_equal(  JSON_encode_string('abc'),           '"abc"');
-      assert_equal(  JSON_encode_string('foobar500'),     '"foobar500"');
-      assert_equal(  JSON_encode_string('"foobar"'),      '"\"foobar\""');
-      assert_equal(  JSON_encode_string('\"foobar\"?'),   '"\"foobar\"?"');
-      assert_equal(  JSON_encode_string('\\"foobar\\"!'), '"\\\"foobar\\\"!"');
+      assert_equal(  JSON_encode('abc'),           '"abc"');
+      assert_equal(  JSON_encode('foobar500'),     '"foobar500"');
+      assert_equal(  JSON_encode('"foobar"'),      '"\"foobar\""');
+      assert_equal(  JSON_encode('\"foobar\"?'),   '"\\\"foobar\\\"?"');
+      assert_equal(  JSON_encode('\\"foobar\\"!'), '"\\\\\"foobar\\\\\"!"');
     end;
   end;
 
@@ -75,38 +67,38 @@ inclass
 
       comment('');
 
-      assert_equal(  JSON_encode_array([]), '[]', 'с пустым массивом');
+      assert_equal(  JSON_encode([] as variant[]), '[]', 'с пустым массивом');
 
-      assert_equal(  JSON_encode_array([nil]),       '[null]', 'с nil');
-      assert_equal(  JSON_encode_array([nil, nil]),  '[null, null]');
+      assert_equal(  JSON_encode([nil]),       '[null]', 'с nil');
+      assert_equal(  JSON_encode([nil, nil]),  '[null, null]');
 
-      assert_equal(  JSON_encode_array([true]),         '[true]', 'с булевыми типами');
-      assert_equal(  JSON_encode_array([true, false]),  '[true, false]');
+      assert_equal(  JSON_encode([true]),         '[true]', 'с булевыми типами');
+      assert_equal(  JSON_encode([true, false]),  '[true, false]');
 
-      assert_equal(  JSON_encode_array([10]),             '[10]', 'с числами');
-      assert_equal(  JSON_encode_array([10, 20]),         '[10, 20]');
-      assert_equal(  JSON_encode_array([-10]),            '[-10]');
-      assert_equal(  JSON_encode_array([-10, -20]),       '[-10, -20]');
-      assert_equal(  JSON_encode_array([0.05]),           '[0.05]');
-      assert_equal(  JSON_encode_array([0.05, 0.07]),     '[0.05, 0.07]');
-      assert_equal(  JSON_encode_array([-0.05]),          '[-0.05]');
-      assert_equal(  JSON_encode_array([-0.05, -0.07]),   '[-0.05, -0.07]');
+      assert_equal(  JSON_encode([10]),             '[10]', 'с числами');
+      assert_equal(  JSON_encode([10, 20]),         '[10, 20]');
+      assert_equal(  JSON_encode([-10]),            '[-10]');
+      assert_equal(  JSON_encode([-10, -20]),       '[-10, -20]');
+      assert_equal(  JSON_encode([0.05]),           '[0.05]');
+      assert_equal(  JSON_encode([0.05, 0.07]),     '[0.05, 0.07]');
+      assert_equal(  JSON_encode([-0.05]),          '[-0.05]');
+      assert_equal(  JSON_encode([-0.05, -0.07]),   '[-0.05, -0.07]');
 
-      assert_equal(  JSON_encode_array(['a']),                  '["a"]', 'со строками');
-      assert_equal(  JSON_encode_array(['a', 'b']),             '["a", "b"]');
-      assert_equal(  JSON_encode_array(['"foo \"bar \\"baz']),  '["\"foo \"bar \\\"baz"]');
+      assert_equal(  JSON_encode(['a']),                  '["a"]', 'со строками');
+      assert_equal(  JSON_encode(['a', 'b']),             '["a", "b"]');
+      assert_equal(  JSON_encode(['"foo \"bar \\"baz']),  '["\"foo \\\"bar \\\\\"baz"]');
 
-      assert_equal(  JSON_encode_array([10, 20, -0.05, 0.07]),                   '[10, 20, -0.05, 0.07]', 'с комбинированными данными');
-      assert_equal(  JSON_encode_array(['\"foo', 500]),                          '["\"foo", 500]');
-      assert_equal(  JSON_encode_array([0.05, '1', '\\\"foo \"bar "baz', 500]),  '[0.05, "1", "\\\"foo \"bar \"baz", 500]');
+      assert_equal(  JSON_encode([10, 20, -0.05, 0.07]),                   '[10, 20, -0.05, 0.07]', 'с комбинированными данными');
+      assert_equal(  JSON_encode(['\"foo', 500]),                          '["\\\"foo", 500]');
+      assert_equal(  JSON_encode([0.05, '1', '\\\"foo \"bar "baz', 500]),  '[0.05, "1", "\\\\\\\"foo \\\"bar \"baz", 500]');
 
-      assert_equal(  JSON_encode_array([[10]]),                                  '[[10]]', 'с вложенными массивами');
-      assert_equal(  JSON_encode_array([[10, 20], [30, 40]]),                    '[[10, 20], [30, 40]]');
-      assert_equal(  JSON_encode_array([10, [20, [30, 40] as variant[]]]),       '[10, [20, [30, 40]]]');
+      assert_equal(  JSON_encode([[10]]),                                  '[[10]]', 'с вложенными массивами');
+      assert_equal(  JSON_encode([[10, 20], [30, 40]]),                    '[[10, 20], [30, 40]]');
+      assert_equal(  JSON_encode([10, [20, [30, 40] as variant[]]]),       '[10, [20, [30, 40]]]');
 
-      assert_equal(  JSON_encode_array([Dict.new]),                                                 '[{}]', 'с объектами');
-      assert_equal(  JSON_encode_array([Dict.new.set('A', 1)]),                                     '[{"A": 1}]');
-      assert_equal(  JSON_encode_array([Dict.new.set('A', [Dict.new.set('B', [] as variant[])])]),  '[{"A": [{"B": []}]}]');  -- без привдения записывал nil
+      assert_equal(  JSON_encode([Dict.new]),                                                 '[{}]', 'с объектами');
+      assert_equal(  JSON_encode([Dict.new.set('A', 1)]),                                     '[{"A": 1}]');
+      assert_equal(  JSON_encode([Dict.new.set('A', [Dict.new.set('B', [] as variant[])])]),  '[{"A": [{"B": []}]}]');  -- без привдения записывал nil
     end;
   end;
 
@@ -117,11 +109,11 @@ inclass
 
       comment('');
 
-      assert_equal(  JSON_encode_object(  Dict.new  ),                                            '{}');
-      assert_equal(  JSON_encode_object(  Dict.new.set('A', 1)  ),                                '{"A": 1}');
-      assert_equal(  JSON_encode_object(  Dict.combine(['A', 'B'], [1, 2])  ),                    '{"A": 1, "B": 2}');
-      assert_equal(  JSON_encode_object(  Dict.combine(['A', 'B', 'C'], [1, 'foo', '""bar'])  ),  '{"A": 1, "B": "foo", "C": "\"\"bar"}');
-      assert_equal(  JSON_encode_object(  Dict.new.set('A', [Dict.new.set('B', [Dict.new])])  ),  '{"A": [{"B": [{}]}]}');
+      assert_equal(  JSON_encode(  Dict.new  ),                                            '{}');
+      assert_equal(  JSON_encode(  Dict.new.set('A', 1)  ),                                '{"A": 1}');
+      assert_equal(  JSON_encode(  Dict.combine(['A', 'B'], [1, 2])  ),                    '{"A": 1, "B": 2}');
+      assert_equal(  JSON_encode(  Dict.combine(['A', 'B', 'C'], [1, 'foo', '""bar'])  ),  '{"A": 1, "B": "foo", "C": "\"\"bar"}');
+      assert_equal(  JSON_encode(  Dict.new.set('A', [Dict.new.set('B', [Dict.new])])  ),  '{"A": [{"B": [{}]}]}');
     end;
   end;
 
@@ -130,9 +122,6 @@ inclass
 
     with case do
 
-      comment('');
-
-      assert_equal(  JSON_decode_null('null'),  nil);
       assert_equal(  JSON_decode('null'),       nil);
     end;
   end;
@@ -142,10 +131,8 @@ inclass
 
     with case do
 
-      comment('');
-
-      assert_equal(  JSON_decode_boolean('true'),   true);
-      assert_equal(  JSON_decode_boolean('false'),  false);
+      assert_equal(  JSON_decode('true'),   true);
+      assert_equal(  JSON_decode('false'),  false);
     end;
   end;
 
@@ -154,14 +141,12 @@ inclass
 
     with case do
 
-      comment('');
-
-      assert_equal(  JSON_decode_numeric('0'),      0);
-      assert_equal(  JSON_decode_numeric('1'),      1);
-      assert_equal(  JSON_decode_numeric('100'),    100);
-      assert_equal(  JSON_decode_numeric('-100'),   -100);
-      assert_equal(  JSON_decode_numeric('10.05'),  10.05);
-      assert_equal(  JSON_decode_numeric('-10.05'), -10.05);
+      assert_equal(  JSON_decode('0'),      0);
+      assert_equal(  JSON_decode('1'),      1);
+      assert_equal(  JSON_decode('100'),    100);
+      assert_equal(  JSON_decode('-100'),   -100);
+      assert_equal(  JSON_decode('10.05'),  10.05);
+      assert_equal(  JSON_decode('-10.05'), -10.05);
     end;
   end;
 
@@ -170,13 +155,11 @@ inclass
 
     with case do
 
-      comment('');
-
-      assert_equal(  JSON_decode_string('""'),           '');
-      assert_equal(  JSON_decode_string('" "'),          ' ');
-      assert_equal(  JSON_decode_string('"a"'),          'a');
-      assert_equal(  JSON_decode_string('"abc"'),        'abc');
-      assert_equal(  JSON_decode_string('"foo\"bar\""'), 'foo"bar"');
+      assert_equal(  JSON_decode('""'),           '');
+      assert_equal(  JSON_decode('" "'),          ' ');
+      assert_equal(  JSON_decode('"a"'),          'a');
+      assert_equal(  JSON_decode('"abc"'),        'abc');
+      assert_equal(  JSON_decode('"foo\"bar\""'), 'foo"bar"');
     end;
   end;
 
@@ -185,16 +168,14 @@ inclass
 
     with case do
 
-      comment('');
+      assert_equal(  JSON_decode('[]'),          []);
+      assert_equal(  JSON_decode('[""]'),        ['']);
+      assert_equal(  JSON_decode('["a"]'),       ['a']);
+      assert_equal(  JSON_decode('["a", "b"]'),  ['a', 'b']);
 
-      assert_equal(  JSON_decode_array('[]'),          []);
-      assert_equal(  JSON_decode_array('[""]'),        ['']);
-      assert_equal(  JSON_decode_array('["a"]'),       ['a']);
-      assert_equal(  JSON_decode_array('["a", "b"]'),  ['a', 'b']);
-
-      assert_equal(  JSON_decode_array('[[]]'),              [[]]);
-      assert_equal(  JSON_decode_array('[[1]]'),             [[1]]);
-      assert_equal(  JSON_decode_array('[[1, 2], [3, 4]]'),  [[1, 2], [3, 4]]);
+      assert_equal(  JSON_decode('[[]]'),              [[]]);
+      assert_equal(  JSON_decode('[[1]]'),             [[1]]);
+      assert_equal(  JSON_decode('[[1, 2], [3, 4]]'),  [[1, 2], [3, 4]]);
     end;
   end;
 
@@ -203,15 +184,13 @@ inclass
 
     with case do
 
-      comment('');
+      assert_equal(  JSON_decode('{}').pairs,                  Dict.new.pairs);
+      assert_equal(  JSON_decode('{"A": 10}').pairs,           Dict.new.set('A', 10).pairs);
+      assert_equal(  JSON_decode('{"A": 10, "B": 20}').pairs,  Dict.combine(['A', 'B'], [10, 20]).pairs);
 
-      assert_equal(  JSON_decode_object('{}').pairs,                  Dict.new.pairs);
-      assert_equal(  JSON_decode_object('{"A": 10}').pairs,           Dict.new.set('A', 10).pairs);
-      assert_equal(  JSON_decode_object('{"A": 10, "B": 20}').pairs,  Dict.combine(['A', 'B'], [10, 20]).pairs);
-
-      assert_equal(  JSON_decode_object('{"A": [10, 20, 30]}').pairs,   Dict.new.set('A', [10, 20, 30]).pairs);
-      assert_equal(  JSON_decode_object('{"A": "\\foo \"bar"}').pairs,  Dict.new.set('A', '\foo "bar').pairs);
-      assert_equal(  JSON_decode_object('{"A": {"B": [50]}}').pairs,    Dict.new.set('A', Dict.new.set('B', [50])).pairs);
+      assert_equal(  JSON_decode('{"A": [10, 20, 30]}').pairs,   Dict.new.set('A', [10, 20, 30]).pairs);
+      assert_equal(  JSON_decode('{"A": "\\foo \"bar"}').pairs,  Dict.new.set('A', '\foo "bar').pairs);
+      assert_equal(  JSON_decode('{"A": {"B": [50]}}').pairs,    Dict.new.set('A', Dict.new.set('B', [50])).pairs);
     end;
   end;
 end

@@ -3,9 +3,8 @@
 <Items>
   <Item Name="Functions"/>
   <Item Name="UnitTestingTesting"/>
-  <Item Name="FunctionsStringTesting"/>
-  <Item Name="FunctionsArrayTesting"/>
+  <Item Name="IteratorTesting"/>
   <Item Name="DictTesting"/>
-  <Item Name="FunctionsEscapingTesting"/>
-  <Item Name="FunctionsMathTesting"/>
+  <Item Name="EscaperTesting"/>
+  <Item Name="JSONTesting"/>
 </Items>

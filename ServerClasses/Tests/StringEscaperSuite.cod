@@ -1,17 +1,16 @@
 ﻿class inherited UnitTesting.Suite "Набор для тестирования класса для работы с экранированием";
-import classes Functions.Escaping;
 
 inclass
 
 
-  proc test_str_escape(case: UnitTesting.Case);
+  proc test_escape(case: UnitTesting.Case);
 
-    var esc: Escaper;
+    var esc: StringEscaper;
 
     with case do
 
 
-      esc = Escaper.new;
+      esc = StringEscaper.new;
 
       assert_equal(  esc.escape('"'),     '\"', 'default');
       assert_equal(  esc.escape('\"'),    '\\\"');
@@ -29,7 +28,7 @@ inclass
       assert_equal(  esc.escape('\u1234 \u1x23'),  '\\u1234 \u1x23');
 
 
-      esc = Escaper.new.escape_once(true);
+      esc = StringEscaper.new.escape_once(true);
 
       assert_equal(  esc.escape('"'),      '\"', 'escape_once');
       assert_equal(  esc.escape('\"'),     '\"');
@@ -50,13 +49,13 @@ inclass
   end;
 
 
-  proc test_str_unescape(case: UnitTesting.Case);
+  proc test_unescape(case: UnitTesting.Case);
 
-    var esc: Escaper;
+    var esc: StringEscaper;
 
     with case do
 
-      esc = Escaper.new;
+      esc = StringEscaper.new;
 
       assert_equal(  esc.unescape('"'),      '"');
       assert_equal(  esc.unescape('\"'),     '"');
@@ -76,27 +75,6 @@ inclass
       assert_equal(  esc.unescape('\\t\\t \/\"test_string\/\"\/\/'),    '\t\t /"test_string/"//'  );
 
       assert_equal(  esc.unescape('\\u1234 \\u1x23'),  '\u1234 \u1x23');
-
-
---      esc = Escaper.new;
---
---      assert_equal(  esc.unescape('"',     ['"']),  '"'    );
---      assert_equal(  esc.unescape('\"',    ['"']),  '"'    );
---      assert_equal(  esc.unescape('\\"',   ['"']),  '\"'   );
---      assert_equal(  esc.unescape('\\\"',  ['"']),  '\"'   );
---      assert_equal(  esc.unescape('\\\\"', ['"']),  '\\"'  );
---
---      assert_equal(  esc.unescape('\"test_string\"',     ['"']),       '"test_string"'    );
---      assert_equal(  esc.unescape('\"\"test_string\"\"', ['"']),       '""test_string""'  );
---      assert_equal(  esc.unescape('\/\"test_string\/\"', ['"', '/']),  '/"test_string/"'  );
---      assert_equal(  esc.unescape('\\\"test_string\\\"', ['"', '\']),  '\"test_string\"'  );
---
---      assert_equal(  esc.unescape('\\foo \"bar'),                      '\foo "bar', '\f является специальной последовательностью');
---
---      assert_equal(  esc.unescape('\\t\\t \/\"test_string\/\"\/\/', ['"', '/']),         '\\t\\t /"test_string/"//'  );
---      assert_equal(  esc.unescape('\\t\\t \\/\"test_string\/\"\\/\/', ['"', '/', '\']),  '\\t\\t \/"test_string/"\//'  );
---      assert_equal(  esc.unescape('\\t\\t \/\"test_string\/\"\/\/', ['"', '\t']),        '\t\t \/"test_string\/"\/\/'  );
---      assert_equal(  esc.unescape('\\t\\t \/\"test_string\/\"\/\/', ['"', '/', '\t']),   '\t\t /"test_string/"//'  );
     end;
   end;
 end
