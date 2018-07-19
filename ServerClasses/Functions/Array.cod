@@ -570,7 +570,7 @@ inclass
 
     var i: integer;
 
-    for i = 1..var_int(md_array_length(array) /2) do
+    for i = 1..var_to_int(md_array_length(array) /2) do
       md_array_swap(array, i, md_array_length(array) -i +1);
     end;
   end;
@@ -593,7 +593,7 @@ inclass
       left_padding = length -md_array_length(array);
 
     elsif direction = ARRAY_PAD_BOTH then
-      left_padding = var_int((length -md_array_length(array)) /2);
+      left_padding = var_to_int((length -md_array_length(array)) /2);
 
     elsif direction = ARRAY_PAD_RIGHT then
       left_padding = 0;

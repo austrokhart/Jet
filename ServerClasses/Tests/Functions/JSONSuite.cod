@@ -1,5 +1,5 @@
 ﻿class "";
-import classes Functions.JSON;
+import classes Functions.JSON, Functions.Variable;
 
 inclass
 
@@ -190,7 +190,7 @@ inclass
 
       assert_equal(  JSON_decode('{"A": [10, 20, 30]}').pairs,   Dict.new.set('A', [10, 20, 30]).pairs);
       assert_equal(  JSON_decode('{"A": "\\foo \"bar"}').pairs,  Dict.new.set('A', '\foo "bar').pairs);
-      assert_equal(  JSON_decode('{"A": {"B": [50]}}').pairs,    Dict.new.set('A', Dict.new.set('B', [50])).pairs);
+      assert_equal(  var_to_dump(JSON_decode('{"A": {"B": [50]}}')),  var_to_dump(Dict.new.set('A', Dict.new.set('B', [50]))) );
     end;
   end;
 end

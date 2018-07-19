@@ -70,7 +70,7 @@ inclass
   -- возвращает время с отбрасыванием даты
   func date_only_time(const datetime: date): date;
     
-    return date_create(0, 0, 0, date_hour(datetime), date_minute(datetime), var_int(date_second(datetime)));
+    return date_create(0, 0, 0, date_hour(datetime), date_minute(datetime), var_to_int(date_second(datetime)));
   end;
 
 

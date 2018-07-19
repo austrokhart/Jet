@@ -27,6 +27,22 @@ inclass
   end;
 
 
+--  func date_is_ISO(datetime: string): boolean;
+--
+--    var offset, i: integer;
+--
+--    offset = 1;
+--
+--    while str_contains(" ", str_char_at(datetime, offset)) do offset = offset +1; end;
+--
+--    for i = 1..4 do
+--      if not str_contains("0123456789", str_char_at(datetime, offset +i) then
+--
+--      end;
+--    end;
+--  end;
+
+
   func date_from_ISO(datetime: string; UTC_offset: string = Settings.UTC_OFFSET): date;
 
     var date_and_time, date_parts, time_parts: variant[];
@@ -49,7 +65,7 @@ inclass
     array_extend(date_parts, time_parts);
 
     with array_map(date_parts) do
-      while __next do __apply(var_int(__item)); end; __assign(date_parts);
+      while __next do __apply(var_to_int(__item)); end; __assign(date_parts);
     end;
 
     result = date_create(date_parts[1], date_parts[2], date_parts[3], date_parts[4], date_parts[5], date_parts[6]);
@@ -67,8 +83,8 @@ inclass
     if offset = "Z" then return 0; end;
 
     sign    = if (str_substr(offset, 1, 1) = "+", +1, -1);
-    hours   = var_int(str_substr(offset, 2, 2));
-    minutes = var_int(str_substr(offset, 5, 2));
+    hours   = var_to_int(str_substr(offset, 2, 2));
+    minutes = var_to_int(str_substr(offset, 5, 2));
 
     return sign *(hours *60 *60 +minutes *60);
   end;
