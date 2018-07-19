@@ -5,7 +5,7 @@ inclass
 
 
   -- выполняет тесты, значение аргумента suites приводится к массиву
-  func run(suites: variant): UnitTesting.RunResult;
+  func run(suites: class[]): UnitTesting.RunResult;
 
     -- заполняем результат
     result = UnitTesting.RunResult.new;
@@ -19,22 +19,14 @@ inclass
 
 
   -- обрабатывает тестовый набор
-  func handle_suite(suite_class: class): UnitTesting.SuiteResult;
+  func handle_suite(suite: class): UnitTesting.SuiteResult;
 
-    var cases: variant[];
+    result = UnitTesting.SuiteResult.new(class_name(suite), class_description(suite));
 
-    -- получаем методы набора
-    cases = class_methods(suite_class);
-
-    with array_filter(cases) do
-      while __next do __apply(not member_is_internal(__item)); end; __assign(cases);
-    end;
-
-    -- заполняем результат по данным класса
-    result = UnitTesting.SuiteResult.new(suite_class.className, suite_class.classInfo.description);
-
-    with array_each(cases) do
-      while __next do result.add(self.handle_case(__item)); end;
+    with array_each(class_methods(suite)) do
+      while __next do
+        if not class_has_internal_member(suite, __item) then result.add(self.handle_case(suite, __item)); end;
+      end;
     end;
 
     return result;
@@ -42,17 +34,22 @@ inclass
 
 
   -- обрабатывает тестовую ситуацию
-  func handle_case(case_method: MethodInfo): UnitTesting.CaseResult;
+  func handle_case(suite: class; case: string): UnitTesting.CaseResult;
 
-    -- объект MethodInfo соответствует информации о члене класса; член класса, если он является процедурой, можно выполнить с помощью метода объекта callProc,
-    -- где первым аргументом идёт контекст, а последующими аргументы самого метода
+    var wrap: UnitTesting.Case;
 
-    var case: UnitTesting.Case;
+    if class_has_proc(suite, case) then
 
-    -- создаём экземпляр Case, передаём его в метод
-    case   = UnitTesting.Case.new(UnitTesting.CaseResult.new(case_method.name));
-    result = call_method(case_method, nil, [case]);
+      wrap = UnitTesting.Case.new(UnitTesting.CaseResult.new(case));
+      class_call_proc(suite, case, [wrap]);
 
-    return if (result = nil, case.container, result);
+      return wrap.container;
+
+    elsif class_has_func(suite, case) then
+      return class_call_func(suite, case).container;
+
+    else
+      return nil;
+    end;
   end;
 end

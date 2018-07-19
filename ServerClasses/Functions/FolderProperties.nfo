@@ -5,11 +5,10 @@
   <Item Name="Math"/>
   <Item Name="Variable"/>
   <Item Name="Class"/>
+  <Item Name="Object"/>
   <Item Name="Array"/>
   <Item Name="String"/>
-  <Item Name="StringUnicode"/>
   <Item Name="Date"/>
   <Item Name="DateISO"/>
-  <Item Name="Escaping"/>
   <Item Name="JSON"/>
 </Items>
