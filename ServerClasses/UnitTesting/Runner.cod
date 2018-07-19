@@ -25,7 +25,7 @@ inclass
 
     with array_each(class_methods(suite)) do
       while __next do
-        if not class_has_internal_member(suite, __item) then result.add(self.handle_case(suite, __item)); end;
+        if class_has_own_member(suite, __item) then result.add(self.handle_case(suite, __item)); end;
       end;
     end;
 

@@ -128,6 +128,11 @@ inclass
     return member <> nil and member.internal;
   end;
 
+  func class_member_info_is_inclass(member: MemberInfo): boolean;
+
+    return member <> nil and member is MethodInfo and (member as MethodInfo).inclassProperty;
+  end;
+
   func class_member_info_is_prop(member: MemberInfo): boolean;
 
     return member <> nil and (member is MethodInfo and (member as MethodInfo).kind = MethodInfo.mkProp);
@@ -202,9 +207,9 @@ inclass
     return class_member_info(cls, name) <> nil;
   end;
 
-  func class_has_internal_member(cls: class; name: string): boolean;
+  func class_has_own_member(cls: class; name: string): boolean;
 
-    return class_member_info_is_internal(class_member_info(cls, name));
+    return not class_member_info_is_internal(class_member_info(cls, name));
   end;
 
   func class_has_prop(cls: class; name: string): boolean;
