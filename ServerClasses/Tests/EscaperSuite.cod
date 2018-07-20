@@ -5,12 +5,12 @@ inclass
 
   proc test_escape(case: UnitTesting.Case);
 
-    var esc: StringEscaper;
+    var esc: Escaper;
 
     with case do
 
 
-      esc = StringEscaper.new;
+      esc = Escaper.new;
 
       assert_equal(  esc.escape('"'),     '\"', 'default');
       assert_equal(  esc.escape('\"'),    '\\\"');
@@ -28,7 +28,7 @@ inclass
       assert_equal(  esc.escape('\u1234 \u1x23'),  '\\u1234 \u1x23');
 
 
-      esc = StringEscaper.new.escape_once(true);
+      esc = Escaper.new.escape_once(true);
 
       assert_equal(  esc.escape('"'),      '\"', 'escape_once');
       assert_equal(  esc.escape('\"'),     '\"');
@@ -51,11 +51,11 @@ inclass
 
   proc test_unescape(case: UnitTesting.Case);
 
-    var esc: StringEscaper;
+    var esc: Escaper;
 
     with case do
 
-      esc = StringEscaper.new;
+      esc = Escaper.new;
 
       assert_equal(  esc.unescape('"'),      '"');
       assert_equal(  esc.unescape('\"'),     '"');

@@ -15,8 +15,8 @@
   <Item Name="Dict"/>
   <Item Name="SmartQuery"/>
   <Item Name="SmartConsole"/>
+  <Item Name="Escaper"/>
   <Item Name="Timer"/>
-  <Item Name="StringEscaper"/>
   <Item Name="Settings"/>
   <Item Name="SettingsDefault"/>
 </Items>

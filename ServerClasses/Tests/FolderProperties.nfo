@@ -4,6 +4,6 @@
   <Item Name="Functions"/>
   <Item Name="IteratorSuite"/>
   <Item Name="DictSuite"/>
-  <Item Name="StringEscaperSuite"/>
+  <Item Name="EscaperSuite"/>
   <Item Name="UnitTestingSuite"/>
 </Items>

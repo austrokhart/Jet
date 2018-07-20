@@ -6,7 +6,7 @@ inclass
 
   -- возвращает дату, преобразованную в строку в формате ISO 8601
   -- вида: YYYY-MM-DD[THH:MM:SS(Z|+\-HH:MM)]
-  func date_to_ISO(datetime: date; UTC_offset: string = Settings.UTC_OFFSET): string;
+  func date_to_ISO(datetime: date; UTC_offset: string = Settings._UTC_OFFSET): string;
 
     result = array_implode([
       str_pad(  str_from(date_year(datetime)),  STR_PAD_LEFT, "0", 4),
@@ -43,7 +43,7 @@ inclass
 --  end;
 
 
-  func date_from_ISO(datetime: string; UTC_offset: string = Settings.UTC_OFFSET): date;
+  func date_from_ISO(datetime: string; UTC_offset: string = Settings._UTC_OFFSET): date;
 
     var date_and_time, date_parts, time_parts: variant[];
     var date_str, time_str, offset: string;

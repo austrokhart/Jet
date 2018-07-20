@@ -1,0 +1,152 @@
+﻿class "Класс для экранирования строк";
+import classes Functions.Array, Functions.String;
+
+inclass
+
+
+  var _ESCAPE_CHAR:  string = '\';
+  var _QUOTE_CHAR:   string = '"';
+  var _UNICODE_CHAR: string = '\u';
+
+  var _BASIC_CHARS: string[] = ['"', '\'];
+  var _OTHER_CHARS: string[] = ['/', '\b', '\f', '\n', '\r', '\t'];
+
+
+  func new(_handling_chars: string[] = _OTHER_CHARS; _handle_unicode: boolean = true): Escaper;
+
+    result = self.create;
+    result._handling_chars = _handling_chars;
+    result.handle_unicode(_handle_unicode);
+
+    return result;
+  end;
+
+
+  func char_is_escaping(_str: string; _index: integer = 1): boolean;
+    
+    return str_starts_with(_str, self._ESCAPE_CHAR, _index)
+           and not self.char_is_unicode(_str, _index)
+           and not str_starts_with_any(_str, self._OTHER_CHARS, _index);
+  end;
+
+
+  func char_is_escaped(_str: string; _index: integer = 1): boolean;
+
+    var _i: integer;
+
+    if str_starts_with_any(_str, array_concat([self._OTHER_CHARS, self._BASIC_CHARS]), _index)
+       or self.char_is_unicode(_str, _index)
+    then
+
+      _i = 1;
+      while str_is_set(_str, _index -_i) and str_char_at(_str, _index -_i) = self._ESCAPE_CHAR do _i = _i +1; end;
+
+      return mod(_i -1, 2) = 1;
+    else
+      return false;
+    end;
+  end;
+
+
+  func char_is_unicode(_str: string; _index: integer = 1): boolean;
+
+    var _i: integer;
+
+    if str_starts_with(_str, self._UNICODE_CHAR, _index) then
+
+      for _i = 1..4 do
+        if str_pos('0123456789abcdef', str_char_at(_str, _index +2 +_i -1)) = -1 then return false; end;
+      end;
+      
+      return true;
+    else
+      return false;
+    end;
+  end;
+
+inobject
+
+
+  var _handling_chars: string[];
+
+  var _mode_handle_unicode: boolean;
+  var _mode_escape_once: boolean;
+
+
+  func handle_unicode(_state: boolean): Escaper;
+
+    self._mode_handle_unicode = _state;
+    return self;
+  end;
+
+
+  func escape_once(_state: boolean): Escaper;
+
+    self._mode_escape_once = _state;
+    return self;
+  end;
+
+
+  func escape(_str: string): string;
+
+    var _chars: string[];
+
+    _chars = array_concat([self._handling_chars, [self._UNICODE_CHAR], self._BASIC_CHARS]);
+
+    with str_find_any(_str, _chars) do
+      while __next do
+
+        if __match in self._handling_chars then
+          __match = self._ESCAPE_CHAR +__match;
+
+        elsif __match in [self._UNICODE_CHAR] then
+          if self._mode_handle_unicode and self.char_is_unicode(__match +__right) then
+            __match = self._ESCAPE_CHAR +__match;
+          end;
+
+        elsif __match in [self._QUOTE_CHAR] then
+          __match = self._ESCAPE_CHAR +__match;
+
+        elsif __match in [self._ESCAPE_CHAR] then
+          if self.char_is_escaping(__match +__right) then
+
+            if self._mode_escape_once and self.char_is_escaped(__match +__right, 2) then
+              __match = __match +str_splice(__right, "", 1, 1);
+            else
+              __match = self._ESCAPE_CHAR +__match;
+            end;
+          end;
+        end;
+      end;
+
+      __assign(result);
+    end;
+
+    return result;
+  end;
+
+
+  func unescape(_str: string): string;
+    
+    var _escaped_chars: string[];
+
+    _escaped_chars = array_concat([self._handling_chars, [self._UNICODE_CHAR], self._BASIC_CHARS]);
+
+    with array_map(_escaped_chars) do
+      while __next do __apply(self._ESCAPE_CHAR +__item); end; __assign(_escaped_chars);
+    end;
+
+    with str_find_any(_str, _escaped_chars) do
+      while __next do
+
+        if self.char_is_escaping(__match +__right) then
+          __match = str_substr(__match, 2);
+        end;
+      end;
+
+      __assign(result);
+    end;
+
+    return result;
+  end;
+end

@@ -29,122 +29,122 @@ inclass
   end;
 
 
-  func var_to_dump(const value: variant): string;
+  func var_to_dump(const _value: variant): string;
 
 
-    var escaper: StringEscaper;
+    var _escaper: Escaper;
 
 
-    func to_str(value: variant): string;
+    func to_str(_value: variant): string;
 
 
-      func from_nil(value: variant): string;
+      func from_nil(_value: variant): string;
       
         return "(nil) nil";
       end;
 
-      func from_boolean(value: boolean): string;
+      func from_boolean(_value: boolean): string;
       
-        return "(boolean) " +if (value, "true", "false");
+        return "(boolean) " +if (_value, "true", "false");
       end;
 
-      func from_integer(value: integer): string;
+      func from_integer(_value: integer): string;
       
-        return "(integer) " +str(value);
+        return "(integer) " +str(_value);
       end;
 
-      func from_real(value: real): string;
+      func from_real(_value: real): string;
       
-        return "(real) " +str(value);
+        return "(real) " +str(_value);
       end;
 
-      func from_string(value: string): string;
+      func from_string(_value: string): string;
       
-        return '(string) "' +escaper.escape(value) +'"';
+        return '(string) "' +_escaper.escape(_value) +'"';
       end;
 
-      func from_date(value: string): string;
+      func from_date(_value: string): string;
       
-        return '(date) ' +str(value);
+        return '(date) ' +str(_value);
       end;
 
-      func from_array(value: variant[]): string;
+      func from_array(_value: variant[]): string;
 
-        var values: variant[];
+        var _values: variant[];
 
-        values = value;
+        _values = _value;
 
-        with array_map(values) do
-          while __next do __apply(to_str(__item)); end; __assign(values);
+        with array_map(_values) do
+          while __next do __apply(to_str(__item)); end; __assign(_values);
         end;
 
-        return '(array) [' +array_implode(values, ', ') +']';
+        return '(array) [' +array_implode(_values, ', ') +']';
       end;
 
-      func from_class(value: class): string;
+      func from_class(_value: class): string;
 
-        return '(class) ' +class_name(value);
+        return '(class) ' +class_name(_value);
       end;
 
-      func from_object(value: Object): string;
+      func from_object(_value: Object): string;
         
-        var properties: string[];
+        var _properties: string[];
 
-        properties = object_props(value);
+        _properties = object_props(_value);
 
-        with array_filter(properties) do
-          while __next do __apply(object_has_own_member(value, __item)); end; __assign(properties);
+        with array_filter(_properties) do
+          while __next do __apply(object_has_own_member(_value, __item)); end; __assign(_properties);
         end;
 
-        with array_map(properties) do
-          while __next do __apply(__item +': ' +to_str(object_get_prop(value, __item))); end; __assign(properties);
+        with array_map(_properties) do
+          while __next do __apply(__item +': ' +to_str(object_get_prop(_value, __item))); end; __assign(_properties);
         end;
 
-        return '(object) ' +class_name(class_from(value)) +' {' +array_implode(properties, ', ') +'}';
+        return '(object) ' +class_name(class_from(_value)) +' {' +array_implode(_properties, ', ') +'}';
       end;
 
-      func from_unknown(value: variant): string;
+      func from_unknown(_value: variant): string;
         
-        return '(unknown) ' +str(value);
+        return '(unknown) ' +str(_value);
       end;
 
 
-      if var_is_nil(value) then
-        return from_nil(value);
+      if var_is_nil(_value) then
+        return from_nil(_value);
 
-      elsif var_is_boolean(value) then
-        return from_boolean(value);
+      elsif var_is_boolean(_value) then
+        return from_boolean(_value);
 
-      elsif var_is_integer(value) then
-        return from_integer(value);
+      elsif var_is_integer(_value) then
+        return from_integer(_value);
 
-      elsif var_is_real(value) then
-        return from_real(value);
+      elsif var_is_real(_value) then
+        return from_real(_value);
 
-      elsif var_is_string(value) then
-        return from_string(value);
+      elsif var_is_string(_value) then
+        return from_string(_value);
 
-      elsif var_is_date(value) then
-        return from_date(value);
+      elsif var_is_date(_value) then
+        return from_date(_value);
 
-      elsif var_is_array(value) then
-        return from_array(value);
+      elsif var_is_array(_value) then
+        return from_array(_value);
 
-      elsif var_is_class(value) then
-        return from_class(value);
+      elsif var_is_class(_value) then
+        return from_class(_value);
 
-      elsif var_is_object(value) then
-        return from_object(value);
+      elsif var_is_object(_value) then
+        return from_object(_value);
 
       else
-        return from_unknown(value);
+        return from_unknown(_value);
       end;
     end;
 
 
-    escaper = StringEscaper.new;
+    _escaper = Escaper.new;
 
-    return to_str(value);
+    return to_str(_value);
   end;
 
 

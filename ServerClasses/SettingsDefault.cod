@@ -3,5 +3,5 @@
 inclass
 
 
-  var UTC_OFFSET: string = "+03:00";
+  var _UTC_OFFSET: string = "+03:00";
 end

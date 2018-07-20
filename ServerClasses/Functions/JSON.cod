@@ -4,40 +4,40 @@ import classes Functions.Variable, Functions.Array, Functions.String, Functions.
 inclass
 
 
-  func json_encode(value: variant; escaper: StringEscaper = StringEscaper.new; UTC_offset: string = Settings.UTC_offset): string;
+  func json_encode(_value: variant; _escaper: Escaper = Escaper.new; _UTC_offset: string = Settings._UTC_offset): string;
 
 
-    func encode(value: variant): string;
+    func encode(_value: variant): string;
 
 
-      func encode_null: string;
+      func encode_null(_value: variant): string;
       
         return "null";
       end;
 
-      func encode_boolean(value: boolean): string;
+      func encode_boolean(_value: boolean): string;
 
-        return if (value, "true", "false");
+        return if (_value, "true", "false");
       end;
 
-      func encode_number(value: real): string;
+      func encode_number(_value: real): string;
       
-        return str_from(value);
+        return str_from(_value);
       end;
 
-      func encode_string(value: string): string;
+      func encode_string(_value: string): string;
       
-        return '"' +escaper.escape(value) +'"';
+        return '"' +_escaper.escape(_value) +'"';
       end;
 
-      func encode_date(value: date): string;
+      func encode_date(_value: date): string;
       
-        return '"' +date_to_ISO(value, UTC_offset) +'"';
+        return '"' +date_to_ISO(_value, _UTC_offset) +'"';
       end;
 
-      func encode_array(value: variant[]): string;
+      func encode_array(_value: variant[]): string;
       
-        with array_map(value) do
+        with array_map(_value) do
           while __next do __apply(  encode(__item)  ); end;
           result = '[' +array_implode(__result, ', ') +']';
         end;
@@ -45,9 +45,9 @@ inclass
         return result;
       end;
 
-      func encode_object(value: Dict): string;
+      func encode_object(_value: Dict): string;
 
-        with array_map(value.pairs) do
+        with array_map(_value.pairs) do
           while __next do __apply(  encode(array_get(__item, Dict.PAIR_KEY)) +': ' +encode(array_get(__item, Dict.PAIR_VALUE))  ); end;
           result = '{' +array_implode(__result, ', ') +'}';
         end;
@@ -55,180 +55,190 @@ inclass
         return result;
       end;
 
+      func encode_unknown(_value: variant): string;
+        
+        return str(_value);
+      end;
 
-      if var_is_nil(value) then
-        return encode_null;
 
-      elsif var_is_boolean(value) then
-        return encode_boolean(value);
+      if var_is_nil(_value) then
+        return encode_null(_value);
 
-      elsif var_is_number(value) then
-        return encode_number(value);
+      elsif var_is_boolean(_value) then
+        return encode_boolean(_value);
 
-      elsif var_is_string(value) then
-        return encode_string(value);
+      elsif var_is_number(_value) then
+        return encode_number(_value);
 
-      elsif var_is_date(value) then
-        return encode_date(value);
+      elsif var_is_string(_value) then
+        return encode_string(_value);
 
-      elsif var_is_array(value) then
-        return encode_array(value);
+      elsif var_is_date(_value) then
+        return encode_date(_value);
 
-      elsif var_instance_of(value, Dict) then
-        return encode_object(value);
+      elsif var_is_array(_value) then
+        return encode_array(_value);
+
+      elsif var_instance_of(_value, Dict) then
+        return encode_object(_value);
 
       else
-        return "";
+        return encode_unknown(_value);
       end;
     end;
 
 
-    return encode(value);
+    return encode(_value);
   end;
 
 
-  func json_decode(const str: string; escaper: StringEscaper = StringEscaper.new; UTC_offset: string = Settings.UTC_offset): variant;
+  func json_decode(const _str: string; _escaper: Escaper = Escaper.new; _UTC_offset: string = Settings._UTC_offset): variant;
 
 
-    func decode(str: string; var offset: integer): variant;
+    func decode(_str: string; var _offset: integer): variant;
 
 
-      func decode_null(str: string; var offset: integer): variant;
+      func decode_null(_str: string; var _offset: integer): variant;
 
-        if str_starts_with(str, 'null', offset) then
+        if str_starts_with(_str, 'null', _offset) then
           result = nil;
-          offset = offset +4;
+          _offset = _offset +4;
         end;
 
         return result;
       end;
 
-      func decode_boolean(str: string; var offset: integer): boolean;
+      func decode_boolean(_str: string; var _offset: integer): boolean;
     
-        if str_starts_with(str, 'true', offset) then
+        if str_starts_with(_str, 'true', _offset) then
           result = true;
-          offset = offset +4;
+          _offset = _offset +4;
 
-        elsif str_starts_with(str, 'false', offset) then
+        elsif str_starts_with(_str, 'false', _offset) then
           result = false;
-          offset = offset +5;
+          _offset = _offset +5;
         end;
 
         return result;
       end;
 
-      func decode_numeric(str: string; var offset: integer): variant;
+      func decode_numeric(_str: string; var _offset: integer): variant;
 
-        var match: string;
+        var _match: string;
 
-        if str_contains('-0123456789', str_char_at(str, offset)) then
+        if str_contains('-0123456789', str_char_at(_str, _offset)) then
 
-          while str_contains('-+.0123456789e', str_char_at(str, offset)) do
-            match  = match +str_char_at(str, offset);
-            offset = offset +1;
+          while str_contains('-+.0123456789e', str_char_at(_str, _offset)) do
+            _match  = _match +str_char_at(_str, _offset);
+            _offset = _offset +1;
           end;
 
-          result = if (str_contains(match, '.'), var_to_real(match), var_to_int(match));
+          result = if (str_contains(_match, '.'), var_to_real(_match), var_to_int(_match));
         end;
 
         return result;
       end;
 
-      func decode_string(str: string; var offset: integer): string;
+      func decode_string(_str: string; var _offset: integer): string;
 
-        var match: string;
+        var _match: string;
 
-        if str_starts_with(str, '"', offset) then
+        if str_starts_with(_str, '"', _offset) then
 
-          offset = offset +1;
+          _offset = _offset +1;
 
-          while str_is_set(str, offset) and (not str_char_at(str, offset) in ['"'] or escaper.char_is_escaped(str, offset)) do
-            match  = match +str_char_at(str, offset);
-            offset = offset +1;
+          while str_is_set(_str, _offset) and (not str_char_at(_str, _offset) in ['"'] or escaper.char_is_escaped(_str, _offset)) do
+            _match  = _match +str_char_at(_str, _offset);
+            _offset = _offset +1;
           end;
 
-          result = escaper.unescape(match);
-          offset = offset +1;
+          result = _escaper.unescape(_match);
+          _offset = _offset +1;
         end;
 
         return result;
       end;
 
-      func decode_array(str: string; var offset: integer): variant[];
+      func decode_array(_str: string; var _offset: integer): variant[];
 
-        var value: variant;
+        var _value: variant;
 
-        if str_starts_with(str, '[', offset) then
+        if str_starts_with(_str, '[', _offset) then
 
           result = [];
-          offset = offset +1;
+          _offset = _offset +1;
 
-          while str_is_set(str, offset) and not str_char_at(str, offset) in [']'] do
+          while str_is_set(_str, _offset) and not str_char_at(_str, _offset) in [']'] do
 
-            while str_contains(', ', str_char_at(str, offset)) do offset = offset +1; end;
-            value = decode(str, offset);
+            while str_contains(', ', str_char_at(_str, _offset)) do _offset = _offset +1; end;
+            _value = decode(_str, _offset);
 
-            array_append(result, value);
+            array_append(result, _value);
           end;
 
-          offset = offset +1;
+          _offset = _offset +1;
         end;
 
         return result;
       end;
 
-      func decode_object(str: string; var offset: integer): Dict;
+      func decode_object(_str: string; var _offset: integer): Dict;
 
-        var key: string;
-        var value: variant;
+        var _key: string;
+        var _value: variant;
 
-        if str_starts_with(str, '{', offset) then
+        if str_starts_with(_str, '{', _offset) then
 
           result = Dict.new;
-          offset = offset +1;
+          _offset = _offset +1;
 
-          while str_is_set(str, offset) and not str_char_at(str, offset) in ['}'] do
+          while str_is_set(_str, _offset) and not str_char_at(_str, _offset) in ['}'] do
 
-            while str_contains(', ', str_char_at(str, offset)) do offset = offset +1; end;
-            key = decode(str, offset);
+            while str_contains(', ', str_char_at(_str, _offset)) do _offset = _offset +1; end;
+            _key = decode(_str, _offset);
 
-            while str_contains(': ', str_char_at(str, offset)) do offset = offset +1; end;
-            value = decode(str, offset);
+            while str_contains(': ', str_char_at(_str, _offset)) do _offset = _offset +1; end;
+            _value = decode(_str, _offset);
 
-            result.set(key, value);
+            result.set(_key, _value);
           end;
 
-          offset = offset +1;
+          _offset = _offset +1;
         end;
 
         return result;
       end;
 
+      func decode_unknown(_str: string; var _offset: integer): variant;
+        
+        return nil;
+      end;
 
-      if str_starts_with(str, 'null', offset) then
-        return decode_null(str, offset);
 
-      elsif str_starts_with_any(str, ['true', 'false'], offset) then
-        return decode_boolean(str, offset);
+      if str_starts_with(_str, 'null', _offset) then
+        return decode_null(_str, _offset);
 
-      elsif str_contains('-0123456789', str_char_at(str, offset)) then
-        return decode_numeric(str, offset);
+      elsif str_starts_with_any(_str, ['true', 'false'], _offset) then
+        return decode_boolean(_str, _offset);
 
-      elsif str_starts_with(str, '"', offset) then
-        return decode_string(str, offset);
+      elsif str_contains('-0123456789', str_char_at(_str, _offset)) then
+        return decode_numeric(_str, _offset);
 
-      elsif str_starts_with(str, '[', offset) then
-        return decode_array(str, offset);
+      elsif str_starts_with(_str, '"', _offset) then
+        return decode_string(_str, _offset);
 
-      elsif str_starts_with(str, '{', offset) then
-        return decode_object(str, offset);
+      elsif str_starts_with(_str, '[', _offset) then
+        return decode_array(_str, _offset);
+
+      elsif str_starts_with(_str, '{', _offset) then
+        return decode_object(_str, _offset);
 
       else
-        return nil;
+        return decode_unknown(_str, _offset);
       end;
     end;
 
 
-    return decode(str, 1);
+    return decode(_str, 1);
   end;
 end
