@@ -6,9 +6,9 @@ inclass
 
   -- типы сравнения
   type comparison_type = (
-    comparison_is_equal,
-    comparison_is_true,
-    comparison_is_false
+    COMPARISON_IS_EQUAL,
+    COMPARISON_IS_TRUE,
+    COMPARISON_IS_FALSE
   );
 
 

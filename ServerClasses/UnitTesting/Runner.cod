@@ -5,48 +5,68 @@ inclass
 
 
   -- выполняет тесты, значение аргумента suites приводится к массиву
-  func run(suites: class[]): UnitTesting.RunResult;
+  func run(_suites: class[]): UnitTesting.RunResult;
+
+    var _timer: Timer;
 
     -- заполняем результат
     result = UnitTesting.RunResult.new;
+    _timer = Timer.new;
 
-    with array_each(array_from(suites)) do
+    with array_each(array_from(_suites)) do
       while __next do result.add(self.handle_suite(__item)); end;
     end;
+
+    result.took(_timer.passed);
 
     return result;
   end;
 
 
   -- обрабатывает тестовый набор
-  func handle_suite(suite: class): UnitTesting.SuiteResult;
+  func handle_suite(_suite: class): UnitTesting.SuiteResult;
 
-    result = UnitTesting.SuiteResult.new(class_name(suite), class_description(suite));
+    var _timer: Timer;
 
-    with array_each(class_methods(suite)) do
+    result = UnitTesting.SuiteResult.new(class_name(_suite), [], class_description(_suite));
+    _timer = Timer.new;
+
+    with array_each(class_methods(_suite)) do
       while __next do
-        if class_has_own_member(suite, __item) then result.add(self.handle_case(suite, __item)); end;
+        if class_has_own_member(_suite, __item) then result.add(self.handle_case(_suite, __item)); end;
       end;
     end;
+
+    result.took(_timer.passed);
 
     return result;
   end;
 
 
   -- обрабатывает тестовую ситуацию
-  func handle_case(suite: class; case: string): UnitTesting.CaseResult;
+  func handle_case(_suite: class; _case: string): UnitTesting.CaseResult;
 
-    var wrap: UnitTesting.Case;
+    var _wrap: UnitTesting.Case;
+    var _timer: Timer;
 
-    if class_has_proc(suite, case) then
+    if class_has_proc(_suite, _case) then
 
-      wrap = UnitTesting.Case.new(UnitTesting.CaseResult.new(case));
-      class_call_proc(suite, case, [wrap]);
+      _wrap  = UnitTesting.Case.new(UnitTesting.CaseResult.new(_case));
+      _timer = Timer.new;
 
-      return wrap.container;
+      class_call_proc(_suite, _case, [_wrap]);
 
-    elsif class_has_func(suite, case) then
-      return class_call_func(suite, case).container;
+      result = _wrap.container;
+      result.took(_timer.passed);
+
+      return result;
+
+    elsif class_has_func(_suite, _case) then
+
+      result = class_call_func(_suite, _case).container;
+      result.took(_timer.passed);
+
+      return result;
 
     else
       return nil;

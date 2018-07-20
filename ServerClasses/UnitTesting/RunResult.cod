@@ -5,7 +5,7 @@ inclass
 
 
   -- возвращает новый экземпляр объекта
-  func new(suites: UnitTesting.SuiteResult[] = nil): UnitTesting.RunResult;
+  func new(suites: UnitTesting.SuiteResult[] = []): UnitTesting.RunResult;
     
     result = self.create;
     result.suites = suites;
@@ -16,13 +16,21 @@ inclass
 inobject
 
 
-  var suites:  UnitTesting.SuiteResult[];
+  var suites: UnitTesting.SuiteResult[];
+  var time:   real;
 
 
   -- добавляет результат тестового набора в результаты
   func add(suite: UnitTesting.SuiteResult): UnitTesting.RunResult;
     
     array_append(self.suites, suite);
+    return self;
+  end;
+
+
+  func took(time: real): UnitTesting.RunResult;
+    
+    self.time = time;
     return self;
   end;
 
@@ -97,7 +105,7 @@ inobject
       while __next do array_extend(result, __item.to_text); end;
     end;
 
-    array_append(result, str_format("выполнено наборов: {}, случаев: {}, проверок: {}", [self.suite_count, self.case_count, self.assert_count]));
+    array_append(result, str_format("выполнено наборов: {}, случаев: {}, проверок: {} за {} сек.", [self.suite_count, self.case_count, self.assert_count, self.time]));
     array_append(result, str_format("результат выполнения: {}", if (self.is_successful, "успех", "неудача")));
 
     return result;

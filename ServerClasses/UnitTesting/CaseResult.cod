@@ -5,13 +5,13 @@ inclass
 
 
   -- создаёт новый экземпляр класса
-  func new(name: string = nil; comment: string = nil; asserts: UnitTesting.AssertResult[] = nil): UnitTesting.CaseResult;
+  func new(name: string = nil; asserts: UnitTesting.AssertResult[] = []; comment: string = ""): UnitTesting.CaseResult;
     
     result = self.create;
 
     result.name    = name;
-    result.comment = comment;
     result.asserts = asserts;
+    result.comment = comment;
 
     return result;
   end;
@@ -20,14 +20,22 @@ inobject
 
 
   var name:    string;
-  var comment: string;
   var asserts: UnitTesting.AssertResult[];
+  var comment: string;
+  var time:    real;
 
 
   -- добавляет результат проверки в результаты
   func add(assert: UnitTesting.AssertResult): UnitTesting.CaseResult;
 
     array_append(self.asserts, assert);
+    return self;
+  end;
+
+
+  func took(time: real): UnitTesting.CaseResult;
+    
+    self.time = time;
     return self;
   end;
 

@@ -5,13 +5,13 @@ inclass
 
 
   -- возвращает новый экземпляр класса
-  func new(name: string; comment: string = nil; cases: UnitTesting.CaseResult[] = nil): UnitTesting.SuiteResult;
+  func new(name: string; cases: UnitTesting.CaseResult[] = []; comment: string = ""): UnitTesting.SuiteResult;
     
     result = self.create;
 
     result.name    = name;
-    result.comment = comment;
     result.cases   = cases;
+    result.comment = comment;
 
     return result;
   end;
@@ -20,14 +20,22 @@ inobject
 
 
   var name:    string;
-  var comment: string;
   var cases:   UnitTesting.CaseResult[];
+  var comment: string;
+  var time:    real;
 
 
   -- добавляет результат тестового случая в результаты
   func add(case: UnitTesting.CaseResult): UnitTesting.SuiteResult;
     
     array_append(self.cases, case);
+    return self;
+  end;
+
+
+  func took(time: real): UnitTesting.SuiteResult;
+    
+    self.time = time;
     return self;
   end;
 
