@@ -5,12 +5,10 @@ inclass
 
 
   -- создаёт новый экземпляр класса
-  func new(container: UnitTesting.CaseResult; inverted: boolean = false): UnitTesting.Case;
+  func new(container: UnitTesting.CaseResult): UnitTesting.Case;
     
     result = self.create;
-
     result.container = container;
-    result.inverted  = inverted;
 
     return result;
   end;
@@ -41,7 +39,10 @@ inobject
   -- возвращает объект аналогичный текущему, в котором проверки будут записываться с отрицанием
   func invert: UnitTesting.Case;
     
-    return self.new(self.container, true);
+    result = self.new(self.container);
+    result.inverted = not self.inverted;
+
+    return result;
   end;
 
 
