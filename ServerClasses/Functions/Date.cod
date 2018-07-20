@@ -11,6 +11,12 @@ inclass
   end;
 
 
+  func date_now: date;
+    
+    return Kernel.System.now;
+  end;
+
+
   -- возвращает номер секунды в дате
   func date_second(const datetime: date): real;
     
@@ -111,17 +117,17 @@ inclass
   -- возвращает дату с добавлением месяцев
   func date_add_months(const datetime: date; value: integer): date;
 
---    return create_date(
---      date_year  (datetime) +div(value, 12),
---      date_month (datetime) +mod(value, 12),
---      date_day   (datetime),
---      date_hour  (datetime),
---      date_minute(datetime),
---      date_second(datetime)
---    );
+    var hours, minutes: integer;
+    var seconds: real;
+
+    hours   = date_hour(datetime);
+    minutes = date_minute(datetime);
+    seconds = date_second(datetime);
 
     result = Kernel.System.addMonth(datetime, value);
-    result = date_add_seconds(result, date_period(00:00:00, date_only_time(datetime)));
+    result = date_add_hours(result, hours);
+    result = date_add_minutes(result, minutes);
+    result = date_add_seconds(result, seconds);
 
     return result;
   end;
