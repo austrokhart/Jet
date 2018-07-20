@@ -12,7 +12,6 @@ inclass
     result.name    = name;
     result.comment = comment;
     result.asserts = asserts;
-    result.success = true;
 
     return result;
   end;
@@ -20,18 +19,15 @@ inclass
 inobject
 
 
-  var name:        string;
+  var name:    string;
   var comment: string;
-  var asserts:     UnitTesting.AssertResult[];
-  var success:     boolean;
+  var asserts: UnitTesting.AssertResult[];
 
 
   -- добавляет результат проверки в результаты
   func add(assert: UnitTesting.AssertResult): UnitTesting.CaseResult;
 
     array_append(self.asserts, assert);
-    self.success = self.success and assert.is_successful;
-
     return self;
   end;
 
@@ -39,7 +35,13 @@ inobject
   -- возвращает истину, если результаты успешены
   func is_successful: boolean;
     
-    return self.success;
+    with array_each(self.asserts) do
+      while __next do
+        if not __item.is_successful then return false; end;
+      end;
+    end;
+
+    return true;
   end;
 
 

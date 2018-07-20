@@ -8,24 +8,21 @@ inclass
   func new(suites: UnitTesting.SuiteResult[] = nil): UnitTesting.RunResult;
     
     result = self.create;
+    result.suites = suites;
 
-    result.suites  = suites;
-    result.success = true;
+    return result;
   end;
 
 inobject
 
 
   var suites:  UnitTesting.SuiteResult[];
-  var success: boolean;
 
 
   -- добавляет результат тестового набора в результаты
   func add(suite: UnitTesting.SuiteResult): UnitTesting.RunResult;
     
     array_append(self.suites, suite);
-    self.success = self.success and suite.is_successful;
-
     return self;
   end;
 
@@ -33,7 +30,13 @@ inobject
   -- возвращает истину, если результаты успешны
   func is_successful: boolean;
     
-    return self.success;
+    with array_each(self.suites) do
+      while __next do
+        if not __item.is_successful then return false; end;
+      end;
+    end;
+
+    return true;
   end;
 
 
