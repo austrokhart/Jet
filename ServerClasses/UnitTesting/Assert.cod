@@ -12,11 +12,18 @@ inclass
   );
 
 
-  -- сравнивает значения в зависимости от типа сравнения
-  func compare(value, expected: variant; comparison: comparison_type): boolean;
+  func assert_equal(value, expected: variant; inverted: boolean = false; comment: string = ""): UnitTesting.AssertResult;
     
-    if comparison in [self.comparison_is_equal, self.comparison_is_true, self.comparison_is_false] then
-      return var_equal(value, expected);
-    end;
+    return UnitTesting.AssertResult.new(value, expected, self.COMPARISON_IS_EQUAL, var_equal(value, expected), inverted, comment);
+  end;
+
+  func assert_true(value: variant; inverted: boolean = false; comment: string = ""): UnitTesting.AssertResult;
+    
+    return UnitTesting.AssertResult.new(value, true, self.COMPARISON_IS_TRUE, var_equal(value, true), inverted, comment);
+  end;
+
+  func assert_false(value: variant; inverted: boolean = false; comment: string = ""): UnitTesting.AssertResult;
+    
+    return UnitTesting.AssertResult.new(value, false, self.COMPARISON_IS_FALSE, var_equal(value, false), inverted, comment);
   end;
 end

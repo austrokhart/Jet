@@ -5,16 +5,16 @@ inclass
 
 
   -- создаёт новый экземпляр класса
-  func new(value, expected: variant; comparison: UnitTesting.Assert.comparison_type; inverted: boolean = false; comment: string = nil): UnitTesting.AssertResult;
+  func new(value, expected: variant; comparison: UnitTesting.Assert.comparison_type; success: boolean; inverted: boolean = false; comment: string = nil): UnitTesting.AssertResult;
 
     result = self.create;
 
     result.value      = value;
     result.expected   = expected;
     result.comparison = comparison;
+    result.success    = success;
     result.inverted   = inverted;
     result.comment    = comment;
-    result.success    = UnitTesting.Assert.compare(value, expected, comparison);
 
     return result;
   end;
@@ -22,12 +22,12 @@ inclass
 inobject
 
 
-  var value:       variant;
-  var expected:    variant;
-  var comparison:  integer;
-  var inverted:    boolean;
-  var comment:     string;
-  var success:     boolean;
+  var value:      variant;
+  var expected:   variant;
+  var comparison: integer;
+  var success:    boolean;
+  var inverted:   boolean;
+  var comment:    string;
 
 
   -- возвращает истину, если проверка является отрицательной
@@ -35,6 +35,7 @@ inobject
     
     return self.inverted;
   end;
+
 
   -- возвращает истину, если результат успешен
   func is_successful: boolean;

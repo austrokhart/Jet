@@ -49,7 +49,7 @@ inobject
   -- записывает в результат проверку
   func assert_equal(value, expected: variant; comment: string = nil): UnitTesting.Case;
 
-    self.container.add(UnitTesting.AssertResult.new(value, expected, UnitTesting.Assert.comparison_is_equal, self.inverted, comment));
+    self.container.add(UnitTesting.Assert.assert_equal(value, expected, self.inverted, comment));
     return self;
   end;
 
@@ -57,7 +57,7 @@ inobject
   -- записывает в результат проверку
   func assert_true(value: variant; comment: string = nil): UnitTesting.Case;
 
-    self.container.add(UnitTesting.AssertResult.new(value, true, UnitTesting.Assert.comparison_is_true, self.inverted, comment));
+    self.container.add(UnitTesting.Assert.assert_true(value, self.inverted, comment));
     return self;
   end;
 
@@ -65,7 +65,7 @@ inobject
   -- записывает в результат проверку
   func assert_false(value: variant; comment: string = nil): UnitTesting.Case;
 
-    self.container.add(UnitTesting.AssertResult.new(value, false, UnitTesting.Assert.comparison_is_false, self.inverted, comment));
+    self.container.add(UnitTesting.Assert.assert_false(value, self.inverted, comment));
     return self;
   end;
 end
