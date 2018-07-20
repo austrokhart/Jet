@@ -156,6 +156,12 @@ inclass
   end;
 
 
+  func array_insert(const array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
+    
+    return md_array_insert(array, value, offset, length);
+  end;
+
+
   func array_concat(const values: variant[]): variant[];
 
     return md_array_concat(values);
@@ -523,6 +529,15 @@ inclass
     for i = 1..md_array_length(value) do
       Kernel.System.insertInArray(array, offset +i -1, value[i]);
     end;
+
+    return result;
+  end;
+
+
+  func md_array_insert(const array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
+    
+    result = array;
+    md_array_splice(result, value, offset, length);
 
     return result;
   end;

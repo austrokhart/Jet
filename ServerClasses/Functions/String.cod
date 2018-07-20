@@ -283,22 +283,23 @@ inclass
   end;
 
 
-  -- возвращает строку str с заменой подстроки с началом в offset и длиной length на значение value
-  func str_insert(const str, value: string; offset: integer; length: variant = nil): string; -- обработать offset и length, перевести на использование str_substr
+  -- заменяет подстроку с началом в offset и длиной length на значение value и возвращает удалённую подстроку
+  func str_splice(var str: string; const value: string; offset: integer; length: variant = nil): string;
 
     offset = handle_offset(offset, str_length(str));
 
-    return str_substr(str, 1, offset -1) +value +str_substr(
-             str, offset +handle_length(offset, length, str_length(str))
-           );
+    result = str_substr(str, offset, length);
+    str    = str_substr(str, 1, offset -1) +value +str_substr(str, offset +handle_length(offset, length, str_length(str)));
+
+    return result;
   end;
 
 
-  -- заменяет подстроку с началом в offset и длиной length на значение value и возвращает удалённую подстроку
-  func str_splice(var str: string; const value: string; offset: integer; length: variant = nil): string;
-    
-    result = str_substr(str, offset, length);
-    str    = str_insert(str, value, offset, length);
+  -- возвращает строку str с заменой подстроки с началом в offset и длиной length на значение value
+  func str_insert(const str, value: string; offset: integer; length: variant = nil): string;
+
+    result = str;
+    str_splice(result, value, offset, length);
 
     return result;
   end;
