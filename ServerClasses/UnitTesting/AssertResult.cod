@@ -1,5 +1,5 @@
 ﻿class "Класс для хранения результатов проверки";
-import classes Functions.String, Functions.Array;
+import classes Functions.Variable, Functions.String, Functions.Array;
 
 inclass
 
@@ -52,7 +52,7 @@ inobject
       result = str_format("успех ({})", [self.comment]);
 
     else
-      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [tostr(self.value), if (self.is_inverted, " не", ""), tostr(self.expected), self.comment]);
+      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [var_to_dump(self.value), if (self.is_inverted, " не", ""), var_to_dump(self.expected), self.comment]);
     end;
 
     return result;
