@@ -6,7 +6,6 @@ inobject
 
   var __index: integer;
   var __item:  variant;
-  var __path:  integer[];
   var __array: variant[];
 
 
@@ -19,7 +18,7 @@ inobject
   proc __to_index(index: integer);
     
     self.__index = index;
-    self.__item  = md_array_get(self.__array, index, self.__path, nil);
+    self.__item  = array_get(self.__array, index, nil);
   end;
 
 
@@ -31,8 +30,7 @@ inobject
 
   proc __to_end;
 
-    self.__index = array_length(self.__array) +1;
-    self.__item  = nil;
+    self.__to_index(__count +1);
   end;
 
 

@@ -32,21 +32,29 @@ inclass
 
   func array_from(const value: variant): variant[];
 
-    return md_array_from(value);
+    if var_is_array(value) then
+      result = value;
+
+    elsif var_is_nil(value) then
+      result = [];
+
+    else
+      result = [value];
+    end;
   end;
 
 
   func array_length(const array: variant[]): integer;
     
-    return md_array_length(array);
+    return Kernel.System.lengthOfArray(array);
   end;
 
 
   func array_has_content(const array: variant[]): boolean;
 
-    return md_array_has_content(array);
+    -- сравнение с [] невозможно, возникают ошибки
+    return array_length(array) <> 0;
   end;
-
 
   func array_get(const array: variant[]; index: integer; default_value: variant = nil): variant;
 
@@ -80,19 +88,23 @@ inclass
 
   proc array_append(var array: variant[]; value: variant);
 
-    md_array_append(array, value);
+    Kernel.System.insertInArray(array, array_length(array) +1, value);
   end;
 
 
   proc array_prepend(var array: variant[]; value: variant);
 
-    md_array_prepend(array, value);
+    Kernel.System.insertInArray(array, 1, value);
   end;
 
 
   proc array_extend(var array: variant[]; value: variant[]);
-    
-    md_array_extend(array, value);
+
+    var i: integer;
+
+    for i = 1..array_length(value) do
+      array_append(array, value[i]);
+    end;
   end;
 
 
@@ -152,55 +164,167 @@ inclass
 
   func array_splice(var array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
 
-    return md_array_splice(array, value, offset, length);
+    -- функция извлекает подмассив с началом в offset и длиной length и заменяет его на элементы массива value
+
+    var i: integer;
+
+    offset = handle_offset(offset, array_length(array));
+
+    for i = (offset +handle_length(offset, length, array_length(array)) -1)..offset step -1 do
+      array_prepend(result, array[i]);
+      array_unset(array, i);
+    end;
+
+    for i = 1..array_length(value) do
+      Kernel.System.insertInArray(array, offset +i -1, value[i]);
+    end;
+
+    return result;
   end;
 
 
   func array_insert(const array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
     
-    return md_array_insert(array, value, offset, length);
+    result = array;
+    array_splice(result, value, offset, length);
+
+    return result;
   end;
 
 
   func array_concat(const values: variant[]): variant[];
 
-    return md_array_concat(values);
+    var i: integer;
+
+    for i = 1..array_length(values) do
+      array_extend(result, array_from(values[i]));
+    end;
+
+    return result;
   end;
 
 
   func array_repeat(const value: variant[]; count: integer): variant[];
-    
-    return md_array_repeat(value, count);
+
+    var i: integer;
+
+    for i = 1..count do
+      array_extend(result, value);
+    end;
+
+    return result;
   end;
 
 
   proc array_swap(var array: variant[]; index, other_index: integer);
     
-    md_array_swap(array, index, other_index);
+    var temp: variant;
+
+    index       = handle_offset(index, array_length(array));
+    other_index = handle_offset(other_index, array_length(array));
+
+    temp = md_array_get(array, index);
+
+    md_array_set(array, index, nil, md_array_get(array, other_index));
+    md_array_set(array, other_index, nil, temp);
   end;
 
 
   proc array_reverse(var array: variant[]);
 
-    md_array_reverse(array);
+    var i: integer;
+
+    for i = 1..var_to_int(array_length(array) /2) do
+      array_swap(array, i, array_length(array) -i +1);
+    end;
   end;
 
 
   proc array_pad(var array: variant[]; direction: array_pad_direction; value: variant[]; length: integer);
 
-    md_array_pad(array, direction, value, length);
+    -- функция должна дополнить (значениями value) или сократить массив array, в зависимости от длины length,
+    -- слева и/или справа, в зависимости от направления direction
+    --
+    -- используем алгоритм:
+    -- узнаем, сколько элементов нужно добавить или удалить слева, это зависит от направления direction
+    -- если массив меньше длины length, добавим полученное количество элементов слева и дополним до длины length справа
+    -- если массив больше длины length, удалим полученное количество элементов слева и сократим до длины length справа
+
+    var left_padding, i: integer;
+
+
+    if direction = ARRAY_PAD_LEFT then
+      left_padding = length -array_length(array);
+
+    elsif direction = ARRAY_PAD_BOTH then
+      left_padding = var_to_int((length -array_length(array)) /2);
+
+    elsif direction = ARRAY_PAD_RIGHT then
+      left_padding = 0;
+    end;
+
+
+    if array_length(array) < length then
+      if array_has_content(value) then
+
+        for i = 1..left_padding do
+          array_prepend(array,  md_array_get(value, -(mod(i -1, array_length(value)) +1))  );
+        end;
+
+        for i = 1..(length -array_length(array)) do
+          array_append(array,  md_array_get(value, mod(i -1, array_length(value)) +1)  );
+        end;
+      end;
+
+    elsif array_length(array) > length then
+
+      for i = -left_padding..1 step -1 do
+        md_array_unset(array, i);
+      end;
+
+      for i = array_length(array)..(length +1) step -1 do
+        md_array_unset(array, i);
+      end;
+    end;
   end;
 
 
   proc array_trim(var array: variant[]; direction: array_trim_direction; value: variant[]);
 
-    md_array_trim(array, direction, value);
+    array_trim_any(array, direction, [value]);
   end;
 
 
   proc array_trim_any(var array: variant[]; direction: array_trim_direction; values: variant[2]);
 
-    md_array_trim_any(array, direction, values);
+    var i: integer;
+    var value: variant[];
+
+    if direction in [ARRAY_TRIM_LEFT, ARRAY_TRIM_BOTH] then
+
+      for i = 1..array_length(values) do
+
+        value = values[i];
+
+        if md_array_starts_with(array, nil, value) then
+          array_splice(array, nil, 1, array_length(value));
+          i = 1;
+        end;
+      end;
+    end;
+
+    if direction in [ARRAY_TRIM_RIGHT, ARRAY_TRIM_BOTH] then
+
+      for i = 1..array_length(values) do
+
+        value = values[i];
+
+        if md_array_ends_with(array, nil, value) then
+          array_splice(array, nil, -array_length(value));
+          i = 1;
+        end;
+      end;
+    end;
   end;
 
 
@@ -212,61 +336,37 @@ inclass
 
   func array_each(const array: variant[]): array_method_each;
     
-    return md_array_each(array, nil);
+    return array_method_each.new(array);
   end;
 
 
   func array_filter(const array: variant[]): array_method_filter;
     
-    return md_array_filter(array, nil);
+    return array_method_filter.new(array);
   end;
 
 
-  func array_map(const array: variant[]; path: integer[] = nil): array_method_map;
+  func array_map(const array: variant[]): array_method_map;
     
-    return md_array_map(array, nil);
+    return array_method_map.new(array);
   end;
 
 
   func array_reduce(const array: variant[]; initial_value: variant): array_method_reduce;
     
-    return md_array_reduce(array, nil, initial_value);
+    return array_method_reduce.new(array, initial_value);
   end;
 
 
   func array_implode(const array: variant[]; separator: string = " "): string;
 
-    return md_array_implode(array, separator);
-  end;
+    var i: integer;
 
-
-  func md_array_from(const value: variant): variant[];
-
-    if var_is_array(value) then
-      result = value;
-
---    elsif var_instance_of(value, ArrayObject) then
---      result = value.array_from;
-
-    elsif var_is_nil(value) then
-      result = [];
-
-    else
-      result = [value];
+    for i = 1..array_length(array) do
+      result = result +if (i <> 1, separator, "") +str(array[i]);
     end;
-  end;
 
-
-  func md_array_length(const array: variant[]): integer;
-    
-    return Kernel.System.lengthOfArray(array);
-  end;
-
-
-  func md_array_has_content(const array: variant[]): boolean;
-
-    -- сравнение с [] невозможно, возникают ошибки
-    return md_array_length(array) <> 0;
+    return result;
   end;
 
 
@@ -279,10 +379,10 @@ inclass
     -- если установлен, то: если измерение path не задано, вернём значение элемента, иначе вызовем функцию рекурсивно с сокращением path;
     -- иначе вернём значение по-умолчанию
 
-    index = handle_offset(index, md_array_length(array));
+    index = handle_offset(index, array_length(array));
 
     if md_array_is_set(array, index) then
-      if not md_array_has_content(path) then
+      if not array_has_content(path) then
         return array[index];
 
       elsif var_is_array(array[index]) then
@@ -306,9 +406,9 @@ inclass
     -- передача неустановленного значения по ссылке задаёт его со значением nil!
     -- поэтому до рекурсивного вызова используется проверка на установленность элемента
 
-    index = handle_offset(index, md_array_length(array));
+    index = handle_offset(index, array_length(array));
 
-    if not md_array_has_content(path) then
+    if not array_has_content(path) then
       array[index] = value;
 
     elsif md_array_is_set(array, index) and var_is_array(array[index]) then
@@ -321,9 +421,9 @@ inclass
 
     -- алгоритм аналогчен использующемуся в процедуре md_array_set
 
-    index = handle_offset(index, md_array_length(array));
+    index = handle_offset(index, array_length(array));
 
-    if not md_array_has_content(path) then
+    if not array_has_content(path) then
       Kernel.System.deleteFromArray(array, index);
 
     elsif md_array_is_set(array, index) and var_is_array(array[index]) then
@@ -343,7 +443,7 @@ inclass
 
     if index > 0 and Kernel.System.nextArrItem(array, index -1) = index then
 
-      if not md_array_has_content(path) then
+      if not array_has_content(path) then
         return true;
 
       elsif var_is_array(array[index]) then
@@ -362,30 +462,8 @@ inclass
 
     var i: integer;
 
-    for i = md_array_length(array)..1 step -1 do
+    for i = array_length(array)..1 step -1 do
       md_array_unset(array, i, path);
-    end;
-  end;
-
-
-  proc md_array_append(var array: variant[]; value: variant);
-
-    Kernel.System.insertInArray(array, md_array_length(array) +1, value);
-  end;
-
-
-  proc md_array_prepend(var array: variant[]; value: variant);
-
-    Kernel.System.insertInArray(array, 1, value);
-  end;
-
-
-  proc md_array_extend(var array: variant[]; value: variant[]);
-
-    var i: integer;
-
-    for i = 1..md_array_length(value) do
-      md_array_append(array, value[i]);
     end;
   end;
 
@@ -401,18 +479,18 @@ inclass
     var value_index, i: integer;
     var value: variant[];
 
-    offset = handle_offset(offset, md_array_length(array));
+    offset = handle_offset(offset, array_length(array));
 
-    for offset = offset..md_array_length(array) do
-      for value_index = 1..md_array_length(values) do
+    for offset = offset..array_length(array) do
+      for value_index = 1..array_length(values) do
 
         value = values[value_index];
 
-        if offset +md_array_length(value) -1 <= md_array_length(array) then
+        if offset +array_length(value) -1 <= array_length(array) then
 
-          for i = 1..md_array_length(value) do
+          for i = 1..array_length(value) do
             if md_array_get(array, offset +i -1, path) <> value[i] then break; end;
-            if i = md_array_length(value) then return [offset, md_array_length(value)]; end;
+            if i = array_length(value) then return [offset, array_length(value)]; end;
           end;
         end;
       end;
@@ -445,17 +523,17 @@ inclass
     var value_index, i: integer;
     var value: variant[];
 
-    offset = handle_offset(offset, md_array_length(array));
+    offset = handle_offset(offset, array_length(array));
 
-    for value_index = 1..md_array_length(values) do
+    for value_index = 1..array_length(values) do
 
       value = values[value_index];
 
-      if offset +md_array_length(value) -1 <= md_array_length(array) then
+      if offset +array_length(value) -1 <= array_length(array) then
 
-        for i = 1..md_array_length(value) do
+        for i = 1..array_length(value) do
           if md_array_get(array, offset +i -1, path) <> md_array_get(value, i) then break; end;
-          if i = md_array_length(value) then return true; end;
+          if i = array_length(value) then return true; end;
         end;
       end;
     end;
@@ -475,17 +553,17 @@ inclass
     var value_index, i: integer;
     var value: variant[];
 
-    offset = handle_offset(offset, md_array_length(array));
+    offset = handle_offset(offset, array_length(array));
 
-    for value_index = 1..md_array_length(values) do
+    for value_index = 1..array_length(values) do
 
       value = values[value_index];
 
-      if 1 <= offset -md_array_length(value) +1 then
+      if 1 <= offset -array_length(value) +1 then
 
-        for i = 1..md_array_length(value) do
+        for i = 1..array_length(value) do
           if md_array_get(array, offset -i +1, path) <> md_array_get(value, -i) then break; end;
-          if i = md_array_length(value) then return true; end;
+          if i = array_length(value) then return true; end;
         end;
       end;
     end;
@@ -496,227 +574,25 @@ inclass
 
     var i: integer;
 
-    offset = handle_offset(offset, md_array_length(array));
+    offset = handle_offset(offset, array_length(array));
 
     if _step > 0 then
-      for i = offset..(offset +handle_length(offset, length, md_array_length(array)) -1) step _step do
-        md_array_append(result, md_array_get(array, i, path));
+      for i = offset..(offset +handle_length(offset, length, array_length(array)) -1) step _step do
+        array_append(result, md_array_get(array, i, path));
       end;
 
     elsif _step < 0 then
-      for i = (offset +handle_length(offset, length, md_array_length(array)) -1)..offset step _step do
-        md_array_append(result, md_array_get(array, i, path));
+      for i = (offset +handle_length(offset, length, array_length(array)) -1)..offset step _step do
+        array_append(result, md_array_get(array, i, path));
       end;
     end;
 
     return result;
-  end;
-
-
-  func md_array_splice(var array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
-
-    -- функция извлекает подмассив с началом в offset и длиной length и заменяет его на элементы массива value
-
-    var i: integer;
-
-    offset = handle_offset(offset, md_array_length(array));
-
-    for i = (offset +handle_length(offset, length, md_array_length(array)) -1)..offset step -1 do
-      md_array_prepend(result, array[i]);
-      md_array_unset(array, i);
-    end;
-
-    for i = 1..md_array_length(value) do
-      Kernel.System.insertInArray(array, offset +i -1, value[i]);
-    end;
-
-    return result;
-  end;
-
-
-  func md_array_insert(const array: variant[]; value: variant[]; offset: integer = 1; length: variant = nil): variant[];
-    
-    result = array;
-    md_array_splice(result, value, offset, length);
-
-    return result;
-  end;
-
-
-  func md_array_concat(const values: variant[]): variant[];
-
-    var i: integer;
-
-    for i = 1..md_array_length(values) do
-      md_array_extend(result, array_from(values[i]));
-    end;
-
-    return result;
-  end;
-
-
-  func md_array_repeat(const value: variant[]; count: integer): variant[];
-
-    var i: integer;
-
-    for i = 1..count do
-      md_array_extend(result, value);
-    end;
-
-    return result;
-  end;
-
-
-  proc md_array_swap(var array: variant[]; index, other_index: integer);
-    
-    var temp: variant;
-
-    index       = handle_offset(index, md_array_length(array));
-    other_index = handle_offset(other_index, md_array_length(array));
-
-    temp = md_array_get(array, index);
-
-    md_array_set(array, index, nil, md_array_get(array, other_index));
-    md_array_set(array, other_index, nil, temp);
-  end;
-
-
-  proc md_array_reverse(var array: variant[]);
-
-    var i: integer;
-
-    for i = 1..var_to_int(md_array_length(array) /2) do
-      md_array_swap(array, i, md_array_length(array) -i +1);
-    end;
-  end;
-
-
-  proc md_array_pad(var array: variant[]; direction: array_pad_direction; value: variant[]; length: integer);
-
-    -- функция должна дополнить (значениями value) или сократить массив array, в зависимости от длины length,
-    -- слева и/или справа, в зависимости от направления direction
-    --
-    -- используем алгоритм:
-    -- узнаем, сколько элементов нужно добавить или удалить слева, это зависит от направления direction
-    -- если массив меньше длины length, добавим полученное количество элементов слева и дополним до длины length справа
-    -- если массив больше длины length, удалим полученное количество элементов слева и сократим до длины length справа
-
-    var left_padding, i: integer;
-
-
-    if direction = ARRAY_PAD_LEFT then
-      left_padding = length -md_array_length(array);
-
-    elsif direction = ARRAY_PAD_BOTH then
-      left_padding = var_to_int((length -md_array_length(array)) /2);
-
-    elsif direction = ARRAY_PAD_RIGHT then
-      left_padding = 0;
-    end;
-
-
-    if md_array_length(array) < length then
-      if md_array_has_content(value) then
-
-        for i = 1..left_padding do
-          md_array_prepend(array,  md_array_get(value, -(mod(i -1, md_array_length(value)) +1))  );
-        end;
-
-        for i = 1..(length -md_array_length(array)) do
-          md_array_append(array,  md_array_get(value, mod(i -1, md_array_length(value)) +1)  );
-        end;
-      end;
-
-    elsif md_array_length(array) > length then
-
-      for i = -left_padding..1 step -1 do
-        md_array_unset(array, i);
-      end;
-
-      for i = md_array_length(array)..(length +1) step -1 do
-        md_array_unset(array, i);
-      end;
-    end;
-  end;
-
-
-  proc md_array_trim(var array: variant[]; direction: array_trim_direction; value: variant[]);
-
-    md_array_trim_any(array, direction, [value]);
-  end;
-
-
-  proc md_array_trim_any(var array: variant[]; direction: array_trim_direction; values: variant[2]);
-
-    var i: integer;
-    var value: variant[];
-
-    if direction in [ARRAY_TRIM_LEFT, ARRAY_TRIM_BOTH] then
-
-      for i = 1..md_array_length(values) do
-
-        value = values[i];
-
-        if md_array_starts_with(array, nil, value) then
-          md_array_splice(array, nil, 1, md_array_length(value));
-          i = 1;
-        end;
-      end;
-    end;
-
-    if direction in [ARRAY_TRIM_RIGHT, ARRAY_TRIM_BOTH] then
-
-      for i = 1..md_array_length(values) do
-
-        value = values[i];
-
-        if md_array_ends_with(array, nil, value) then
-          md_array_splice(array, nil, -md_array_length(value));
-          i = 1;
-        end;
-      end;
-    end;
   end;
 
 
   proc md_array_sort(var array: variant[]; path: integer[] = nil);
 
     Kernel.System.sortArray(array, path);
-  end;
-
-
-  func md_array_each(const array: variant[]; path: integer[] = nil): array_method_each;
-    
-    return array_method_each.new(array, path);
-  end;
-
-
-  func md_array_filter(const array: variant[]; path: integer[] = nil): array_method_filter;
-    
-    return array_method_filter.new(array, path);
-  end;
-
-
-  func md_array_map(const array: variant[]; path: integer[] = nil): array_method_map;
-    
-    return array_method_map.new(array, path);
-  end;
-
-
-  func md_array_reduce(const array: variant[]; path: integer[] = nil; initial_value: variant): array_method_reduce;
-    
-    return array_method_reduce.new(array, path, initial_value);
-  end;
-
-
-  func md_array_implode(const array: variant[]; separator: string = " "): string;
-
-    var i: integer;
-
-    for i = 1..md_array_length(array) do
-      result = result +if (i <> 1, separator, "") +str(array[i]);
-    end;
-
-    return result;
   end;
 end

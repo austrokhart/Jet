@@ -4,12 +4,11 @@ import classes Functions.Array;
 inclass
 
 
-  func new(array: variant[]; path: integer[] = nil): Methods.Functions.Array.Each;
+  func new(array: variant[]): Methods.Functions.Array.Each;
     
     result = self.create;
 
     result.__array = array;
-    result.__path  = path;
     result.__to_begin;
   end;
 end

@@ -4,7 +4,7 @@ import classes Functions.Array;
 inclass
 
 
-  proc test_md_array_length(case: UnitTesting.Case);
+  proc test_array_length(case: UnitTesting.Case);
 
     var test_array: variant[];
 
@@ -13,51 +13,51 @@ inclass
       -- те же проверки, но для многомерных массивов
 
       test_array = [[]];
-      assert_equal(md_array_length(test_array), 1, "с многомерными массивами без значений");
+      assert_equal(array_length(test_array), 1, "с многомерными массивами без значений");
 
       test_array = [[], []];
-      assert_equal(md_array_length(test_array), 2);
-      assert_equal(md_array_length(test_array[2]), 0, "с указанием подмассива");
+      assert_equal(array_length(test_array), 2);
+      assert_equal(array_length(test_array[2]), 0, "с указанием подмассива");
 
       test_array[3] = [];
-      assert_equal(md_array_length(test_array), 3, "с динамическим добавлением значений");
-      assert_equal(md_array_length(test_array[3]), 0);
+      assert_equal(array_length(test_array), 3, "с динамическим добавлением значений");
+      assert_equal(array_length(test_array[3]), 0);
 
       test_array[4] = [];
       test_array[5] = [];
-      assert_equal(md_array_length(test_array), 5);
+      assert_equal(array_length(test_array), 5);
 
 
       test_array = [[10]];
-      assert_equal(md_array_length(test_array), 1, "с многомерными массивами со значениями");
+      assert_equal(array_length(test_array), 1, "с многомерными массивами со значениями");
 
       test_array = [[10], [20]];
-      assert_equal(md_array_length(test_array), 2);
-      assert_equal(md_array_length(test_array[2]), 1, "с указанием подмассива");
+      assert_equal(array_length(test_array), 2);
+      assert_equal(array_length(test_array[2]), 1, "с указанием подмассива");
 
       test_array[3] = [30];
-      assert_equal(md_array_length(test_array), 3, "с динамическим добавлением значений");
-      assert_equal(md_array_length(test_array[3]), 1);
+      assert_equal(array_length(test_array), 3, "с динамическим добавлением значений");
+      assert_equal(array_length(test_array[3]), 1);
 
       test_array[4] = [40];
       test_array[5] = [50];
-      assert_equal(md_array_length(test_array), 5);
+      assert_equal(array_length(test_array), 5);
 
 
       test_array = [[00, 10]];
-      assert_equal(md_array_length(test_array), 1, "с многомерными массивами со множеством значений");
+      assert_equal(array_length(test_array), 1, "с многомерными массивами со множеством значений");
 
       test_array = [[00, 10], [20, 30]];
-      assert_equal(md_array_length(test_array), 2);
-      assert_equal(md_array_length(test_array[2]), 2, "с указанием подмассива");
+      assert_equal(array_length(test_array), 2);
+      assert_equal(array_length(test_array[2]), 2, "с указанием подмассива");
 
       test_array[3] = [40, 50];
-      assert_equal(md_array_length(test_array), 3, "с динамическим добавлением значений");
-      assert_equal(md_array_length(test_array[3]), 2);
+      assert_equal(array_length(test_array), 3, "с динамическим добавлением значений");
+      assert_equal(array_length(test_array[3]), 2);
 
       test_array[4] = [60, 70];
       test_array[5] = [80, 90];
-      assert_equal(md_array_length(test_array), 5);
+      assert_equal(array_length(test_array), 5);
     end;
   end;
 
@@ -324,34 +324,5 @@ inclass
 
   proc test_md_array_contains(case: UnitTesting.Case);
     
-  end;
-
-
-  proc test_md_array_sort(case: UnitTesting.Case);
-    
-  end;
-
-
-  proc test_md_array_each(case: UnitTesting.Case);
-
-
-  end;
-
-
-  proc test_md_array_filter(case: UnitTesting.Case);
-
-
-  end;
-
-
-  proc test_md_array_map(case: UnitTesting.Case);
-
-
-  end;
-
-
-  proc test_md_array_reduce(case: UnitTesting.Case);
-
-
   end;
 end
