@@ -5,10 +5,10 @@ inclass
 
 
   -- создаёт новый экземпляр класса
-  func new(container: UnitTesting.CaseResult): UnitTesting.Case;
+  func new(_container: UnitTesting.CaseResult): UnitTesting.Case;
     
     result = self.create;
-    result.container = container;
+    result._container = _container;
 
     return result;
   end;
@@ -16,56 +16,56 @@ inclass
 inobject
 
 
-  var container: UnitTesting.CaseResult;
-  var inverted: boolean;
+  var _container: UnitTesting.CaseResult;
+  var _inverted: boolean;
 
 
   -- возвращает или записывает в результат имя
-  func name(value: string = nil): string;
+  func name(_value: string = nil): string;
 
-    if value <> nil then self.container.name = value; end;
-    return self.container.name;
+    if _value <> nil then self._container._name = _value; end;
+    return self._container._name;
   end;
 
 
   -- возвращает или записывает в результат сообщение
-  func comment(value: string = nil): string;
+  func comment(_value: string = nil): string;
 
-    if value <> nil then self.container.comment = value; end;
-    return self.container.comment;
+    if _value <> nil then self._container._comment = _value; end;
+    return self._container._comment;
   end;
 
 
   -- возвращает объект аналогичный текущему, в котором проверки будут записываться с отрицанием
   func invert: UnitTesting.Case;
     
-    result = self.new(self.container);
-    result.inverted = not self.inverted;
+    result = self.new(self._container);
+    result._inverted = not self._inverted;
 
     return result;
   end;
 
 
   -- записывает в результат проверку
-  func assert_equal(value, expected: variant; comment: string = nil): UnitTesting.Case;
+  func assert_equal(_value, _expected: variant; _comment: string = nil): UnitTesting.Case;
 
-    self.container.add(UnitTesting.Assert.assert_equal(value, expected, self.inverted, comment));
+    self._container.add(UnitTesting.Assert.assert_equal(_value, _expected, self._inverted, _comment));
     return self;
   end;
 
 
   -- записывает в результат проверку
-  func assert_true(value: variant; comment: string = nil): UnitTesting.Case;
+  func assert_true(_value: variant; _comment: string = nil): UnitTesting.Case;
 
-    self.container.add(UnitTesting.Assert.assert_true(value, self.inverted, comment));
+    self._container.add(UnitTesting.Assert.assert_true(_value, self._inverted, _comment));
     return self;
   end;
 
 
   -- записывает в результат проверку
-  func assert_false(value: variant; comment: string = nil): UnitTesting.Case;
+  func assert_false(_value: variant; _comment: string = nil): UnitTesting.Case;
 
-    self.container.add(UnitTesting.Assert.assert_false(value, self.inverted, comment));
+    self._container.add(UnitTesting.Assert.assert_false(_value, self._inverted, _comment));
     return self;
   end;
 end

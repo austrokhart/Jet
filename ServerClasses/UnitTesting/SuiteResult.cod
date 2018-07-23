@@ -5,13 +5,13 @@ inclass
 
 
   -- возвращает новый экземпляр класса
-  func new(name: string; cases: UnitTesting.CaseResult[] = []; comment: string = ""): UnitTesting.SuiteResult;
+  func new(_name: string; _cases: UnitTesting.CaseResult[] = []; _comment: string = ""): UnitTesting.SuiteResult;
     
     result = self.create;
 
-    result.name    = name;
-    result.cases   = cases;
-    result.comment = comment;
+    result._name    = _name;
+    result._cases   = _cases;
+    result._comment = _comment;
 
     return result;
   end;
@@ -19,23 +19,23 @@ inclass
 inobject
 
 
-  var name:    string;
-  var cases:   UnitTesting.CaseResult[];
-  var comment: string;
-  var time:    real;
+  var _name:    string;
+  var _cases:   UnitTesting.CaseResult[];
+  var _comment: string;
+  var _time:    real;
 
 
   -- добавляет результат тестового случая в результаты
-  func add(case: UnitTesting.CaseResult): UnitTesting.SuiteResult;
+  func add(_case: UnitTesting.CaseResult): UnitTesting.SuiteResult;
     
-    array_append(self.cases, case);
+    array_append(self._cases, _case);
     return self;
   end;
 
 
-  func took(time: real): UnitTesting.SuiteResult;
+  func took(_time: real): UnitTesting.SuiteResult;
     
-    self.time = time;
+    self._time = _time;
     return self;
   end;
 
@@ -43,7 +43,7 @@ inobject
   -- возвращает истину, если результаты успешны
   func is_successful: boolean;
     
-    with array_each(self.cases) do
+    with array_each(self._cases) do
       while __next do
         if not __item.is_successful then return false; end;
       end;
@@ -56,13 +56,13 @@ inobject
   -- возвращает количество тестовых случаев в результатах
   func case_count: integer;
 
-    return array_length(self.cases);
+    return array_length(self._cases);
   end;
 
 
   func assert_count: integer;
     
-    with array_reduce(self.cases, 0) do
+    with array_reduce(self._cases, 0) do
       while __next do __apply(__result +__item.assert_count); end; __assign(result);
     end;
 
@@ -73,7 +73,7 @@ inobject
   -- возвращает успешные тестовые случаи из результатов
   func successful_cases: UnitTesting.CaseResult[];
     
-    with array_filter(self.cases) do
+    with array_filter(self._cases) do
       while __next do __apply(__item.is_successful); end; __assign(result);
     end;
 
@@ -84,7 +84,7 @@ inobject
   -- возвращает неудачные тестовые случаи из результатов
   func unsuccessful_cases: UnitTesting.CaseResult[];
     
-    with array_filter(self.cases) do
+    with array_filter(self._cases) do
       while __next do __apply(not __item.is_successful); end; __assign(result);
     end;
 
@@ -95,9 +95,9 @@ inobject
   -- возвращает текстовое представление набора
   func to_text: string[];
 
-    array_append(result, str_format("набор {} ({}):", [self.name, self.comment]));
+    array_append(result, str_format("набор {} ({}):", [self._name, self._comment]));
 
-    with array_each(self.cases) do
+    with array_each(self._cases) do
       while __next do
 
         with array_each(__item.to_text) do

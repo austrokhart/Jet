@@ -5,16 +5,16 @@ inclass
 
 
   -- создаёт новый экземпляр класса
-  func new(value, expected: variant; comparison: UnitTesting.Assert.comparison_type; success: boolean; inverted: boolean = false; comment: string = ""): UnitTesting.AssertResult;
+  func new(_value, _expected: variant; _comparison: UnitTesting.Assert._comparison_type; _success: boolean; _inverted: boolean = false; _comment: string = ""): UnitTesting.AssertResult;
 
     result = self.create;
 
-    result.value      = value;
-    result.expected   = expected;
-    result.comparison = comparison;
-    result.success    = success;
-    result.inverted   = inverted;
-    result.comment    = comment;
+    result._value      = _value;
+    result._expected   = _expected;
+    result._comparison = _comparison;
+    result._success    = _success;
+    result._inverted   = _inverted;
+    result._comment    = _comment;
 
     return result;
   end;
@@ -22,25 +22,25 @@ inclass
 inobject
 
 
-  var value:      variant;
-  var expected:   variant;
-  var comparison: integer;
-  var success:    boolean;
-  var inverted:   boolean;
-  var comment:    string;
+  var _value:      variant;
+  var _expected:   variant;
+  var _comparison: integer;
+  var _success:    boolean;
+  var _inverted:   boolean;
+  var _comment:    string;
 
 
   -- возвращает истину, если проверка является отрицательной
   func is_inverted: boolean;
     
-    return self.inverted;
+    return self._inverted;
   end;
 
 
   -- возвращает истину, если результат успешен
   func is_successful: boolean;
     
-    return self.success;
+    return self._success;
   end;
 
 
@@ -49,10 +49,10 @@ inobject
 
     -- если результат отрицается и отрицательный или если результат не отрицается и положительный
     if (self.is_inverted xor self.is_successful) then
-      result = str_format("успех ({})", [self.comment]);
+      result = str_format("успех ({})", [self._comment]);
 
     else
-      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [var_to_dump(self.value), if (self.is_inverted, " не", ""), var_to_dump(self.expected), self.comment]);
+      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [var_to_dump(self._value), if (self.is_inverted, " не", ""), var_to_dump(self._expected), self._comment]);
     end;
 
     return result;

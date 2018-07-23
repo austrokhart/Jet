@@ -5,25 +5,25 @@ inclass
 
 
   -- типы сравнения
-  type comparison_type = (
-    COMPARISON_IS_EQUAL,
-    COMPARISON_IS_TRUE,
-    COMPARISON_IS_FALSE
+  type _comparison_type = (
+    _COMPARISON_IS_EQUAL,
+    _COMPARISON_IS_TRUE,
+    _COMPARISON_IS_FALSE
   );
 
 
-  func assert_equal(value, expected: variant; inverted: boolean = false; comment: string = ""): UnitTesting.AssertResult;
+  func assert_equal(_value, _expected: variant; _inverted: boolean = false; _comment: string = ""): UnitTesting.AssertResult;
     
-    return UnitTesting.AssertResult.new(value, expected, self.COMPARISON_IS_EQUAL, var_equal(value, expected), inverted, comment);
+    return UnitTesting.AssertResult.new(_value, _expected, self._COMPARISON_IS_EQUAL, var_equal(_value, _expected), _inverted, _comment);
   end;
 
-  func assert_true(value: variant; inverted: boolean = false; comment: string = ""): UnitTesting.AssertResult;
+  func assert_true(_value: variant; _inverted: boolean = false; _comment: string = ""): UnitTesting.AssertResult;
     
-    return UnitTesting.AssertResult.new(value, true, self.COMPARISON_IS_TRUE, var_equal(value, true), inverted, comment);
+    return UnitTesting.AssertResult.new(_value, true, self._COMPARISON_IS_TRUE, var_equal(_value, true), _inverted, _comment);
   end;
 
-  func assert_false(value: variant; inverted: boolean = false; comment: string = ""): UnitTesting.AssertResult;
+  func assert_false(_value: variant; _inverted: boolean = false; _comment: string = ""): UnitTesting.AssertResult;
     
-    return UnitTesting.AssertResult.new(value, false, self.COMPARISON_IS_FALSE, var_equal(value, false), inverted, comment);
+    return UnitTesting.AssertResult.new(_value, false, self._COMPARISON_IS_FALSE, var_equal(_value, false), _inverted, _comment);
   end;
 end

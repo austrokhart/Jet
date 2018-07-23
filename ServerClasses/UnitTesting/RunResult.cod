@@ -5,10 +5,10 @@ inclass
 
 
   -- возвращает новый экземпляр объекта
-  func new(suites: UnitTesting.SuiteResult[] = []): UnitTesting.RunResult;
+  func new(_suites: UnitTesting.SuiteResult[] = []): UnitTesting.RunResult;
     
     result = self.create;
-    result.suites = suites;
+    result._suites = _suites;
 
     return result;
   end;
@@ -16,21 +16,21 @@ inclass
 inobject
 
 
-  var suites: UnitTesting.SuiteResult[];
-  var time:   real;
+  var _suites: UnitTesting.SuiteResult[];
+  var _time:   real;
 
 
   -- добавляет результат тестового набора в результаты
-  func add(suite: UnitTesting.SuiteResult): UnitTesting.RunResult;
+  func add(_suite: UnitTesting.SuiteResult): UnitTesting.RunResult;
     
-    array_append(self.suites, suite);
+    array_append(self._suites, _suite);
     return self;
   end;
 
 
-  func took(time: real): UnitTesting.RunResult;
+  func took(_time: real): UnitTesting.RunResult;
     
-    self.time = time;
+    self._time = _time;
     return self;
   end;
 
@@ -38,7 +38,7 @@ inobject
   -- возвращает истину, если результаты успешны
   func is_successful: boolean;
     
-    with array_each(self.suites) do
+    with array_each(self._suites) do
       while __next do
         if not __item.is_successful then return false; end;
       end;
@@ -51,13 +51,13 @@ inobject
   -- возвращает количество тестовых наборов в результатах
   func suite_count: integer;
 
-    return array_length(self.suites);
+    return array_length(self._suites);
   end;
 
 
   func case_count: integer;
     
-    with array_reduce(self.suites, 0) do
+    with array_reduce(self._suites, 0) do
       while __next do __apply(__result +__item.case_count); end; __assign(result);
     end;
 
@@ -67,7 +67,7 @@ inobject
 
   func assert_count: integer;
     
-    with array_reduce(self.suites, 0) do
+    with array_reduce(self._suites, 0) do
       while __next do __apply(__result +__item.assert_count); end; __assign(result);
     end;
 
@@ -78,7 +78,7 @@ inobject
   -- возвращает успешные тестовые наборы
   func successful_suites: UnitTesting.SuiteResult[];
     
-    with array_filter(self.suites) do
+    with array_filter(self._suites) do
       while __next do __apply(__item.is_successful); end;
       result = __result;
     end;
@@ -88,7 +88,7 @@ inobject
   -- возвращает неудачные тестовые наборы
   func unsuccessful_suites: UnitTesting.SuiteResult[];
     
-    with array_filter(self.suites) do
+    with array_filter(self._suites) do
       while __next do __apply(not __item.is_successful); end; __assign(result);
     end;
 
@@ -101,11 +101,11 @@ inobject
     
     array_append(result, "выполнение тестов:");
 
-    with array_each(self.suites) do
+    with array_each(self._suites) do
       while __next do array_extend(result, __item.to_text); end;
     end;
 
-    array_append(result, str_format("выполнено наборов: {}, случаев: {}, проверок: {} за {} сек.", [self.suite_count, self.case_count, self.assert_count, self.time]));
+    array_append(result, str_format("выполнено наборов: {}, случаев: {}, проверок: {} за {} сек.", [self.suite_count, self.case_count, self.assert_count, self._time]));
     array_append(result, str_format("результат выполнения: {}", if (self.is_successful, "успех", "неудача")));
 
     return result;

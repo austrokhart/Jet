@@ -56,14 +56,14 @@ inclass
 
       class_call_proc(_suite, _case, [_wrap]);
 
-      result = _wrap.container;
+      result = _wrap._container;
       result.took(_timer.passed);
 
       return result;
 
     elsif class_has_func(_suite, _case) then
 
-      result = class_call_func(_suite, _case).container;
+      result = class_call_func(_suite, _case)._container;
       result.took(_timer.passed);
 
       return result;
