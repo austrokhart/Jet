@@ -26,7 +26,7 @@ inobject
 
 
   -- добавляет результат тестового случая в результаты
-  func add(_case: UnitTesting.CaseResult): UnitTesting.SuiteResult;
+  func add_case(_case: UnitTesting.CaseResult): UnitTesting.SuiteResult;
     
     array_append(self._cases, _case);
     return self;

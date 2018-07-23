@@ -26,7 +26,7 @@ inobject
 
 
   -- добавляет результат проверки в результаты
-  func add(_assert: UnitTesting.AssertResult): UnitTesting.CaseResult;
+  func add_assert(_assert: UnitTesting.AssertResult): UnitTesting.CaseResult;
 
     array_append(self._asserts, _assert);
     return self;

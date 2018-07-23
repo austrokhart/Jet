@@ -21,7 +21,7 @@ inobject
 
 
   -- добавляет результат тестового набора в результаты
-  func add(_suite: UnitTesting.SuiteResult): UnitTesting.RunResult;
+  func add_suite(_suite: UnitTesting.SuiteResult): UnitTesting.RunResult;
     
     array_append(self._suites, _suite);
     return self;

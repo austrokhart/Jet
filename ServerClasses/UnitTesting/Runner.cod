@@ -14,7 +14,7 @@ inclass
     _timer = Timer.new;
 
     with array_each(array_from(_suites)) do
-      while __next do result.add(self.handle_suite(__item)); end;
+      while __next do result.add_suite(self.handle_suite(__item)); end;
     end;
 
     result.took(_timer.passed);
@@ -33,7 +33,7 @@ inclass
 
     with array_each(class_methods(_suite)) do
       while __next do
-        if class_has_own_member(_suite, __item) then result.add(self.handle_case(_suite, __item)); end;
+        if class_has_own_member(_suite, __item) then result.add_case(self.handle_case(_suite, __item)); end;
       end;
     end;
 
