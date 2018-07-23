@@ -4,30 +4,30 @@ import classes Functions.Indexing, Functions.Math, Functions.Variable;
 inclass
 
 
-  type array_pad_direction = (
-    ARRAY_PAD_LEFT,
-    ARRAY_PAD_RIGHT,
-    ARRAY_PAD_BOTH
+  type _array_pad_direction = (
+    _ARRAY_PAD_LEFT,
+    _ARRAY_PAD_RIGHT,
+    _ARRAY_PAD_BOTH
   );
 
 
-  type array_trim_direction = (
-    ARRAY_TRIM_LEFT,
-    ARRAY_TRIM_RIGHT,
-    ARRAY_TRIM_BOTH
+  type _array_trim_direction = (
+    _ARRAY_TRIM_LEFT,
+    _ARRAY_TRIM_RIGHT,
+    _ARRAY_TRIM_BOTH
   );
 
 
-  type array_pos_result = (
-    ARRAY_POS_OFFSET,
-    ARRAY_POS_LENGTH
+  type _array_pos_result = (
+    _ARRAY_POS_OFFSET,
+    _ARRAY_POS_LENGTH
   );
 
 
-  type array_method_each   = Methods.Functions.Array.Each;
-  type array_method_filter = Methods.Functions.Array.Filter;
-  type array_method_map    = Methods.Functions.Array.Map;
-  type array_method_reduce = Methods.Functions.Array.Reduce;
+  type _array_method_each   = Methods.Functions.Array.Each;
+  type _array_method_filter = Methods.Functions.Array.Filter;
+  type _array_method_map    = Methods.Functions.Array.Map;
+  type _array_method_reduce = Methods.Functions.Array.Reduce;
 
 
   func array_from(const _value: variant): variant[];
@@ -54,6 +54,7 @@ inclass
 
     return array_length(_array) <> 0;
   end;
+
 
   func array_get(const _array: variant[]; _index: integer; _default_value: variant = nil): variant;
 
@@ -239,7 +240,7 @@ inclass
   end;
 
 
-  proc array_pad(var _array: variant[]; _direction: array_pad_direction; _value: variant[]; _length: integer);
+  proc array_pad(var _array: variant[]; _direction: _array_pad_direction; _value: variant[]; _length: integer);
 
     -- функция должна дополнить (значениями value) или сократить массив array, в зависимости от длины length,
     -- слева и/или справа, в зависимости от направления direction
@@ -252,13 +253,13 @@ inclass
     var _left_padding, _i: integer;
 
 
-    if _direction = ARRAY_PAD_LEFT then
+    if _direction = _ARRAY_PAD_LEFT then
       _left_padding = _length -array_length(_array);
 
-    elsif _direction = ARRAY_PAD_BOTH then
+    elsif _direction = _ARRAY_PAD_BOTH then
       _left_padding = var_to_int((_length -array_length(_array)) /2);
 
-    elsif _direction = ARRAY_PAD_RIGHT then
+    elsif _direction = _ARRAY_PAD_RIGHT then
       _left_padding = 0;
     end;
 
@@ -288,18 +289,18 @@ inclass
   end;
 
 
-  proc array_trim(var _array: variant[]; _direction: array_trim_direction; _value: variant[]);
+  proc array_trim(var _array: variant[]; _direction: _array_trim_direction; _value: variant[]);
 
     array_trim_any(_array, _direction, [_value]);
   end;
 
 
-  proc array_trim_any(var _array: variant[]; _direction: array_trim_direction; _values: variant[2]);
+  proc array_trim_any(var _array: variant[]; _direction: _array_trim_direction; _values: variant[2]);
 
     var _i: integer;
     var _value: variant[];
 
-    if _direction in [ARRAY_TRIM_LEFT, ARRAY_TRIM_BOTH] then
+    if _direction in [_ARRAY_TRIM_LEFT, _ARRAY_TRIM_BOTH] then
 
       for _i = 1..array_length(_values) do
 
@@ -312,7 +313,7 @@ inclass
       end;
     end;
 
-    if _direction in [ARRAY_TRIM_RIGHT, ARRAY_TRIM_BOTH] then
+    if _direction in [_ARRAY_TRIM_RIGHT, _ARRAY_TRIM_BOTH] then
 
       for _i = 1..array_length(_values) do
 
@@ -333,27 +334,27 @@ inclass
   end;
 
 
-  func array_each(const _array: variant[]): array_method_each;
+  func array_each(const _array: variant[]): _array_method_each;
     
-    return array_method_each.new(_array);
+    return _array_method_each.new(_array);
   end;
 
 
-  func array_filter(const _array: variant[]): array_method_filter;
+  func array_filter(const _array: variant[]): _array_method_filter;
     
-    return array_method_filter.new(_array);
+    return _array_method_filter.new(_array);
   end;
 
 
-  func array_map(const _array: variant[]): array_method_map;
+  func array_map(const _array: variant[]): _array_method_map;
     
-    return array_method_map.new(_array);
+    return _array_method_map.new(_array);
   end;
 
 
-  func array_reduce(const _array: variant[]; _initial_value: variant): array_method_reduce;
+  func array_reduce(const _array: variant[]; _initial_value: variant): _array_method_reduce;
     
-    return array_method_reduce.new(_array, _initial_value);
+    return _array_method_reduce.new(_array, _initial_value);
   end;
 
 
@@ -469,7 +470,7 @@ inclass
 
   func md_array_pos(const _array: variant[]; _path: integer[] = []; _value: variant[]; _offset: integer = 1): integer;
 
-    return md_array_pos_any(_array, _path, [_value], _offset)[ARRAY_POS_OFFSET];
+    return md_array_pos_any(_array, _path, [_value], _offset)[_ARRAY_POS_OFFSET];
   end;
 
 

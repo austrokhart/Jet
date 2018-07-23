@@ -1852,7 +1852,7 @@ inclass
 
     with case do
 
-      -- для направления ARRAY_PAD_LEFT
+      -- для направления _ARRAY_PAD_LEFT
 
       -- с пустым массивом
       value = [];
@@ -1861,45 +1861,45 @@ inclass
       test_array = [];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
-      assert_equal(temp, [], "для направления ARRAY_PAD_LEFT с пустым массивом");
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
+      assert_equal(temp, [], "для направления _ARRAY_PAD_LEFT с пустым массивом");
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, []);
 
 
       test_array = [30, 20, 10];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [30, 20, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, [30, 20, 10]);
 
 
       test_array = [50, 40, 30, 20, 10];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [30, 20, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, [50, 40, 30, 20, 10]);
 
 
@@ -1907,15 +1907,15 @@ inclass
       test_array[3] = 10;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [nil, nil, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, [nil, nil, 10]);
 
 
@@ -1923,15 +1923,15 @@ inclass
       test_array[5] = 10;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [nil, nil, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, [nil, nil, nil, nil, 10]);
 
 
@@ -1942,45 +1942,45 @@ inclass
       test_array = [];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, [], "с массивом с одним значением");
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, ["aa", "aa", "aa"]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, ["aa", "aa", "aa", "aa", "aa"]);
 
 
       test_array = [30, 20, 10];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [30, 20, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, ["aa", "aa", 30, 20, 10]);
 
 
       test_array = [50, 40, 30, 20, 10];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [30, 20, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, [50, 40, 30, 20, 10]);
 
 
@@ -1988,15 +1988,15 @@ inclass
       test_array[3] = 10;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [nil, nil, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, ["aa", "aa", nil, nil, 10]);
 
 
@@ -2004,15 +2004,15 @@ inclass
       test_array[5] = 10;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [nil, nil, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, [nil, nil, nil, nil, 10]);
 
 
@@ -2023,45 +2023,45 @@ inclass
       test_array = [];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, [], "с массивом со множеством значений");
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, ["aa", "bb", "cc"]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, ["bb", "cc", "aa", "bb", "cc"]);
 
 
       test_array = [30, 20, 10];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [30, 20, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, ["bb", "cc", 30, 20, 10]);
 
 
       test_array = [50, 40, 30, 20, 10];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [30, 20, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, [50, 40, 30, 20, 10]);
 
 
@@ -2069,15 +2069,15 @@ inclass
       test_array[3] = 10;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [nil, nil, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, ["bb", "cc", nil, nil, 10]);
 
 
@@ -2085,22 +2085,22 @@ inclass
       test_array[5] = 10;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 0);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 3);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 3);
       assert_equal(temp, [nil, nil, 10]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_LEFT, value, 5);
+      array_pad(temp, _ARRAY_PAD_LEFT, value, 5);
       assert_equal(temp, [nil, nil, nil, nil, 10]);
     end;
 
 
     with case do
 
-      -- для направления ARRAY_PAD_RIGHT
+      -- для направления _ARRAY_PAD_RIGHT
 
       -- с пустым массивом
       value = [];
@@ -2109,45 +2109,45 @@ inclass
       test_array = [];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
-      assert_equal(temp, [], "для направления ARRAY_PAD_RIGHT с пустым массивом");
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
+      assert_equal(temp, [], "для направления _ARRAY_PAD_RIGHT с пустым массивом");
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, []);
 
 
       test_array = [10, 20, 30];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [10, 20, 30]);
 
 
       test_array = [10, 20, 30, 40, 50];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [10, 20, 30, 40, 50]);
 
 
@@ -2155,15 +2155,15 @@ inclass
       test_array[3] = 30;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [nil, nil, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [nil, nil, 30]);
 
 
@@ -2171,15 +2171,15 @@ inclass
       test_array[5] = 50;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [nil, nil, nil]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [nil, nil, nil, nil, 50]);
 
 
@@ -2191,45 +2191,45 @@ inclass
       test_array = [];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, [], "с массивом с одним значением");
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, ["aa", "aa", "aa"]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, ["aa", "aa", "aa", "aa", "aa"]);
 
 
       test_array = [10, 20, 30];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [10, 20, 30, "aa", "aa"]);
 
 
       test_array = [10, 20, 30, 40, 50];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [10, 20, 30, 40, 50]);
 
 
@@ -2237,15 +2237,15 @@ inclass
       test_array[3] = 30;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [nil, nil, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [nil, nil, 30, "aa", "aa"]);
 
 
@@ -2253,15 +2253,15 @@ inclass
       test_array[5] = 50;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [nil, nil, nil]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [nil, nil, nil, nil, 50]);
 
 
@@ -2272,45 +2272,45 @@ inclass
       test_array = [];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, [], "с массивом со множеством значением");
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, ["aa", "bb", "cc"]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, ["aa", "bb", "cc", "aa", "bb"]);
 
 
       test_array = [10, 20, 30];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [10, 20, 30, "aa", "bb"]);
 
 
       test_array = [10, 20, 30, 40, 50];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [10, 20, 30, 40, 50]);
 
 
@@ -2318,15 +2318,15 @@ inclass
       test_array[3] = 30;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [nil, nil, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [nil, nil, 30, "aa", "bb"]);
 
 
@@ -2334,15 +2334,15 @@ inclass
       test_array[5] = 50;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 0);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 3);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 3);
       assert_equal(temp, [nil, nil, nil]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_RIGHT, value, 5);
+      array_pad(temp, _ARRAY_PAD_RIGHT, value, 5);
       assert_equal(temp, [nil, nil, nil, nil, 50]);
 
     end;
@@ -2350,7 +2350,7 @@ inclass
 
     with case do
 
-      -- для направления ARRAY_PAD_BOTH
+      -- для направления _ARRAY_PAD_BOTH
 
       -- с пустым массивом
       value = [];
@@ -2359,45 +2359,45 @@ inclass
       test_array = [];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
-      assert_equal(temp, [], "для направления ARRAY_PAD_BOTH с пустым массивом");
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
+      assert_equal(temp, [], "для направления _ARRAY_PAD_BOTH с пустым массивом");
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, []);
 
 
       test_array = [10, 20, 30];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, [10, 20, 30]);
 
 
       test_array = [10, 20, 30, 40, 50];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [20, 30, 40]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, [10, 20, 30, 40, 50]);
 
 
@@ -2405,15 +2405,15 @@ inclass
       test_array[3] = 30;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [nil, nil, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, [nil, nil, 30]);
 
 
@@ -2421,15 +2421,15 @@ inclass
       test_array[5] = 50;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [nil, nil, nil]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, [nil, nil, nil, nil, 50]);
 
 
@@ -2440,45 +2440,45 @@ inclass
       test_array = [];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, [], "с массивом с одним значением");
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, ["aa", "aa", "aa"]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, ["aa", "aa", "aa", "aa", "aa"]);
 
 
       test_array = [10, 20, 30];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, ["aa", 10, 20, 30, "aa"]);
 
 
       test_array = [10, 20, 30, 40, 50];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [20, 30, 40]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, [10, 20, 30, 40, 50]);
 
 
@@ -2486,15 +2486,15 @@ inclass
       test_array[3] = 30;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [nil, nil, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, ["aa", nil, nil, 30, "aa"]);
 
 
@@ -2502,15 +2502,15 @@ inclass
       test_array[5] = 50;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [nil, nil, nil]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, [nil, nil, nil, nil, 50]);
 
 
@@ -2521,45 +2521,45 @@ inclass
       test_array = [];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, [], "с массивом со множеством значений");
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, ["cc", "aa", "bb"]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, ["bb", "cc", "aa", "bb", "cc"]);
 
 
       test_array = [10, 20, 30];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, ["cc", 10, 20, 30, "aa"]);
 
 
       test_array = [10, 20, 30, 40, 50];
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [20, 30, 40]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, [10, 20, 30, 40, 50]);
 
 
@@ -2567,15 +2567,15 @@ inclass
       test_array[3] = 30;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [nil, nil, 30]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, ["cc", nil, nil, 30, "aa"]);
 
 
@@ -2583,15 +2583,15 @@ inclass
       test_array[5] = 50;
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 0);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 0);
       assert_equal(temp, []);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 3);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 3);
       assert_equal(temp, [nil, nil, nil]);
 
       temp = test_array;
-      array_pad(temp, ARRAY_PAD_BOTH, value, 5);
+      array_pad(temp, _ARRAY_PAD_BOTH, value, 5);
       assert_equal(temp, [nil, nil, nil, nil, 50]);
     end;
   end;
@@ -2608,29 +2608,29 @@ inclass
 
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_LEFT, [10]);
-      assert_equal(temp, [20, 30, 20, 10], "с направлением ARRAY_TRIM_LEFT");
+      array_trim(temp, _ARRAY_TRIM_LEFT, [10]);
+      assert_equal(temp, [20, 30, 20, 10], "с направлением _ARRAY_TRIM_LEFT");
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_LEFT, [20]);
+      array_trim(temp, _ARRAY_TRIM_LEFT, [20]);
       assert_equal(temp, [10, 20, 30, 20, 10]);
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_LEFT, [30]);
+      array_trim(temp, _ARRAY_TRIM_LEFT, [30]);
       assert_equal(temp, [10, 20, 30, 20, 10]);
 
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_LEFT, [10, 20]);
+      array_trim(temp, _ARRAY_TRIM_LEFT, [10, 20]);
       assert_equal(temp, [30, 20, 10]);
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_LEFT, [20, 30]);
+      array_trim(temp, _ARRAY_TRIM_LEFT, [20, 30]);
       assert_equal(temp, [10, 20, 30, 20, 10]);
 
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_LEFT, [10, 20, 30]);
+      array_trim(temp, _ARRAY_TRIM_LEFT, [10, 20, 30]);
       assert_equal(temp, [20, 10]);
     end;
 
@@ -2641,29 +2641,29 @@ inclass
 
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_RIGHT, [10]);
-      assert_equal(temp, [10, 20, 30, 20], "с направлением ARRAY_TRIM_RIGHT");
+      array_trim(temp, _ARRAY_TRIM_RIGHT, [10]);
+      assert_equal(temp, [10, 20, 30, 20], "с направлением _ARRAY_TRIM_RIGHT");
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_RIGHT, [20]);
+      array_trim(temp, _ARRAY_TRIM_RIGHT, [20]);
       assert_equal(temp, [10, 20, 30, 20, 10]);
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_RIGHT, [30]);
+      array_trim(temp, _ARRAY_TRIM_RIGHT, [30]);
       assert_equal(temp, [10, 20, 30, 20, 10]);
 
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_RIGHT, [20, 10]);
+      array_trim(temp, _ARRAY_TRIM_RIGHT, [20, 10]);
       assert_equal(temp, [10, 20, 30]);
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_RIGHT, [30, 20]);
+      array_trim(temp, _ARRAY_TRIM_RIGHT, [30, 20]);
       assert_equal(temp, [10, 20, 30, 20, 10]);
 
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_RIGHT, [30, 20, 10]);
+      array_trim(temp, _ARRAY_TRIM_RIGHT, [30, 20, 10]);
       assert_equal(temp, [10, 20]);
     end;
 
@@ -2674,29 +2674,29 @@ inclass
 
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_BOTH, [10]);
-      assert_equal(temp, [20, 30, 20], "с направлением ARRAY_TRIM_BOTH");
+      array_trim(temp, _ARRAY_TRIM_BOTH, [10]);
+      assert_equal(temp, [20, 30, 20], "с направлением _ARRAY_TRIM_BOTH");
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_BOTH, [20]);
+      array_trim(temp, _ARRAY_TRIM_BOTH, [20]);
       assert_equal(temp, [10, 20, 30, 20, 10]);
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_BOTH, [30]);
+      array_trim(temp, _ARRAY_TRIM_BOTH, [30]);
       assert_equal(temp, [10, 20, 30, 20, 10]);
 
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_BOTH, [10, 20]);
+      array_trim(temp, _ARRAY_TRIM_BOTH, [10, 20]);
       assert_equal(temp, [30, 20, 10]);
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_BOTH, [20, 30]);
+      array_trim(temp, _ARRAY_TRIM_BOTH, [20, 30]);
       assert_equal(temp, [10, 20, 30, 20, 10]);
 
 
       temp = test_array;
-      array_trim(temp, ARRAY_TRIM_BOTH, [10, 20, 30]);
+      array_trim(temp, _ARRAY_TRIM_BOTH, [10, 20, 30]);
       assert_equal(temp, [20, 10]);
     end;
   end;

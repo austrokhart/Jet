@@ -333,7 +333,7 @@ inclass
 
 
     var i: integer;
-    var each_value: array_method_each;
+    var each_value: _array_method_each;
 
     each_value = array_each(array_from(values));
 

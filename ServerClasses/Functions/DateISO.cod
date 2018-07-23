@@ -49,7 +49,7 @@ inclass
     var date_str, time_str, offset: string;
 
     date_and_time = str_explode(datetime, "T");
-    array_pad(date_and_time, ARRAY_PAD_RIGHT, [""], 2);
+    array_pad(date_and_time, _ARRAY_PAD_RIGHT, [""], 2);
 
     date_str = date_and_time[1];
     time_str = date_and_time[2];
@@ -57,10 +57,10 @@ inclass
     if str_has_content(time_str) then offset = str_splice(time_str, "", -if (str_ends_with(time_str, "Z"), 1, 6)); end;
 
     date_parts = str_explode(date_str, "-");
-    array_pad(date_parts, ARRAY_PAD_RIGHT, [0], 3);
+    array_pad(date_parts, _ARRAY_PAD_RIGHT, [0], 3);
 
     time_parts = if (str_has_content(time_str), str_explode(time_str, ":"), []); -- array_trim?
-    array_pad(time_parts, ARRAY_PAD_RIGHT, [0], 3);
+    array_pad(time_parts, _ARRAY_PAD_RIGHT, [0], 3);
 
     array_extend(date_parts, time_parts);
 
