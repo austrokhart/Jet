@@ -4,9 +4,23 @@ import classes Functions.Array;
 inobject
 
 
+  var __super: variant;
   var __index: integer;
   var __item:  variant;
   var __array: variant[];
+
+
+  func __self: Methods.Functions.Array.BaseIterable;
+    
+    return self;
+  end;
+
+
+  func __define_super(_value: variant): Methods.Functions.Array.BaseIterable;
+    
+    self.__super = _value;
+    return self;
+  end;
 
 
   func __count: integer;
@@ -15,10 +29,10 @@ inobject
   end;
 
 
-  proc __to_index(index: integer);
+  proc __to_index(_index: integer);
     
-    self.__index = index;
-    self.__item  = array_get(self.__array, index, nil);
+    self.__index = _index;
+    self.__item  = array_get(self.__array, _index, nil);
   end;
 
 

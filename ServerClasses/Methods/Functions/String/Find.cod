@@ -4,17 +4,18 @@ import classes Functions.String, Functions.Array;
 inclass
 
 
-  func new(str: string; values: string[]): Methods.Functions.String.Find;
+  func new(_string: string; _values: string[]): Methods.Functions.String.Find;
     
     result = self.create;
 
-    result.__values = values;
-    result.__right  = str;
+    result.__values = _values;
+    result.__right  = _string;
   end;
 
 inobject
 
 
+  var __super:  variant;
   var __values: string[];
   var __left:   string;
   var __match:  string;
@@ -22,23 +23,36 @@ inobject
   var __result: string;
 
 
+  func __self: Methods.Functions.String.Find;
+    
+    return self;
+  end;
+
+
+  func __define_super(_value: variant): Methods.Functions.String.Find;
+    
+    self.__super = _value;
+    return self;
+  end;
+
+
   func __next: boolean;
 
-    var pos: integer[];
+    var _pos: integer[];
 
     -- запишем __result после предыдущей пользовательской обработки
     self.__result = self.__left +self.__match +self.__right;
 
     -- поищем ближайшее вхождение
-    pos = str_pos_any(self.__right, self.__values);
+    _pos = str_pos_any(self.__right, self.__values);
 
     -- если найдено, разобъём по нему правую часть и вернём истину,
     -- иначе вернём ложь
-    if pos <> [-1, 0] then
+    if _pos <> [-1, 0] then
 
-      self.__left  = self.__left +self.__match +str_substr(self.__right, 1, pos[_STR_POS_OFFSET] -1);
-      self.__match = str_substr(self.__right, pos[_STR_POS_OFFSET], pos[_STR_POS_LENGTH]);
-      self.__right = str_substr(self.__right, pos[_STR_POS_OFFSET] +pos[_STR_POS_LENGTH]);
+      self.__left  = self.__left +self.__match +str_substr(self.__right, 1, _pos[_STR_POS_OFFSET] -1);
+      self.__match = str_substr(self.__right, _pos[_STR_POS_OFFSET], _pos[_STR_POS_LENGTH]);
+      self.__right = str_substr(self.__right, _pos[_STR_POS_OFFSET] +_pos[_STR_POS_LENGTH]);
 
       return true;
     else
@@ -48,9 +62,9 @@ inobject
   end;
 
 
-  proc __assign(var variable: variant);
+  proc __assign(var _variable: variant);
     
-    variable = self.__result;
+    _variable = self.__result;
   end;
 
 

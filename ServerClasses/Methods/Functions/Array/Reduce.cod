@@ -19,14 +19,14 @@ inobject
   var __result: variant;
 
 
-  proc __apply(value: variant);
+  proc __apply(_value: variant);
     
-    self.__result = value;
+    self.__result = _value;
   end;
 
 
-  proc __assign(var variable: variant; value: variant = nil);
+  proc __assign(var _variable: variant; _value: variant = nil);
     
-    variable = if (value <> nil, value, self.__result);
+    _variable = if (_value <> nil, _value, self.__result);
   end;
 end

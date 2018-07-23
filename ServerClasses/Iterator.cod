@@ -13,30 +13,25 @@ inclass
     result.__to_begin;
   end;
 
-
-  func new_child(parent: variant; iterator_from, iterator_to: integer; iterator_step: integer = 1): Iterator;
-    
-    result = self.create;
-
-    result.__parent = parent;
-    result.__from   = iterator_from;
-    result.__to     = iterator_to;
-    result.__step   = iterator_step;
-    result.__to_begin;
-  end;
-
 inobject
 
 
-  var __parent: variant;
-  var __from:   integer;
-  var __to:     integer;
-  var __step:   integer;
-  var __index:  integer;
+  var __super: variant;
+  var __from:  integer;
+  var __to:    integer;
+  var __step:  integer;
+  var __index: integer;
 
 
   func __self: Iterator;
     
+    return self;
+  end;
+
+
+  func __define_super(_value: variant): Iterator;
+    
+    self.__super = _value;
     return self;
   end;
 

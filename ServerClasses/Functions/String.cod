@@ -333,35 +333,34 @@ inclass
 
 
     var _i: integer;
-    var _each_value: _array_method_each;
-
-    _each_value = array_each(array_from(_values));
 
     -- поищем последовательности {}
-    with str_find(_string, "{}") do
+    with array_each(array_from(_values)) do
+      with str_find(_string, "{}").__define_super(__self) do
 
-      while __next do
+        while __next do
 
-        -- посчитаем соседние пары скобок
-        _i = 1;
+          -- посчитаем соседние пары скобок
+          _i = 1;
 
-        while (str_is_set(__left, str_length(__left) -_i +1) and str_char_at(__left, str_length(__left) -_i +1) = "{") and
-              (str_is_set(__right, _i) and str_char_at(__right, _i) = "}")
-        do
-          _i = _i +1;
+          while (str_is_set(__left, str_length(__left) -_i +1) and str_char_at(__left, str_length(__left) -_i +1) = "{") and
+                (str_is_set(__right, _i) and str_char_at(__right, _i) = "}")
+          do
+            _i = _i +1;
+          end;
+
+          -- заменим значение в зависимости от количества скобок и наличия замен
+          __match = form_replacement(if (mod(_i, 2) = 1 and __super.__next, str_from(__super.__item), ""), div(_i, 2));
+
+          -- если нужно, обрежем соседние скобки
+          if _i > 1 then
+            __left  = str_substr(__left, 1, -_i +1);
+            __right = str_substr(__right, _i);
+          end;
         end;
 
-        -- заменим значение в зависимости от количества скобок и наличия замен
-        __match = form_replacement(if (mod(_i, 2) = 1 and _each_value.__next, str_from(_each_value.__item), ""), div(_i, 2));
-
-        -- если нужно, обрежем соседние скобки
-        if _i > 1 then
-          __left  = str_substr(__left, 1, -_i +1);
-          __right = str_substr(__right, _i);
-        end;
+        __assign(result);
       end;
-
-      __assign(result);
     end;
 
     return result;

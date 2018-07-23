@@ -4,11 +4,11 @@ import classes Functions.Array;
 inclass
 
 
-  func new(array: variant[]): Methods.Functions.Array.Each;
+  func new(_array: variant[]): Methods.Functions.Array.Each;
     
     result = self.create;
 
-    result.__array = array;
+    result.__array = _array;
     result.__to_begin;
   end;
 end
