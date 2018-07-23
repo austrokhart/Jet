@@ -9,16 +9,16 @@
 * Functions.Math <br>
 функции для работы с числами
 
-* Functions/Variable <br>
+* Functions.Variable <br>
 функции для работы с переменными
 
-* Functions/Class <br>
+* Functions.Class <br>
 функции для работы с классами
 
-* Functions/Object <br>
+* Functions.Object <br>
 функции для работы с объектами
 
-* [Functions.String](./Functions/string.md) <br>
+* [Functions.String](Docs/Functions/string.md) <br>
 функции для работы со строками
 
 * Functions.Date <br>
@@ -27,10 +27,10 @@
 * Functions.DateISO <br>
 функции для работы с датами в формате ISO 8601
 
-* [Functions.Array](./Functions/array.md) <br>
+* [Functions.Array](Docs/Functions/array.md) <br>
 функции для работы с массивами
 
-* Functions.JSON
+* Functions.JSON <br>
 функции для работы с форматом JSON
 
 
