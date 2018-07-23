@@ -186,33 +186,37 @@ inclass
 
   func object_call_proc(_object: Object; _name: string; _arguments: variant[]): variant;
 
-    var _member: MemberInfo;
-
-    _member = object_member_info(_object, _name);
-    if class_member_info_is_proc(_member) then (_member as MethodInfo).CallProcEx(_object, _arguments); end;
+    if class_has_proc(class_from(_object), _name) then
+      return object_call_method(_object, _name, _arguments);
+    end;
 
     return nil;
   end;
 
   func object_call_func(_object: Object; _name: string; _arguments: variant[]): variant;
 
-    var _member: MemberInfo;
-
-    _member = object_member_info(_object, _name);
-    if class_member_info_is_func(_member) then (_member as MethodInfo).CallFuncEx(_object, _arguments); end;
+    if class_has_func(class_from(_object), _name) then
+      return object_call_method(_object, _name, _arguments);
+    end;
 
     return nil;
   end;
 
-  func class_call_method(_object: Object; _name: string; _arguments: variant[]): variant;
+  func object_call_method(_object: Object; _name: string; _arguments: variant[]): variant;
 
-    if object_has_proc(_object, _name) then
-      return object_call_proc(_object, _name, _arguments);
+    var _member: MemberInfo;
 
-    elsif object_has_func(_object, _name) then
-      return object_call_func(_object, _name, _arguments);
+    _member = class_member_info(class_from(_object), _name);
+
+    if class_member_info_is_proc(_member) then
+      (_member as MethodInfo).CallProcEx(_object, _arguments);
+      return nil;
+
+    elsif class_member_info_is_func(_member) then
+      return (_member as MethodInfo).CallFuncEx(_object, _arguments);
+
+    else
+      return nil;
     end;
-
-    return nil;
   end;
 end

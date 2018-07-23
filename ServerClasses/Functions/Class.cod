@@ -13,9 +13,16 @@ inclass
     end;
   end;
 
+
+
   func class_find(_name: string): class;
     
     return Kernel.System.FindClass(_name);
+  end;
+
+  func class_exists(_name: string): boolean;
+    
+    return class_find(_name) <> nil;
   end;
 
 
@@ -248,33 +255,37 @@ inclass
 
   func class_call_proc(_class: class; _name: string; _arguments: variant[] = []): variant;
 
-    var _member: MemberInfo;
-
-    _member = class_member_info(_class, _name);
-    if class_member_info_is_proc(_member) then (_member as MethodInfo).CallProcEx(_class, _arguments); end;
+    if class_has_proc(_class, _name) then
+      return class_call_method(_class, _name, _arguments);
+    end;
 
     return nil;
   end;
 
   func class_call_func(_class: class; _name: string; _arguments: variant[] = []): variant;
 
-    var _member: MemberInfo;
-
-    _member = class_member_info(_class, _name);
-    if class_member_info_is_func(_member) then (_member as MethodInfo).CallFuncEx(_class, _arguments); end;
+    if class_has_func(_class, _name) then
+      return class_call_method(_class, _name, _arguments);
+    end;
 
     return nil;
   end;
 
   func class_call_method(_class: class; _name: string; _arguments: variant[] = []): variant;
 
-    if class_has_proc(_class, _name) then
-      return class_call_proc(_class, _name, _arguments);
+    var _member: MemberInfo;
 
-    elsif class_has_func(_class, _name) then
-      return class_call_func(_class, _name, _arguments);
+    _member = class_member_info(_class, _name);
+
+    if class_member_info_is_proc(_member) then
+      (_member as MethodInfo).CallProcEx(_class, _arguments);
+      return nil;
+
+    elsif class_member_info_is_func(_member) then
+      return (_member as MethodInfo).CallFuncEx(_class, _arguments);
+
+    else
+      return nil;
     end;
-
-    return nil;
   end;
 end
