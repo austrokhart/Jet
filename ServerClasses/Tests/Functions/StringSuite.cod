@@ -338,33 +338,33 @@ inclass
 
     with case do
 
-      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "_", -1),    nil,         "проверки с передачей аргументом direction STR_PAD_LEFT");
-      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "_", 0),     nil);
-      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "_", 2),     "cd");
-      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "#", 8),     "####abcd");
-      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "#@", 8),    "#@#@abcd");
-      assert_equal(  str_pad(test_str, STR_PAD_LEFT, "#@!", 8),   "!#@!abcd");
+      assert_equal(  str_pad(test_str, _STR_PAD_LEFT, "_", -1),    nil,         "проверки с передачей аргументом direction _STR_PAD_LEFT");
+      assert_equal(  str_pad(test_str, _STR_PAD_LEFT, "_", 0),     nil);
+      assert_equal(  str_pad(test_str, _STR_PAD_LEFT, "_", 2),     "cd");
+      assert_equal(  str_pad(test_str, _STR_PAD_LEFT, "#", 8),     "####abcd");
+      assert_equal(  str_pad(test_str, _STR_PAD_LEFT, "#@", 8),    "#@#@abcd");
+      assert_equal(  str_pad(test_str, _STR_PAD_LEFT, "#@!", 8),   "!#@!abcd");
 
-      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "_", -1),   nil,         "проверки с передачей аргументом direction STR_PAD_RIGHT");
-      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "_", 0),    nil);
-      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "_", 3),    "abc");
-      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "#", 8),    "abcd####");
-      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "#@", 8),   "abcd#@#@");
-      assert_equal(  str_pad(test_str, STR_PAD_RIGHT, "#@!", 8),  "abcd#@!#");
+      assert_equal(  str_pad(test_str, _STR_PAD_RIGHT, "_", -1),   nil,         "проверки с передачей аргументом direction _STR_PAD_RIGHT");
+      assert_equal(  str_pad(test_str, _STR_PAD_RIGHT, "_", 0),    nil);
+      assert_equal(  str_pad(test_str, _STR_PAD_RIGHT, "_", 3),    "abc");
+      assert_equal(  str_pad(test_str, _STR_PAD_RIGHT, "#", 8),    "abcd####");
+      assert_equal(  str_pad(test_str, _STR_PAD_RIGHT, "#@", 8),   "abcd#@#@");
+      assert_equal(  str_pad(test_str, _STR_PAD_RIGHT, "#@!", 8),  "abcd#@!#");
 
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", -1),    nil,         "проверки с передачей аргументом direction STR_PAD_BOTH");
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 0),     nil);
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 1),     "c");
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 2),     "bc");
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 3),     "bcd");
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "_", 4),     "abcd");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", -1),    nil,         "проверки с передачей аргументом direction _STR_PAD_BOTH");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 0),     nil);
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 1),     "c");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 2),     "bc");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 3),     "bcd");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 4),     "abcd");
 
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#", 8),     "##abcd##",  "проверки на правильное центрирование строки");
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#", 9),     "##abcd###");
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#@", 8),    "#@abcd#@");
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#@", 9),    "#@abcd#@#");
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#@!", 8),   "@!abcd#@");
-      assert_equal(  str_pad(test_str, STR_PAD_BOTH, "#@!", 9),   "@!abcd#@!");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "#", 8),     "##abcd##",  "проверки на правильное центрирование строки");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "#", 9),     "##abcd###");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "#@", 8),    "#@abcd#@");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "#@", 9),    "#@abcd#@#");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "#@!", 8),   "@!abcd#@");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "#@!", 9),   "@!abcd#@!");
     end;
   end;
 
@@ -376,14 +376,14 @@ inclass
 
     with case do
 
-      assert_equal(  str_trim(test_str, STR_TRIM_LEFT, "_"),         "  __test_ ",  "проверки с передачей аргументом direction STR_TRIM_LEFT");
-      assert_equal(  str_trim(test_str, STR_TRIM_LEFT),                "__test_ ");
+      assert_equal(  str_trim(test_str, _STR_TRIM_LEFT, "_"),         "  __test_ ",  "проверки с передачей аргументом direction _STR_TRIM_LEFT");
+      assert_equal(  str_trim(test_str, _STR_TRIM_LEFT),                "__test_ ");
 
-      assert_equal(  str_trim(test_str, STR_TRIM_RIGHT, "_"),        "  __test_ ",  "проверки с передачей аргументом direction STR_TRIM_RIGHT");
-      assert_equal(  str_trim(test_str, STR_TRIM_RIGHT),               "  __test_");
+      assert_equal(  str_trim(test_str, _STR_TRIM_RIGHT, "_"),        "  __test_ ",  "проверки с передачей аргументом direction _STR_TRIM_RIGHT");
+      assert_equal(  str_trim(test_str, _STR_TRIM_RIGHT),               "  __test_");
 
-      assert_equal(  str_trim(test_str, STR_TRIM_BOTH, "_"),         "  __test_ ",  "проверки с передачей аргументом direction STR_TRIM_BOTH");
-      assert_equal(  str_trim(test_str, STR_TRIM_BOTH),                "__test_");
+      assert_equal(  str_trim(test_str, _STR_TRIM_BOTH, "_"),         "  __test_ ",  "проверки с передачей аргументом direction _STR_TRIM_BOTH");
+      assert_equal(  str_trim(test_str, _STR_TRIM_BOTH),                "__test_");
     end;
   end;
 
@@ -395,20 +395,20 @@ inclass
 
     with case do
 
-      assert_equal(  str_trim_any(test_str, STR_TRIM_LEFT, ["_"]),         "  __test_ ",  "проверки с передачей аргументом direction STR_TRIM_LEFT");
-      assert_equal(  str_trim_any(test_str, STR_TRIM_LEFT),                "__test_ ");
-      assert_equal(  str_trim_any(test_str, STR_TRIM_LEFT, [" ", "_"]),    "test_ ");
-      assert_equal(  str_trim_any(test_str, STR_TRIM_LEFT, [" ", "__"]),   "test_ ");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_LEFT, ["_"]),         "  __test_ ",  "проверки с передачей аргументом direction _STR_TRIM_LEFT");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_LEFT),                "__test_ ");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_LEFT, [" ", "_"]),    "test_ ");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_LEFT, [" ", "__"]),   "test_ ");
 
-      assert_equal(  str_trim_any(test_str, STR_TRIM_RIGHT, ["_"]),        "  __test_ ",  "проверки с передачей аргументом direction STR_TRIM_RIGHT");
-      assert_equal(  str_trim_any(test_str, STR_TRIM_RIGHT),               "  __test_");
-      assert_equal(  str_trim_any(test_str, STR_TRIM_RIGHT, [" ", "_"]),   "  __test");
-      assert_equal(  str_trim_any(test_str, STR_TRIM_RIGHT, [" ", "__"]),  "  __test_");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_RIGHT, ["_"]),        "  __test_ ",  "проверки с передачей аргументом direction _STR_TRIM_RIGHT");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_RIGHT),               "  __test_");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_RIGHT, [" ", "_"]),   "  __test");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_RIGHT, [" ", "__"]),  "  __test_");
 
-      assert_equal(  str_trim_any(test_str, STR_TRIM_BOTH, ["_"]),         "  __test_ ",  "проверки с передачей аргументом direction STR_TRIM_BOTH");
-      assert_equal(  str_trim_any(test_str, STR_TRIM_BOTH),                "__test_");
-      assert_equal(  str_trim_any(test_str, STR_TRIM_BOTH, [" ", "_"]),    "test");
-      assert_equal(  str_trim_any(test_str, STR_TRIM_BOTH, [" ", "__"]),   "test_");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_BOTH, ["_"]),         "  __test_ ",  "проверки с передачей аргументом direction _STR_TRIM_BOTH");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_BOTH),                "__test_");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_BOTH, [" ", "_"]),    "test");
+      assert_equal(  str_trim_any(test_str, _STR_TRIM_BOTH, [" ", "__"]),   "test_");
     end;
   end;
 

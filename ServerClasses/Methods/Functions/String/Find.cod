@@ -36,9 +36,9 @@ inobject
     -- иначе вернём ложь
     if pos <> [-1, 0] then
 
-      self.__left  = self.__left +self.__match +str_substr(self.__right, 1, pos[STR_POS_OFFSET] -1);
-      self.__match = str_substr(self.__right, pos[STR_POS_OFFSET], pos[STR_POS_LENGTH]);
-      self.__right = str_substr(self.__right, pos[STR_POS_OFFSET] +pos[STR_POS_LENGTH]);
+      self.__left  = self.__left +self.__match +str_substr(self.__right, 1, pos[_STR_POS_OFFSET] -1);
+      self.__match = str_substr(self.__right, pos[_STR_POS_OFFSET], pos[_STR_POS_LENGTH]);
+      self.__right = str_substr(self.__right, pos[_STR_POS_OFFSET] +pos[_STR_POS_LENGTH]);
 
       return true;
     else

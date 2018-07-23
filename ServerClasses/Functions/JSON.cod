@@ -48,7 +48,7 @@ inclass
       func encode_object(_value: Dict): string;
 
         with array_map(_value.pairs) do
-          while __next do __apply(  encode(array_get(__item, Dict.PAIR_KEY)) +': ' +encode(array_get(__item, Dict.PAIR_VALUE))  ); end;
+          while __next do __apply(  encode(array_get(__item, Dict._PAIR_KEY)) +': ' +encode(array_get(__item, Dict._PAIR_VALUE))  ); end;
           result = '{' +array_implode(__result, ', ') +'}';
         end;
 

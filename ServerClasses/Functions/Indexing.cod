@@ -5,15 +5,15 @@ inclass
 
 
   -- обрабатывает смещение, закольцовывает отрицательный индекс
-  func handle_offset(offset, limit: integer): integer;
+  func handle_offset(_offset, _limit: integer): integer;
 
     -- если offset нулевой или положительный, возьмём его как есть
     -- если отрицательный, возьмём его считая с конца
-    if offset >= 0 then
-      result = offset;
+    if _offset >= 0 then
+      result = _offset;
 
-    elsif offset < 0 then
-      result = limit +offset +1;
+    elsif _offset < 0 then
+      result = _limit +_offset +1;
     end;
 
     -- после этого если offset меньше 1, приведём его к 1
@@ -24,27 +24,27 @@ inclass
 
 
   -- обрабатывает длину, закольцовывает отрицательный индекс
-  func handle_length(offset: integer; length: variant; limit: integer): integer;
+  func handle_length(_offset: integer; _length: variant; _limit: integer): integer;
 
     -- если длина это nil, возвращаем длину от offset до limit
-    if var_identical(length, nil) then return limit -offset +1; end;
+    if var_identical(_length, nil) then return _limit -_offset +1; end;
 
     -- обработаем положительную, отрицательную и нулевую длину
-    if length > 0 then
+    if _length > 0 then
 
       -- если длина выходит за limit, возьмём длину от offset до limit
-      if offset +length -1 > limit then
-        result = limit -offset +1;
+      if _offset +_length -1 > _limit then
+        result = _limit -_offset +1;
       else
-        result = length;
+        result = _length;
       end;
-    elsif length < 0 then
+    elsif _length < 0 then
 
       -- если длина выходит за offset, возьмём длину 0
-      if limit +length < offset then
+      if _limit +_length < _offset then
         result = 0;
       else
-        result = limit -offset +1 +length;
+        result = _limit -_offset +1 +_length;
       end;
     else
 

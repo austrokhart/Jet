@@ -1,31 +1,41 @@
 ﻿class "Класс для работы с переменными";
-import classes Functions.Variable, Functions.Array, Functions.Class, Functions.Object;
+import classes Functions.Array, Functions.Class, Functions.Object;
 
 inclass
 
 
-  type var_type = (
-    TYPE_STRING  = 1,
-    TYPE_INTEGER = 2,
-    TYPE_REAL    = 3,
-    TYPE_BOOLEAN = 4,
-    TYPE_DATE    = 5,
-    TYPE_OBJECT  = 6,
-    TYPE_VARIANT = 7,
-    TYPE_ARRAY   = 8,
-    TYPE_CLASS   = 9,
-    TYPE_NIL     = 10
+  type _var_type = (
+    _TYPE_STRING  = 1,
+    _TYPE_INTEGER = 2,
+    _TYPE_REAL    = 3,
+    _TYPE_BOOLEAN = 4,
+    _TYPE_DATE    = 5,
+    _TYPE_OBJECT  = 6,
+    _TYPE_VARIANT = 7,
+    _TYPE_ARRAY   = 8,
+    _TYPE_CLASS   = 9,
+    _TYPE_NIL     = 10
   );
 
 
-  func var_to_int(const value: variant): integer;
+--  func var_to_bool(const _value: variant): boolean;
+--
+--
+--  end;
+
+  func var_to_int(const _value: variant): integer;
     
-    return Kernel.Mathematic.int(Kernel.Mathematic.trunc(value));
+    return Kernel.Mathematic.Int(Kernel.Mathematic.Trunc(_value));
   end;
 
-  func var_to_real(const value: variant): real;
+  func var_to_real(const _value: variant): real;
     
-    return Kernel.Mathematic.num(value);
+    return Kernel.Mathematic.Num(_value);
+  end;
+
+  func var_to_str(const _value: variant): string;
+    
+    return Kernel.System.Str(_value);
   end;
 
 
@@ -40,22 +50,22 @@ inclass
 
       func from_nil(_value: variant): string;
       
-        return "(nil) nil";
+        return '(nil) nil';
       end;
 
       func from_boolean(_value: boolean): string;
       
-        return "(boolean) " +if (_value, "true", "false");
+        return '(boolean) ' +if (_value, 'true', 'false');
       end;
 
       func from_integer(_value: integer): string;
       
-        return "(integer) " +str(_value);
+        return '(integer) ' +var_to_str(_value);
       end;
 
       func from_real(_value: real): string;
       
-        return "(real) " +str(_value);
+        return '(real) ' +var_to_str(_value);
       end;
 
       func from_string(_value: string): string;
@@ -65,7 +75,7 @@ inclass
 
       func from_date(_value: string): string;
       
-        return '(date) ' +str(_value);
+        return '(date) ' +var_to_str(_value);
       end;
 
       func from_array(_value: variant[]): string;
@@ -105,7 +115,7 @@ inclass
 
       func from_unknown(_value: variant): string;
         
-        return '(unknown) ' +str(_value);
+        return '(unknown) ' +var_to_str(_value);
       end;
 
 
@@ -148,114 +158,114 @@ inclass
   end;
 
 
-  func var_is_string(const value: variant): boolean;
+  func var_is_string(const _value: variant): boolean;
 
-    return Kernel.System.varType(value) = TYPE_STRING;
+    return Kernel.System.VarType(_value) = _TYPE_STRING;
   end;
 
-  func var_is_integer(const value: variant): boolean;
+  func var_is_integer(const _value: variant): boolean;
     
-    return Kernel.System.varType(value) = TYPE_INTEGER;
+    return Kernel.System.VarType(_value) = _TYPE_INTEGER;
   end;
 
-  func var_is_real(value: variant): boolean;
+  func var_is_real(_value: variant): boolean;
     
-    return Kernel.System.varType(value) = TYPE_REAL;
+    return Kernel.System.VarType(_value) = _TYPE_REAL;
   end;
 
-  func var_is_number(value: variant): boolean;
+  func var_is_number(_value: variant): boolean;
     
-    return var_is_integer(value) or var_is_real(value);
+    return var_is_integer(_value) or var_is_real(_value);
   end;
 
-  func var_is_boolean(value: variant): boolean;
+  func var_is_boolean(_value: variant): boolean;
     
-    return Kernel.System.varType(value) = TYPE_BOOLEAN;
+    return Kernel.System.VarType(_value) = _TYPE_BOOLEAN;
   end;
 
-  func var_is_date(value: variant): boolean;
+  func var_is_date(_value: variant): boolean;
     
-    return Kernel.System.varType(value) = TYPE_DATE;
+    return Kernel.System.VarType(_value) = _TYPE_DATE;
   end;
 
-  func var_is_object(value: variant): boolean;
+  func var_is_object(_value: variant): boolean;
     
-    return Kernel.System.varType(value) = TYPE_OBJECT;
+    return Kernel.System.VarType(_value) = _TYPE_OBJECT;
   end;
 
-  func var_is_variant(value: variant): boolean;
+  func var_is_variant(_value: variant): boolean;
     
-    return Kernel.System.varType(value) = TYPE_VARIANT;
+    return Kernel.System.VarType(_value) = _TYPE_VARIANT;
   end;
 
-  func var_is_array(value: variant): boolean;
+  func var_is_array(_value: variant): boolean;
 
-    return Kernel.System.varType(value) = TYPE_ARRAY;
+    return Kernel.System.VarType(_value) = _TYPE_ARRAY;
   end;
 
-  func var_is_class(value: variant): boolean;
+  func var_is_class(_value: variant): boolean;
 
-    return Kernel.System.varType(value) = TYPE_CLASS;
+    return Kernel.System.VarType(_value) = _TYPE_CLASS;
   end;
 
-  func var_is_nil(value: variant): boolean;
+  func var_is_nil(_value: variant): boolean;
     
-    return Kernel.System.varType(value) = TYPE_NIL;
+    return Kernel.System.VarType(_value) = _TYPE_NIL;
   end;
 
 
   -- проверяет равенство значений
-  func var_equal(const value, other_value: variant): boolean;
+  func var_equal(const _value, _other_value: variant): boolean;
 
-    return value in [other_value];
+    return _value in [_other_value];
   end;
 
   -- проверяет неравенство значений
-  func var_not_equal(const value, other_value: variant): boolean;
+  func var_not_equal(const _value, _other_value: variant): boolean;
     
-    return not var_equal(value, other_value);
+    return not var_equal(_value, _other_value);
   end;
 
 
   -- проверяет идентичность значений, возвращает истину если значения и типы переменных совпадают
-  func var_identical(value, other_value: variant): boolean;
+  func var_identical(_value, _other_value: variant): boolean;
     
-    return Kernel.System.varType(value) = Kernel.System.varType(other_value) and var_equal(value, other_value);
+    return Kernel.System.VarType(_value) = Kernel.System.VarType(_other_value) and var_equal(_value, _other_value);
   end;
 
   -- проверяет неидентичность
-  func var_not_identical(value, other_value: variant): boolean;
+  func var_not_identical(_value, _other_value: variant): boolean;
     
-    return not var_identical(value, other_value);
+    return not var_identical(_value, _other_value);
   end;
 
 
   -- проверяет принадлежность значения к типу, в качестве аргумента expected необходимо передать соответствующую константу класса
-  func var_type_is(value: variant; expected: var_type): boolean;
+  func var_type_is(_value: variant; _expected: _var_type): boolean;
 
-    return Kernel.System.varType(value) = expected;
+    return Kernel.System.VarType(_value) = _expected;
   end;
 
-  func var_class_is(value: variant; expected: class): boolean;
+  func var_class_is(_value: variant; _expected: class): boolean;
     
-    return (var_is_class(value) or var_is_object(value)) and value.inheritsFrom(expected);
+    return (var_is_class(_value) or var_is_object(_value)) and _value.InheritsFrom(_expected);
   end;
 
   -- проверяет для значения принадлежность к типу объект и к классу expected
-  func var_instance_of(value: variant; expected: class): boolean;
+  func var_instance_of(_value: variant; _expected: class): boolean;
     
-    result = (var_is_object(value) and value.inheritsFrom(expected));
+    return var_is_object(_value) and _value.InheritsFrom(_expected);
   end;
 
 
 
   -- обменивает значения переменных
-  proc var_swap(var variable: variant; var other_variable: variant);
+  proc var_swap(var _variable: variant; var _other_variable: variant);
     
-    var temp: variant;
-        temp = variable;
+    var _temp: variant;
+        _temp = _variable;
 
-    variable = other_variable;
-    other_variable = temp;
+    _variable = _other_variable;
+    _other_variable = _temp;
   end;
 end

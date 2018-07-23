@@ -5,8 +5,8 @@ inclass
 
 
   type pair_member = (
-    PAIR_KEY   = 1,
-    PAIR_VALUE = 2
+    _PAIR_KEY   = 1,
+    _PAIR_VALUE = 2
   );
 
 
@@ -18,12 +18,12 @@ inclass
 
 
   -- формирует словарь из массива ключей и массива значений
-  func combine(const keys: string[]; const values: variant[]): Dict;
+  func combine(const _keys: string[]; const _values: variant[]): Dict;
 
     result = self.create;
 
-    with Iterator.new(1, array_length(keys)) do
-      while __next do result.set(keys[__index], values[__index]); end;
+    with Iterator.new(1, array_length(_keys)) do
+      while __next do result.set(_keys[__index], _values[__index]); end;
     end;
 
     return result;
@@ -33,26 +33,26 @@ inclass
 inobject
 
 
-  var content: variant[2];
+  var _content: variant[2];
 
 
   -- возвращает индекс пары с ключом
-  func pair_index(key: string): integer;
+  func pair_index(_key: string): integer;
     
-    return md_array_pos(self.content, [self.PAIR_KEY], [key]);
+    return md_array_pos(self._content, [self._PAIR_KEY], [_key]);
   end;
 
 
   -- возвращает значение из словаря по ключу
-  func get(key: string; default_value: variant = nil): variant;
+  func get(_key: string; _default_value: variant = nil): variant;
 
-    var index: integer;
-        index = self.pair_index(key);
+    var _index: integer;
+        _index = self.pair_index(_key);
 
-    if index <> -1 then
-      result = md_array_get(self.content, index, [self.PAIR_VALUE], default_value);
+    if _index <> -1 then
+      result = md_array_get(self._content, _index, [self._PAIR_VALUE], _default_value);
     else
-      result = default_value;
+      result = _default_value;
     end;
 
     return result;
@@ -60,15 +60,15 @@ inobject
 
 
   -- устанавливает значение в словаре по ключу
-  func set(key: string; value: variant): Dict;
+  func set(_key: string; _value: variant): Dict;
     
-    var index: integer;
-        index = self.pair_index(key);
+    var _index: integer;
+        _index = self.pair_index(_key);
 
-    if index <> -1 then
-      md_array_set(self.content, index, [self.PAIR_VALUE], value);
+    if _index <> -1 then
+      md_array_set(self._content, _index, [self._PAIR_VALUE], _value);
     else
-      array_append(self.content, [key, value] as variant[]);
+      array_append(self._content, [_key, _value] as variant[]);
     end;
 
     return self;
@@ -76,13 +76,13 @@ inobject
 
 
   -- разустанавливает значение по ключу
-  func unset(key: string): Dict;
+  func unset(_key: string): Dict;
     
-    var index: integer;
-        index = self.pair_index(key);
+    var _index: integer;
+        _index = self.pair_index(_key);
 
-    if index <> -1 then
-      array_unset(self.content, index);
+    if _index <> -1 then
+      array_unset(self._content, _index);
     end;
 
     return self;
@@ -90,25 +90,25 @@ inobject
 
 
   -- возвращает истину, если по ключу установлено значение
-  func is_set(key: string): boolean;
+  func is_set(_key: string): boolean;
     
-    return self.pair_index(key) <> -1;
+    return self.pair_index(_key) <> -1;
   end;
 
 
   -- очищает словарь
   func clear: Dict;
     
-    array_clear(self.content);
+    array_clear(self._content);
     return self;
   end;
 
 
   -- расширяет словарь другим словарём
-  func extend(const other_dict: Dict): Dict;
+  func extend(const _other_dict: Dict): Dict;
 
-    with array_each(other_dict.pairs) do
-      while __next do self.set(array_get(__item, self.PAIR_KEY), array_get(__item, self.PAIR_VALUE)); end;
+    with array_each(_other_dict.pairs) do
+      while __next do self.set(array_get(__item, self._PAIR_KEY), array_get(__item, self._PAIR_VALUE)); end;
     end;
 
     return self;
@@ -121,7 +121,7 @@ inobject
     result = self.new;
 
     with array_each(self.pairs) do
-      while __next do result.set(array_get(__item, self.PAIR_KEY), array_get(__item, self.PAIR_VALUE)); end;
+      while __next do result.set(array_get(__item, self._PAIR_KEY), array_get(__item, self._PAIR_VALUE)); end;
     end;
 
     return result;
@@ -131,8 +131,8 @@ inobject
   -- возвращает ключи в словаре
   func keys: string[];
     
-    with array_map(self.content) do
-      while __next do __apply(array_get(__item, self.PAIR_KEY)); end; __assign(result);
+    with array_map(self._content) do
+      while __next do __apply(array_get(__item, self._PAIR_KEY)); end; __assign(result);
     end;
 
     return result;
@@ -142,8 +142,8 @@ inobject
   -- возвращает значения в словаре
   func values: variant[];
     
-    with array_map(self.content) do
-      while __next do __apply(array_get(__item, self.PAIR_VALUE)); end; __assign(result);
+    with array_map(self._content) do
+      while __next do __apply(array_get(__item, self._PAIR_VALUE)); end; __assign(result);
     end;
 
     return result;
@@ -152,7 +152,7 @@ inobject
 
   func pairs: variant[];
     
-    return self.content;
+    return self._content;
   end;
 
 

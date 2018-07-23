@@ -4,117 +4,117 @@ import classes Functions.Variable, Functions.Array;
 inclass
 
 
-  func class_from(value: variant): class;
+  func class_from(_value: variant): class;
     
-    if var_is_class(value) or var_is_object(value) then
-      return value.classType;
+    if var_is_class(_value) or var_is_object(_value) then
+      return _value.ClassType;
     else
       return nil;
     end;
   end;
 
-  func class_find(name: string): class;
+  func class_find(_name: string): class;
     
-    return Kernel.System.findClass(name);
+    return Kernel.System.FindClass(_name);
   end;
 
 
 
-  func class_name(cls: class): string;
+  func class_name(_class: class): string;
     
-    return cls.className;
+    return _class.ClassName;
   end;
 
-  func class_description(cls: class): string;
+  func class_description(_class: class): string;
     
-    return cls.classInfo.description;
+    return _class.ClassInfo.Description;
   end;
 
 
 
-  func class_member_info(cls: class; name: string): MemberInfo;
+  func class_member_info(_class: class; _name: string): MemberInfo;
 
-    var member: MemberInfo;
+    var _member: MemberInfo;
 
-    member = cls.classInfo.memberByName(name);
-    return member;
+    _member = _class.ClassInfo.MemberByName(_name);
+    return _member;
   end;
 
-  func class_prop_info(cls: class; name: string): MemberInfo;
+  func class_prop_info(_class: class; _name: string): MemberInfo;
 
-    var member: MemberInfo;
+    var _member: MemberInfo;
 
-    member = class_member_info(cls, name);
-    return if (member <> nil and class_member_info_is_prop(member), member, nil);
+    _member = class_member_info(_class, _name);
+    return if (_member <> nil and class_member_info_is_prop(_member), _member, nil);
   end;
 
-  func class_proc_info(cls: class; name: string): MemberInfo;
+  func class_proc_info(_class: class; _name: string): MemberInfo;
 
-    var member: MemberInfo;
+    var _member: MemberInfo;
 
-    member = class_member_info(cls, name);
-    return if (member <> nil and class_member_info_is_proc(member), member, nil);
+    _member = class_member_info(_class, _name);
+    return if (_member <> nil and class_member_info_is_proc(_member), _member, nil);
   end;
 
-  func class_func_info(cls: class; name: string): MemberInfo;
+  func class_func_info(_class: class; _name: string): MemberInfo;
 
-    var member: MemberInfo;
+    var _member: MemberInfo;
 
-    member = class_member_info(cls, name);
-    return if (member <> nil and class_member_info_is_func(member), member, nil);
+    _member = class_member_info(_class, _name);
+    return if (_member <> nil and class_member_info_is_func(_member), _member, nil);
   end;
 
-  func class_method_info(cls: class; name: string): MemberInfo;
+  func class_method_info(_class: class; _name: string): MemberInfo;
 
-    var member: MemberInfo;
+    var _member: MemberInfo;
 
-    member = class_member_info(cls, name);
-    return if (member <> nil and class_member_info_is_method(member), member, nil);
+    _member = class_member_info(_class, _name);
+    return if (_member <> nil and class_member_info_is_method(_member), _member, nil);
   end;
 
 
 
-  func class_members_info(cls: class): MemberInfo[];
+  func class_members_info(_class: class): MemberInfo[];
     
-    var i: integer;
+    var _i: integer;
     
-    for i = 1..cls.classInfo.membersCount do
-      array_append(result, cls.classInfo.member[i]);
+    for _i = 1.._class.ClassInfo.MembersCount do
+      array_append(result, _class.ClassInfo.Member[_i]);
     end;
 
     return result;
   end;
 
-  func class_props_info(cls: class): MemberInfo[];
+  func class_props_info(_class: class): MemberInfo[];
     
-    with array_filter(class_members_info(cls)) do
+    with array_filter(class_members_info(_class)) do
       while __next do __apply(class_member_info_is_prop(__item)); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func class_procs_info(cls: class): MemberInfo[];
+  func class_procs_info(_class: class): MemberInfo[];
     
-    with array_filter(class_members_info(cls)) do
+    with array_filter(class_members_info(_class)) do
       while __next do __apply(class_member_info_is_proc(__item)); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func class_funcs_info(cls: class): MemberInfo[];
+  func class_funcs_info(_class: class): MemberInfo[];
     
-    with array_filter(class_members_info(cls)) do
+    with array_filter(class_members_info(_class)) do
       while __next do __apply(class_member_info_is_func(__item)); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func class_methods_info(cls: class): MemberInfo[];
+  func class_methods_info(_class: class): MemberInfo[];
     
-    with array_filter(class_members_info(cls)) do
+    with array_filter(class_members_info(_class)) do
       while __next do __apply(class_member_info_is_method(__item)); end; __assign(result);
     end;
 
@@ -123,78 +123,78 @@ inclass
 
 
 
-  func class_member_info_is_internal(member: MemberInfo): boolean;
+  func class_member_info_is_internal(_member: MemberInfo): boolean;
 
-    return member <> nil and member.internal;
+    return _member <> nil and _member.Internal;
   end;
 
-  func class_member_info_is_inclass(member: MemberInfo): boolean;
+  func class_member_info_is_inclass(_member: MemberInfo): boolean;
 
-    return member <> nil and member is MethodInfo and (member as MethodInfo).inclassProperty;
+    return _member <> nil and _member is MethodInfo and (_member as MethodInfo).InClassProperty;
   end;
 
-  func class_member_info_is_prop(member: MemberInfo): boolean;
+  func class_member_info_is_prop(_member: MemberInfo): boolean;
 
-    return member <> nil and (member is MethodInfo and (member as MethodInfo).kind = MethodInfo.mkProp);
+    return _member <> nil and (_member is MethodInfo and (_member as MethodInfo).Kind = MethodInfo.mkProp);
   end;
 
-  func class_member_info_is_proc(member: MemberInfo): boolean;
+  func class_member_info_is_proc(_member: MemberInfo): boolean;
 
-    return member <> nil and (member is MethodInfo and (member as MethodInfo).kind = MethodInfo.mkProc);
+    return _member <> nil and (_member is MethodInfo and (_member as MethodInfo).Kind = MethodInfo.mkProc);
   end;
 
-  func class_member_info_is_func(member: MemberInfo): boolean;
+  func class_member_info_is_func(_member: MemberInfo): boolean;
 
-    return member <> nil and (member is MethodInfo and (member as MethodInfo).kind = MethodInfo.mkFunc);
+    return _member <> nil and (_member is MethodInfo and (_member as MethodInfo).Kind = MethodInfo.mkFunc);
   end;
 
-  func class_member_info_is_method(member: MemberInfo): boolean;
+  func class_member_info_is_method(_member: MemberInfo): boolean;
 
-    return member <> nil and (class_member_info_is_proc(member) or class_member_info_is_func(member));
+    return _member <> nil and (class_member_info_is_proc(_member) or class_member_info_is_func(_member));
   end;
 
 
 
-  func class_members(cls: class): string[];
+  func class_members(_class: class): string[];
     
-    with array_map(class_members_info(cls)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(class_members_info(_class)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func class_props(cls: class): string[];
+  func class_props(_class: class): string[];
     
-    with array_map(class_props_info(cls)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(class_props_info(_class)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func class_procs(cls: class): string[];
+  func class_procs(_class: class): string[];
     
-    with array_map(class_procs_info(cls)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(class_procs_info(_class)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func class_funcs(cls: class): string[];
+  func class_funcs(_class: class): string[];
     
-    with array_map(class_funcs_info(cls)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(class_funcs_info(_class)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func class_methods(cls: class): string[];
+  func class_methods(_class: class): string[];
     
-    with array_map(class_methods_info(cls)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(class_methods_info(_class)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
@@ -202,77 +202,77 @@ inclass
 
 
 
-  func class_has_member(cls: class; name: string): boolean;
+  func class_has_member(_class: class; _name: string): boolean;
 
-    return class_member_info(cls, name) <> nil;
+    return class_member_info(_class, _name) <> nil;
   end;
 
-  func class_has_own_member(cls: class; name: string): boolean;
+  func class_has_own_member(_class: class; _name: string): boolean;
 
-    return not class_member_info_is_internal(class_member_info(cls, name));
+    return not class_member_info_is_internal(class_member_info(_class, _name));
   end;
 
-  func class_has_prop(cls: class; name: string): boolean;
+  func class_has_prop(_class: class; _name: string): boolean;
 
-    return class_member_info_is_prop(class_member_info(cls, name));
+    return class_member_info_is_prop(class_member_info(_class, _name));
   end;
 
-  func class_has_proc(cls: class; name: string): boolean;
+  func class_has_proc(_class: class; _name: string): boolean;
     
-    return class_member_info_is_proc(class_member_info(cls, name));
+    return class_member_info_is_proc(class_member_info(_class, _name));
   end;
 
-  func class_has_func(cls: class; name: string): boolean;
+  func class_has_func(_class: class; _name: string): boolean;
     
-    return class_member_info_is_proc(class_member_info(cls, name));
+    return class_member_info_is_proc(class_member_info(_class, _name));
   end;
 
-  func class_has_method(cls: class; name: string): boolean;
+  func class_has_method(_class: class; _name: string): boolean;
     
-    return class_member_info_is_method(class_member_info(cls, name));
+    return class_member_info_is_method(class_member_info(_class, _name));
   end;
 
 
 
-  func class_get_prop(cls: class; name: string): variant;
+  func class_get_prop(_class: class; _name: string): variant;
     
-    return cls.getClassField(name);
+    return _class.GetClassField(_name);
   end;
 
-  proc class_set_prop(cls: class; name: string; value: variant);
+  proc class_set_prop(_class: class; _name: string; _value: variant);
     
-    cls.setClassField(name, value);
+    _class.SetClassField(_name, _value);
   end;
 
 
 
-  func class_call_proc(cls: class; name: string; arguments: variant[] = []): variant;
+  func class_call_proc(_class: class; _name: string; _arguments: variant[] = []): variant;
 
-    var member: MemberInfo;
+    var _member: MemberInfo;
 
-    member = class_member_info(cls, name);
-    if class_member_info_is_proc(member) then (member as MethodInfo).callProcEx(cls, arguments); end;
+    _member = class_member_info(_class, _name);
+    if class_member_info_is_proc(_member) then (_member as MethodInfo).CallProcEx(_class, _arguments); end;
 
     return nil;
   end;
 
-  func class_call_func(cls: class; name: string; arguments: variant[] = []): variant;
+  func class_call_func(_class: class; _name: string; _arguments: variant[] = []): variant;
 
-    var member: MemberInfo;
+    var _member: MemberInfo;
 
-    member = class_member_info(cls, name);
-    if class_member_info_is_func(member) then (member as MethodInfo).callFuncEx(cls, arguments); end;
+    _member = class_member_info(_class, _name);
+    if class_member_info_is_func(_member) then (_member as MethodInfo).CallFuncEx(_class, _arguments); end;
 
     return nil;
   end;
 
-  func class_call_method(cls: class; name: string; arguments: variant[] = []): variant;
+  func class_call_method(_class: class; _name: string; _arguments: variant[] = []): variant;
 
-    if class_has_proc(cls, name) then
-      return class_call_proc(cls, name, arguments);
+    if class_has_proc(_class, _name) then
+      return class_call_proc(_class, _name, _arguments);
 
-    elsif class_has_func(cls, name) then
-      return class_call_func(cls, name, arguments);
+    elsif class_has_func(_class, _name) then
+      return class_call_func(_class, _name, _arguments);
     end;
 
     return nil;

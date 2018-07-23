@@ -5,87 +5,87 @@ inclass
 
 
 
-  func object_member_info(obj: Object; name: string): MemberInfo;
+  func object_member_info(_object: Object; _name: string): MemberInfo;
     
-    var member: MemberInfo;
-    member = class_member_info(class_from(obj), name);
+    var _member: MemberInfo;
+    _member = class_member_info(class_from(_object), _name);
 
-    return if (member <> nil and not class_member_info_is_inclass(member), member, nil);
+    return if (_member <> nil and not class_member_info_is_inclass(_member), _member, nil);
   end;
 
-  func object_prop_info(obj: Object; name: string): MemberInfo;
+  func object_prop_info(_object: Object; _name: string): MemberInfo;
     
-    var member: MemberInfo;
-    member = class_prop_info(class_from(obj), name);
+    var _member: MemberInfo;
+    _member = class_prop_info(class_from(_object), _name);
 
-    return if (member <> nil and not class_member_info_is_inclass(member), member, nil);
+    return if (_member <> nil and not class_member_info_is_inclass(_member), _member, nil);
   end;
 
-  func object_proc_info(obj: Object; name: string): MemberInfo;
+  func object_proc_info(_object: Object; _name: string): MemberInfo;
     
-    var member: MemberInfo;
-    member = class_proc_info(class_from(obj), name);
+    var _member: MemberInfo;
+    _member = class_proc_info(class_from(_object), _name);
 
-    return if (member <> nil and not class_member_info_is_inclass(member), member, nil);
+    return if (_member <> nil and not class_member_info_is_inclass(_member), _member, nil);
   end;
 
-  func object_func_info(obj: Object; name: string): MemberInfo;
+  func object_func_info(_object: Object; _name: string): MemberInfo;
     
-    var member: MemberInfo;
-    member = class_func_info(class_from(obj), name);
+    var _member: MemberInfo;
+    _member = class_func_info(class_from(_object), _name);
 
-    return if (member <> nil and not class_member_info_is_inclass(member), member, nil);
+    return if (_member <> nil and not class_member_info_is_inclass(_member), _member, nil);
   end;
 
-  func object_method_info(obj: Object; name: string): MemberInfo;
+  func object_method_info(_object: Object; _name: string): MemberInfo;
     
-    var member: MemberInfo;
-    member = class_method_info(class_from(obj), name);
+    var _member: MemberInfo;
+    _member = class_method_info(class_from(_object), _name);
 
-    return if (member <> nil and not class_member_info_is_inclass(member), member, nil);
+    return if (_member <> nil and not class_member_info_is_inclass(_member), _member, nil);
   end;
 
 
 
-  func object_members_info(obj: Object): MemberInfo[];
+  func object_members_info(_object: Object): MemberInfo[];
     
-    with array_filter(class_members_info(class_from(obj))) do
+    with array_filter(class_members_info(class_from(_object))) do
       while __next do __apply(not class_member_info_is_inclass(__item)); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func object_props_info(obj: Object): MemberInfo[];
+  func object_props_info(_object: Object): MemberInfo[];
     
-    with array_filter(class_props_info(class_from(obj))) do
+    with array_filter(class_props_info(class_from(_object))) do
       while __next do __apply(not class_member_info_is_inclass(__item)); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func object_procs_info(obj: Object): MemberInfo[];
+  func object_procs_info(_object: Object): MemberInfo[];
     
-    with array_filter(class_members_info(class_from(obj))) do
+    with array_filter(class_members_info(class_from(_object))) do
       while __next do __apply(not class_member_info_is_inclass(__item)); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func object_funcs_info(obj: Object): MemberInfo[];
+  func object_funcs_info(_object: Object): MemberInfo[];
     
-    with array_filter(class_funcs_info(class_from(obj))) do
+    with array_filter(class_funcs_info(class_from(_object))) do
       while __next do __apply(not class_member_info_is_inclass(__item)); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func object_methods_info(obj: Object): MemberInfo[];
+  func object_methods_info(_object: Object): MemberInfo[];
     
-    with array_filter(class_methods_info(class_from(obj))) do
+    with array_filter(class_methods_info(class_from(_object))) do
       while __next do __apply(not class_member_info_is_inclass(__item)); end; __assign(result);
     end;
 
@@ -94,123 +94,123 @@ inclass
 
 
 
-  func object_members(obj: Object): string[];
+  func object_members(_object: Object): string[];
     
-    with array_map(object_members_info(obj)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(object_members_info(_object)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func object_props(obj: Object): string[];
+  func object_props(_object: Object): string[];
     
-    with array_map(object_props_info(obj)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(object_props_info(_object)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func object_procs(obj: Object): string[];
+  func object_procs(_object: Object): string[];
     
-    with array_map(object_procs_info(obj)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(object_procs_info(_object)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func object_funcs(obj: Object): string[];
+  func object_funcs(_object: Object): string[];
     
-    with array_map(object_funcs_info(obj)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(object_funcs_info(_object)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
   end;
 
-  func object_methods(obj: Object): string[];
+  func object_methods(_object: Object): string[];
     
-    with array_map(object_members_info(obj)) do
-      while __next do __apply(__item.name); end; __assign(result);
+    with array_map(object_members_info(_object)) do
+      while __next do __apply(__item.Name); end; __assign(result);
     end;
 
     return result;
   end;
 
 
-  func object_has_member(obj: Object; name: string): boolean;
+  func object_has_member(_object: Object; _name: string): boolean;
 
-    return object_member_info(obj, name) <> nil;
+    return object_member_info(_object, _name) <> nil;
   end;
 
-  func object_has_own_member(obj: Object; name: string): boolean;
+  func object_has_own_member(_object: Object; _name: string): boolean;
 
-    return not class_member_info_is_internal(object_member_info(obj, name));
+    return not class_member_info_is_internal(object_member_info(_object, _name));
   end;
 
-  func object_has_prop(obj: Object; name: string): boolean;
+  func object_has_prop(_object: Object; _name: string): boolean;
 
-    return class_member_info_is_prop(object_member_info(obj, name));
+    return class_member_info_is_prop(object_member_info(_object, _name));
   end;
 
-  func object_has_proc(obj: Object; name: string): boolean;
+  func object_has_proc(_object: Object; _name: string): boolean;
     
-    return class_member_info_is_proc(object_member_info(obj, name));
+    return class_member_info_is_proc(object_member_info(_object, _name));
   end;
 
-  func object_has_func(obj: Object; name: string): boolean;
+  func object_has_func(_object: Object; _name: string): boolean;
     
-    return class_member_info_is_func(object_member_info(obj, name));
+    return class_member_info_is_func(object_member_info(_object, _name));
   end;
 
-  func object_has_method(obj: Object; name: string): boolean;
+  func object_has_method(_object: Object; _name: string): boolean;
     
-    return class_member_info_is_method(object_member_info(obj, name));
+    return class_member_info_is_method(object_member_info(_object, _name));
   end;
 
 
 
-  func object_get_prop(obj: Object; name: string): variant;
+  func object_get_prop(_object: Object; _name: string): variant;
     
-    return obj.getField(name);
+    return _object.GetField(_name);
   end;
 
-  proc object_set_prop(obj: Object; name: string; value: variant);
+  proc object_set_prop(_object: Object; _name: string; _value: variant);
     
-    obj.setField(name, value);
+    _object.SetField(_name, _value);
   end;
 
 
 
-  func object_call_proc(obj: Object; name: string; arguments: variant[]): variant;
+  func object_call_proc(_object: Object; _name: string; _arguments: variant[]): variant;
 
-    var member: MemberInfo;
+    var _member: MemberInfo;
 
-    member = object_member_info(obj, name);
-    if class_member_info_is_proc(member) then (member as MethodInfo).callProcEx(obj, arguments); end;
+    _member = object_member_info(_object, _name);
+    if class_member_info_is_proc(_member) then (_member as MethodInfo).CallProcEx(_object, _arguments); end;
 
     return nil;
   end;
 
-  func object_call_func(obj: Object; name: string; arguments: variant[]): variant;
+  func object_call_func(_object: Object; _name: string; _arguments: variant[]): variant;
 
-    var member: MemberInfo;
+    var _member: MemberInfo;
 
-    member = object_member_info(obj, name);
-    if class_member_info_is_func(member) then (member as MethodInfo).callFuncEx(obj, arguments); end;
+    _member = object_member_info(_object, _name);
+    if class_member_info_is_func(_member) then (_member as MethodInfo).CallFuncEx(_object, _arguments); end;
 
     return nil;
   end;
 
-  func class_call_method(obj: Object; name: string; arguments: variant[]): variant;
+  func class_call_method(_object: Object; _name: string; _arguments: variant[]): variant;
 
-    if object_has_proc(obj, name) then
-      return object_call_proc(obj, name, arguments);
+    if object_has_proc(_object, _name) then
+      return object_call_proc(_object, _name, _arguments);
 
-    elsif object_has_func(obj, name) then
-      return object_call_func(obj, name, arguments);
+    elsif object_has_func(_object, _name) then
+      return object_call_func(_object, _name, _arguments);
     end;
 
     return nil;
