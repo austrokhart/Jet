@@ -11,45 +11,45 @@ inclass
 inobject
 
 
-  var debug_limit: boolean;
+  var _limit_debug_only: boolean;
+
+
+  func debug_only(_state: boolean): SmartConsole;
+    
+    self._limit_debug_only = _state;
+    return self;
+  end;
 
 
   func check_limits: boolean;
     
-    return (not self.debug_limit or Kernel.System.debugMode);
-  end;
-
-
-  func debug_only(state: boolean): SmartConsole;
-    
-    self.debug_limit = state;
-    return self;
+    return (not self._limit_debug_only or Kernel.System.DebugMode);
   end;
 
 
   -- выводит строку в окно сообщений
   -- аргумент message приводится к массиву, затем складывается в строку
-  func log(message: variant): SmartConsole;
+  func log(_message: variant): SmartConsole;
 
-    var console: class;
-        console = class_find("Console");
+    var _console: class;
+        _console = class_find("Console");
 
-    if console <> nil and self.check_limits then console.trace(array_implode(array_from(message))); end;
+    if _console <> nil and self.check_limits then _console.Trace(array_implode(array_from(_message))); end;
     return self;
   end;
 
 
   -- выводит массив строк в окно сообщений
   -- аргумент messages приводится к массиву
-  func log_multi(messages: variant): SmartConsole;
+  func log_multi(_messages: variant): SmartConsole;
 
-    var console: class;
-        console = class_find("Console");
+    var _console: class;
+        _console = class_find("Console");
 
-    if console <> nil and self.check_limits then
+    if _console <> nil and self.check_limits then
       
-      with array_each(array_from(messages)) do
-        while __next do console.trace(__item); end;
+      with array_each(array_from(_messages)) do
+        while __next do _console.Trace(__item); end;
       end;
     end;
 
@@ -60,10 +60,10 @@ inobject
   -- очищает окно сообщений
   func clear: SmartConsole;
 
-    var console: class;
-        console = class_find("Console");
+    var _console: class;
+        _console = class_find("Console");
 
-    if console <> nil and self.check_limits then console.clearTrace; end;
+    if _console <> nil and self.check_limits then _console.ClearTrace; end;
     return self;
   end;
 end

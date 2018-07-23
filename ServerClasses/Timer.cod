@@ -4,7 +4,7 @@ import classes Functions.Date;
 inclass
 
 
-  var stamp: date;
+  var _stamp: date;
 
 
   func new: Timer;
@@ -20,13 +20,13 @@ inobject
 
   func update: Timer;
 
-    self.stamp = date_now;
+    self._stamp = date_now;
     return self;
   end;
 
 
   func passed: real;
     
-    return date_period(self.stamp, date_now);
+    return date_period(self._stamp, date_now);
   end;
 end
