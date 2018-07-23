@@ -1,0 +1,7 @@
+﻿class "класс для экспорта класса Iterator";
+
+inclass
+
+inobject
+
+end

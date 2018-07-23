@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Properties Version="1"/>
+<Items>
+  <Item Name="ArrayObject"/>
+  <Item Name="Iterator"/>
+  <Item Name="Dict"/>
+  <Item Name="Escaper"/>
+  <Item Name="SmartConsole"/>
+  <Item Name="Timer"/>
+</Items>

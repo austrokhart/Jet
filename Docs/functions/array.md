@@ -1,7 +1,7 @@
 # Functions.ArrayObject
 
 ## Структура
-Структура класса:
+Структура класса: [test](./string.md)
 
 
 * **func** array_from(value: variant = nil): variant[] <br>

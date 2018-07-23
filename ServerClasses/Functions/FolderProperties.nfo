@@ -6,9 +6,9 @@
   <Item Name="Variable"/>
   <Item Name="Class"/>
   <Item Name="Object"/>
-  <Item Name="Array"/>
   <Item Name="String"/>
   <Item Name="Date"/>
   <Item Name="DateISO"/>
+  <Item Name="Array"/>
   <Item Name="JSON"/>
 </Items>
