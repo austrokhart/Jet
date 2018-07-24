@@ -2,7 +2,56 @@
 
 ## Структура
 
-### Процедуры и функции для работы с одним измерением:
+### Типы
+<br>
+
+
+    _array_pad_direction = (
+      _ARRAY_PAD_LEFT,
+      _ARRAY_PAD_RIGHT,
+      _ARRAY_PAD_BOTH
+    );
+
+
+    _array_trim_direction = (
+      _ARRAY_TRIM_LEFT,
+      _ARRAY_TRIM_RIGHT,
+      _ARRAY_TRIM_BOTH
+    );
+
+
+    _array_pos_result = (
+      _ARRAY_POS_OFFSET,
+      _ARRAY_POS_LENGTH
+    );
+
+
+    _array_method_each   = Methods.Functions.Array.Each;
+    _array_method_filter = Methods.Functions.Array.Filter;
+    _array_method_map    = Methods.Functions.Array.Map;
+    _array_method_reduce = Methods.Functions.Array.Reduce;   
+
+### Свойства
+<br>
+
+
+    _ARRAY_PAD_LEFT:  _array_pad_direction;
+    _ARRAY_PAD_RIGHT: _array_pad_direction;
+    _ARRAY_PAD_BOTH:  _array_pad_direction;
+
+
+    _ARRAY_TRIM_LEFT:  _array_trim_direction;
+    _ARRAY_TRIM_RIGHT: _array_trim_direction;
+    _ARRAY_TRIM_BOTH:  _array_trim_direction;
+
+
+    _ARRAY_POS_OFFSET: _array_pos_result;
+    _ARRAY_POS_LENGTH: _array_pos_result;
+
+### Процедуры и функции
+<br>
+
+##### Для работы с одним измерением:
 <br>
 
 
@@ -179,7 +228,7 @@
 * func **array_implode**(const \_array: variant[]; \_separator: string = " "): string <br>
   возвращает строку из значений элементов массива \_array, объединённую значением \_separator
 
-### Процедуры и функции для работы со множеством измерений:
+##### Для работы со множеством измерений:
 <br>
 
 
