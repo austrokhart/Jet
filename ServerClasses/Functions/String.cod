@@ -186,13 +186,13 @@ inclass
 
 
   -- возвращает объект класса-обёртки для поиска подстрок
-  func str_find(const _string: string; _value: variant): _str_method_find;
+  func str_find(const _string: string; _value: string): _str_method_find;
 
     return str_find_any(_string, [_value]);
   end;
 
 
-  func str_find_any(const _string: string; _values: variant[]): _str_method_find;
+  func str_find_any(const _string: string; _values: string[]): _str_method_find;
 
     return _str_method_find.new(_string, _values);
   end;
@@ -305,7 +305,7 @@ inclass
   end;
 
 
-  func str_replace(const _string: string; _value: variant; _replacement: string): string;
+  func str_replace(const _string: string; _value: string; _replacement: string): string;
     
     return str_replace_any(_string, [_value], _replacement);
   end;
@@ -323,7 +323,7 @@ inclass
 
 
   -- возвращает строку str с применением форматирования
-  func str_format(const _string: string; _values: variant): string;
+  func str_format(const _string: string; _value: variant): string;
 
 
     func form_replacement(_value: string; _brackets_count: integer): string;
@@ -335,7 +335,7 @@ inclass
     var _i: integer;
 
     -- поищем последовательности {}
-    with array_each(array_from(_values)) do
+    with array_each(array_from(_value)) do
       with str_find(_string, "{}").__define_super(__self) do
 
         while __next do
@@ -367,7 +367,7 @@ inclass
   end;
 
 
-  func str_explode(const _string, _separator: string): string[];
+  func str_explode(const _string: string; _separator: string): string[];
 
     return str_explode_any(_string, [_separator]);
   end;
