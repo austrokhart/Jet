@@ -2,6 +2,6 @@
 
 inclass
 
-inobject
 
+  type Timer = Timer;
 end

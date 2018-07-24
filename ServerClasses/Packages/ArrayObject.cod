@@ -1,4 +1,4 @@
-﻿class "Класс для экспорта ArrayObject";
+﻿class "Класс для экспорта класса ArrayObject";
 
 inclass
 

@@ -1,7 +1,7 @@
-﻿class "класс для экспорта класса Iterator";
+﻿class "Класс для экспорта класса Iterator";
 
 inclass
 
-inobject
 
+  type Iterator = Iterator;
 end
