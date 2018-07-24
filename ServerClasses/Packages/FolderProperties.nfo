@@ -5,6 +5,7 @@
   <Item Name="Iterator"/>
   <Item Name="Dict"/>
   <Item Name="Escaper"/>
+  <Item Name="JSON"/>
   <Item Name="SmartConsole"/>
   <Item Name="Timer"/>
 </Items>

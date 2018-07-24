@@ -1,0 +1,7 @@
+﻿class "Класс для экспорта класса JSON";
+
+inclass
+
+
+  type JSON = JSON;
+end

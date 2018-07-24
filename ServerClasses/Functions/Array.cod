@@ -156,9 +156,9 @@ inclass
   end;
 
 
-  func array_slice(const _array: variant[]; _offset: integer = 1; _length: variant = nil): variant[];
+  func array_slice(const _array: variant[]; _offset: integer = 1; _length: variant = nil; _step: integer = 1): variant[];
 
-    return md_array_slice(_array, nil, _offset, _length);
+    return md_array_slice(_array, nil, _offset, _length, _step);
   end;
 
 
