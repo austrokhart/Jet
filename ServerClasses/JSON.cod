@@ -20,11 +20,7 @@ inobject
   var _UTC_offset: string;
 
 
-  func encode(_value: variant): string;
-
-
-    var _escaper: Escaper;
-    var _UTC_offset: string;
+  func encode(_value: variant; _escaper: Escaper = _escaper; _UTC_offset: string = _UTC_offset): string;
 
 
     func encode_value(_value: variant): string;
@@ -108,18 +104,11 @@ inobject
     end;
 
 
-    _escaper    = self._escaper;
-    _UTC_offset = self._UTC_offset;
-
     return encode_value(_value);
   end;
 
 
-  func decode(const _value: string): variant;
-
-
-    var _escaper: Escaper;
-    var _UTC_offset: string;
+  func decode(const _value: string; _escaper: Escaper = _escaper; _UTC_offset: string = _UTC_offset): variant;
 
 
     func decode_value(_value: string; var _offset: integer): variant;
@@ -265,9 +254,6 @@ inobject
       end;
     end;
 
-
-    _escaper    = self._escaper;
-    _UTC_offset = self._UTC_offset;
 
     return decode_value(_value, 1);
   end;
