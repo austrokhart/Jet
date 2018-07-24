@@ -2,8 +2,9 @@
 <Properties Version="1"/>
 <Items>
   <Item Name="Functions"/>
+  <Item Name="UnitTestingSuite"/>
   <Item Name="IteratorSuite"/>
   <Item Name="DictSuite"/>
   <Item Name="EscaperSuite"/>
-  <Item Name="UnitTestingSuite"/>
+  <Item Name="JSONSuite"/>
 </Items>

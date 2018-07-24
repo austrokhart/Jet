@@ -14,6 +14,7 @@
   <Item Name="DateObject"/>
   <Item Name="Dict"/>
   <Item Name="Escaper"/>
+  <Item Name="JSON"/>
   <Item Name="SmartQuery"/>
   <Item Name="SmartConsole"/>
   <Item Name="Timer"/>
