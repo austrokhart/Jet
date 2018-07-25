@@ -66,17 +66,28 @@ inclass
 
 
   -- возвращает подстроку с началом в offset и длиной length
-  func str_substr(const _string: string; _offset: integer = 1; _length: variant = nil): string;
+  func str_substr(const _string: string; _offset: integer = 1; _length: variant = nil; _step: integer = 1): string;
 
-    if _offset = 1 and var_identical(_length, nil) then return _string; end;
+    var i: integer;
+
+    if var_equal(_offset, 1) and var_identical(_length, nil) and var_equal(_step, 1) then return _string; end;
 
     _offset = handle_offset(_offset, str_length(_string));
 
-    if var_identical(_length, nil) then
-      result = Kernel.System.Substr(_string, _offset);
-    else
-      result = Kernel.System.Substr(_string, _offset, handle_length(_offset, _length, str_length(_string)));
+
+    result = "";
+
+    if _step > 0 then
+      for i = _offset..(_offset +handle_length(_offset, _length, str_length(_string)) -1) step _step do
+        result = result +str_char_at(_string, i);
+      end;
+
+    elsif _step < 0 then
+      for i = (_offset +handle_length(_offset, _length, str_length(_string)) -1).._offset step _step do
+        result = result +str_char_at(_string, i);
+      end;
     end;
+
 
     return result;
   end;
@@ -208,36 +219,77 @@ inclass
   -- возвращает строку str, дополненную последовательностью value по краям
   func str_pad(const _string: string; _direction: _str_pad_direction; const _value: string; _length: integer): string;
 
-    var _count: integer;
+--    var _count: integer;
+--
+--    -- в случае длины меньше 1 вернём пустую строку
+--    if _length < 1 then return ""; end;
+--
+--    -- в зависимости от направления
+--    if _direction = _STR_PAD_LEFT then
+--
+--      _count = var_to_int(math_ceil((_length -str_length(_string)) /str_length(_value)));
+--
+--      -- заполним строку слева и выделим подстроку справа
+--      result = str_repeat(_value, _count) +_string;
+--      result = str_substr(result, -_length, _length);
+--
+--    elsif _direction = _STR_PAD_RIGHT then
+--
+--      _count = var_to_int(math_ceil((_length -str_length(_string)) /str_length(_value)));
+--
+--      -- заполним строку справа и выделим подстроку слева
+--      result = _string +str_repeat(_value, _count);
+--      result = str_substr(result, 1, _length);
+--
+--    elsif _direction = _STR_PAD_BOTH then
+--
+--      _count = var_to_int(math_ceil((_length -str_length(_string)) /(str_length(_value) *2)));
+--
+--      -- заполним строку с обоих сторон и выделим подстроку по центру
+--      result = str_repeat(_value, _count) +_string +str_repeat(_value, _count);
+--      result = str_substr(result, var_to_int(math_ceil((str_length(result) -_length) /2)) +1, _length);
+--    end;
+--
+--    return result;
 
-    -- в случае длины меньше 1 вернём пустую строку
-    if _length < 1 then return ""; end;
 
-    -- в зависимости от направления
+    var _left_padding, _i: integer;
+
+
+    if _length < 0 then _length = 0; end;
+
+    result = _string;
+
+
     if _direction = _STR_PAD_LEFT then
-
-      _count = var_to_int(math_ceil((_length -str_length(_string)) /str_length(_value)));
-
-      -- заполним строку слева и выделим подстроку справа
-      result = str_repeat(_value, _count) +_string;
-      result = str_substr(result, -_length, _length);
-
-    elsif _direction = _STR_PAD_RIGHT then
-
-      _count = var_to_int(math_ceil((_length -str_length(_string)) /str_length(_value)));
-
-      -- заполним строку справа и выделим подстроку слева
-      result = _string +str_repeat(_value, _count);
-      result = str_substr(result, 1, _length);
+      _left_padding = _length -str_length(result);
 
     elsif _direction = _STR_PAD_BOTH then
+      _left_padding = var_to_int((_length -str_length(result)) /2);
 
-      _count = var_to_int(math_ceil((_length -str_length(_string)) /(str_length(_value) *2)));
-
-      -- заполним строку с обоих сторон и выделим подстроку по центру
-      result = str_repeat(_value, _count) +_string +str_repeat(_value, _count);
-      result = str_substr(result, var_to_int(math_ceil((str_length(result) -_length) /2)) +1, _length);
+    elsif _direction = _STR_PAD_RIGHT then
+      _left_padding = 0;
     end;
+
+
+    if str_length(result) < _length then
+      if str_has_content(_value) then
+
+        for _i = 1.._left_padding do
+          result = str_char_at(_value,  -(mod(_i -1, str_length(_value)) +1)  ) +result;
+        end;
+
+        for _i = 1..(_length -str_length(result)) do
+          result = result +str_char_at(_value,  mod(_i -1, str_length(_value)) +1  );
+        end;
+      end;
+
+    elsif str_length(_string) > _length then
+
+      result = str_substr(result, -_left_padding +1);
+      result = str_substr(result, 1, _length);
+    end;
+
 
     return result;
   end;

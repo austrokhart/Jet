@@ -252,6 +252,8 @@ inclass
 
     var _left_padding, _i: integer;
 
+    if _length < 0 then _length = 0;  end;
+
 
     if _direction = _ARRAY_PAD_LEFT then
       _left_padding = _length -array_length(_array);
@@ -574,7 +576,12 @@ inclass
 
     var _i: integer;
 
+    if var_equal(_offset, 1) and var_identical(_length, nil) and var_equal(_step, 1) then return _array; end;
+
     _offset = handle_offset(_offset, array_length(_array));
+
+
+    result = [];
 
     if _step > 0 then
       for _i = _offset..(_offset +handle_length(_offset, _length, array_length(_array)) -1) step _step do
@@ -586,6 +593,7 @@ inclass
         array_append(result, md_array_get(_array, _i, _path));
       end;
     end;
+
 
     return result;
   end;

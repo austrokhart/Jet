@@ -331,7 +331,7 @@ inclass
   end;
 
 
-  proc test_pad(case: UnitTesting.Case);
+  proc test_str_pad(case: UnitTesting.Case);
 
     var test_str: string;
         test_str  = "abcd";
@@ -354,9 +354,9 @@ inclass
 
       assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", -1),    nil,         "проверки с передачей аргументом direction _STR_PAD_BOTH");
       assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 0),     nil);
-      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 1),     "c");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 1),     "b");
       assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 2),     "bc");
-      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 3),     "bcd");
+      assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 3),     "abc");
       assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "_", 4),     "abcd");
 
       assert_equal(  str_pad(test_str, _STR_PAD_BOTH, "#", 8),     "##abcd##",  "проверки на правильное центрирование строки");
