@@ -21,8 +21,8 @@
 
 
     _array_pos_result = (
-      _ARRAY_POS_OFFSET,
-      _ARRAY_POS_LENGTH
+      _ARRAY_POS_OFFSET = 1,
+      _ARRAY_POS_LENGTH = 2
     );
 
 
@@ -45,8 +45,8 @@
     _ARRAY_TRIM_BOTH:  _array_trim_direction;
 
 
-    _ARRAY_POS_OFFSET: _array_pos_result;
-    _ARRAY_POS_LENGTH: _array_pos_result;
+    _ARRAY_POS_OFFSET: _array_pos_result = 1;
+    _ARRAY_POS_LENGTH: _array_pos_result = 2;
 
 ### Процедуры и функции
 <br>
