@@ -61,21 +61,23 @@
   возвращает истину, если строка \_string содержит отличное от нуля количество символов
 
 
-* func **str_is_set**(const \_string: string; \_index: integer): boolean <br>
+* func **str_char_is_set**(const \_string: string; \_index: integer): boolean <br>
   возвращает истину, если в строке \_string установлен символ с индексом \_index
 
 
-* func **str_char_at**(const \_string: string; \_index: integer; \_default_value: string): string <br>
+* func **str_char**(const \_string: string; \_index: integer; \_default_value: string): string <br>
   возвращает символ в строке \_string с индексом \_index, если он установлен, иначе значение \_default_value
   > если индекс \_index отрицательный, индекс считается с конца строки
 
 
-* func **str_substr**(const \_string: string; \_offset: integer = 1; \_length: variant = nil): string <br>
-  возвращает подстроку от строки \_string с началом в \_offset и длиной \_length
+* func **str_substr**(const \_string: string; \_offset: integer = 1; \_length: variant = nil; \_step: integer = 1): string <br>
+  возвращает подстроку от строки \_string с началом в \_offset, длиной \_length и шагом \_step
   > если смещение \_offset отрицательное, начало подстроки будет считаться начиная с конца массива <br>
   > если длина \_length:
   > * равна nil, с учётом смещения длина подстроки будет совпадать с концом строки
   > * отрицательная, длина подстроки будет считаться начиная с конца строки
+  >
+  > если аргумент \_step отрицательный, символы будут взяты в обратном порядке
 
 
 * func **str_pos**(const \_string: string; \_value: string; \_offset: integer = 1): integer <br>
