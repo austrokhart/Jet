@@ -50,6 +50,13 @@ inobject
   end;
 
 
+  func __is_within: boolean;
+    
+    return    self.__step > 0 and (self.__from <= self.__index and self.__index <= self.__to)
+           or self.__step < 0 and (self.__from >= self.__index and self.__index >= self.__to);
+  end;
+
+
   func __at_begin: boolean;
     
     return self.__index = self.__from;
@@ -65,13 +72,14 @@ inobject
   func __next: boolean;
 
     self.__index = self.__index +self.__step;
-    return (self.__step > 0 and self.__index <= self.__to) or (self.__step < 0 and self.__index >= self.__to);
+    return self.__is_within;
   end;
 
 
   func __previous: boolean;
 
     self.__index = self.__index -self.__step;
-    return (self.__step > 0 and self.__index >= self.__from) or (self.__step < 0 and self.__index <= self.__from);
+    return self.__is_within;
   end;
+
 end

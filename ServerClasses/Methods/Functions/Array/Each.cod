@@ -10,5 +10,7 @@ inclass
 
     result.__array = _array;
     result.__to_begin;
+
+    return result;
   end;
 end

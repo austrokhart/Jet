@@ -40,15 +40,19 @@ inobject
 
   func __to_begin: boolean;
     
-    self.__to_index(0);
-    return true;
+    return self.__to_index(0);
   end;
 
 
   func __to_end: boolean;
 
-    self.__to_index(__count +1);
-    return true;
+    return self.__to_index(__count +1);
+  end;
+
+
+  func __is_within: boolean;
+    
+    return 1 <= self.__index and self.__index <= self.__count;
   end;
 
 
@@ -70,13 +74,13 @@ inobject
     -- если начнём с 0 и будем делать прединкремент, охватим все значения
 
     self.__to_index(self.__index +1);
-    return self.__index <= self.__count;
+    return self.__is_within;
   end;
 
 
   func __previous: boolean;
 
     self.__to_index(self.__index -1);
-    return self.__index >= 1;
+    return self.__is_within;
   end;
 end
