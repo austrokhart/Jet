@@ -142,10 +142,10 @@ inobject
 
         var _match: string;
 
-        if str_contains('-0123456789', str_char_at(_value, _offset)) then
+        if str_contains('-0123456789', str_char(_value, _offset)) then
 
-          while str_contains('-+.0123456789e', str_char_at(_value, _offset)) do
-            _match  = _match +str_char_at(_value, _offset);
+          while str_contains('-+.0123456789e', str_char(_value, _offset)) do
+            _match  = _match +str_char(_value, _offset);
             _offset = _offset +1;
           end;
 
@@ -163,8 +163,8 @@ inobject
 
           _offset = _offset +1;
 
-          while str_is_set(_value, _offset) and (not str_char_at(_value, _offset) in ['"'] or escaper.char_is_escaped(_value, _offset)) do
-            _match  = _match +str_char_at(_value, _offset);
+          while str_char_is_set(_value, _offset) and (not str_char(_value, _offset) in ['"'] or escaper.char_is_escaped(_value, _offset)) do
+            _match  = _match +str_char(_value, _offset);
             _offset = _offset +1;
           end;
 
@@ -184,9 +184,9 @@ inobject
           result = [];
           _offset = _offset +1;
 
-          while str_is_set(_value, _offset) and not str_char_at(_value, _offset) in [']'] do
+          while str_char_is_set(_value, _offset) and not str_char(_value, _offset) in [']'] do
 
-            while str_contains(', ', str_char_at(_value, _offset)) do _offset = _offset +1; end;
+            while str_contains(', ', str_char(_value, _offset)) do _offset = _offset +1; end;
             _item_value = decode_value(_value, _offset);
 
             array_append(result, _item_value);
@@ -208,12 +208,12 @@ inobject
           result = Dict.new;
           _offset = _offset +1;
 
-          while str_is_set(_value, _offset) and not str_char_at(_value, _offset) in ['}'] do
+          while str_char_is_set(_value, _offset) and not str_char(_value, _offset) in ['}'] do
 
-            while str_contains(', ', str_char_at(_value, _offset)) do _offset = _offset +1; end;
+            while str_contains(', ', str_char(_value, _offset)) do _offset = _offset +1; end;
             _item_key = decode_value(_value, _offset);
 
-            while str_contains(': ', str_char_at(_value, _offset)) do _offset = _offset +1; end;
+            while str_contains(': ', str_char(_value, _offset)) do _offset = _offset +1; end;
             _item_value = decode_value(_value, _offset);
 
             result.set(_item_key, _item_value);
@@ -237,7 +237,7 @@ inobject
       elsif str_starts_with_any(_value, ['true', 'false'], _offset) then
         return decode_boolean(_value, _offset);
 
-      elsif str_contains('-0123456789', str_char_at(_value, _offset)) then
+      elsif str_contains('-0123456789', str_char(_value, _offset)) then
         return decode_numeric(_value, _offset);
 
       elsif str_starts_with(_value, '"', _offset) then

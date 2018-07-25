@@ -33,10 +33,10 @@ inclass
 --
 --    offset = 1;
 --
---    while str_contains(" ", str_char_at(datetime, offset)) do offset = offset +1; end;
+--    while str_contains(" ", str_char(datetime, offset)) do offset = offset +1; end;
 --
 --    for i = 1..4 do
---      if not str_contains("0123456789", str_char_at(datetime, offset +i) then
+--      if not str_contains("0123456789", str_char(datetime, offset +i) then
 --
 --      end;
 --    end;

@@ -39,7 +39,7 @@ inclass
     then
 
       _i = 1;
-      while str_is_set(_str, _index -_i) and str_char_at(_str, _index -_i) = self._ESCAPE_CHAR do _i = _i +1; end;
+      while str_char_is_set(_str, _index -_i) and str_char(_str, _index -_i) = self._ESCAPE_CHAR do _i = _i +1; end;
 
       return mod(_i -1, 2) = 1;
     else
@@ -55,7 +55,7 @@ inclass
     if str_starts_with(_str, self._UNICODE_CHAR, _index) then
 
       for _i = 1..4 do
-        if str_pos('0123456789abcdef', str_char_at(_str, _index +2 +_i -1)) = -1 then return false; end;
+        if str_pos('0123456789abcdef', str_char(_str, _index +2 +_i -1)) = -1 then return false; end;
       end;
       
       return true;

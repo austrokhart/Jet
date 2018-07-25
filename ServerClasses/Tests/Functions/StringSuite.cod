@@ -47,44 +47,44 @@ inclass
   end;
 
 
-  proc test_str_is_set(case: UnitTesting.Case);
+  proc test_str_char_is_set(case: UnitTesting.Case);
 
     var test_str: string;
         test_str = "abcde";
 
     with case do
 
-      assert_false(  str_is_set(test_str, 0));
+      assert_false(  str_char_is_set(test_str, 0));
 
-      assert_true(   str_is_set(test_str, 1));
-      assert_true(   str_is_set(test_str, 5));
+      assert_true(   str_char_is_set(test_str, 1));
+      assert_true(   str_char_is_set(test_str, 5));
 
-      assert_false(  str_is_set(test_str, -1));
-      assert_false(  str_is_set(test_str, -5));
+      assert_false(  str_char_is_set(test_str, -1));
+      assert_false(  str_char_is_set(test_str, -5));
 
-      assert_false(  str_is_set(test_str, 6));
-      assert_false(  str_is_set(test_str, -6));
+      assert_false(  str_char_is_set(test_str, 6));
+      assert_false(  str_char_is_set(test_str, -6));
     end;
   end;
 
 
-  proc test_str_char_at(case: UnitTesting.Case);
+  proc test_str_char(case: UnitTesting.Case);
 
     var test_str: string;
         test_str = "abcde";
 
     with case do
 
-      assert_equal(  str_char_at(test_str, 0),   "a", "проверка c нулевым индексом");
+      assert_equal(  str_char(test_str, 0),   "a", "проверка c нулевым индексом");
 
-      assert_equal(  str_char_at(test_str, 1),   "a", "проверки с положительными индексами");
-      assert_equal(  str_char_at(test_str, 5),   "e");
+      assert_equal(  str_char(test_str, 1),   "a", "проверки с положительными индексами");
+      assert_equal(  str_char(test_str, 5),   "e");
 
-      assert_equal(  str_char_at(test_str, -1),  "e", "проверки с отрицательными индексами");
-      assert_equal(  str_char_at(test_str, -5),  "a");
+      assert_equal(  str_char(test_str, -1),  "e", "проверки с отрицательными индексами");
+      assert_equal(  str_char(test_str, -5),  "a");
 
-      assert_equal(  str_char_at(test_str, 6),   "", "проверки с индексами, выходящими за пределы");
-      assert_equal(  str_char_at(test_str, -6),  "a");
+      assert_equal(  str_char(test_str, 6),   "", "проверки с индексами, выходящими за пределы");
+      assert_equal(  str_char(test_str, -6),  "a");
     end;
   end;
 

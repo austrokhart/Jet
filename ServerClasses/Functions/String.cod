@@ -51,17 +51,17 @@ inclass
   end;
 
 
-  func str_is_set(const _string: string; _index: integer): boolean;
+  func str_char_is_set(const _string: string; _index: integer): boolean;
     
     return 1 <= _index and _index <= str_length(_string);
   end;
 
 
   -- возвращает символ в строке str по индексу index, если индекс находится в пределах строки, иначе пустую строку
-  func str_char_at(const _string: string; _index: integer; _default_value: string = ""): string;
+  func str_char(const _string: string; _index: integer; _default_value: string = ""): string;
 
     _index = handle_offset(_index, str_length(_string));
-    return if (str_is_set(_string, _index), _string[_index], _default_value);
+    return if (str_char_is_set(_string, _index), _string[_index], _default_value);
   end;
 
 
@@ -79,12 +79,12 @@ inclass
 
     if _step > 0 then
       for i = _offset..(_offset +handle_length(_offset, _length, str_length(_string)) -1) step _step do
-        result = result +str_char_at(_string, i);
+        result = result +str_char(_string, i);
       end;
 
     elsif _step < 0 then
       for i = (_offset +handle_length(_offset, _length, str_length(_string)) -1).._offset step _step do
-        result = result +str_char_at(_string, i);
+        result = result +str_char(_string, i);
       end;
     end;
 
@@ -113,7 +113,7 @@ inclass
           if _offset +str_length(__item) -1 <= str_length(_string) then
 
             for _i = 1..str_length(__item) do
-              if str_char_at(__item, _i) <> str_char_at(_string, _offset +_i -1) then break; end;
+              if str_char(__item, _i) <> str_char(_string, _offset +_i -1) then break; end;
               if _i = str_length(__item) then return [_offset, str_length(__item)]; end;
             end;
           end;
@@ -156,7 +156,7 @@ inclass
         if _offset +str_length(__item) -1 <= str_length(_string) then
 
           for _i = 1..str_length(__item) do
-            if str_char_at(__item, _i) <> str_char_at(_string, _offset +_i -1) then break; end;
+            if str_char(__item, _i) <> str_char(_string, _offset +_i -1) then break; end;
             if _i = str_length(__item) then return true; end;
           end;
         end;
@@ -185,7 +185,7 @@ inclass
         if 1 <= _offset -str_length(__item) +1 then
 
           for _i = 1..str_length(__item) do
-            if str_char_at(__item, -_i) <> str_char_at(_string, _offset -_i +1) then break; end;
+            if str_char(__item, -_i) <> str_char(_string, _offset -_i +1) then break; end;
             if _i = str_length(__item) then return true; end;
           end;
         end;
@@ -276,11 +276,11 @@ inclass
       if str_has_content(_value) then
 
         for _i = 1.._left_padding do
-          result = str_char_at(_value,  -(mod(_i -1, str_length(_value)) +1)  ) +result;
+          result = str_char(_value,  -(mod(_i -1, str_length(_value)) +1)  ) +result;
         end;
 
         for _i = 1..(_length -str_length(result)) do
-          result = result +str_char_at(_value,  mod(_i -1, str_length(_value)) +1  );
+          result = result +str_char(_value,  mod(_i -1, str_length(_value)) +1  );
         end;
       end;
 
@@ -395,8 +395,8 @@ inclass
           -- посчитаем соседние пары скобок
           _i = 1;
 
-          while (str_is_set(__left, str_length(__left) -_i +1) and str_char_at(__left, str_length(__left) -_i +1) = "{") and
-                (str_is_set(__right, _i) and str_char_at(__right, _i) = "}")
+          while (str_char_is_set(__left, str_length(__left) -_i +1) and str_char(__left, str_length(__left) -_i +1) = "{") and
+                (str_char_is_set(__right, _i) and str_char(__right, _i) = "}")
           do
             _i = _i +1;
           end;
