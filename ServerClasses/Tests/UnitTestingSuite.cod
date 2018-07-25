@@ -3,40 +3,66 @@
 inclass
 
 
-  proc test_a(case: UnitTesting.Case);
+  proc test_a(_case: UnitTesting.Case);
 
-    with case do
+    with _case do
 
-      comment("пояснение к тестовой ситуации, записано внутри тестовой ситуации");
-      assert_equal(1, 1, "пояснение к проверке, которое не отобразится");
-      assert_equal(0, 0);
-      assert_equal(-1, -1);
+      comment("заведомо удачная тестовая ситуация");
+
+      assert_equal("aa", "aa");
+      assert_equal("bb", "bb");
+      assert_equal("cc", "cc", "все проверки будут успешными, поэтому этот комментарий не отобразится");
     end;
   end;
 
 
-  proc test_b(case: UnitTesting.Case);
+  func test_b: UnitTesting.Case;
 
-    with case do
+    result = UnitTesting.Case.new(UnitTesting.CaseResult.new("test_b"));
 
-      comment("другое пояснение");
+    with result do
+
+      comment("заведомо удачная тестовая ситуация");
+      comment(comment +", основанная на функции");
+
       assert_equal(10, 10);
-      invert.assert_equal(10, 0);
-      invert.assert_equal(10, 10, "пояснение к проверке, отображается в случае неудачи");
+      assert_equal(20, 20);
+      assert_equal(30, 30, "все проверки снова будут успешными, поэтому этот комментарий не отобразится");
     end;
+
+    return result;
   end;
 
 
-  proc test_c(case: UnitTesting.Case);
+  proc test_c(_case: UnitTesting.Case);
 
-    with case do
+    _case.comment("заведомо удачная тестовая ситуация с использованием цепочек вызвовов");
 
-      comment("очередное пояснение");
-      comment(comment +" (плюс дополнение)");
-      assert_equal(0, nil);
-      assert_equal("", nil);
-      assert_equal(nil, nil);
-      assert_equal(0, "0", "хочу передать привет своей маме");
+    _case
+      .assert_equal("aa", "aa")
+      .assert_equal("bb", "bb")
+      .assert_equal("cc", "cc");
+
+    _case.invert
+      .assert_equal("aa", 10)
+      .assert_equal("bb", 20)
+      .assert_equal("cc", 30);
+  end;
+
+
+  proc test_d(_case: UnitTesting.Case);
+    
+    with _case do
+
+      comment("заведомо неудачная тестовая ситуация");
+
+      assert_equal("aa", "aa");
+      assert_equal("bb", "bb");
+      assert_equal("cc", "xx", "здесь проверка будет неудачной");
+
+      invert.assert_equal("aa", 10);
+      invert.assert_equal("bb", 20);
+      invert.assert_equal("cc", "cc", "здесь проверка тоже будет неудачной");
     end;
   end;
 end

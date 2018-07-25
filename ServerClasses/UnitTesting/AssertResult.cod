@@ -30,17 +30,10 @@ inobject
   var _comment:    string;
 
 
-  -- возвращает истину, если проверка является отрицательной
-  func is_inverted: boolean;
-    
-    return self._inverted;
-  end;
-
-
   -- возвращает истину, если результат успешен
   func is_successful: boolean;
     
-    return self._success;
+    return self._inverted xor self._success;
   end;
 
 
@@ -48,11 +41,11 @@ inobject
   func to_text: string;
 
     -- если результат отрицается и отрицательный или если результат не отрицается и положительный
-    if (self.is_inverted xor self.is_successful) then
+    if self.is_successful then
       result = str_format("успех ({})", [self._comment]);
 
     else
-      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [var_to_dump(self._value), if (self.is_inverted, " не", ""), var_to_dump(self._expected), self._comment]);
+      result = str_format("неудача; получено: {}, ожидалось{}: {} ({})", [var_to_dump(self._value), if (self._inverted, " не", ""), var_to_dump(self._expected), self._comment]);
     end;
 
     return result;

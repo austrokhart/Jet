@@ -63,6 +63,8 @@ inclass
 
     elsif class_has_func(_suite, _case) then
 
+      _timer = Timer.new;
+
       result = class_call_func(_suite, _case)._container;
       result.took(_timer.passed);
 

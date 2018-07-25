@@ -231,7 +231,7 @@ inclass
 
   func class_has_func(_class: class; _name: string): boolean;
     
-    return class_member_info_is_proc(class_member_info(_class, _name));
+    return class_member_info_is_func(class_member_info(_class, _name));
   end;
 
   func class_has_method(_class: class; _name: string): boolean;
