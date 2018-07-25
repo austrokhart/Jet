@@ -29,10 +29,12 @@ inobject
   end;
 
 
-  proc __to_index(_index: integer);
+  func __to_index(_index: integer): boolean;
     
     self.__index = _index;
     self.__item  = array_get(self.__array, _index, nil);
+
+    return true;
   end;
 
 
