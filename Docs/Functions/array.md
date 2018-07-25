@@ -1,58 +1,46 @@
 # Functions.Array
 
+
+## Описание
+Класс с методами для работы с массивами.
+
+
 ## Структура
 
-### Типы
-<br>
+#### Типы класса
+
+```
+
+  type _array_pad_direction = (
+    _ARRAY_PAD_LEFT,
+    _ARRAY_PAD_RIGHT,
+    _ARRAY_PAD_BOTH
+  );
 
 
-    _array_pad_direction = (
-      _ARRAY_PAD_LEFT,
-      _ARRAY_PAD_RIGHT,
-      _ARRAY_PAD_BOTH
-    );
+  _array_trim_direction = (
+    _ARRAY_TRIM_LEFT,
+    _ARRAY_TRIM_RIGHT,
+    _ARRAY_TRIM_BOTH
+  );
 
 
-    _array_trim_direction = (
-      _ARRAY_TRIM_LEFT,
-      _ARRAY_TRIM_RIGHT,
-      _ARRAY_TRIM_BOTH
-    );
+  _array_pos_result = (
+    _ARRAY_POS_OFFSET = 1,
+    _ARRAY_POS_LENGTH = 2
+  );
 
 
-    _array_pos_result = (
-      _ARRAY_POS_OFFSET = 1,
-      _ARRAY_POS_LENGTH = 2
-    );
+  _array_method_each   = Methods.Functions.Array.Each;
+  _array_method_filter = Methods.Functions.Array.Filter;
+  _array_method_map    = Methods.Functions.Array.Map;
+  _array_method_reduce = Methods.Functions.Array.Reduce;
+```  
 
 
-    _array_method_each   = Methods.Functions.Array.Each;
-    _array_method_filter = Methods.Functions.Array.Filter;
-    _array_method_map    = Methods.Functions.Array.Map;
-    _array_method_reduce = Methods.Functions.Array.Reduce;   
-
-### Свойства
-<br>
-
-
-    _ARRAY_PAD_LEFT:  _array_pad_direction;
-    _ARRAY_PAD_RIGHT: _array_pad_direction;
-    _ARRAY_PAD_BOTH:  _array_pad_direction;
-
-
-    _ARRAY_TRIM_LEFT:  _array_trim_direction;
-    _ARRAY_TRIM_RIGHT: _array_trim_direction;
-    _ARRAY_TRIM_BOTH:  _array_trim_direction;
-
-
-    _ARRAY_POS_OFFSET: _array_pos_result = 1;
-    _ARRAY_POS_LENGTH: _array_pos_result = 2;
-
-### Процедуры и функции
-<br>
+#### Методы класса
 
 ##### Для работы с одним измерением:
-<br>
 
 
 * func **array_from**(const \_value: variant): variant[] <br>
@@ -210,27 +198,26 @@
 
 
 * func **array_each**(const \_array: variant[]): \_array_method_each <br>
-  возвращает объект соответствующего класса-обёртки для работы с массивом методом each
+  возвращает объект класса [Methods.Functions.Array.Each](/Docs/Methods/Functions/Array/each.md) для работы с массивом методом each
 
 
 * func **array_filter**(const \_array: variant[]): \_array_method_filter <br>
-  возвращает соответствующий объект класса-обёртки для работы с массивом методом filter
+  возвращает объект класса [Methods.Functions.Array.Filter](/Docs/Methods/Functions/Array/filter.md) для работы с массивом методом filter
 
 
 * func **array_map**(const \_array: variant[]): \_array_method_map <br>
-  возвращает объект соответствующего класса-обёртки для работы с массивом методом map
+  возвращает объект класса [Methods.Functions.Array.Map](/Docs/Methods/Functions/Array/map.md) для работы с массивом методом map
 
 
 * func **array_reduce**(const \_array: variant[]): \_array_method_reduce <br>
-  возвращает объект соответствующего класса-обёртки для работы с массивом методом reduce
+  возвращает объект класса [Methods.Functions.Array.Reduce](/Docs/Methods/Functions/Array/reduce.md) для работы с массивом методом reduce
 
 
 * func **array_implode**(const \_array: variant[]; \_separator: string = " "): string <br>
   возвращает строку из значений элементов массива \_array, объединённую значением \_separator
 
-##### Для работы со множеством измерений:
-<br>
 
+##### Для работы со множеством измерений:
 
 * func **md_array_get**(const \_array: variant[]; \_index: integer; \_path: integer[]; \_default_value: variant = nil): variant[] <br>
   возвращает значение элемента массива \_array с индексом \_index в плоскости \_path, если он установлен, иначе значение \_default_value

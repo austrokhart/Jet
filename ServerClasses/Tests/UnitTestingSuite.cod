@@ -7,7 +7,7 @@ inclass
 
     with _case do
 
-      comment("заведомо удачная тестовая ситуация");
+      comment("заведомо удачная тестовая ситуация, основанная на процедуре");
 
       assert_equal("aa", "aa");
       assert_equal("bb", "bb");
@@ -22,8 +22,8 @@ inclass
 
     with result do
 
-      comment("заведомо удачная тестовая ситуация");
-      comment(comment +", основанная на функции");
+      comment("заведомо удачная тестовая ситуация, основанная на функции");
+      comment(comment +" (и незначительное дополнение)");
 
       assert_equal(10, 10);
       assert_equal(20, 20);

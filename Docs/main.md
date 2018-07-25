@@ -6,28 +6,28 @@
 
 ### Функции:
 
-* [Functions.Math](Docs/Functions/math.md) <br>
+* [Functions.Math](/Docs/Functions/math.md) <br>
 функции для работы с числами
 
-* [Functions.Variable](Docs/Functions/variable.md) <br>
+* [Functions.Variable](/Docs/Functions/variable.md) <br>
 функции для работы с переменными
 
-* [Functions.Class](Docs/Functions/class.md) <br>
+* [Functions.Class](/Docs/Functions/class.md) <br>
 функции для работы с классами
 
-* [Functions.Object](Docs/Functions/object.md) <br>
+* [Functions.Object](/Docs/Functions/object.md) <br>
 функции для работы с объектами
 
-* [Functions.String](Docs/Functions/string.md) <br>
+* [Functions.String](/Docs/Functions/string.md) <br>
 функции для работы со строками
 
-* [Functions.Date](Docs/Functions/date.md) <br>
+* [Functions.Date](/Docs/Functions/date.md) <br>
 функции для работы с датами
 
-* [Functions.DateISO](Docs/Functions/date_iso.md) <br>
+* [Functions.DateISO](/Docs/Functions/date_iso.md) <br>
 функции для работы с датами в формате ISO 8601
 
-* [Functions.Array](Docs/Functions/array.md) <br>
+* [Functions.Array](/Docs/Functions/array.md) <br>
 функции для работы с массивами
 
 

@@ -1,52 +1,38 @@
 # Functions.String
 
+
 ## Структура
 
-### Типы
-<br>
+#### Типы
 
 
-    _str_pad_direction = (
-      _STR_PAD_LEFT,
-      _STR_PAD_RIGHT,
-      _STR_PAD_BOTH
-    );
+```
+  _str_pad_direction = (
+    _STR_PAD_LEFT,
+    _STR_PAD_RIGHT,
+    _STR_PAD_BOTH
+  );
 
 
-    _str_trim_direction = (
-      _STR_TRIM_LEFT,
-      _STR_TRIM_RIGHT,
-      _STR_TRIM_BOTH
-    );
+  _str_trim_direction = (
+    _STR_TRIM_LEFT,
+    _STR_TRIM_RIGHT,
+    _STR_TRIM_BOTH
+  );
 
 
-    _str_pos_result = (
-      _STR_POS_OFFSET = 1,
-      _STR_POS_LENGTH = 2
-    );
+  _str_pos_result = (
+    _STR_POS_OFFSET = 1,
+    _STR_POS_LENGTH = 2
+  );
 
 
-    _str_method_find = Methods.Functions.String.Find;   
 
-### Свойства
-<br>
-
-
-    _STR_PAD_LEFT:  _str_pad_direction;
-    _STR_PAD_RIGHT: _str_pad_direction;
-    _STR_PAD_BOTH:  _str_pad_direction;
+  _str_method_find = Methods.Functions.String.Find;  
+```
 
 
-    _STR_TRIM_LEFT:  _str_trim_direction;
-    _STR_TRIM_RIGHT: _str_trim_direction;
-    _STR_TRIM_BOTH:  _str_trim_direction;
-
-
-    _STR_POS_OFFSET: str_pos_result = 1;
-    _STR_POS_LENGTH: str_pos_result = 2;
-
-### Процедуры и функции:
-<br>
+### Методы класса
 
 
 * func **str_from**(const \_value: variant): string <br>
