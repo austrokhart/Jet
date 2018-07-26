@@ -1,4 +1,4 @@
-# Functons.Class
+# Functions.Class
 
 
 ## Описание
@@ -7,6 +7,8 @@
 
 
 ## Структура
+
+#### Методы класса
 
 * func **class_from**(\_value: variant): class <br>
   возвращает класс для класса или объекта \_value, иначе nil
