@@ -1,4 +1,4 @@
-﻿class "Класс для работы с классами";
+﻿class "Класс с методами для работы с классами";
 import classes Functions.Class, Functions.Array;
 
 inclass

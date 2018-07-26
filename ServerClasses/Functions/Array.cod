@@ -1,4 +1,4 @@
-﻿class "Класс для работы с массивами";
+﻿class "Класс с методами для работы с массивами";
 import classes Functions.Indexing, Functions.Math, Functions.Variable;
 
 inclass

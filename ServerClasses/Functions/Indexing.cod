@@ -1,4 +1,4 @@
-﻿class "Класс для работы с индексами";
+﻿class "Класс с методами для работы с индексами";
 import classes Functions.Variable;
 
 inclass

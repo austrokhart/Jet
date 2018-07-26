@@ -1,5 +1,5 @@
-﻿class "Класс для работы с переменными";
-import classes Functions.Array, Functions.Class, Functions.Object;
+﻿class "Класс с методами для работы с переменными";
+import classes Functions.Class, Functions.Object, Functions.Array;
 
 inclass
 

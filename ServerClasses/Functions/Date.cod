@@ -1,5 +1,5 @@
-﻿class "Класс для работы с датами";
-import classes Functions.Variable, Functions.Array, Functions.String;
+﻿class "Класс с методами для работы с датами";
+import classes Functions.Variable, Functions.String, Functions.Array;
 
 inclass
 

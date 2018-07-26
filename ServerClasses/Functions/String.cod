@@ -1,5 +1,5 @@
-﻿class "Класс для работы со строками";
-import classes Functions.Variable, Functions.Array, Functions.Indexing, Functions.Math;
+﻿class "Класс с методами для работы со строками";
+import classes Functions.Indexing, Functions.Math, Functions.Variable, Functions.Array;
 
 inclass
 

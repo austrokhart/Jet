@@ -1,5 +1,5 @@
-﻿class "Класс для работы с датами в формате ISO 8601";
-import classes Functions.Variable, Functions.Array, Functions.String, Functions.Date;
+﻿class "Класс с методами для работы с датами в формате ISO 8601";
+import classes Functions.Variable, Functions.String, Functions.Date, Functions.Array;
 
 inclass
 

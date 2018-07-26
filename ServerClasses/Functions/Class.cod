@@ -1,4 +1,4 @@
-﻿class "Класс для работы с классами";
+﻿class "Класс с методами для работы с классами";
 import classes Functions.Variable, Functions.Array;
 
 inclass
@@ -214,6 +214,11 @@ inclass
     return class_member_info(_class, _name) <> nil;
   end;
 
+  func class_has_static_member(_class: class; _name: string): boolean;
+    
+    return class_member_info_is_inclass(class_member_info(_class, _name));
+  end;
+
   func class_has_own_member(_class: class; _name: string): boolean;
 
     return not class_member_info_is_internal(class_member_info(_class, _name));
@@ -241,14 +246,14 @@ inclass
 
 
 
-  func class_get_prop(_class: class; _name: string): variant;
+  func class_get_prop(_class: class; _name: string; _default_value: variant = nil): variant;
     
-    return _class.GetClassField(_name);
+    return if (class_has_static_member(_class, _name) and class_has_prop(_class, _name), _class.GetClassField(_name), _default_value);
   end;
 
   proc class_set_prop(_class: class; _name: string; _value: variant);
     
-    _class.SetClassField(_name, _value);
+    if class_has_static_member(_class, _name) and class_has_prop(_class, _name) then _class.SetClassField(_name, _value); end;
   end;
 
 
@@ -277,11 +282,11 @@ inclass
 
     _member = class_member_info(_class, _name);
 
-    if class_member_info_is_proc(_member) then
+    if class_member_info_is_inclass(_member) and class_member_info_is_proc(_member) then
       (_member as MethodInfo).CallProcEx(_class, _arguments);
       return nil;
 
-    elsif class_member_info_is_func(_member) then
+    elsif class_member_info_is_inclass(_member) and class_member_info_is_func(_member) then
       return (_member as MethodInfo).CallFuncEx(_class, _arguments);
 
     else
