@@ -1,4 +1,5 @@
-﻿class inherited UnitTesting.Suite "Набор для тестирования класса для работы с экранированием";
+﻿class inherited UnitTesting.Suite "Набор для тестирования класса Escaper";
+import classes Packages.Escaper;
 
 inclass
 

@@ -1,4 +1,5 @@
-﻿class "Набор для тестирования класса Iterator";
+﻿class inherited UnitTesting.Suite  "Набор для тестирования класса Iterator";
+import classes Packages.Iterator;
 
 inclass
 

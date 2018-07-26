@@ -1,4 +1,5 @@
-﻿class "Набор для тестирования класса Dict";
+﻿class inherited UnitTesting.Suite "Набор для тестирования класса Dict";
+import classes Packages.Dict;
 
 inclass
 

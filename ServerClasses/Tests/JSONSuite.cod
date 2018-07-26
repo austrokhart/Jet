@@ -1,5 +1,5 @@
-﻿class "";
-import classes JSON, Functions.Variable;
+﻿class inherited UnitTesting.Suite "Набор для тестирования";
+import classes Functions.Variable, Packages.JSON;
 
 inclass
 

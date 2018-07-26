@@ -1,4 +1,4 @@
-﻿class inherited UnitTesting.Suite "Набор для тестирования классов модульного тестирования <!>";
+﻿class inherited UnitTesting.Suite "Набор для тестирования классов UnitTesting";
 
 inclass
 
